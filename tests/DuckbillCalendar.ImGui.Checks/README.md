@@ -8,7 +8,7 @@ dotnet run --project tests/DuckbillCalendar.ImGui.Checks --property:DalamudLibPa
 
 The project links the production MainWindow, UiWidgets, ThemeScope, UiText and CalendarModel source files. It loads the inspected local Dalamud bindings and `cimgui.dll`, uses installed Windows Malgun Gothic, and runs native ImGui frames without a GPU renderer or game process. No native binaries or fonts are committed. Missing local references, native DLL or Korean font are errors; these checks do not silently skip them.
 
-At 1x, 1.5x and 2x font/style scales, the 84 assertions cover:
+At 1x, 1.5x and 2x font/style scales, the 111 assertions cover:
 
 - Negative controls reproducing the previous expanding auto-sized input form and the zero-wrap-width Korean tooltip.
 - The actual editor's stable width over 100 frames and bounded viewport dimensions.
@@ -23,3 +23,5 @@ Geometry CSV reports go to `.preview/imgui-checks/<run-id>/`. Passing geometry c
 Responsive header/filter controls are also checked at all nine width/scale combinations; the final button and checkbox must stay inside the host content boundary.
 
 Calendar group checkbox wrapping is checked at all nine width/scale combinations.
+
+Real wheel-input cases cover direction, fractional events, hover boundaries, modifiers/popups, parent scroll ownership and supported year limits at each font scale.

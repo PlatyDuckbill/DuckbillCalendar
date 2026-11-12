@@ -33,6 +33,7 @@ internal sealed class MainWindow : Window
     private int jumpYear;
     private int jumpMonth;
     private bool expandSelectedDay;
+    private float monthWheelRemainder;
     public Action? ToggleCompact { get; set; }
 
     public MainWindow(CalendarModel model) : base("DuckbillCalendar###DuckbillCalendar.Main")
@@ -245,6 +246,46 @@ internal sealed class MainWindow : Window
         if (undated.Length > 0 && ImGui.CollapsingHeader(UiText.Get("Undated", undated.Length) + "###Undated")) DrawEventList(undated, "undated");
     }
     private void DrawMonth()
+    {
+        if (model.Calendar == null) return;
+        var font = ImGui.GetFontSize();
+        var height = font + 5 + model.Calendar.Weeks.Sum(w => Math.Max(font * 4.7f, font + 2 + w.LaneCount * font + font + font));
+        // Keep the hover region local to the grid, independently of the detail pane.
+        ImGui.BeginChild("###MonthGrid", new(Math.Max(1, ImGui.GetContentRegionAvail().X), height), false,
+            ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse);
+        try
+        {
+            DrawMonthGrid();
+            HandleMonthWheel();
+        }
+        finally { ImGui.EndChild(); }
+    }
+    private void HandleMonthWheel()
+    {
+        var io = ImGui.GetIO();
+        if (!ImGui.IsWindowHovered() || ImGui.IsPopupOpen("", ImGuiPopupFlags.AnyPopupId | ImGuiPopupFlags.AnyPopupLevel) ||
+            ImGui.IsAnyItemActive() || io.KeyCtrl || io.KeyShift || io.KeyAlt)
+        {
+            monthWheelRemainder = 0;
+            return;
+        }
+        // API 15 ships ImGui 1.88: custom wheel users register the hovered ID
+        // rather than the newer SetKeyOwner API. Register even on idle frames so
+        // NewFrame won't also scroll the parent when the next wheel event arrives.
+        var context = ImGui.GetCurrentContext();
+        if (context.HoveredId == 0) context.HoveredId = ImGui.GetID("###MonthWheel");
+        context.HoveredIdUsingMouseWheel = true;
+        if (io.MouseWheel == 0) return;
+        monthWheelRemainder = Math.Clamp(monthWheelRemainder + io.MouseWheel, -12f, 12f);
+        io.MouseWheel = 0;
+        var notches = (int)MathF.Truncate(monthWheelRemainder);
+        monthWheelRemainder -= notches;
+        if (notches == 0) return;
+        var current = model.Year * 12 + model.MonthNumber - 1;
+        var target = Math.Clamp(current - notches, 2020 * 12, 2100 * 12 + 11);
+        if (target != current) model.ChangeMonth(target - current);
+    }
+    private void DrawMonthGrid()
     {
         if (model.Calendar == null) return;
         var available = ImGui.GetContentRegionAvail().X;

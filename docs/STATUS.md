@@ -5,7 +5,7 @@
 - 실제96건/9개 출처: 진행 이벤트14, 공지·점검·패치·크컨76, 확장팩·얼리·혜택·시리즈·대회 매핑6.
 - 정식 출시2027-02-23(시각 미발표), 얼리2027-02-19 18:00 KST를 별도 마커와 주요 일정 상단에 표시한다.
 - 달력 년월 직접 이동·공지게시 기본숨김·분류색, 새소식3열/스크롤 상세, 이용권 잔여일, 일반/고급 설정 분리·자동 저장을 구현했다.
-- Core103 + Infrastructure97 + Model45 + native ImGui84 + 소스96 + CLI23 = 448검사, 한영182쌍 통과. 소스96은 Collector18/Auto18/Notice18/Curated17/Paged15/Combined10이다.
+- Core103 + Infrastructure97 + Model45 + native ImGui111 + 소스96 + CLI23 = 475검사, 한영182쌍 통과. 소스96은 Collector18/Auto18/Notice18/Curated17/Paged15/Combined10이다.
 - KR·글로벌 API15.0.3.9 참조 빌드 경고0/오류0. 게임 GPU 시각 검증은 재확인 대기.
 - [전체 수집·게시 run](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43202504781) 성공. 실제 Plugin Workspace가 revision4/96건을 수신·해시/바이트 검증·캐시 재시작했다.
 - GitHub Actions가2시간마다 갱신하며 실패한 소스는 이전 사건·근거를 보존한다. 명시된 날짜만 사용하고 출처 변경은 재검토로 표시한다.
@@ -19,3 +19,5 @@
 최종 [원문·템플릿 연결까지 포함한 자동 수집 run](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43204681599)도 성공했다. 실제 Workspace가 revision5/96건을 수신해 SHA/bytes 검증과 캐시 재시작을 통과했다.
 
 2026-11-13: [종류별 체크박스](development/CALENDAR-VISIBILITY.md), 시작·종료 기본 표시와 명시적 기간 막대 옵션을 적용했다. 이전 기본-on 설정은 한 번 전환하며 새 선택은 유지한다.
+
+2026-11-13: [마우스 휠 월 이동](development/MOUSE-WHEEL.md)을 추가했다. 날짜 격자 위 휠↑ 이전 달/↓ 다음 달이며 목록·상세·팝업·보조키 입력과 분리했다.

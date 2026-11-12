@@ -153,6 +153,47 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             Check(model.Calendar!.Weeks.SelectMany(w => w.Days).SelectMany(d => d.Items).Any(i => i.Phase.Id == "early-access" && i.Date == new DateOnly(2027, 2, 19)) &&
                 model.Calendar.Weeks.SelectMany(w => w.Days).SelectMany(d => d.Items).Any(i => i.Phase.Id == "release" && i.Date == new DateOnly(2027, 2, 23)),
                 $"Real February grid renders separate early-access and release markers at {scale}x");
+            float WheelFrame(float wheel, bool outside = false, bool control = false, bool popup = false)
+            {
+                io.AddMousePosEvent(outside ? 5000 : 45, outside ? 5000 : 75);
+                io.AddMouseWheelEvent(0, wheel);
+                ImGui.NewFrame(); ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Always); ImGui.SetNextWindowSize(new(1180, 1000), ImGuiCond.Always);
+                ImGui.Begin("Month wheel navigation", ImGuiWindowFlags.NoSavedSettings);
+                io.KeyCtrl = control;
+                if (popup)
+                {
+                    ImGui.OpenPopup("###WheelBlock");
+                    if (ImGui.BeginPopup("###WheelBlock")) { ImGui.TextUnformatted("Blocking popup"); ImGui.EndPopup(); }
+                }
+                drawMonth.Invoke(main, null);
+                ImGui.Dummy(new(10, 2000)); // The parent really can scroll; the grid must not forward its wheel.
+                var scroll = ImGui.GetScrollY();
+                if (popup && ImGui.BeginPopup("###WheelBlock")) { ImGui.CloseCurrentPopup(); ImGui.EndPopup(); }
+                io.KeyCtrl = false;
+                ImGui.End(); ImGui.Render(); model.Tick(DateTimeOffset.UtcNow);
+                return scroll;
+            }
+            WheelFrame(0); WheelFrame(0);
+            WheelFrame(1);
+            Check(model.Year == 2027 && model.MonthNumber == 1, $"Wheel up over real calendar navigates to previous month at {scale}x");
+            WheelFrame(-1);
+            Check(model.Year == 2027 && model.MonthNumber == 2, $"Wheel down over real calendar navigates to next month at {scale}x");
+            WheelFrame(.4f); WheelFrame(.4f); var beforeFraction = model.MonthNumber; WheelFrame(.3f);
+            Check(beforeFraction == 2 && model.MonthNumber == 1, $"Fractional wheel input accumulates without multiplying month changes at {scale}x");
+            WheelFrame(1, outside: true);
+            Check(model.MonthNumber == 1, $"Wheel outside calendar leaves current month unchanged at {scale}x");
+            WheelFrame(0); WheelFrame(0); WheelFrame(1, control: true);
+            Check(model.MonthNumber == 1, $"Ctrl-wheel does not trigger calendar navigation at {scale}x");
+            WheelFrame(1, popup: true);
+            Check(model.MonthNumber == 1, $"Popup blocks month wheel navigation at {scale}x");
+            WheelFrame(0); var parentBefore = WheelFrame(0); var parentScroll = WheelFrame(-1);
+            Check(Math.Abs(parentScroll - parentBefore) < .5f && model.MonthNumber == 2, $"Grid consumes navigation without scrolling its parent at {scale}x (before={parentBefore}, after={parentScroll}, month={model.MonthNumber})");
+            model.GoToMonth(2020, 1); model.Tick(DateTimeOffset.UtcNow); WheelFrame(0); WheelFrame(12);
+            Check(model.Year == 2020 && model.MonthNumber == 1, $"Wheel respects lower supported year boundary at {scale}x");
+            model.GoToMonth(2100, 11); model.Tick(DateTimeOffset.UtcNow); WheelFrame(0); WheelFrame(-6);
+            Check(model.Year == 2100 && model.MonthNumber == 12, $"Multi-notch wheel clamps at upper supported month at {scale}x");
+            model.GoToMonth(2027, 2); model.Tick(DateTimeOffset.UtcNow);
+            io.AddMousePosEvent(5000, 5000);
             var gridHeight = 0f;
             for (var frame = 0; frame < 3; frame++)
             {
