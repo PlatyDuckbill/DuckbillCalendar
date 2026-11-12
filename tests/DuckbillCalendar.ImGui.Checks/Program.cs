@@ -7,6 +7,13 @@ using DuckbillCalendar.Core;
 using DuckbillCalendar.Infrastructure;
 using DuckbillCalendar.Plugin;
 
+if (args.Contains("--preview"))
+{
+    NativePreview.Run(args.Length > 1 ? int.Parse(args[1], System.Globalization.CultureInfo.InvariantCulture) : 980,
+        args.Length > 2 ? int.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture) : 660);
+    return;
+}
+
 // Executes the production MainWindow/UiWidgets sources against the installed native
 // ImGui library. There is no renderer, game process, window, or network access.
 var checks = new List<string>();
@@ -193,6 +200,30 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             model.GoToMonth(2100, 11); model.Tick(DateTimeOffset.UtcNow); WheelFrame(0); WheelFrame(-6);
             Check(model.Year == 2100 && model.MonthNumber == 12, $"Multi-notch wheel clamps at upper supported month at {scale}x");
             model.GoToMonth(2027, 2); model.Tick(DateTimeOffset.UtcNow);
+            Vector2 ClickFrame(Vector2 mouse, bool pressed)
+            {
+                io.AddMousePosEvent(mouse.X, mouse.Y);
+                io.AddMouseButtonEvent(0, pressed);
+                ImGui.NewFrame(); ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Always); ImGui.SetNextWindowSize(new(1180, 1000), ImGuiCond.Always);
+                ImGui.Begin("Calendar date hit targets", ImGuiWindowFlags.NoSavedSettings);
+                var origin = ImGui.GetCursorScreenPos();
+                drawMonth.Invoke(main, null);
+                ImGui.End(); ImGui.Render(); model.Tick(DateTimeOffset.UtcNow);
+                return origin;
+            }
+            var calendarOrigin = ClickFrame(new(5000, 5000), false);
+            var cellWidth = (1180 - ImGui.GetStyle().WindowPadding.X * 2) / 7;
+            var rowHeight = Math.Max(font * 4.8f, font + 2 + font * 3 + 4);
+            var rowPitch = rowHeight + ImGui.GetStyle().ItemSpacing.Y;
+            var day19 = calendarOrigin + new Vector2(cellWidth * 5 + 15, font + 5 + ImGui.GetStyle().ItemSpacing.Y + rowPitch * 2);
+            var blankDate = day19 + new Vector2(0, rowHeight - 10);
+            ClickFrame(blankDate, false); ClickFrame(blankDate, true); ClickFrame(blankDate, false);
+            Check(model.PanelMode == CalendarPanelMode.Day && model.SelectedDate == new DateOnly(2027, 2, 19) && model.DayBoundaryItems.Count == 3,
+                $"Clicking a date's blank area opens its complete day agenda at {scale}x");
+            var marker = day19 + new Vector2(0, font + 2 + font / 2);
+            ClickFrame(marker, false); ClickFrame(marker, true); ClickFrame(marker, false);
+            Check(model.PanelMode == CalendarPanelMode.Event && model.SelectedPhaseId is not null && model.SelectedDate == new DateOnly(2027, 2, 19),
+                $"Calendar marker takes priority over its overlapping date target at {scale}x");
             io.AddMousePosEvent(5000, 5000);
             var gridHeight = 0f;
             for (var frame = 0; frame < 3; frame++)

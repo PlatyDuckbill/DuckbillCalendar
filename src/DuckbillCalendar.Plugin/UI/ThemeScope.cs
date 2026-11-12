@@ -23,7 +23,7 @@ internal sealed class ThemeScope : IDisposable
         Add(ImGuiCol.Tab, Hex(light ? 0xe0e4dc : 0x202426));
         Add(ImGuiCol.TabActive, Hex(light ? 0xd0dcd2 : 0x343a3d));
         Add(ImGuiCol.TabHovered, Hex(light ? 0xc0d1c5 : 0x454c4e));
-        Add(ImGuiCol.Border, Hex(light ? 0x87958d : 0x626769));
+        Add(ImGuiCol.Border, Hex(light ? 0xb3bcb4 : 0x424a4e));
         Add(ImGuiCol.CheckMark, Hex(light ? 0x356c64 : 0xd8bb79));
     }
     private void Add(ImGuiCol key, Vector4 value) { ImGui.PushStyleColor(key, value); colors++; }

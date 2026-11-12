@@ -32,9 +32,7 @@ internal sealed class MainWindow : Window
     private string remoteUrl = "";
     private int jumpYear;
     private int jumpMonth;
-    private bool expandSelectedDay;
     private float monthWheelRemainder;
-    public Action? ToggleCompact { get; set; }
 
     public MainWindow(CalendarModel model) : base("DuckbillCalendar###DuckbillCalendar.Main")
     {
@@ -52,8 +50,6 @@ internal sealed class MainWindow : Window
             ImGui.SameLine();
             if (Button("UseActualFeed", "useActualFeed")) model.Post(() => model.Workspace.LoadExample(false));
         }
-        if (model.Workspace.FeedSource is "bundled" or "remote")
-            UiWidgets.Wrapped(UiText.Get("BundledSnapshotInfo", UiText.Time(model.OfficialEventsObservedAt)));
         if (model.Workspace.HasUnsavedChanges) UiWidgets.Colored(ThemeScope.Hex(0xd8bb79), UiText.Get("UnsavedChanges"));
         if (model.Feed.Events.Count == 0) UiWidgets.Wrapped(UiText.Get("EmptyPublicFeed"));
         if (ImGui.BeginTabBar("###DuckbillCalendar.Tabs"))
@@ -69,7 +65,7 @@ internal sealed class MainWindow : Window
             finally { ImGui.EndTabBar(); }
         }
         ImGui.Separator();
-        UiWidgets.Secondary(UiText.Get("CalendarSummary", model.Events.Count));
+        UiWidgets.Secondary(UiText.Get("WorkspaceFooter", model.Feed.Events.Count, UiText.Time(model.OfficialEventsObservedAt)));
         if (editorRequest) { ImGui.OpenPopup("###DuckbillCalendar.EntryEditor"); editorRequest = false; }
         DrawEditor();
     }
@@ -83,25 +79,35 @@ internal sealed class MainWindow : Window
     {
         DrawCalendarActions();
         DrawFiltersCore(false);
-        DrawCalendarVisibility();
+        DrawReleaseLandmark();
         var width = ImGui.GetContentRegionAvail().X;
-        var split = width >= ImGui.GetFontSize() * 53;
-        if (split && ImGui.BeginTable("###CalendarSplit", 2, ImGuiTableFlags.Resizable | ImGuiTableFlags.SizingStretchProp))
+        var font = ImGui.GetFontSize();
+        var wide = width >= font * 51;
+        if (!wide && model.PanelMode is CalendarPanelMode.Day or CalendarPanelMode.Event)
+        {
+            DrawContextAgenda();
+            return;
+        }
+        if (model.ViewMode != CalendarViewMode.Grid && model.PanelMode != CalendarPanelMode.Event)
+        {
+            DrawCalendarContent();
+            return;
+        }
+        if (wide && ImGui.BeginTable("###CalendarWorkspaceV2", 2, ImGuiTableFlags.SizingStretchProp))
         {
             try
             {
-                ImGui.TableSetupColumn("###CalendarLeft", ImGuiTableColumnFlags.WidthStretch, 0.72f);
-                ImGui.TableSetupColumn("###CalendarDetail", ImGuiTableColumnFlags.WidthStretch, 0.28f);
+                ImGui.TableSetupColumn("###CalendarCanvas", ImGuiTableColumnFlags.WidthStretch);
+                ImGui.TableSetupColumn("###CalendarAgenda", ImGuiTableColumnFlags.WidthFixed, Math.Clamp(width * .31f, font * 15, font * 20));
                 ImGui.TableNextRow(); ImGui.TableNextColumn();
                 DrawCalendarContent();
-                ImGui.TableNextColumn(); DrawHighlights(); ImGui.Separator(); DrawDetailPanel();
+                ImGui.TableNextColumn(); DrawContextAgenda();
             }
             finally { ImGui.EndTable(); }
         }
         else
         {
             DrawCalendarContent();
-            ImGui.Separator(); DrawHighlights(); ImGui.Separator(); DrawDetail();
         }
     }
     private void DrawCalendarActions()
@@ -116,11 +122,39 @@ internal sealed class MainWindow : Window
         DrawMonthJump();
         ContinueRow(ButtonWidth(UiText.Get("NextMonth"))); if (Button("NextMonth", "next")) model.ChangeMonth(1);
         ContinueRow(ButtonWidth(UiText.Get("Today"))); if (Button("Today", "today")) model.GoToday();
-        ContinueRow(CheckboxWidth(UiText.Get("ListView"))); var list = model.ListView;
-        if (ImGui.Checkbox(UiText.Get("ListView") + "###ListView", ref list)) model.SetListView(list);
-        ContinueRow(CheckboxWidth(UiText.Get("PeriodBars"))); var bars = model.State.View.PeriodBars;
-        if (ImGui.Checkbox(UiText.Get("PeriodBars") + "###PeriodBars", ref bars)) model.SetPeriodBars(bars);
-        if (ImGui.IsItemHovered()) UiWidgets.Tooltip(UiText.Get("PeriodBarsHelp"));
+        ContinueRow(ButtonWidth(UiText.Get("MonthGridView")));
+        if (ImGui.RadioButton(UiText.Get("MonthGridView") + "###gridView", model.ViewMode == CalendarViewMode.Grid)) model.SetListView(false);
+        ContinueRow(ButtonWidth(UiText.Get("MonthAgendaView")));
+        if (ImGui.RadioButton(UiText.Get("MonthAgendaView") + "###agendaView", model.ViewMode == CalendarViewMode.Agenda)) model.SetListView(true);
+        ContinueRow(ButtonWidth(UiText.Get("UndatedView")));
+        if (ImGui.RadioButton(UiText.Get("UndatedView") + "###undatedView", model.ViewMode == CalendarViewMode.Undated)) model.ShowUndatedAgenda();
+        var count = Enum.GetValues<CalendarGroup>().Count(model.IsCalendarVisible);
+        var calendars = UiText.Get("CalendarVisibilityButton", count);
+        ContinueRow(ButtonWidth(calendars));
+        if (ImGui.SmallButton(calendars + "###calendarMenu")) ImGui.OpenPopup("###CalendarVisibilityPopup");
+        var menuWidth = Math.Min(ImGui.GetFontSize() * 20, ImGui.GetMainViewport().WorkSize.X - 32);
+        ImGui.SetNextWindowSizeConstraints(new(menuWidth, 0), new(menuWidth, ImGui.GetMainViewport().WorkSize.Y - 32));
+        if (ImGui.BeginPopup("###CalendarVisibilityPopup"))
+        {
+            try { DrawCalendarVisibility(); }
+            finally { ImGui.EndPopup(); }
+        }
+        ContinueRow(ButtonWidth(UiText.Get("CalendarViewOptions")));
+        if (ImGui.SmallButton(UiText.Get("CalendarViewOptions") + "###viewMenu")) ImGui.OpenPopup("###CalendarViewPopup");
+        ImGui.SetNextWindowSizeConstraints(new(menuWidth, 0), new(menuWidth, ImGui.GetMainViewport().WorkSize.Y - 32));
+        if (ImGui.BeginPopup("###CalendarViewPopup"))
+        {
+            try
+            {
+                var bars = model.State.View.PeriodBars;
+                if (ImGui.Checkbox(UiText.Get("PeriodBars") + "###PeriodBars", ref bars)) model.SetPeriodBars(bars);
+                if (ImGui.IsItemHovered()) UiWidgets.Tooltip(UiText.Get("PeriodBarsHelp"));
+                var rewards = model.State.View.ShowRewardBars;
+                if (ImGui.Checkbox(UiText.Get("ShowRewardBars") + "###calendarRewardBars", ref rewards)) model.UpdateView(v => v with { ShowRewardBars = rewards });
+                UiWidgets.Wrapped(UiText.Get("DefaultEndpointDisplay"));
+            }
+            finally { ImGui.EndPopup(); }
+        }
         ContinueRow(ButtonWidth(UiText.Get("AddEvent"))); if (Button("AddEvent", "add")) OpenEditor();
     }
     private void DrawFilters() => DrawFiltersCore(true);
@@ -136,7 +170,7 @@ internal sealed class MainWindow : Window
         appliedCategory = model.CategoryFilter;
         appliedOnlyAlerts = model.OnlyAlerts;
         ImGui.SetNextItemWidth(ImGui.GetFontSize() * 12);
-        if (ImGui.InputText(UiText.Get("Search") + "###Search", ref search, 120)) model.SetQuery(search, category, onlyAlerts);
+        if (ImGui.InputTextWithHint("###Search", UiText.Get("CalendarSearchHint"), ref search, 120)) model.SetQuery(search, category, onlyAlerts);
         if (showCategory)
         {
             ContinueRow(ImGui.GetFontSize() * 11); ImGui.SetNextItemWidth(ImGui.GetFontSize() * 11);
@@ -148,7 +182,8 @@ internal sealed class MainWindow : Window
     }
     private void DrawCalendarVisibility()
     {
-        if (!ImGui.CollapsingHeader(UiText.Get("VisibleCalendars") + "###VisibleCalendars", ImGuiTreeNodeFlags.DefaultOpen)) return;
+        ImGui.TextUnformatted(UiText.Get("VisibleCalendars"));
+        ImGui.Separator();
         if (ImGui.SmallButton(UiText.Get("SelectAllCalendars") + "###calendarsAll")) model.SetAllCalendars(true);
         ImGui.SameLine();
         if (ImGui.SmallButton(UiText.Get("HideAllCalendars") + "###calendarsNone")) model.SetAllCalendars(false);
@@ -163,7 +198,6 @@ internal sealed class MainWindow : Window
         foreach (var item in groups)
         {
             var label = UiText.Get(item.Key);
-            ContinueRow(CheckboxWidth(label));
             var visible = model.IsCalendarVisible(item.Group);
             ImGui.PushStyleColor(ImGuiCol.CheckMark, ThemeScope.EventColor(item.Color, model.State.View.Theme == "paper"));
             try
@@ -198,58 +232,164 @@ internal sealed class MainWindow : Window
         }
         finally { ImGui.EndPopup(); }
     }
-    private void DrawHighlights()
+    private void DrawHighlights() => DrawReleaseLandmark();
+    private void DrawReleaseLandmark()
     {
-        if (!ImGui.CollapsingHeader(UiText.Get("UpcomingHighlights", model.UpcomingHighlights.Count) + "###UpcomingHighlights", ImGuiTreeNodeFlags.DefaultOpen)) return;
-        if (model.UpcomingHighlights.Count == 0) UiWidgets.Secondary(UiText.Get("NoUpcomingHighlights"));
-        var pinnedReleases = model.UpcomingHighlights
-            .Where(h => h.Event.Category == "patch" && h.Phase.Id is "early-access" or "release")
-            .OrderBy(h => h.Event.Id.StartsWith("kr:curated:v8-", StringComparison.Ordinal) ? 0 : 1).Take(2).ToArray();
-        var overview = pinnedReleases.Concat(model.UpcomingHighlights.Where(h => !pinnedReleases.Contains(h))).Take(5);
-        foreach (var highlight in overview) DrawHighlight(highlight, "upcoming");
-        if (model.UpcomingHighlights.Count > 5 && ImGui.SmallButton(UiText.Get("AllHighlights", model.UpcomingHighlights.Count) + "###allHighlights"))
-            ImGui.OpenPopup("###AllHighlights");
-        var font = ImGui.GetFontSize();
-        var popupSize = Vector2.Min(new(font * 36, font * 23), ImGui.GetMainViewport().WorkSize - new Vector2(24));
-        ImGui.SetNextWindowSizeConstraints(popupSize, popupSize);
-        if (ImGui.BeginPopup("###AllHighlights", ImGuiWindowFlags.NoSavedSettings))
+        var releases = model.UpcomingHighlights.Where(h => h.Event.Id.StartsWith("kr:curated:v8-", StringComparison.Ordinal) && h.Phase.Id is "early-access" or "release").Take(2).ToArray();
+        if (releases.Length == 0 || releases.All(h => h.Date.Year == model.Year && h.Date.Month == model.MonthNumber)) return;
+        ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled]);
+        try { ImGui.TextUnformatted(UiText.Get("ReleaseLandmark")); }
+        finally { ImGui.PopStyleColor(); }
+        foreach (var release in releases)
         {
-            try { foreach (var highlight in model.UpcomingHighlights) DrawHighlight(highlight, "all", closePopup: true); }
-            finally { ImGui.EndPopup(); }
+            ContinueRow(ButtonWidth(UiText.CompactHighlight(release, includeDate: true)));
+            if (ImGui.SmallButton(UiText.CompactHighlight(release, includeDate: true) + "###releaseLandmark." + release.Phase.Id)) model.JumpToHighlight(release);
+            if (ImGui.IsItemHovered()) UiWidgets.Tooltip(release.Event.Title + "\n" + UiText.Boundary(release.Boundary));
         }
-        if (model.PendingHighlights.Count > 0 && ImGui.TreeNode(UiText.Get("PendingHighlights", model.PendingHighlights.Count) + "###PendingHighlights"))
-        {
-            try { DrawEventList(model.PendingHighlights, "pending-highlights"); }
-            finally { ImGui.TreePop(); }
-        }
-    }
-    private void DrawHighlight(ScheduleHighlight highlight, string scope, bool closePopup = false)
-    {
-        var label = (NeedsReview(highlight.Event) ? UiText.Get("NeedsReviewShort") + " · " : "") + UiText.HighlightRole(highlight) + " · " + highlight.Event.Title;
-        if (ImGui.Selectable(label + "###" + scope + "." + highlight.Event.Id + "." + highlight.Phase.Id + "." + highlight.Edge))
-        {
-            model.JumpToHighlight(highlight);
-            if (closePopup) ImGui.CloseCurrentPopup();
-        }
-        if (ImGui.IsItemHovered()) UiWidgets.Tooltip(label + "\n" + UiText.Boundary(highlight.Boundary));
-        UiWidgets.Secondary(UiText.Boundary(highlight.Boundary));
+        ImGui.Separator();
     }
     private void DrawCalendarContent()
     {
-        if (model.ListView) DrawEventList(model.MonthEvents, "month");
+        if (model.ViewMode == CalendarViewMode.Undated) DrawUndatedCollection();
+        else if (model.ViewMode == CalendarViewMode.Agenda) DrawMonthCollection();
         else DrawMonth();
-        ImGui.Separator();
-        ImGui.TextUnformatted(UiText.Get("FrontlineStrip", model.TodayFrontline?.IsKnown == true ? model.TodayFrontline.Name ?? UiText.Get("UnknownField") : UiText.Get("UnknownField"), model.TomorrowFrontline?.IsKnown == true ? model.TomorrowFrontline.Name ?? UiText.Get("UnknownField") : UiText.Get("UnknownField")));
+        ImGui.Spacing();
+        UiWidgets.Secondary(UiText.Get("FrontlineStrip", model.TodayFrontline?.IsKnown == true ? model.TodayFrontline.Name ?? UiText.Get("UnknownField") : UiText.Get("UnknownField"), model.TomorrowFrontline?.IsKnown == true ? model.TomorrowFrontline.Name ?? UiText.Get("UnknownField") : UiText.Get("UnknownField")));
         if (ImGui.IsItemHovered()) UiWidgets.Tooltip(UiText.Get("FrontlineHelp"));
-        if (Button("Compact", "compact")) ToggleCompact?.Invoke();
-        var undated = model.CalendarEvents.Where(e => e.Phases.Any(p => !p.Point && p.End.Kind is "condition" or "unknown")).ToArray();
-        if (undated.Length > 0 && ImGui.CollapsingHeader(UiText.Get("Undated", undated.Length) + "###Undated")) DrawEventList(undated, "undated");
+    }
+    private void DrawMonthCollection()
+    {
+        ImGui.BeginChild("###MonthCollection", new(0, Math.Max(ImGui.GetFontSize() * 12, ImGui.GetContentRegionAvail().Y - ImGui.GetFontSize() * 3)));
+        try { DrawMonthAgenda(); }
+        finally { ImGui.EndChild(); }
+    }
+    private void DrawUndatedCollection()
+    {
+        ImGui.TextUnformatted(UiText.Get("UndatedCollectionTitle", model.UndatedEvents.Count));
+        UiWidgets.Wrapped(UiText.Get("UndatedCollectionHelp"));
+        ImGui.BeginChild("###UndatedCollection", new(0, Math.Max(ImGui.GetFontSize() * 10, ImGui.GetContentRegionAvail().Y - ImGui.GetFontSize() * 5)));
+        try
+        {
+            foreach (var item in model.UndatedEvents)
+            {
+                foreach (var phase in item.Phases)
+                    DrawAgendaEvent(item, phase, "undated", CalendarEngine.BoundaryDate(phase.Start) ?? CalendarEngine.BoundaryDate(phase.End) ?? model.Today, "undated");
+            }
+            if (model.UndatedEvents.Count == 0) UiWidgets.Wrapped(UiText.Get("NoUndatedCollection"));
+        }
+        finally { ImGui.EndChild(); }
+    }
+    private void DrawContextAgenda()
+    {
+        ImGui.BeginChild("###ContextAgenda", new(0, Math.Max(ImGui.GetFontSize() * 9, ImGui.GetContentRegionAvail().Y - ImGui.GetFontSize() * 2.5f)));
+        try
+        {
+            if (model.PanelMode == CalendarPanelMode.Event)
+            {
+                if (ImGui.SmallButton(UiText.Get("BackToDateAgenda") + "###backToAgenda")) model.BackToAgenda();
+                DrawDetail();
+            }
+            else if (model.PanelMode == CalendarPanelMode.Day) DrawDayAgenda();
+            else if (model.PanelMode == CalendarPanelMode.Undated)
+            {
+                ImGui.TextUnformatted(UiText.Get("UndatedContextTitle"));
+                UiWidgets.Wrapped(UiText.Get("UndatedContextHelp"));
+            }
+            else DrawMonthAgenda();
+        }
+        finally { ImGui.EndChild(); }
+    }
+    private void DrawMonthAgenda()
+    {
+        ImGui.TextUnformatted(UiText.Get("MonthAgendaTitle", model.Year, model.MonthNumber));
+        UiWidgets.Secondary(UiText.Get("MonthAgendaScope"));
+        ImGui.Separator();
+        if (model.MonthAgenda.Count == 0)
+        {
+            UiWidgets.Wrapped(UiText.Get("NoMonthBoundaries"));
+            if (ImGui.SmallButton(UiText.Get("BrowseUndated") + "###monthBrowseUndated")) model.ShowUndatedAgenda();
+            return;
+        }
+        var currentMonth = model.Year == model.Today.Year && model.MonthNumber == model.Today.Month;
+        var active = model.MonthAgenda.Where(h => !currentMonth || h.Date >= model.Today).ToArray();
+        foreach (var group in active.GroupBy(h => h.Date))
+        {
+            ImGui.Spacing(); ImGui.TextUnformatted(UiText.DayLabel(group.Key));
+            foreach (var item in group) DrawAgendaEvent(item.Event, item.Phase, item.Edge, item.Date, "monthAgenda");
+        }
+        var past = currentMonth ? model.MonthAgenda.Where(h => h.Date < model.Today).ToArray() : [];
+        if (active.Length == 0 && currentMonth) UiWidgets.Wrapped(UiText.Get("NoRemainingMonthBoundaries"));
+        if (past.Length > 0 && ImGui.TreeNode(UiText.Get("PastMonthItems", past.Length) + "###pastMonthAgenda"))
+        {
+            try
+            {
+                foreach (var group in past.GroupBy(h => h.Date))
+                {
+                    ImGui.TextUnformatted(UiText.DayLabel(group.Key));
+                    foreach (var item in group) DrawAgendaEvent(item.Event, item.Phase, item.Edge, item.Date, "pastMonthAgenda");
+                }
+            }
+            finally { ImGui.TreePop(); }
+        }
+    }
+    private void DrawDayAgenda()
+    {
+        ImGui.TextUnformatted(UiText.DayLabel(model.SelectedDate));
+        if (ImGui.SmallButton(UiText.Get("ShowMonthAgenda") + "###showMonthAgenda")) model.ShowMonthOverview();
+        ImGui.Separator();
+        if (model.DayBoundaryItems.Count == 0) UiWidgets.Wrapped(UiText.Get("NoDayBoundaries"));
+        foreach (var item in model.DayBoundaryItems) DrawAgendaEvent(item.Event, item.Phase, item.Edge, item.Date, "dayAgenda");
+        if (model.DayOngoingItems.Count > 0)
+        {
+            ImGui.Spacing(); ImGui.TextUnformatted(UiText.Get("OngoingOnDay", model.DayOngoingItems.Count));
+            foreach (var item in model.DayOngoingItems) DrawAgendaEvent(item.Event, item.Phase, "ongoing", model.SelectedDate, "dayOngoing");
+        }
+    }
+    private void DrawAgendaEvent(CalendarEvent item, EventPhase phase, string edge, DateOnly date, string scope)
+    {
+        var width = Math.Max(1, ImGui.GetContentRegionAvail().X);
+        var title = item.Title;
+        var subtitle = UiText.AgendaRole(item, phase, edge);
+        var boundary = edge == "end" ? phase.End : phase.Start;
+        if (edge == "undated")
+            subtitle = UiText.Phase(item, phase) + "\n" + UiText.Get("StartShort") + ": " + UiText.Boundary(phase.Start) +
+                "\n" + UiText.Get("EndShort") + ": " + UiText.Boundary(phase.End);
+        else if (edge != "ongoing") subtitle = UiText.ClockLabel(boundary) + " · " + subtitle;
+        if (NeedsReview(item)) subtitle = UiText.Get("NeedsReviewShort") + " · " + subtitle;
+        var font = ImGui.GetFontSize();
+        var titleHeight = ImGui.CalcTextSize(title, false, Math.Max(1, width - 12)).Y;
+        var subtitleHeight = ImGui.CalcTextSize(subtitle, false, Math.Max(1, width - 12)).Y;
+        var rowHeight = Math.Max(font * 2.5f, titleHeight + subtitleHeight + 10);
+        var pos = ImGui.GetCursorScreenPos();
+        var selected = model.SelectedEventId == item.Id && model.SelectedPhaseId == phase.Id && model.SelectedEdge == edge;
+        var clicked = ImGui.Selectable("###" + scope + "." + item.Id + "." + phase.Id + "." + edge, selected, ImGuiSelectableFlags.None, new(width, rowHeight));
+        var hovered = ImGui.IsItemHovered();
+        var after = ImGui.GetCursorScreenPos();
+        var draw = ImGui.GetWindowDrawList();
+        draw.AddLine(pos + new Vector2(2, 4), pos + new Vector2(2, rowHeight - 4), ImGui.ColorConvertFloat4ToU32(ThemeScope.EventColor(item.Category, model.State.View.Theme == "paper")), 2);
+        ImGui.SetCursorScreenPos(pos + new Vector2(8, 4));
+        ImGui.PushTextWrapPos(ImGui.GetCursorPosX() + width - 12);
+        try
+        {
+            ImGui.TextUnformatted(title);
+            ImGui.SetCursorScreenPos(new(pos.X + 8, ImGui.GetCursorScreenPos().Y));
+            UiWidgets.Secondary(subtitle);
+        }
+        finally { ImGui.PopTextWrapPos(); }
+        ImGui.SetCursorScreenPos(after);
+        if (clicked)
+        {
+            if (edge is "ongoing" or "undated") model.Select(item, phase, date, edge);
+            else model.SelectAgenda(new(item, phase, edge, boundary, date));
+        }
+        if (hovered) UiWidgets.Tooltip(title + "\n" + subtitle + "\n" + UiText.Boundary(boundary));
     }
     private void DrawMonth()
     {
         if (model.Calendar == null) return;
         var font = ImGui.GetFontSize();
-        var height = font + 5 + model.Calendar.Weeks.Sum(w => Math.Max(font * 4.7f, font + 2 + w.LaneCount * font + font + font));
+        var spacing = ImGui.GetStyle().ItemSpacing.Y;
+        var height = font + 5 + spacing + model.Calendar.Weeks.Sum(w => MonthRowHeight(font, w.LaneCount) + spacing) + 2;
         // Keep the hover region local to the grid, independently of the detail pane.
         ImGui.BeginChild("###MonthGrid", new(Math.Max(1, ImGui.GetContentRegionAvail().X), height), false,
             ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse);
@@ -285,6 +425,7 @@ internal sealed class MainWindow : Window
         var target = Math.Clamp(current - notches, 2020 * 12, 2100 * 12 + 11);
         if (target != current) model.ChangeMonth(target - current);
     }
+    private static float MonthRowHeight(float font, int laneCount) => Math.Max(font * 4.8f, font + 2 + laneCount * font + font * 3 + 4);
     private void DrawMonthGrid()
     {
         if (model.Calendar == null) return;
@@ -303,7 +444,7 @@ internal sealed class MainWindow : Window
         {
             var origin = ImGui.GetCursorScreenPos();
             var laneHeight = week.LaneCount * markerHeight;
-            var rowHeight = Math.Max(font * 4.7f, dateHeight + laneHeight + markerHeight + font);
+            var rowHeight = MonthRowHeight(font, week.LaneCount);
             for (var col = 0; col < 7; col++)
             {
                 var day = week.Days[col];
@@ -312,26 +453,32 @@ internal sealed class MainWindow : Window
                 var bg = day.InMonth ? (light ? 0xfaf9f4 : 0x202426) : (light ? 0xe5e5dd : 0x171a1c);
                 draw.AddRectFilled(pos, end, ImGui.ColorConvertFloat4ToU32(ThemeScope.Hex(bg)));
                 draw.AddRect(pos, end, ImGui.GetColorU32(ImGuiCol.Border));
-                if (day.Date == model.SelectedDate) draw.AddRect(pos + Vector2.One, end - Vector2.One, ImGui.ColorConvertFloat4ToU32(ThemeScope.Hex(light ? 0x805d25 : 0xd8bb79)), 0, ImDrawFlags.None, 2);
+                if (model.HasDateFocus && day.Date == model.SelectedDate) draw.AddRect(pos + Vector2.One, end - Vector2.One, ImGui.ColorConvertFloat4ToU32(ThemeScope.Hex(light ? 0x356b8b : 0x87b8d7)), 0, ImDrawFlags.None, 2);
                 ImGui.SetCursorScreenPos(pos + new Vector2(3, 2));
-                if (ImGui.InvisibleButton("###day." + UiText.Date(day.Date), new(cellWidth - 6, dateHeight - 3))) model.SelectDate(day.Date);
+                if (ImGui.InvisibleButton("###day." + UiText.Date(day.Date), new(cellWidth - 6, rowHeight - 4))) model.SelectDate(day.Date);
+                // The whole date is a target; its markers remain independently selectable.
+                ImGui.SetItemAllowOverlap();
                 var number = day.Date.Day.ToString(CultureInfo.InvariantCulture);
                 var numberColor = day.Date == model.Today ? ThemeScope.Hex(light ? 0x805d25 : 0xd8bb79) : day.InMonth ? ImGui.GetStyle().Colors[(int)ImGuiCol.Text] : ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled];
-                draw.AddText(pos + new Vector2(6, 3), ImGui.ColorConvertFloat4ToU32(numberColor), day.Date == model.Today ? number + " *" : number);
-                var visibleItems = day.Items.Take(1).ToArray();
+                draw.AddText(pos + new Vector2(6, 3), ImGui.ColorConvertFloat4ToU32(numberColor), number);
+                var markerSpace = Math.Max(0, rowHeight - dateHeight - laneHeight - 4);
+                var capacity = Math.Max(0, (int)(markerSpace / markerHeight));
+                var reserveOverflow = day.HiddenCount > 0 || day.Items.Count > capacity;
+                var visibleCount = Math.Max(0, Math.Min(day.Items.Count, capacity - (reserveOverflow ? 1 : 0)));
+                var visibleItems = day.Items.Take(visibleCount).ToArray();
                 for (var index = 0; index < visibleItems.Length; index++)
                 {
                     var item = visibleItems[index];
                     var point = pos + new Vector2(3, dateHeight + laneHeight + markerHeight * index);
                     DrawCalendarButton(point, new(cellWidth - 6, markerHeight - 2), item.Event, item.Phase,
-                        "point." + UiText.Date(day.Date) + "." + index, MarkerLabel(item), () => model.Select(item.Event, item.Phase, day.Date));
+                        "point." + UiText.Date(day.Date) + "." + index, UiText.CalendarMarker(item), () => model.SelectAgenda(new(item.Event, item.Phase, item.Edge, item.Edge == "end" ? item.Phase.End : item.Phase.Start, day.Date)));
                 }
-                var more = day.HiddenCount + Math.Max(0, day.Items.Count - 1);
+                var more = day.HiddenCount + Math.Max(0, day.Items.Count - visibleCount);
                 if (more > 0)
                 {
                     var morePos = pos + new Vector2(3, rowHeight - font);
                     ImGui.SetCursorScreenPos(morePos);
-                    if (ImGui.InvisibleButton("###more." + UiText.Date(day.Date), new(cellWidth - 6, font))) { model.SelectDate(day.Date); expandSelectedDay = true; }
+                    if (ImGui.InvisibleButton("###more." + UiText.Date(day.Date), new(cellWidth - 6, font))) model.SelectDate(day.Date);
                     draw.AddText(morePos, ImGui.GetColorU32(ImGuiCol.TextDisabled), UiText.Get("MoreCount", more));
                 }
             }
@@ -341,7 +488,7 @@ internal sealed class MainWindow : Window
                 var size = new Vector2((bar.EndColumn - bar.StartColumn + 1) * cellWidth - 4, markerHeight - 2);
                 var title = (bar.ContinuesBefore ? "< " : "") + UiText.Category(bar.Event.Category) + " · " + bar.Event.Title + (bar.ContinuesAfter ? " >" : "");
                 DrawCalendarButton(pos, size, bar.Event, bar.Phase, "bar." + UiText.Date(week.StartsOn) + "." + bar.Event.Id + "." + bar.Phase.Id, title,
-                    () => model.Select(bar.Event, bar.Phase, week.StartsOn.AddDays(bar.StartColumn)));
+                    () => model.Select(bar.Event, bar.Phase, week.StartsOn.AddDays(Math.Clamp((int)((ImGui.GetIO().MousePos.X - origin.X) / cellWidth), bar.StartColumn, bar.EndColumn)), "ongoing"));
             }
             ImGui.SetCursorScreenPos(origin);
             ImGui.Dummy(new(available, rowHeight));
@@ -358,11 +505,21 @@ internal sealed class MainWindow : Window
         draw.AddRectFilled(pos, pos + size, ImGui.ColorConvertFloat4ToU32(color with { W = hovered ? .28f : .14f }), 2);
         draw.AddLine(pos, pos + new Vector2(0, size.Y), ImGui.ColorConvertFloat4ToU32(color), 2);
         draw.PushClipRect(pos, pos + size, true);
-        draw.AddText(pos + new Vector2(4, 0), ImGui.ColorConvertFloat4ToU32(color), label);
+        draw.AddText(pos + new Vector2(6, 0), ImGui.ColorConvertFloat4ToU32(color), FitLabel(label, Math.Max(1, size.X - 10)));
         draw.PopClipRect();
         if (hovered) UiWidgets.Tooltip(e.Title + "\n" + UiText.Phase(e, phase) + "\n" + UiText.Boundary(phase.Start) + " — " + UiText.Boundary(phase.End));
     }
-    private static string MarkerLabel(CalendarItem item) => (item.Phase.Point ? UiText.Phase(item.Event, item.Phase) : UiText.Get(item.Edge == "start" ? "StartShort" : "EndShort")) + " · " + item.Event.Title;
+    private static string FitLabel(string text, float width)
+    {
+        if (ImGui.CalcTextSize(text).X <= width) return text;
+        var positions = StringInfo.ParseCombiningCharacters(text);
+        for (var count = positions.Length - 1; count > 0; count--)
+        {
+            var candidate = text[..positions[count]] + "…";
+            if (ImGui.CalcTextSize(candidate).X <= width) return candidate;
+        }
+        return "";
+    }
     private static bool NeedsReview(CalendarEvent item) => item.Note?.Contains("공식 원문 재검토 대기", StringComparison.Ordinal) == true;
     private void DrawEventList(IReadOnlyList<CalendarEvent> list, string scope)
     {
@@ -420,23 +577,12 @@ internal sealed class MainWindow : Window
     }
     private void DrawDetail()
     {
-        ImGui.TextUnformatted(UiText.Get("SelectedDate", UiText.Date(model.SelectedDate)));
-        if (model.DayItems.Count > 1)
-        {
-            if (expandSelectedDay) { ImGui.SetNextItemOpen(true, ImGuiCond.Always); expandSelectedDay = false; }
-            if (ImGui.TreeNode(UiText.Get("SelectedDayItems", model.DayItems.Count) + "###SelectedDayItems"))
-            {
-                try
-                {
-                    foreach (var item in model.DayItems)
-                        if (ImGui.Selectable(item.Event.Title + " · " + UiText.Phase(item.Event, item.Phase) + "###dayitem." + item.Event.Id + "." + item.Phase.Id + "." + item.Edge,
-                            item.Event.Id == model.SelectedEventId && item.Phase.Id == model.SelectedPhaseId)) model.Select(item.Event, item.Phase);
-                }
-                finally { ImGui.TreePop(); }
-            }
-        }
         var e = model.SelectedEvent;
-        if (e == null) { ImGui.Separator(); UiWidgets.Wrapped(UiText.Get("SelectEvent")); return; }
+        if (e == null) { UiWidgets.Wrapped(UiText.Get("SelectEvent")); return; }
+        var focused = e.Phases.FirstOrDefault(p => p.Id == model.SelectedPhaseId) ?? e.Phases.FirstOrDefault();
+        if (focused == null) return;
+        var selectedDate = model.SelectedEdge == "end" ? CalendarEngine.BoundaryDate(focused.End) : CalendarEngine.BoundaryDate(focused.Start);
+        if (selectedDate is { } focusDate) UiWidgets.Secondary(UiText.DayLabel(focusDate));
         ImGui.Separator();
         UiWidgets.Wrapped(e.Title);
         if (NeedsReview(e)) UiWidgets.Colored(ThemeScope.Hex(model.State.View.Theme == "paper" ? 0x946123 : 0xd8bb79), UiText.Get("NeedsReviewShort"));
@@ -447,7 +593,7 @@ internal sealed class MainWindow : Window
         var primary = evidenceRows.FirstOrDefault(x => x.Url is { } url && IsOfficialPage(url));
         if (primary?.Url is { } primaryUrl && Button("OpenSource", "primarySource." + e.Id)) model.Post(() => Util.OpenLink(primaryUrl));
         if (primary?.ObservedAt is { } primaryObserved) UiWidgets.Wrapped(UiText.Get("ObservedAt", UiText.Time(primaryObserved)));
-        foreach (var p in e.Phases)
+        foreach (var p in new[] { focused })
         {
             ImGui.PushID(e.Id + "." + p.Id);
             try
@@ -483,6 +629,20 @@ internal sealed class MainWindow : Window
                 }
             }
             finally { ImGui.PopID(); }
+        }
+        var related = e.Phases.Where(p => p.Id != focused.Id).ToArray();
+        if (related.Length > 0 && ImGui.TreeNode(UiText.Get("RelatedPhases", related.Length) + "###relatedPhases"))
+        {
+            try
+            {
+                foreach (var other in related)
+                {
+                    if (ImGui.Selectable(UiText.Phase(e, other) + "###related." + other.Id))
+                        model.Select(e, other, CalendarEngine.BoundaryDate(other.Start) ?? CalendarEngine.BoundaryDate(other.End), other.Point ? "start" : null);
+                    UiWidgets.Secondary(UiText.Boundary(other.Start));
+                }
+            }
+            finally { ImGui.TreePop(); }
         }
         if (e.IsPersonal)
         {

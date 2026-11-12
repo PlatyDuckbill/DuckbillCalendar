@@ -24,7 +24,6 @@ public sealed class Plugin : IDalamudPlugin
     private readonly CalendarModel model = null!;
     private readonly LocalAlertCoordinator alerts = null!;
     private readonly MainWindow main = null!;
-    private readonly CompactWindow compact = null!;
     private bool drawSubscribed;
     private bool mainSubscribed;
     private bool configSubscribed;
@@ -58,11 +57,7 @@ public sealed class Plugin : IDalamudPlugin
             alerts = new LocalAlertCoordinator(workspace);
             UiText.SetLanguage(workspace.State.View.Language);
             main = new MainWindow(model);
-            compact = new CompactWindow(model);
-            main.ToggleCompact = ToggleCompact;
-            compact.OpenMain = () => main.IsOpen = true;
             windows.AddWindow(main);
-            windows.AddWindow(compact);
             var info = new CommandInfo(OnCommand) { HelpMessage = UiText.Get("CommandHelp") };
             foreach (var command in new[] { "/dbcal", "/duckbillcalendar" })
             {
@@ -90,14 +85,12 @@ public sealed class Plugin : IDalamudPlugin
     {
         switch (arguments.Trim().ToLowerInvariant())
         {
-            case "compact": case "small": ToggleCompact(); break;
             case "settings": main.OpenSettings(); break;
             default: main.IsOpen = !main.IsOpen; break;
         }
     }
     private void OpenMain() => main.IsOpen = true;
     private void OpenSettings() => main.OpenSettings();
-    private void ToggleCompact() => compact.IsOpen = !compact.IsOpen;
     private void Draw()
     {
         if (disposed || clientState.IsPvP) return;
@@ -143,7 +136,6 @@ public sealed class Plugin : IDalamudPlugin
         foreach (var command in registeredCommands) commands.RemoveHandler(command);
         registeredCommands.Clear();
         if (main != null) main.IsOpen = false;
-        if (compact != null) compact.IsOpen = false;
         windows.RemoveAllWindows();
         alerts?.Dispose();
         workspace?.Dispose();

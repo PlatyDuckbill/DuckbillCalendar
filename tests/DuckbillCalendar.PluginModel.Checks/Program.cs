@@ -43,9 +43,10 @@ using (var restored = new CalendarWorkspace(firstPath, example))
     Check(restored.State.Entries.Single().Title == entry.Title, "Last-frame entry survives unload and restart");
     var next = new CalendarModel(restored);
     next.Tick(now);
-    Check(next.NextSubscription?.Id == entry.Id, "Subscription projection selects active profile");
+    Check(next.Events.Any(e => e.IsPersonal && e.Id == entry.Id), "Personal subscription projection selects active profile");
     next.SelectDate(new(2026, 11, 18)); next.Tick(now);
-    Check(next.DayItems.Count == 1 && next.SelectedPhaseId == "local", "Date selection focuses local phase");
+    Check(next.DayBoundaryItems.Count == 1 && next.PanelMode == CalendarPanelMode.Day && next.SelectedEventId is null && next.SelectedPhaseId is null,
+        "Date selection opens complete day agenda without choosing an event for the user");
     var localEvent = next.Events.Single();
     next.ToggleAlert(localEvent, localEvent.Phases[0], "end"); next.Tick(now);
     Check(next.HasAlert(localEvent) && restored.State.Alerts.Single().ProfileId == "default", "Alarm choice has account scope");
@@ -171,6 +172,91 @@ using (var legacy = new CalendarWorkspace(Path.Combine(root, "legacy-bars"), exa
     legacyModel.SetPeriodBars(true); legacyModel.Tick(now); await legacy.FlushAsync(); legacy.Pump();
     var reloadedModel = new CalendarModel(legacy);
     Check(legacy.State.View.PeriodBars, "Explicitly re-enabling bars is not reset by another model load");
+}
+
+// Product flows use the actual combined snapshot: the same day has an early-access
+// start and two purchase-related ends, while date-only release and conditional PvP
+// periods must keep their distinct meanings throughout navigation and refresh.
+var realSnapshot = CalendarJson.Parse<FeedDocument>(File.ReadAllBytes(Path.Combine(repository.FullName, "data", "live", "kr-calendar.snapshot.json")));
+using (var uxHttp = new HttpClient(new FailureHandler()))
+using (var uxWorkspace = new CalendarWorkspace(Path.Combine(root, "product-flows"), example, uxHttp,
+    bundledFeed: JsonSerializer.SerializeToUtf8Bytes(realSnapshot, CalendarJson.Options)))
+{
+    var ux = new CalendarModel(uxWorkspace); ux.Tick(now);
+    ux.GoToMonth(2027, 2); ux.Tick(now);
+    Check(ux.PanelMode == CalendarPanelMode.Month && !ux.HasDateFocus && ux.SelectedDate == new DateOnly(2027, 2, 1) && ux.SelectedEventId is null,
+        "Entering February opens a month overview instead of retaining November selection");
+    Check(ux.MonthAgenda.Count == 4 && ux.MonthAgenda.Count(h => h.Date == new DateOnly(2027, 2, 19)) == 3 &&
+        ux.MonthAgenda.Count(h => h.Date == new DateOnly(2027, 2, 23)) == 1 && ux.MonthAgenda.All(h => h.Date.Year == 2027 && h.Date.Month == 2),
+        "February agenda contains all three February 19 boundaries and release, without unrelated December deadlines");
+    var february19 = ux.MonthAgenda.Where(h => h.Date == new DateOnly(2027, 2, 19)).ToArray();
+    Check(february19.Count(h => h.Edge == "end") == 2 && february19.Last().Phase.Id == "early-access" &&
+        ux.MonthAgenda.Last().Phase.Id == "release" && ux.MonthAgenda.Last().Boundary.Kind == "date",
+        "Month agenda preserves simultaneous purchase ends and exact early start, then date-only release");
+    ux.SelectDate(new(2027, 2, 19)); ux.Tick(now);
+    Check(ux.PanelMode == CalendarPanelMode.Day && ux.HasDateFocus && ux.SelectedEventId is null && ux.SelectedPhaseId is null &&
+        ux.DayBoundaryItems.Count == 3 && ux.DayBoundaryItems.All(i => !i.Ongoing),
+        "Clicking February 19 opens its complete three-item day agenda without silently selecting one event");
+    var reservationEnd = ux.MonthAgenda.Single(h => h.Event.Id == "kr:curated:v8-reservation-items" && h.Edge == "end");
+    ux.SelectAgenda(reservationEnd); ux.Tick(now);
+    Check(ux.PanelMode == CalendarPanelMode.Event && ux.PreviousPanelMode == CalendarPanelMode.Day &&
+        ux.SelectedEventId == reservationEnd.Event.Id && ux.SelectedPhaseId == reservationEnd.Phase.Id && ux.SelectedEdge == "end" && ux.SelectedDate == reservationEnd.Date,
+        "Explicit purchase-end selection opens the precise phase and edge within day context");
+    ux.BackToAgenda(); ux.Tick(now);
+    Check(ux.PanelMode == CalendarPanelMode.Day && ux.SelectedDate == new DateOnly(2027, 2, 19) && ux.SelectedEventId is null && ux.DayBoundaryItems.Count == 3,
+        "Back from event restores the day agenda and its other two choices");
+    ux.ShowMonthOverview(); ux.Tick(now);
+    var actualEarly = ux.MonthAgenda.Single(h => h.Phase.Id == "early-access");
+    ux.SelectAgenda(actualEarly); ux.Tick(now); ux.BackToAgenda(); ux.Tick(now);
+    Check(ux.PanelMode == CalendarPanelMode.Month && !ux.HasDateFocus && ux.SelectedEventId is null && ux.MonthAgenda.Count == 4,
+        "Back from a month-agenda event restores month overview without auto-choosing a day");
+    ux.SelectAgenda(actualEarly); ux.Tick(now); ux.ChangeMonth(1); ux.Tick(now);
+    Check(ux.Year == 2027 && ux.MonthNumber == 3 && ux.SelectedDate == new DateOnly(2027, 3, 1) && ux.PanelMode == CalendarPanelMode.Month &&
+        ux.SelectedEventId is null && ux.SelectedPhaseId is null && ux.SelectedEdge is null,
+        "Wheel/button month change clears event details and stale February date together");
+    ux.GoToMonth(2027, 2); ux.SelectDate(new(2027, 2, 24)); ux.Tick(now);
+    Check(ux.PanelMode == CalendarPanelMode.Day && ux.HasDateFocus && ux.DayItems.Count == 0 && ux.SelectedEventId is null,
+        "An empty day remains an explicit complete day state instead of falling into arbitrary event details");
+    Check(ux.UndatedEvents.Any(e => e.Id == "kr:curated:pvp-series-12" && e.Phases.Any(p => p.End.Kind == "condition" && p.End.Condition?.TargetId == "kr:target:v8-maintenance-start")) &&
+        ux.UndatedEvents.All(e => e.Phases.All(p => !p.Point)) && ux.UndatedEvents.All(e => e.Id is not ("kr:curated:v8-release" or "kr:curated:v8-early-access")),
+        "Conditional PvP end stays unresolved while valid point schedules are never mislabeled as undated periods");
+    uxWorkspace.UpdateState(uxWorkspace.State with { Entries = [new() { Id = "ux-subscription", Title = "Local expiry", Kind = "subscription", When = CalendarBoundary.Date(new(2027, 2, 28)) }] });
+    ux.Tick(now);
+    Check(ux.UndatedEvents.All(e => e.Id != "ux-subscription") && ux.CalendarEvents.Any(e => e.Id == "ux-subscription"),
+        "A personal expiry's intentionally unknown start does not send the known expiry into undated agenda");
+    ux.ShowUndatedAgenda(); ux.Tick(now);
+    var seriesPeriod = ux.UndatedEvents.Single(e => e.Id == "kr:curated:pvp-series-12");
+    ux.Select(seriesPeriod, seriesPeriod.Phases.First()); ux.Tick(now); ux.BackToAgenda(); ux.Tick(now);
+    Check(ux.ViewMode == CalendarViewMode.Undated && ux.PanelMode == CalendarPanelMode.Undated && !ux.HasDateFocus && ux.SelectedEventId is null,
+        "Back from a conditional-period detail returns to undated agenda");
+    ux.SetQuery("백은", 4, false); ux.SetCalendarVisible(CalendarGroup.Patches, false); ux.GoToday(); ux.Tick(now);
+    Check(ux.ViewMode == CalendarViewMode.Grid && ux.PanelMode == CalendarPanelMode.Day && ux.SelectedDate == ux.Today &&
+        ux.Year == ux.Today.Year && ux.MonthNumber == ux.Today.Month && ux.Search == "백은" && ux.CategoryFilter == 4 && !ux.IsCalendarVisible(CalendarGroup.Patches),
+        "Today exits undated mode and restores today's date without discarding search or visibility choices");
+    ux.GoToMonth(2027, 2); ux.SetListView(true); ux.Tick(now);
+    Check(ux.ViewMode == CalendarViewMode.Agenda && ux.PanelMode == CalendarPanelMode.Month && ux.MonthAgenda.Count > 0 &&
+        ux.MonthAgenda.All(h => h.Event.Category != "patch" && h.Event.Title.Contains("백은", StringComparison.Ordinal)),
+        "Month agenda keeps calendar checkboxes and query while remaining independent of news category focus");
+    ux.SetAllCalendars(true); ux.SetQuery("", 0, false); ux.SetListView(false); ux.GoToMonth(2027, 2); ux.Tick(now);
+    ux.SelectDate(new(2027, 2, 19)); ux.Tick(now);
+    ux.SelectAgenda(ux.MonthAgenda.Single(h => h.Phase.Id == "early-access")); ux.Tick(now);
+    var refreshPath = Path.Combine(root, "product-refresh.json");
+    var refreshed = realSnapshot with { ContentRevision = realSnapshot.ContentRevision + 1, GeneratedAt = DateTimeOffset.UtcNow,
+        Events = realSnapshot.Events.Select(e => e.Id == "kr:notice:3162" ? e with { Title = e.Title + " (refresh fixture)" } : e).ToArray() };
+    await File.WriteAllBytesAsync(refreshPath, JsonSerializer.SerializeToUtf8Bytes(refreshed, CalendarJson.Options));
+    uxWorkspace.ImportFile(refreshPath); await uxWorkspace.FlushAsync(); ux.Tick(now.AddMinutes(2));
+    Check(ux.Feed.ContentRevision == refreshed.ContentRevision && ux.ViewMode == CalendarViewMode.Grid && ux.PanelMode == CalendarPanelMode.Event &&
+        ux.SelectedEventId == "kr:curated:v8-early-access" && ux.SelectedPhaseId == "early-access" && ux.SelectedEdge == "start" && ux.SelectedDate == new DateOnly(2027, 2, 19),
+        "A completed source refresh updates data without replacing the user's explicit event focus");
+    var withdrawn = refreshed with { ContentRevision = refreshed.ContentRevision + 1,
+        Events = refreshed.Events.Where(e => e.Id != "kr:curated:v8-early-access").ToArray(),
+        Withdrawals = refreshed.Withdrawals.Append("kr:curated:v8-early-access").Distinct(StringComparer.Ordinal).ToArray() };
+    var withdrawnPath = Path.Combine(root, "product-withdrawal.json");
+    await File.WriteAllBytesAsync(withdrawnPath, JsonSerializer.SerializeToUtf8Bytes(withdrawn, CalendarJson.Options));
+    uxWorkspace.ImportFile(withdrawnPath); await uxWorkspace.FlushAsync(); ux.Tick(now.AddMinutes(3));
+    Check(ux.PanelMode == CalendarPanelMode.Day && ux.ViewMode == CalendarViewMode.Grid && ux.SelectedDate == new DateOnly(2027, 2, 19) &&
+        ux.SelectedEventId is null && ux.SelectedPhaseId is null && ux.SelectedEdge is null && ux.DayBoundaryItems.Count == 2,
+        $"Withdrawing the selected event restores its day agenda with the two remaining choices instead of an orphaned detail panel (panel={ux.PanelMode}, previous={ux.PreviousPanelMode}, view={ux.ViewMode}, id={ux.SelectedEventId}, phase={ux.SelectedPhaseId}, edge={ux.SelectedEdge}, date={ux.SelectedDate}, day={ux.DayBoundaryItems.Count}, status={uxWorkspace.StatusCode})");
 }
 
 Console.WriteLine($"PASS: {checks} actual CalendarModel checks; localization is stubbed, no ImGui/game runtime is exercised.");

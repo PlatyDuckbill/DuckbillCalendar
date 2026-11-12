@@ -16,7 +16,6 @@
     <value>Add subscription</value>
   </data>
   <data name="AlertsUnavailable" xml:space="preserve"><value>Select start/end reminders and enable local chat reminders in Settings. Timed reminders are held for partially collected public events. Unknown, inferred and date-only boundaries do not create timed reminders.</value></data>
-  <data name="AlertsUnavailableCompact" xml:space="preserve"><value>Reminders follow Settings; the game must be running.</value></data>
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
@@ -48,13 +47,7 @@
     <value>Subscriptions</value>
   </data>
   <data name="CommandHelp" xml:space="preserve">
-    <value>Open calendar. /dbcal compact: compact view; /dbcal settings: settings.</value>
-  </data>
-  <data name="Compact" xml:space="preserve">
-    <value>Compact view</value>
-  </data>
-  <data name="CompactToday" xml:space="preserve">
-    <value>Today · {0} KST</value>
+    <value>Open calendar. /dbcal settings: settings.</value>
   </data>
   <data name="ConditionalBoundary" xml:space="preserve">
     <value>Date depends on an announced condition.</value>
@@ -450,4 +443,46 @@
   <data name="HideAllCalendars" xml:space="preserve"><value>Hide all</value></data>
   <data name="CategoryMaintenance" xml:space="preserve"><value>Maintenance</value></data>
   <data name="CategoryCompetitions" xml:space="preserve"><value>Competitions</value></data>
+  <data name="WorkspaceFooter" xml:space="preserve"><value>{0} public records in total · last fetched {1}</value></data>
+  <data name="MonthGridView" xml:space="preserve"><value>Month</value></data>
+  <data name="MonthAgendaView" xml:space="preserve"><value>Agenda</value></data>
+  <data name="UndatedView" xml:space="preserve"><value>Ongoing / undated</value></data>
+  <data name="CalendarVisibilityButton" xml:space="preserve"><value>Calendars {0}/9</value></data>
+  <data name="CalendarViewOptions" xml:space="preserve"><value>View</value></data>
+  <data name="DefaultEndpointDisplay" xml:space="preserve"><value>Starts and ends are shown by default.</value></data>
+  <data name="CalendarSearchHint" xml:space="preserve"><value>Search events</value></data>
+  <data name="ReleaseLandmark" xml:space="preserve"><value>Major release</value></data>
+  <data name="BackToDateAgenda" xml:space="preserve"><value>‹ Back to agenda</value></data>
+  <data name="MonthAgendaTitle" xml:space="preserve"><value>Schedule for {0}.{1:00}</value></data>
+  <data name="MonthAgendaScope" xml:space="preserve"><value>Starts, deadlines and milestones this month</value></data>
+  <data name="NoMonthBoundaries" xml:space="preserve"><value>No starts or deadlines to show this month.</value></data>
+  <data name="BrowseUndated" xml:space="preserve"><value>Browse ongoing and undated events</value></data>
+  <data name="ShowMonthAgenda" xml:space="preserve"><value>Show this month</value></data>
+  <data name="NoDayBoundaries" xml:space="preserve"><value>No events start or end on this day.</value></data>
+  <data name="OngoingOnDay" xml:space="preserve"><value>In progress ({0})</value></data>
+  <data name="UndatedCollectionTitle" xml:space="preserve"><value>Ongoing / undated ({0})</value></data>
+  <data name="UndatedCollectionHelp" xml:space="preserve"><value>These events have an unannounced or conditional end. This does not imply permanent availability.</value></data>
+  <data name="NoUndatedCollection" xml:space="preserve"><value>No events match the current visibility settings.</value></data>
+  <data name="UndatedContextTitle" xml:space="preserve"><value>Dates stay unassigned</value></data>
+  <data name="UndatedContextHelp" xml:space="preserve"><value>Select an event to see its end condition and the official source last checked.</value></data>
+  <data name="TimeNotAnnouncedShort" xml:space="preserve"><value>Time not announced</value></data>
+  <data name="OngoingRole" xml:space="preserve"><value>In progress</value></data>
+  <data name="ShortEarlyAccess" xml:space="preserve"><value>Early access</value></data>
+  <data name="ShortFormalRelease" xml:space="preserve"><value>Release</value></data>
+  <data name="ShortPreorderDeadline" xml:space="preserve"><value>CE preorder ends</value></data>
+  <data name="ShortPreorderStart" xml:space="preserve"><value>CE preorder opens</value></data>
+  <data name="ShortBonusDeadline" xml:space="preserve"><value>Bonus purchase ends</value></data>
+  <data name="ShortBonusStart" xml:space="preserve"><value>Bonus purchase opens</value></data>
+  <data name="ShortDiscountDeadline" xml:space="preserve"><value>20% offer ends</value></data>
+  <data name="ShortDiscountStart" xml:space="preserve"><value>20% offer opens</value></data>
+  <data name="ShortCcrcPreliminary" xml:space="preserve"><value>CCRC preliminaries</value></data>
+  <data name="ShortCcrcFinal" xml:space="preserve"><value>CCRC final</value></data>
+  <data name="ShortCcrcRegistrationEnd" xml:space="preserve"><value>CCRC entry ends</value></data>
+  <data name="ShortCcrcRegistrationStart" xml:space="preserve"><value>CCRC entry opens</value></data>
+  <data name="ShortCcrcSelectionEnd" xml:space="preserve"><value>CCRC selection ends</value></data>
+  <data name="ShortCcrcSelectionStart" xml:space="preserve"><value>CCRC selection opens</value></data>
+  <data name="ShortPvpSeasonStart" xml:space="preserve"><value>Season {0} starts</value></data>
+  <data name="NoRemainingMonthBoundaries" xml:space="preserve"><value>No starts or deadlines remain this month.</value></data>
+  <data name="PastMonthItems" xml:space="preserve"><value>Earlier this month ({0})</value></data>
+  <data name="RelatedPhases" xml:space="preserve"><value>Related stages ({0})</value></data>
 </root>

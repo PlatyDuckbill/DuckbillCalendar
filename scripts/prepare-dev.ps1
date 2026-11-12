@@ -25,7 +25,6 @@ DuckbillCalendar 0.1.0.0 개발 확인용
 이 폴더 전체를 보존하세요. Core/Infrastructure DLL과 ko 리소스가 필요합니다.
 Dalamud 개발 플러그인 위치에 이 폴더의 DuckbillCalendar.dll을 등록해 수동으로 로드합니다.
 /dbcal 또는 /duckbillcalendar: 주 화면
-/dbcal compact: 작은 화면
 /dbcal settings: 설정
 
 개인 일정·이용권은 로컬 저장입니다. 공식 이벤트 저장본을 포함하며 예시 모드에서는 '실제 일정 보기'로 전환합니다.
