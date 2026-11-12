@@ -2,22 +2,25 @@
   "schemaVersion": 2,
   "isExample": false,
   "region": "KR",
-  "publicationSequence": 1,
-  "generatedAt": "2026-11-12T10:05:28.52714+00:00",
+  "publicationSequence": 2,
+  "generatedAt": "2026-11-12T10:13:30.9159729+00:00",
   "content": {
-    "revision": 1,
+    "revision": 2,
     "schemaVersion": 2,
     "region": "KR",
-    "path": "revisions/000001.json",
-    "sha256": "2576b913f636c59c193cd4d75b19e1e6295f13182b0e1ab4fc580f37b042ae0b",
-    "bytes": 18960
+    "path": "revisions/000002.json",
+    "sha256": "f20175667a851b4dab4c120d39715608e6f9eafdcf5e5608af197445ddce88f3",
+    "bytes": 19630
   },
   "health": {
     "sources": [
       {
         "id": "kr-events",
-        "lastResult": "not-run",
+        "lastAttemptAt": "2026-11-12T10:13:25.5357904+00:00",
+        "lastSuccessAt": "2026-11-12T10:13:25.5357904+00:00",
+        "lastResult": "partial",
         "completeCoverage": false,
+        "comparedContentRevision": 2,
         "pendingChanges": []
       }
     ]
