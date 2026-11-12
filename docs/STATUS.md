@@ -15,3 +15,5 @@
 - Plugin Release·설치 저장소 게시·게임 자동 로드는 수행하지 않았다.
 
 [전체 소스와 한계](development/ALL-SOURCES.md), [화면 표시](development/SCHEDULE-PRESENTATION.md), [빌드·실행](development/BUILD-AND-RUN.md), [검증](VERIFICATION.md), [10회 구현 기록](development/DEVELOPMENT-LOOPS.md).
+
+최종 [원문·템플릿 연결까지 포함한 자동 수집 run](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43204681599)도 성공했다. 실제 Workspace가 revision5/96건을 수신해 SHA/bytes 검증과 캐시 재시작을 통과했다.
