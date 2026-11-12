@@ -1,5 +1,7 @@
 # DuckbillCalendar 브리핑
 
+> 2026-11-12 실제 구현: [현재 상태](STATUS.md), [전체96건 소스](development/ALL-SOURCES.md), [화면 개편](development/SCHEDULE-PRESENTATION.md)이 아래 최초 기획보다 우선한다.
+
 작성·조사 기준: 2026-11-11 / 한국 서비스 우선 / 기획안 v0.3
 
 후속 **3회 심층 검토**의 최종 구조·실패 반례·결정은 [아키텍처 결정](architecture/DECISIONS.md), 구체적인 착수 순서는 [구현 계획](development/IMPLEMENTATION-PLAN.md)을 따른다. 이 브리핑은 제품 개요다. 수집·운영·Plugin·UX의 상세 근거는 연결 문서에 나눠 관리한다.

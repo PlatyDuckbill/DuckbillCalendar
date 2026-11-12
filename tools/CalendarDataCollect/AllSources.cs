@@ -69,7 +69,10 @@ internal static class AllSources
         {
             var area = Path.Combine(directory, "events");
             await PagedEvents.CollectAsync(area, http, token);
-            return await PagedEvents.PrepareAsync(area, feed);
+            // The event retention cap applies to event history, not to unrelated notices
+            // accumulated by other collectors. Merge that independently validated domain.
+            var eventHistory = feed with { Events = feed.Events.Where(e => e.Id.StartsWith("kr:event:", StringComparison.Ordinal)).ToArray() };
+            return Merge(feed, await PagedEvents.PrepareAsync(area, eventHistory));
         }, 120);
         await Stage(["kr-notices", "kr-patch-catalog"], async token =>
         {

@@ -1,5 +1,7 @@
 # 화면 구성과 동작
 
+> 2026-11-12 실제 구현: [현재 상태](STATUS.md), [전체96건 소스](development/ALL-SOURCES.md), [화면 개편](development/SCHEDULE-PRESENTATION.md)이 아래 최초 기획보다 우선한다.
+
 목업 진입점: [mockup/index.html](../mockup/index.html). 2026-11-11 20:00 KST를 고정 시각으로 사용한다. `예시` 항목은 실제 운영 일정이 아니다.
 
 ## 공통

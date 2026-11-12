@@ -1,5 +1,7 @@
 # 실제 한국 이벤트 수집과 갱신
 
+> 현재 운영은 [전체 소스 수집](ALL-SOURCES.md)이다. 연결된 이벤트 페이지14건, 공지·패치·점검·시즌76건, 확장팩·얼리·혜택·PvP·대회6건을 합친96건/9출처를 실제 게시·수신했다. 아래는 유지하는 단일 이벤트 수집기·수동 검토 경로의 설명이며, 현재 workflow는 `collect-all`과 `mark-all-health`를 사용한다.
+
 2026-11-12 현재 [공식 이벤트 목록](https://www.ff14.co.kr/news/event) 첫 페이지에서 실제 10건을 가져왔다. 저장 HTML 후보만 만들던 상태에서 **실제 HTTP 수집 → 원문 보존·검토 → v2 일정 → 플러그인 번들**까지 연결했다. `data/live/kr-events.snapshot.json`은 가상 예시가 아니다. `kr-events.collection.json`의 확인 시각과 원문 SHA-256, `kr-events.review.json`의 검토 후보 hash·선택·시각으로 재현한다. 웹 도구의 공식 페이지 표시 내용과 수집 HTML의 제목·기간을 대조했다.
 
 범위는 목록 첫 페이지의 제목·기간이다. 상세 본문·전체 paging·공지·패치·시즌 공지는 아직 이 수집기에 포함하지 않는다. `completeCoverage: false`를 유지하며 종료 미정/업데이트 전까지를 임의 날짜로 바꾸지 않는다. 원문 기간은 이벤트 note에 보존한다. 원문 HTML은 `.preview/` 또는 Actions artifact에 보관하고 소스 저장소에 넣지 않는다. 스냅샷만으로 공개 시간 알림의 freshness를 승인하지 않는다.

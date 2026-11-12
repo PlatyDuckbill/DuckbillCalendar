@@ -1,22 +1,17 @@
 # 현재 구현 상태
 
-갱신: 2026-11-12. **0.1.0.0 개발판, 10회 구현 후 실기 제보 수정과 실제 이벤트 연결.**
+갱신: 2026-11-12. 0.1.0.0 개발판.
 
-- .NET10 Core / Infrastructure / Dalamud API15 Plugin / 오프라인 Import / 로컬 Publish를 구현했다.
-- 4개 상단 탭·기간 막대/경계·목록·일정/이용권 CRUD·date-only·작은 화면·한영/테마를 구현했다.
-- opt-in 로컬 채팅 알림은 ledger 저장 후 출력·게임 조건 억제·세션/선택/경계 재검사로 연결했다. 실제 전달은 실기 대기다.
-- KR·글로벌 API15.0.3.9 Debug, KR Release: 경고0/오류0.
-- 툴팁 세로 줄바꿈·편집 팝업의 지속적인 가로 확장을 수정하고 실제 native ImGui로 기존 버그 재현/수정 회귀를 확인했다.
-- 공식 이벤트 첫 페이지 실제10건을 수집·대조한 저장본을 포함한다. 예시 모드에서는 ‘실제 일정 보기’로 전환한다.
-- Core103 + Infrastructure97 + 실제 Model19 + native ImGui30 + Collector18 + Auto18 + CLI23 = **308검사**, 한영138쌍 통과.
-- 수동 가져오기 데이터는 이전 원격 health를 재사용하지 않는다. UI에 적용된 원격 파일의 출처·해시·revision을 함께 확인한다.
-- 최신 개발 DLL: `src/DuckbillCalendar.Plugin/bin/Debug/DuckbillCalendar.dll`. 이전10회차 ZIP보다 최신이다.
-- main 코드와 calendar-data의 실제 일정 JSON을 GitHub에 게시했다. [첫 runner 수집](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43197397575)이 성공했고 실제 Plugin Workspace로 HTTPS 수신·payload SHA/bytes·캐시 재시작을 확인했다.
-- Plugin Release·설치 저장소 게시·게임 자동 로드·인게임 검증은 수행하지 않았다.
-- [실기 후 수정](development/POST-PLAYTEST.md), [실제 수집](development/LIVE-DATA.md), [개발 루프](development/DEVELOPMENT-LOOPS.md), [빌드·실행](development/BUILD-AND-RUN.md), [검증](VERIFICATION.md).
+- 실제96건/9개 출처: 진행 이벤트14, 공지·점검·패치·크컨76, 확장팩·얼리·혜택·시리즈·대회 매핑6.
+- 정식 출시2027-02-23(시각 미발표), 얼리2027-02-19 18:00 KST를 별도 마커와 주요 일정 상단에 표시한다.
+- 달력 년월 직접 이동·공지게시 기본숨김·분류색, 새소식3열/스크롤 상세, 이용권 잔여일, 일반/고급 설정 분리·자동 저장을 구현했다.
+- Core103 + Infrastructure97 + Model32 + native ImGui75 + 소스96 + CLI23 = 426검사, 한영177쌍 통과. 소스96은 Collector18/Auto18/Notice18/Curated17/Paged15/Combined10이다.
+- KR·글로벌 API15.0.3.9 참조 빌드 경고0/오류0. 게임 GPU 시각 검증은 재확인 대기.
+- [전체 수집·게시 run](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43202504781) 성공. 실제 Plugin Workspace가 revision4/96건을 수신·해시/바이트 검증·캐시 재시작했다.
+- GitHub Actions가2시간마다 갱신하며 실패한 소스는 이전 사건·근거를 보존한다. 명시된 날짜만 사용하고 출처 변경은 재검토로 표시한다.
+- 최신 개발 DLL: `src/DuckbillCalendar.Plugin/bin/Debug/DuckbillCalendar.dll`. 예시 모드를 끄고 원격 갱신 토글을 켜면 자동 저장된다.
+- 공개 일정은 부분 범위이므로 공개 시간 알림은 보류된다. 개인 일정 알림은 opt-in과 게임 조건을 따른다.
+- 전장 오늘/내일의 KR 날짜 기준점은 확인되지 않았다. 임의 verified rule을 만들지 않아 확인 불가 표시를 유지한다. [공식 조사](development/FRONTLINE-SOURCES.md).
+- Plugin Release·설치 저장소 게시·게임 자동 로드는 수행하지 않았다.
 
-다음 확인은 **KR 실제 게임에서 고정 Debug DLL 다시 로드와 툴팁·편집창 확인**이다. 원격 갱신은 설정에서 켤 수 있다. 실제 수집 범위는 공식 이벤트 목록 첫 페이지이며 공지·패치·시즌 전체를 포함하지 않는다.
-
-[자동 수집·검증·게시 run](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43198381662) 전체 성공. 2시간 간격으로 공식 목록의 명시적 time 필드·표시 날짜를 검증해 갱신한다. 삭제·취소 추정, 미정 날짜 추정, 사람 검수 주장은 하지 않는다. 자동 게시된 revision2/실제10건을 Plugin Workspace로 다시 수신하고 SHA/bytes·캐시 재시작을 확인했다.
-
-구형 Actions runtime 경고를 확인해 공식 최신 release의 commit SHA와 Ubuntu24.04로 고정했다. [고정 환경에서도 자동 게시 성공](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43198723387)을 확인했다.
+[전체 소스와 한계](development/ALL-SOURCES.md), [화면 표시](development/SCHEDULE-PRESENTATION.md), [빌드·실행](development/BUILD-AND-RUN.md), [검증](VERIFICATION.md), [10회 구현 기록](development/DEVELOPMENT-LOOPS.md).

@@ -4,6 +4,8 @@ using DuckbillCalendar.Infrastructure;
 
 namespace DuckbillCalendar.Plugin;
 
+internal sealed record ScheduleHighlight(CalendarEvent Event, EventPhase Phase, string Edge, CalendarBoundary Boundary, DateOnly Date);
+
 internal sealed class CalendarModel
 {
     private readonly CalendarWorkspace workspace;
@@ -39,6 +41,11 @@ internal sealed class CalendarModel
     public bool ListView { get; private set; }
     public IReadOnlyList<CalendarEvent> Events { get; private set; } = [];
     public IReadOnlyList<CalendarEvent> FilteredEvents { get; private set; } = [];
+    public IReadOnlyList<CalendarEvent> CalendarEvents { get; private set; } = [];
+    public IReadOnlyList<CalendarEvent> NewsEvents { get; private set; } = [];
+    public IReadOnlyList<EvidenceRecord> SelectedEvidence { get; private set; } = [];
+    public IReadOnlyList<ScheduleHighlight> UpcomingHighlights { get; private set; } = [];
+    public IReadOnlyList<CalendarEvent> PendingHighlights { get; private set; } = [];
     public IReadOnlyList<CalendarEvent> MonthEvents { get; private set; } = [];
     public IReadOnlyList<CalendarItem> DayItems { get; private set; } = [];
     public IReadOnlyList<CalendarItem> TodayDeadlines { get; private set; } = [];
@@ -77,13 +84,28 @@ internal sealed class CalendarModel
         }
         if (!dirty) return;
         UiText.SetLanguage(State.View.Language);
-        OfficialEventsObservedAt = Feed.Evidence.Where(e => e.SourceId == "kr-events" && e.ObservedAt.HasValue)
+        OfficialEventsObservedAt = Feed.Evidence.Where(e => e.ObservedAt.HasValue)
             .Select(e => e.ObservedAt!.Value).DefaultIfEmpty(Feed.GeneratedAt).Max();
         Events = CalendarEngine.Merge(Feed, State);
         FilteredEvents = Events.Where(Matches).ToArray();
-        Calendar = CalendarEngine.BuildMonth(FilteredEvents, Year, MonthNumber, State.View.PeriodBars, State.View.ShowRewardBars, 3);
-        MonthEvents = CalendarEngine.MonthEvents(FilteredEvents, Year, MonthNumber);
-        DayItems = CalendarEngine.DayEvents(FilteredEvents, SelectedDate, includeOngoing: true);
+        CalendarEvents = FilteredEvents.Select(e => e.Category == "notice" && !State.View.ShowNoticePublications && CategoryFilter != 6
+            ? e with { Phases = e.Phases.Where(p => !IsPublicationPhase(p)).ToArray() } : e).Where(e => e.Phases.Count > 0).ToArray();
+        NewsEvents = FilteredEvents.Where(e => !e.IsPersonal).OrderByDescending(e => e.Phases.Select(p => CalendarEngine.BoundaryDate(p.Start)).Max()).ToArray();
+        Calendar = CalendarEngine.BuildMonth(CalendarEvents, Year, MonthNumber, State.View.PeriodBars, State.View.ShowRewardBars, 3);
+        MonthEvents = CalendarEngine.MonthEvents(CalendarEvents, Year, MonthNumber);
+        DayItems = CalendarEngine.DayEvents(CalendarEvents, SelectedDate, includeOngoing: true);
+        UpcomingHighlights = Events.Where(IsHighlightEvent).SelectMany(e => e.Phases.Where(p => !IsPublicationPhase(p)).SelectMany(p =>
+        {
+            var edges = e.Category is "sale" or "discount" ? new[] { "end" } : p.Point ? ["start"] : ["start", "end"];
+            return edges.SelectMany(edge =>
+            {
+                var boundary = edge == "end" ? p.End : p.Start;
+                var stillUpcoming = boundary.Kind != "instant" || (edge == "end" ? CalendarEngine.EndExclusive(p) > Now : CalendarEngine.StartInstant(boundary) >= Now);
+                return CalendarEngine.BoundaryDate(boundary) is { } date && date >= Today && stillUpcoming
+                    ? new[] { new ScheduleHighlight(e, p, edge, boundary, date) } : [];
+            });
+        })).OrderBy(h => h.Date).ThenBy(h => CalendarEngine.StartInstant(h.Boundary)).ThenBy(h => h.Event.Id, StringComparer.Ordinal).ToArray();
+        PendingHighlights = Events.Where(IsHighlightEvent).Where(e => e.Phases.All(p => CalendarEngine.BoundaryDate(p.Start) is null)).ToArray();
         TodayDeadlines = CalendarEngine.DayEvents(Events, Today, includeOngoing: false)
             .Where(i => i.Edge == "end" && (i.Phase.End.Kind == "date" || CalendarEngine.EndExclusive(i.Phase) > now))
             .OrderBy(i => CalendarEngine.EndExclusive(i.Phase) ?? DateTimeOffset.MaxValue).ToArray();
@@ -95,6 +117,8 @@ internal sealed class CalendarModel
         var selected = SelectedEvent;
         if (selected == null) { SelectedEventId = null; SelectedPhaseId = null; }
         else if (!selected.Phases.Any(p => p.Id == SelectedPhaseId)) SelectedPhaseId = null;
+        var selectedEvidenceIds = selected?.Phases.SelectMany(p => p.Start.EvidenceIds.Concat(p.End.EvidenceIds)).ToHashSet(StringComparer.Ordinal) ?? [];
+        SelectedEvidence = Feed.Evidence.Where(e => selectedEvidenceIds.Contains(e.Id)).ToArray();
         lastState = State;
         lastRevision = workspace.Revision;
         dirty = false;
@@ -129,12 +153,18 @@ internal sealed class CalendarModel
         Year = next.Year; MonthNumber = next.Month;
     });
     public void GoToday() => Post(() => { Year = Today.Year; MonthNumber = Today.Month; SelectDateCore(Today); });
+    public void GoToMonth(int year, int month) => Post(() =>
+    {
+        if (year is < 2020 or > 2100 || month is < 1 or > 12) return;
+        Year = year; MonthNumber = month;
+        SelectDateCore(new(year, month, Math.Min(SelectedDate.Day, DateTime.DaysInMonth(year, month))));
+    });
     public void SelectDate(DateOnly date) => Post(() => SelectDateCore(date));
     private void SelectDateCore(DateOnly date)
     {
         if (date.Year is < 2020 or > 2100) return;
         SelectedDate = date;
-        var item = CalendarEngine.DayEvents(FilteredEvents, date, true).FirstOrDefault();
+        var item = CalendarEngine.DayEvents(CalendarEvents, date, true).FirstOrDefault();
         SelectedEventId = item?.Event.Id;
         SelectedPhaseId = item?.Phase.Id;
     }
@@ -150,6 +180,13 @@ internal sealed class CalendarModel
         if (phase == null || CalendarEngine.BoundaryDate(phase.Start) is not { } date || date.Year is < 2020 or > 2100) return;
         Year = date.Year; MonthNumber = date.Month; SelectedDate = date;
         SelectedEventId = e.Id; SelectedPhaseId = phase.Id;
+        CategoryFilter = 0; OnlyAlerts = false; Search = "";
+    });
+    public void JumpToHighlight(ScheduleHighlight highlight) => Post(() =>
+    {
+        if (highlight.Date.Year is < 2020 or > 2100) return;
+        Year = highlight.Date.Year; MonthNumber = highlight.Date.Month; SelectedDate = highlight.Date;
+        SelectedEventId = highlight.Event.Id; SelectedPhaseId = highlight.Phase.Id;
         CategoryFilter = 0; OnlyAlerts = false; Search = "";
     });
     public void SaveEntry(PersonalEntry entry) => Post(() =>
@@ -173,6 +210,10 @@ internal sealed class CalendarModel
             1 => e.Category is "web-event" or "in-game-event" or "seasonal-event",
             2 => e.Category is "patch" or "maintenance",
             3 => e.Category is "pvp-season" or "pvp-series" or "reward",
-            4 => e.Category is "sale" or "discount", 5 => e.IsPersonal, _ => true
+            4 => e.Category is "sale" or "discount", 5 => e.IsPersonal, 6 => e.Category == "notice", _ => true
         });
+    public static bool IsPublicationPhase(EventPhase phase) => phase.Id == "published" || phase.Label.Contains("공지 게시", StringComparison.Ordinal);
+    private static bool IsHighlightEvent(CalendarEvent e) => !e.IsPersonal && e.Lifecycle == "published" &&
+        (e.Category is "patch" or "maintenance" or "pvp-season" or "pvp-series" or "sale" or "discount" ||
+         e.Id.StartsWith("kr:curated:", StringComparison.Ordinal) || e.Phases.Any(p => p.Point && !IsPublicationPhase(p)));
 }

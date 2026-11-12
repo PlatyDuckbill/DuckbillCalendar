@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using DuckbillCalendar.Core;
 using DuckbillCalendar.Infrastructure;
 using DuckbillCalendar.Plugin;
@@ -83,6 +84,56 @@ remoteModel.UpdateView(v => v with { RemoteUpdatesEnabled = false }); remoteMode
 await remote.FlushAsync(); remote.Pump();
 clock = clock.AddHours(2); remoteModel.Tick(clock);
 Check(handler.Requests == 2, "Permission revocation stops model-driven refresh");
+CalendarBoundary KnownDate(int year, int month, int day) => CalendarBoundary.Date(new(year, month, day)) with { EvidenceIds = ["fixture:evidence"] };
+EventPhase Point(string id, CalendarBoundary date) => new() { Id = id, Label = id, Point = true, Start = date, End = new() { Reason = "not-announced" } };
+var futureFeed = new FeedDocument
+{
+    ContentRevision = 1, GeneratedAt = now,
+    Evidence = [new() { Id = "fixture:evidence", SourceId = "kr-curated:fixture", Url = "https://www.ff14.co.kr/events/2026/NovShop", ObservedAt = now, SourceSnapshotSha256 = new string('a', 64) }],
+    Events = [
+        new() { Id = "kr:fixture:expansion", Title = "Expansion fixture", Category = "patch", Phases = [
+            Point("release", KnownDate(2027, 2, 23)),
+            Point("early-access", CalendarBoundary.Instant(new(2027, 2, 19, 18, 0, 0, TimeSpan.FromHours(9))) with { EvidenceIds = ["fixture:evidence"] })] },
+        new() { Id = "kr:fixture:notice", Title = "Notice fixture", Category = "notice", Phases = [Point("published", KnownDate(2026, 11, 11))] },
+        new() { Id = "kr:fixture:cc", Title = "CC fixture", Category = "pvp-season", Phases = [Point("season", KnownDate(2026, 12, 1))] },
+        new() { Id = "kr:fixture:pending", Title = "Unknown series fixture", Category = "pvp-series", Phases = [new() { Id = "pending", Label = "TBA", Start = new() { Reason = "not-announced" }, End = new() { Reason = "not-announced" } }] },
+        new() { Id = "kr:curated:competition-fixture", Title = "Competition fixture", Category = "notice", Phases = [
+            Point("published", KnownDate(2026, 11, 5)),
+            new() { Id = "registration", Label = "Registration", Start = KnownDate(2026, 12, 8), End = KnownDate(2026, 12, 28), EndInclusion = "inclusive-unit" },
+            Point("preliminary", KnownDate(2027, 1, 30)), Point("final", KnownDate(2027, 3, 14))] },
+        new() { Id = "kr:fixture:sale", Title = "Sale fixture", Category = "sale", Phases = [new() { Id = "sale", Label = "Sale", Start = KnownDate(2026, 11, 4), End = KnownDate(2026, 12, 31), EndInclusion = "inclusive-unit" }] }
+    ]
+};
+using (var futureHttp = new HttpClient(new FailureHandler()))
+using (var futureWorkspace = new CalendarWorkspace(Path.Combine(root, "future-presentation"), example, futureHttp, bundledFeed: JsonSerializer.SerializeToUtf8Bytes(futureFeed, CalendarJson.Options)))
+{
+    var futureModel = new CalendarModel(futureWorkspace); futureModel.Tick(now);
+    Check(futureModel.FilteredEvents.Any(e => e.Id == "kr:fixture:notice") && futureModel.CalendarEvents.All(e => e.Id != "kr:fixture:notice"), "Notice remains in news while publication markers stay off calendar by default");
+    Check(futureModel.UpcomingHighlights.Count == 8 && futureModel.UpcomingHighlights[0].Event.Category == "pvp-season", "Upcoming milestones sort real starts and sale deadlines across year boundary");
+    Check(futureModel.CalendarEvents.Single(e => e.Id == "kr:curated:competition-fixture").Phases.Count == 3 && futureModel.UpcomingHighlights.Count(h => h.Event.Id == "kr:curated:competition-fixture") == 4,
+        "Hiding publication dates preserves every actual competition phase even when its event category is notice");
+    Check(futureModel.UpcomingHighlights.Single(h => h.Event.Category == "sale").Edge == "end", "Sale milestone uses deadline rather than purchase opening");
+    Check(futureModel.PendingHighlights.Single().Id == "kr:fixture:pending" && futureModel.UpcomingHighlights.All(h => h.Event.Id != "kr:fixture:pending"), "Unannounced PvP start stays pending without fabricated calendar date");
+    var release = futureModel.UpcomingHighlights.Single(h => h.Phase.Id == "release");
+    var early = futureModel.UpcomingHighlights.Single(h => h.Phase.Id == "early-access");
+    Check(release.Boundary.Kind == "date" && early.Boundary.Kind == "instant", "Release date-only precision remains distinct from exact early access time");
+    futureModel.JumpToHighlight(release); futureModel.Tick(now);
+    Check(futureModel.Year == 2027 && futureModel.MonthNumber == 2 && futureModel.SelectedDate == new DateOnly(2027, 2, 23) && futureModel.SelectedPhaseId == "release", "Release shortcut selects exact phase and February day instead of first phase");
+    Check(futureModel.Calendar!.Weeks.SelectMany(w => w.Days).SelectMany(d => d.Items).Any(i => i.Phase.Id == "early-access" && i.Date == new DateOnly(2027, 2, 19)) &&
+        futureModel.Calendar.Weeks.SelectMany(w => w.Days).SelectMany(d => d.Items).Any(i => i.Phase.Id == "release" && i.Date == new DateOnly(2027, 2, 23)), "February grid contains both actual milestone dates as separate point markers");
+    futureModel.JumpToHighlight(early); futureModel.Tick(now);
+    Check(futureModel.SelectedDate == new DateOnly(2027, 2, 19) && futureModel.SelectedPhaseId == "early-access", "Early-access shortcut selects exact instant phase");
+    futureModel.GoToMonth(2027, 1); futureModel.Tick(now);
+    Check(futureModel.Year == 2027 && futureModel.MonthNumber == 1, "Direct month navigation reaches next year without repeated arrow clicks");
+    futureModel.GoToMonth(2101, 13); futureModel.Tick(now);
+    Check(futureModel.Year == 2027 && futureModel.MonthNumber == 1, "Invalid direct year/month never changes visible calendar");
+    futureModel.SetQuery("", 6, false); futureModel.Tick(now);
+    Check(futureModel.CalendarEvents.Count == 2 && futureModel.NewsEvents.All(e => e.Category == "notice"), "Explicit notice filter shows publication calendar entries and notice-only news");
+    futureModel.SetQuery("", 0, false); futureModel.UpdateView(v => v with { ShowNoticePublications = true }); futureModel.Tick(now);
+    Check(futureModel.CalendarEvents.Any(e => e.Category == "notice"), "Persistent notice visibility option takes effect in calendar projection");
+    await futureWorkspace.FlushAsync(); futureWorkspace.Pump();
+}
+
 Console.WriteLine($"PASS: {checks} actual CalendarModel checks; localization is stubbed, no ImGui/game runtime is exercised.");
 
 sealed class FailureHandler : HttpMessageHandler

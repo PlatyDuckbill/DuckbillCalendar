@@ -1,5 +1,11 @@
 # 검증 기록
 
+## 2026-11-12 전체 소스·화면 개편
+
+426검사 + 한영177쌍. Core103/Infrastructure97/Model32/native ImGui75/소스96/CLI23. Native 검사에는1/1.5/2배율·760/1180/1600px 새소식/설정/빈 이용권, 실제96건 번들의2027.02 얼리/정식 두 마커와 월 이동을 포함한다. GPU·실제 게임 시각 확인과 구분한다.
+
+[전체 수집·게시 run](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43202504781) 성공, 실제 Workspace 수신 revision4/events96, SHA256/bytes 및 캐시 재시작 성공. 출처9개 모두 재검토 대기0이었다. 공식 정적 템플릿은 코드를 실행하지 않고 현재 원문 페이지의 script 참조와 구절을 함께 검증한다. [범위](development/ALL-SOURCES.md), [화면](development/SCHEDULE-PRESENTATION.md).
+
 ## 2026-11-12 실기 제보 후 수정
 
 [GitHub Actions 첫 실제 수집](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43197397575) 성공. calendar-data/kr/current.json과 immutable payload 게시 후 실제 Workspace 수신은 RemoteUpdated, revision1, events10이었다. SHA256/bytes 검증과 재시작 캐시 복원까지 통과했다. 네트워크 검사는 명시적 `dotnet run --project tests/DuckbillCalendar.Infrastructure.Checks -- --live-smoke`로만 수행하고 기본 검사는 오프라인으로 유지한다.

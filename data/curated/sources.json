@@ -115,6 +115,9 @@
           "selector": ".visual .period .date1",
           "requiredText": [
             "사전예약 기간 2026년 11월 4일(수) ~ 2027년 2월 19일(금) 18시"
+          ],
+          "requiredScriptUrls": [
+            "https://image.ff14.co.kr/event/2026/novshop/js/ui.min.js?c9117f164c6663406779"
           ]
         }
       ]

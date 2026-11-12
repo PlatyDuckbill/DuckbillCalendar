@@ -30,3 +30,5 @@ dotnet run --project tools/CalendarDataCollect -- collect-curated data/curated/s
 ```
 
 `data/curated/snapshot.json`과 `verification.json`은 실제6소스 수집·6이벤트·대기0으로 생성했고 production validator를 통과했다. 원문은 `.preview/curated-live-final-20261112/`에만 보존한다. `CuratedSourcesChecks`15개는 구절/날짜 변경·범위 밖 구절·스크립트 제외·정적 템플릿 비실행·바이트 근거·날짜 정밀도·기존 이벤트 유지·신규 미검증 차단·반복 대기 문구·외부 호스트 차단을 확인한다. 공개 시간 알림의 전체 source coverage를 승인한 것은 아니다.
+
+현재 페이지가 해당 정적 템플릿 URL(버전 query 포함)을 계속 참조하는지도 함께 검증한다. 지문이 바뀌면 이전 구성요소에 남은 날짜를 최신으로 재사용하지 않고 재검토 대상으로 남긴다. 이 결합 검증2개를 추가해 Curated 검사17개가 통과했다.

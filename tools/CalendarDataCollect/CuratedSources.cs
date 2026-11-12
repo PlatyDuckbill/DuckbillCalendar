@@ -21,6 +21,7 @@ internal sealed record CuratedGuard
     public string SourceId { get; init; } = "";
     public string Selector { get; init; } = "body";
     public IReadOnlyList<string> RequiredText { get; init; } = [];
+    public IReadOnlyList<string> RequiredScriptUrls { get; init; } = [];
 }
 internal sealed record CuratedEventRule
 {
@@ -137,6 +138,10 @@ internal static class CuratedSources
         else
         {
             var document = await new HtmlParser().ParseDocumentAsync(content);
+            var scripts = document.QuerySelectorAll("script[src]")
+                .Select(n => Uri.TryCreate(new Uri(source.Url), n.GetAttribute("src"), out var url) ? url.AbsoluteUri : "")
+                .ToHashSet(StringComparer.Ordinal);
+            if (guard.RequiredScriptUrls.Any(url => !scripts.Contains(url))) return false;
             foreach (var node in document.QuerySelectorAll("script, style, template")) node.Remove();
             var nodes = document.QuerySelectorAll(guard.Selector);
             if (nodes.Length == 0) return false;
@@ -157,7 +162,7 @@ internal static class CuratedSources
                 !AllowedUri(source.Url, true) || !AllowedUri(source.EvidenceUrl, false)) throw new InvalidDataException("InvalidCuratedSource");
         foreach (var rule in rules.Rules)
             if (!rule.Event.Id.StartsWith("kr:", StringComparison.Ordinal) || rule.Guards.Count is < 1 or > 8 ||
-                rule.Guards.Any(g => !rules.Sources.Any(s => s.Id == g.SourceId) || g.Selector.Length is < 1 or > 200 || g.RequiredText.Count is < 1 or > 12 || g.RequiredText.Any(p => string.IsNullOrWhiteSpace(p) || p.Length > 500)))
+                rule.Guards.Any(g => !rules.Sources.Any(s => s.Id == g.SourceId) || g.Selector.Length is < 1 or > 200 || g.RequiredText.Count is < 1 or > 12 || g.RequiredText.Any(p => string.IsNullOrWhiteSpace(p) || p.Length > 500) || g.RequiredScriptUrls.Count > 8 || g.RequiredScriptUrls.Any(url => !AllowedUri(url, true))))
                 throw new InvalidDataException("InvalidCuratedGuard");
     }
     private static bool AllowedUri(string value, bool component) => Uri.TryCreate(value, UriKind.Absolute, out var uri) && uri.Scheme == "https" &&

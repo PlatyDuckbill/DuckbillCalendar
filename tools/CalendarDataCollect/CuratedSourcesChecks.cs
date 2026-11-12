@@ -22,6 +22,9 @@ internal static class CuratedSourcesChecks
         Check(!await CuratedSources.GuardMatchesAsync(definition, guard, "<article>2027년 2월 24일 출시</article>"), "Changed official date requires review");
         Check(!await CuratedSources.GuardMatchesAsync(definition, guard, "<article>미정</article><footer>2027년 2월 23일 출시</footer>"), "Footer text cannot satisfy article guard");
         Check(!await CuratedSources.GuardMatchesAsync(definition, guard, "<article><script>2027년 2월 23일 출시</script>미정</article>"), "Executable page script is excluded from HTML text proof");
+        var linkedGuard = guard with { RequiredScriptUrls = ["https://image.ff14.co.kr/event/2026/novshop/js/ui.min.js?version=1"] };
+        Check(await CuratedSources.GuardMatchesAsync(definition, linkedGuard, "<article>2027년 2월 23일 출시</article><script src='//image.ff14.co.kr/event/2026/novshop/js/ui.min.js?version=1'></script>"), "Template source must still be referenced by the current official page");
+        Check(!await CuratedSources.GuardMatchesAsync(definition, linkedGuard, "<article>2027년 2월 23일 출시</article><script src='//image.ff14.co.kr/event/2026/novshop/js/ui.min.js?version=2'></script>"), "Changed official asset fingerprint requires review instead of reusing obsolete template");
         var templateDefinition = definition with { Format = "script-template" };
         var templateGuard = guard with { RequiredText = ["앞서 해보기 일시: 2027년 2월 19일(금) 18시부터 플레이 가능"] };
         Check(await CuratedSources.GuardMatchesAsync(templateDefinition, templateGuard, "const x='<p>앞서 해보기 일시: <b>2027년 2월 19일(금) 18시</b>부터 플레이 가능</p>';"), "Static official HTML template is inspected without execution");

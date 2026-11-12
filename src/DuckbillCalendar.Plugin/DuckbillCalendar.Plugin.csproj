@@ -17,7 +17,7 @@
     <ProjectReference Include="../DuckbillCalendar.Core/DuckbillCalendar.Core.csproj" />
     <ProjectReference Include="../DuckbillCalendar.Infrastructure/DuckbillCalendar.Infrastructure.csproj" />
     <EmbeddedResource Include="../../data/contracts/v2/revisions/000001.json" LogicalName="DuckbillCalendar.ExampleFeed" />
-    <EmbeddedResource Include="../../data/live/kr-events.snapshot.json" LogicalName="DuckbillCalendar.OfficialSnapshot" />
+    <EmbeddedResource Include="../../data/live/kr-calendar.snapshot.json" LogicalName="DuckbillCalendar.OfficialSnapshot" />
   </ItemGroup>
   <Target Name="CheckCalendarReferences" BeforeTargets="ResolveAssemblyReferences">
     <Error Condition="'$(DalamudLibPath)' == '' or !Exists('$(DalamudLibPath)/Dalamud.dll')" Text="Set DALAMUD_HOME or -p:DalamudLibPath to one inspected complete API 15 reference distribution." />

@@ -33,8 +33,22 @@ internal static class UiText
     {
         "personal" => "CategoryPersonal", "subscription" or "retainer" or "bag" => "CategorySubscription",
         "maintenance" or "patch" => "CategoryPatch", "sale" or "discount" => "CategorySale",
-        "pvp-season" or "pvp-series" or "reward" => "CategoryPvp", _ => "CategoryEvent"
+        "pvp-season" or "pvp-series" or "reward" => "CategoryPvp", "notice" => "CategoryNotice", _ => "CategoryEvent"
     });
+    public static string HighlightRole(ScheduleHighlight highlight)
+    {
+        if (highlight.Edge == "end" && highlight.Event.Category is not ("sale" or "discount"))
+            return highlight.Phase.Label + " · " + Get("HighlightDeadline");
+        var key = highlight.Edge == "end" ? "HighlightDeadline" : highlight.Phase.Id switch
+        {
+            "early-access" => "HighlightEarlyAccess", "release" => "HighlightRelease", _ => highlight.Event.Category switch
+            {
+                "pvp-season" => "HighlightPvpSeason", "pvp-series" => "HighlightPvpSeries",
+                "maintenance" => "HighlightMaintenance", "patch" => "HighlightPatch", _ => null
+            }
+        };
+        return key is null ? highlight.Phase.Label : Get(key);
+    }
     public static string Phase(CalendarEvent e, EventPhase phase) => e.IsPersonal
         ? Get(e.Category is "subscription" or "retainer" or "bag" ? "LocalExpiryPhase" : "LocalPersonalPhase")
         : phase.Label;

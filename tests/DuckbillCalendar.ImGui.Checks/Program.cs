@@ -1,7 +1,9 @@
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using Dalamud.Bindings.ImGui;
+using DuckbillCalendar.Core;
 using DuckbillCalendar.Infrastructure;
 using DuckbillCalendar.Plugin;
 
@@ -19,13 +21,19 @@ while (!File.Exists(Path.Combine(root, "DuckbillCalendar.slnx")))
 var artifacts = Path.Combine(root, ".preview", "imgui-checks", Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(artifacts);
 var example = File.ReadAllBytes(Path.Combine(root, "data", "contracts", "v2", "revisions", "000001.json"));
-var bundledFeed = File.ReadAllBytes(Path.Combine(root, "data", "live", "kr-events.snapshot.json"));
+var bundledFeed = File.ReadAllBytes(Path.Combine(root, "data", "live", "kr-calendar.snapshot.json"));
 var fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "malgun.ttf");
 if (!File.Exists(fontPath)) throw new FileNotFoundException("Korean geometry checks require installed Windows Malgun Gothic", fontPath);
 var openEditor = typeof(MainWindow).GetMethod("OpenEditor", BindingFlags.Instance | BindingFlags.NonPublic)!;
 var drawEditor = typeof(MainWindow).GetMethod("DrawEditor", BindingFlags.Instance | BindingFlags.NonPublic)!;
 var editDate = typeof(MainWindow).GetField("editDate", BindingFlags.Instance | BindingFlags.NonPublic)!;
 var editTime = typeof(MainWindow).GetField("editTime", BindingFlags.Instance | BindingFlags.NonPublic)!;
+var drawMonth = typeof(MainWindow).GetMethod("DrawMonth", BindingFlags.Instance | BindingFlags.NonPublic)!;
+var drawNews = typeof(MainWindow).GetMethod("DrawNews", BindingFlags.Instance | BindingFlags.NonPublic)!;
+var drawSettings = typeof(MainWindow).GetMethod("DrawSettings", BindingFlags.Instance | BindingFlags.NonPublic)!;
+var drawSubscriptions = typeof(MainWindow).GetMethod("DrawSubscriptions", BindingFlags.Instance | BindingFlags.NonPublic)!;
+var drawFilters = typeof(MainWindow).GetMethod("DrawFilters", BindingFlags.Instance | BindingFlags.NonPublic)!;
+var drawActions = typeof(MainWindow).GetMethod("DrawCalendarActions", BindingFlags.Instance | BindingFlags.NonPublic)!;
 var report = new List<string> { "scale,modalWidth,modalHeight,tooltipWidth,tooltipHeight" };
 const string TooltipText = "모험가 맞춤 헬스케어 프로그램 참여\n참여 기간\n2026-10-13 00:00 KST — 2026-11-11 23:59 KST";
 foreach (var scale in new[] { 1f, 1.5f, 2f })
@@ -136,6 +144,68 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             }
             Check(!model.Feed.IsExample && model.Feed.Events.Count > 0 && model.Calendar is not null,
                 $"Actual full MainWindow draws real bundled event feed for ten frames at {scale}x");
+            var early = model.UpcomingHighlights.First(h => h.Phase.Id == "early-access");
+            var release = model.UpcomingHighlights.First(h => h.Phase.Id == "release");
+            model.JumpToHighlight(release); model.Tick(DateTimeOffset.UtcNow);
+            Check(model.Year == 2027 && model.MonthNumber == 2 && model.SelectedPhaseId == "release" && release.Boundary.Kind == "date" && early.Boundary.Kind == "instant",
+                $"Real expansion milestone navigates to February while retaining date-only versus exact-time precision at {scale}x");
+            Check(model.Calendar!.Weeks.SelectMany(w => w.Days).SelectMany(d => d.Items).Any(i => i.Phase.Id == "early-access" && i.Date == new DateOnly(2027, 2, 19)) &&
+                model.Calendar.Weeks.SelectMany(w => w.Days).SelectMany(d => d.Items).Any(i => i.Phase.Id == "release" && i.Date == new DateOnly(2027, 2, 23)),
+                $"Real February grid renders separate early-access and release markers at {scale}x");
+            var gridHeight = 0f;
+            for (var frame = 0; frame < 3; frame++)
+            {
+                ImGui.NewFrame(); ImGui.SetNextWindowSize(new(1180, 1000), ImGuiCond.Always);
+                ImGui.Begin("Compact calendar measurement", ImGuiWindowFlags.NoSavedSettings);
+                var before = ImGui.GetCursorScreenPos().Y;
+                drawMonth.Invoke(main, null); gridHeight = ImGui.GetCursorScreenPos().Y - before;
+                ImGui.End(); ImGui.Render();
+            }
+            Check(gridHeight <= font * (model.Calendar.Weeks.Count * 6.4f + 2), $"Actual month grid keeps compact week height at {scale}x");
+            foreach (var hostWidth in new[] { 760f, 1180f, 1600f })
+            {
+                Vector2 detailSize = default, emptySize = default;
+                var settingHeight = 0f;
+                var filtersFit = false;
+                for (var frame = 0; frame < 3; frame++)
+                {
+                    ImGui.NewFrame(); ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Always); ImGui.SetNextWindowSize(new(hostWidth, 1000), ImGuiCond.Always);
+                    ImGui.Begin("Responsive toolbar measurement", ImGuiWindowFlags.NoSavedSettings);
+                    var contentRight = ImGui.GetCursorScreenPos().X + ImGui.GetContentRegionAvail().X;
+                    drawActions.Invoke(main, null);
+                    var actionRight = ImGui.GetItemRectMax().X;
+                    drawFilters.Invoke(main, null);
+                    filtersFit = actionRight <= contentRight + .5f && ImGui.GetItemRectMax().X <= contentRight + .5f;
+                    ImGui.End(); ImGui.Render();
+                    ImGui.NewFrame(); ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Always); ImGui.SetNextWindowSize(new(hostWidth, 1000), ImGuiCond.Always);
+                    ImGui.Begin("News table measurement", ImGuiWindowFlags.NoSavedSettings);
+                    drawNews.Invoke(main, null); ImGui.End(); ImGui.Render();
+                    for (var index = 0; index < context.Windows.Size; index++)
+                    {
+                        var window = context.Windows[index]; var name = Marshal.PtrToStringUTF8((nint)window.Name) ?? "";
+                        if (window.Active && name.Contains("DetailPane", StringComparison.Ordinal)) detailSize = window.Size;
+                    }
+                    ImGui.NewFrame(); ImGui.SetNextWindowSize(new(hostWidth, 1000), ImGuiCond.Always);
+                    ImGui.Begin("Settings measurement", ImGuiWindowFlags.NoSavedSettings);
+                    var before = ImGui.GetCursorScreenPos().Y; drawSettings.Invoke(main, null); settingHeight = ImGui.GetCursorScreenPos().Y - before;
+                    ImGui.End(); ImGui.Render();
+                    ImGui.NewFrame(); ImGui.SetNextWindowSize(new(hostWidth, 1000), ImGuiCond.Always);
+                    ImGui.Begin("Subscription measurement", ImGuiWindowFlags.NoSavedSettings);
+                    drawSubscriptions.Invoke(main, null); ImGui.End(); ImGui.Render();
+                    for (var index = 0; index < context.Windows.Size; index++)
+                    {
+                        var window = context.Windows[index]; var name = Marshal.PtrToStringUTF8((nint)window.Name) ?? "";
+                        if (window.Active && name.Contains("EmptySubscriptionCard", StringComparison.Ordinal)) emptySize = window.Size;
+                    }
+                }
+                Check(filtersFit, $"Actual action row and filter checkbox wrap inside content at {scale}x / {hostWidth}px");
+                Check(detailSize.X > 0 && detailSize.X < hostWidth && detailSize.Y <= font * 31 + 2,
+                    $"Actual news detail has bounded internal scrolling at {scale}x / {hostWidth}px");
+                Check(settingHeight > font * 5 && settingHeight < font * 28,
+                    $"Default settings stay compact with advanced diagnostics collapsed at {scale}x / {hostWidth}px (height={settingHeight}, font={font})");
+                Check(emptySize.X > font * 10 && emptySize.Y <= font * 8 + 2,
+                    $"Empty subscription card keeps intentional compact bounds at {scale}x / {hostWidth}px");
+            }
             report.Add(FormattableString.Invariant($"{scale},{modal.X},{modal.Y},{tooltip.X},{tooltip.Y}"));
         }
         finally { ImGui.DestroyContext(context); }

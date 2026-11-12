@@ -31,8 +31,13 @@ internal sealed class ThemeScope : IDisposable
     public static Vector4 EventColor(string category, bool light) => Hex(category switch
     {
         "personal" or "subscription" or "retainer" or "bag" => light ? 0x805d25 : 0xd8bb79,
-        "maintenance" or "patch" or "pvp-season" or "pvp-series" or "reward" => light ? 0x365f80 : 0x9dbddc,
-        "sale" or "discount" => light ? 0x715785 : 0xc4afd8, _ => light ? 0x38684b : 0xa4c8ae
+        "patch" => light ? 0x365f80 : 0x9dbddc,
+        "maintenance" => light ? 0x4d6375 : 0x93a8b8,
+        "pvp-season" or "pvp-series" or "reward" => light ? 0x8d4e62 : 0xdba3bd,
+        "in-game-event" => light ? 0x356c64 : 0x91cbbf,
+        "seasonal-event" => light ? 0x9a6234 : 0xe0b27e,
+        "sale" or "discount" => light ? 0x715785 : 0xc4afd8,
+        "notice" => light ? 0x59665f : 0xa5adae, _ => light ? 0x38684b : 0xa4c8ae
     });
     public void Dispose() { if (colors > 0) ImGui.PopStyleColor(colors); colors = 0; }
 }
