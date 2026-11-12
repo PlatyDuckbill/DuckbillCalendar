@@ -27,7 +27,7 @@
 
 ## 현재 검증 범위
 
-2026-11-12: **289개 검사와 한영 리소스138쌍**을 확인했습니다. 이 중30개는 실제 native ImGui에서 한국어 툴팁·팝업 폭·문자 입력·실제 일정 화면을 1/1.5/2배율로 확인합니다. [실기 제보 후 수정](docs/development/POST-PLAYTEST.md), [10회 개발 루프](docs/development/DEVELOPMENT-LOOPS.md), [현재 상태](docs/STATUS.md), [검증 기록](docs/VERIFICATION.md)에 근거와 한계를 남겼습니다.
+2026-11-12: **290개 검사와 한영 리소스138쌍**을 확인했습니다. 이 중30개는 실제 native ImGui에서 한국어 툴팁·팝업 폭·문자 입력·실제 일정 화면을 1/1.5/2배율로 확인합니다. [실기 제보 후 수정](docs/development/POST-PLAYTEST.md), [10회 개발 루프](docs/development/DEVELOPMENT-LOOPS.md), [현재 상태](docs/STATUS.md), [검증 기록](docs/VERIFICATION.md)에 근거와 한계를 남겼습니다.
 
 실제 인게임 로드·화면·DPI·채팅 전달은 확인 대기입니다. 게임이 닫힌 동안 알림은 동작하지 않고, 발송 기록 저장 후 출력 전 종료되면 누락될 수 있습니다. 기록된 알림은 재전송하지 않습니다.
 

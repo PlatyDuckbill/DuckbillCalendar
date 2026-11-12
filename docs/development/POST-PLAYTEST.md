@@ -10,6 +10,6 @@
 
 실제 공식 이벤트 첫 페이지10건을 HTTP로 수집하고 제목·기간을 대조해 플러그인에 포함했다. 최초 실행/유효 캐시 없음에 저장본을 표시하고 기존 수동 파일·원격 캐시를 덮어쓰지 않는다. 예시 모드는 ‘실제 일정 보기’로 해제한다. 저장본의 확인 시각·부분 범위를 표시하고 원격 freshness를 위조하지 않는다. 종료 미정7건은 임의 마감일을 생성하지 않는다.
 
-Core102 + Infrastructure97 + 실제 Model19 + native ImGui30 + Collector18 + CLI23 = **289검사**, 한영138쌍을 확인했다. Infrastructure에는 번들 시작/예시 전환/수동 파일 우선/네트워크 없음/예시 번들 거부8검사를 추가했다.
+Core103 + Infrastructure97 + 실제 Model19 + native ImGui30 + Collector18 + CLI23 = **290검사**, 한영138쌍을 확인했다. Infrastructure에는 번들 시작/예시 전환/수동 파일 우선/네트워크 없음/예시 번들 거부8검사를 추가했다.
 
 개발 확인 경로는 `src/DuckbillCalendar.Plugin/bin/Debug/DuckbillCalendar.dll`이다. [실행 안내](BUILD-AND-RUN.md), [실제 수집·갱신](LIVE-DATA.md)을 따른다. 운영 원격 게시 상태는 [현재 상태](../STATUS.md)에 기록한다.

@@ -1,5 +1,11 @@
 name: Collect KR event candidates
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/collect-events.yml'
+      - 'tools/CalendarDataCollect/**'
+      - 'tools/Shared/EventPageParser.cs'
   workflow_dispatch:
   schedule:
     - cron: '17 */2 * * *'
@@ -10,8 +16,6 @@ concurrency:
   cancel-in-progress: false
 jobs:
   collect:
-    # Scheduled collection stays dormant until the repository owner enables this variable.
-    if: github.event_name == 'workflow_dispatch' || vars.ENABLE_KR_EVENT_COLLECTION == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

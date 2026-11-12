@@ -7,6 +7,7 @@ internal static class WireChecks
     public static void Run(Action<bool, string> check)
     {
         var bytes = JsonSerializer.SerializeToUtf8Bytes(new FeedDocument(), CalendarJson.Options);
+        check(bytes.Contains((byte)'\n') && !bytes.Contains((byte)'\r'), "Canonical LF JSON bytes are stable across Windows builds and Linux publication");
         var bom = new byte[bytes.Length + 3];
         bom[0] = 0xEF; bom[1] = 0xBB; bom[2] = 0xBF;
         bytes.CopyTo(bom, 3);

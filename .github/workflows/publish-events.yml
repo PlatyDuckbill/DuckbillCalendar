@@ -14,9 +14,9 @@ concurrency:
   cancel-in-progress: false
 jobs:
   publish:
-    # Configure the calendar-data environment with required reviewers before enabling.
+    # Manual dispatch plus exact reviewed source hashes are required.
+    # Repository owners may additionally configure environment reviewers.
     environment: calendar-data
-    if: vars.ENABLE_KR_EVENT_PUBLISH == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

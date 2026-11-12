@@ -158,6 +158,7 @@ public static class CalendarJson
         RespectNullableAnnotations = true,
         MaxDepth = 32,
         WriteIndented = true,
+        NewLine = "\n",
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
         Converters = { new CalendarBoundaryConverter() }

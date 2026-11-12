@@ -34,9 +34,9 @@ dotnet run --project tools/CalendarDataCollect -- check
 
 ## 별도 상시 서버 없이 운영
 
-`.github/workflows/collect-events.yml`은 GitHub Actions runner에서 2시간 간격으로 한 페이지를 수집하고 `kr-events-collection` artifact를 14일 보존한다. 모든 결과는 미검수 후보이며 자동으로 공개 feed에 올라가지 않는다. 기본은 비활성이고 `ENABLE_KR_EVENT_COLLECTION=true` repository variable을 켜야 예약 실행된다. `workflow_dispatch`는 운영자가 수동 수집할 수 있다.
+`.github/workflows/collect-events.yml`은 GitHub Actions runner에서 2시간 간격으로 한 페이지를 수집하고 `kr-events-collection` artifact를 14일 보존한다. 모든 결과는 미검수 후보이며 자동으로 공개 feed에 올라가지 않는다. main 게시 후 예약 실행되며 수집기 코드 변경 push에서도 실행한다. `workflow_dispatch`는 운영자가 수동 수집할 수 있다.
 
-`.github/workflows/publish-events.yml`은 검토 commit의 `data/live/kr-events.review.json`과 snapshot, 지정한 collection run의 exact 원문 artifact를 결합한다. 원문을 다시 파싱해 승인 hash를 검증하고 생성 feed가 commit의 snapshot과 바이트까지 같은지 확인한 뒤 `CalendarDataPublish`로 불변 revision을 먼저, `current.json`을 마지막으로 만든다. 별도 `calendar-data` branch를 일반 push하여 경쟁 writer는 거부된다. force push하지 않는다. 게시 workflow는 `ENABLE_KR_EVENT_PUBLISH=true`와 `calendar-data` environment 설정이 필요하며, environment에는 required reviewers를 설정하는 운영 절차를 권장한다. 첫 게시 전에는 branch가 없어도 생성하도록 준비했다.
+`.github/workflows/publish-events.yml`은 검토 commit의 `data/live/kr-events.review.json`과 snapshot, 지정한 collection run의 exact 원문 artifact를 결합한다. 원문을 다시 파싱해 승인 hash를 검증하고 생성 feed가 commit의 snapshot과 바이트까지 같은지 확인한 뒤 `CalendarDataPublish`로 불변 revision을 먼저, `current.json`을 마지막으로 만든다. 별도 `calendar-data` branch를 일반 push하여 경쟁 writer는 거부된다. force push하지 않는다. 게시 workflow는 쓰기 권한이 있는 운영자의 수동 실행과 검토 원문 artifact가 필요하다. `calendar-data` environment에 required reviewers를 추가하는 운영 절차도 권장한다. 첫 게시 전에는 branch가 없어도 생성하도록 준비했다.
 
 게시 후 플러그인은 고정 주소 `https://raw.githubusercontent.com/PlatyDuckbill/DuckbillCalendar/calendar-data/kr/current.json`만 읽는다. 서버·LLM 없이 GitHub Actions와 정적 JSON으로 동작하는 구조다. 현재 수집기는 부분 범위이므로 게시해도 source health는 not-run/coverage false다. freshness가 필요한 공개 시간 알림은 계속 차단되며 표시용 일정 갱신만 제공한다. 범위가 확대되고 전체 수집/정정 비교가 구현되기 전에는 성공 health를 위조하지 않는다.
 

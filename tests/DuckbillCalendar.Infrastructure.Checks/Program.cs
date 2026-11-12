@@ -6,6 +6,8 @@ using System.Text.Json;
 using DuckbillCalendar.Core;
 using DuckbillCalendar.Infrastructure;
 
+if (args.SequenceEqual(new[] { "--live-smoke" })) { await LiveFeedSmoke.Run(); return; }
+
 var checks = new List<string>();
 void Check(bool value, string label)
 {

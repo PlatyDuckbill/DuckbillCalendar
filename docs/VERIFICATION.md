@@ -2,7 +2,7 @@
 
 ## 2026-11-12 실기 제보 후 수정
 
-[수정 기록](development/POST-PLAYTEST.md), [실제 데이터 연결](development/LIVE-DATA.md)을 추가했다. 현재 **289검사 + 한영138쌍** 통과. 실제 native ImGui30검사는 기존 오류패턴의 negative control, 1/1.5/2배율의100프레임 팝업 너비, 한국어 툴팁, 날짜·시각 문자 입력, 실제10건 데이터로 전체 화면을 확인한다. 실제 게임 GPU 화면을 확인한 것으로 보고하지 않는다. 공식 이벤트 HTTP수집·검토원문 재생성 hash·번들 연결과 fakeHTTP Collector18검사도 통과했다. 최신 확인 파일은 고정 Debug 경로이며 아래 ZIP은 수정 전 이력이다.
+[수정 기록](development/POST-PLAYTEST.md), [실제 데이터 연결](development/LIVE-DATA.md)을 추가했다. 현재 **290검사 + 한영138쌍** 통과. 실제 native ImGui30검사는 기존 오류패턴의 negative control, 1/1.5/2배율의100프레임 팝업 너비, 한국어 툴팁, 날짜·시각 문자 입력, 실제10건 데이터로 전체 화면을 확인한다. 실제 게임 GPU 화면을 확인한 것으로 보고하지 않는다. 공식 이벤트 HTTP수집·검토원문 재생성 hash·번들 연결과 fakeHTTP Collector18검사도 통과했다. 최신 확인 파일은 고정 Debug 경로이며 아래 ZIP은 수정 전 이력이다.
 
 ## 2026-11-12 첫 개발판
 
