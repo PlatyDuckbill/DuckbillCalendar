@@ -27,6 +27,8 @@ internal sealed record CandidateDocument
 internal static class EventPageParser
 {
     public const string Source = "https://www.ff14.co.kr/news/event";
+    public static string PageAddress(int page) => page is < 1 or > 8
+        ? throw new InvalidDataException("EventPageLimit") : page == 1 ? Source : Source + "?category=1&page=" + page.ToString(CultureInfo.InvariantCulture);
     public static async Task<CandidateDocument> ParseAsync(string html, DateTimeOffset? fetchedAt = null, bool strictAuto = false)
     {
         var document = await new HtmlParser().ParseDocumentAsync(html); // No scripts or resource loading.

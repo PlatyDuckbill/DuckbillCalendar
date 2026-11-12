@@ -68,7 +68,13 @@ jobs:
           else
             exit "$result"
           fi
-          dotnet run --project tools/CalendarDataPublish --no-build -- prepare .preview/approved-feed.json .preview/publish-root/kr
+          feed=.preview/approved-feed.json
+          if [ -f .preview/publish-root/kr/current.json ]; then
+            dotnet run --project tools/CalendarDataCollect --no-build -- verify-current .preview/publish-root/kr .preview/manual-previous-feed.json
+            dotnet run --project tools/CalendarDataCollect --no-build -- merge-feed .preview/manual-previous-feed.json .preview/approved-feed.json .preview/manual-combined-feed.json
+            feed=.preview/manual-combined-feed.json
+          fi
+          dotnet run --project tools/CalendarDataPublish --no-build -- prepare "$feed" .preview/publish-root/kr
           rm -f .preview/publish-root/kr/.prepare.lock
           git -C .preview/publish-root config user.name 'github-actions[bot]'
           git -C .preview/publish-root config user.email '41898282+github-actions[bot]@users.noreply.github.com'

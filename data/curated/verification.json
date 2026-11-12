@@ -1,0 +1,59 @@
+{
+  "pendingEventIds": [],
+  "sourceResults": [
+    {
+      "id": "v8-gm-live",
+      "url": "https://www.ff14.co.kr/Eorzea/GMLive",
+      "evidenceUrl": "https://www.ff14.co.kr/Eorzea/GMLive",
+      "fetchedAt": "2026-11-12T10:31:41.2814564+00:00",
+      "status": "fetched",
+      "snapshotSha256": "422fc4245ea4873bffe9c2f154dc23be417405dc4ddc6e99a24facdd9891c421",
+      "bytes": 100196
+    },
+    {
+      "id": "v8-ce-shop",
+      "url": "https://www.ff14.co.kr/events/2026/NovShop",
+      "evidenceUrl": "https://www.ff14.co.kr/events/2026/NovShop",
+      "fetchedAt": "2026-11-12T10:31:41.4324263+00:00",
+      "status": "fetched",
+      "snapshotSha256": "1bdb0851ed458d53c86002f13bb466cce0f74e27b856a789f0d4a3fbbbd90cd4",
+      "bytes": 14570
+    },
+    {
+      "id": "v8-ce-template",
+      "url": "https://image.ff14.co.kr/event/2026/novshop/js/ui.min.js?c9117f164c6663406779",
+      "evidenceUrl": "https://www.ff14.co.kr/events/2026/NovShop",
+      "fetchedAt": "2026-11-12T10:31:41.4655621+00:00",
+      "status": "fetched",
+      "snapshotSha256": "25f7922472f4b0ca34ab53423f99232bbe1d2c7efc840a7a2a380d0eeec80815",
+      "bytes": 15660
+    },
+    {
+      "id": "series12-patch",
+      "url": "https://www.ff14.co.kr/news/notice/view/2947",
+      "evidenceUrl": "https://www.ff14.co.kr/news/notice/view/2947",
+      "fetchedAt": "2026-11-12T10:31:41.7573847+00:00",
+      "status": "fetched",
+      "snapshotSha256": "cd7408762788c6e133b157acd9c400e229a83a5e202368672cbb87cb3c84f6b2",
+      "bytes": 241269
+    },
+    {
+      "id": "series12-open",
+      "url": "https://www.ff14.co.kr/news/notice/view/2949",
+      "evidenceUrl": "https://www.ff14.co.kr/news/notice/view/2949",
+      "fetchedAt": "2026-11-12T10:31:42.0226531+00:00",
+      "status": "fetched",
+      "snapshotSha256": "cd0f2bd153ffc20edb592695cecd9664d9cf7bcaeab2e5e3a0276ef97aa897f0",
+      "bytes": 59231
+    },
+    {
+      "id": "ccrc2027",
+      "url": "https://www.ff14.co.kr/events/ccrc_Korea/news/detail/20",
+      "evidenceUrl": "https://www.ff14.co.kr/events/ccrc_Korea/news/detail/20",
+      "fetchedAt": "2026-11-12T10:31:42.1471951+00:00",
+      "status": "fetched",
+      "snapshotSha256": "dd2a705e673ab4c2da1b7ca84adb31334538571bcbe1222742c0b47cff47d11e",
+      "bytes": 15266
+    }
+  ]
+}

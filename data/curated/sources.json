@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "v8-gm-live",
+      "url": "https://www.ff14.co.kr/Eorzea/GMLive",
+      "evidenceUrl": "https://www.ff14.co.kr/Eorzea/GMLive",
+      "format": "html"
+    },
+    {
+      "id": "v8-ce-shop",
+      "url": "https://www.ff14.co.kr/events/2026/NovShop",
+      "evidenceUrl": "https://www.ff14.co.kr/events/2026/NovShop",
+      "format": "html"
+    },
+    {
+      "id": "v8-ce-template",
+      "url": "https://image.ff14.co.kr/event/2026/novshop/js/ui.min.js?c9117f164c6663406779",
+      "evidenceUrl": "https://www.ff14.co.kr/events/2026/NovShop",
+      "format": "script-template"
+    },
+    {
+      "id": "series12-patch",
+      "url": "https://www.ff14.co.kr/news/notice/view/2947",
+      "evidenceUrl": "https://www.ff14.co.kr/news/notice/view/2947",
+      "format": "html"
+    },
+    {
+      "id": "series12-open",
+      "url": "https://www.ff14.co.kr/news/notice/view/2949",
+      "evidenceUrl": "https://www.ff14.co.kr/news/notice/view/2949",
+      "format": "html"
+    },
+    {
+      "id": "ccrc2027",
+      "url": "https://www.ff14.co.kr/events/ccrc_Korea/news/detail/20",
+      "evidenceUrl": "https://www.ff14.co.kr/events/ccrc_Korea/news/detail/20",
+      "format": "html"
+    }
+  ],
+  "rules": [
+    {
+      "event": {
+        "id": "kr:curated:v8-release",
+        "title": "V8.0 백은의 탐구자 정식 출시",
+        "category": "patch",
+        "note": "한국 서비스 공식 발표일. 출시 날짜만 발표되었으며 서버 오픈 시각은 별도 점검 공지 확인 전까지 미정입니다.",
+        "phases": [
+          {
+            "id": "release",
+            "label": "정식 출시",
+            "start": {
+              "kind": "date",
+              "value": "2027-02-23",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "end": {
+              "kind": "unknown",
+              "reason": "not-announced"
+            },
+            "point": true,
+            "endInclusion": "exclusive"
+          }
+        ]
+      },
+      "guards": [
+        {
+          "sourceId": "v8-gm-live",
+          "selector": "li[data-post-id='18']",
+          "requiredText": [
+            "2027년 2월 23일 출시 확정",
+            "2027.02.23 출시됩니다!"
+          ]
+        }
+      ]
+    },
+    {
+      "event": {
+        "id": "kr:curated:v8-early-access",
+        "title": "V8.0 백은의 탐구자 앞서 해보기",
+        "category": "patch",
+        "note": "공식 콜렉터즈 에디션 안내의 앞서 해보기 시작 시각입니다. 이용 권한과 구매 구간별 특전 조건은 공식 원문을 확인하세요.",
+        "phases": [
+          {
+            "id": "early-access",
+            "label": "앞서 해보기 시작",
+            "start": {
+              "kind": "instant",
+              "value": "2027-02-19T18:00:00+09:00",
+              "precision": "minute",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "end": {
+              "kind": "unknown",
+              "reason": "not-announced"
+            },
+            "point": true,
+            "endInclusion": "exclusive"
+          }
+        ]
+      },
+      "guards": [
+        {
+          "sourceId": "v8-ce-template",
+          "selector": "literal",
+          "requiredText": [
+            "앞서 해보기 일시: 2027년 2월 19일(금) 18시부터 플레이 가능"
+          ]
+        },
+        {
+          "sourceId": "v8-ce-shop",
+          "selector": ".visual .period .date1",
+          "requiredText": [
+            "사전예약 기간 2026년 11월 4일(수) ~ 2027년 2월 19일(금) 18시"
+          ]
+        }
+      ]
+    },
+    {
+      "event": {
+        "id": "kr:curated:v8-ce-discount",
+        "title": "V8.0 콜렉터즈 에디션 20% 할인",
+        "category": "sale",
+        "note": "공식 페이지의 날짜 단위 할인 기간입니다. 마감 시각은 표시되지 않아 임의의 23:59나 정각으로 바꾸지 않습니다.",
+        "phases": [
+          {
+            "id": "discount",
+            "label": "기간 한정 20% 할인",
+            "start": {
+              "kind": "date",
+              "value": "2026-11-04",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "end": {
+              "kind": "date",
+              "value": "2026-12-31",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "endInclusion": "inclusive-unit",
+            "point": false
+          }
+        ]
+      },
+      "guards": [
+        {
+          "sourceId": "v8-ce-shop",
+          "selector": ".visual .period .date2, .price_area .badge",
+          "requiredText": [
+            "기간 한정 할인 2026년 11월 4일(수) ~ 2026년 12월 31일(목)",
+            "20%"
+          ]
+        }
+      ]
+    },
+    {
+      "event": {
+        "id": "kr:curated:v8-reservation-items",
+        "title": "V8.0 사전예약 특전 아이템 대상 기간",
+        "category": "sale",
+        "note": "사전예약 특전 아이템 2종 대상 기간입니다. 이미 구매했는지 플러그인이 확인하지 않으며, 앞서 해보기 이용권의 구매 구간별 제공 조건은 공식 안내를 확인하세요.",
+        "phases": [
+          {
+            "id": "reservation-bonus",
+            "label": "예약 특전 아이템 2종 대상 구매",
+            "start": {
+              "kind": "date",
+              "value": "2026-11-04",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "end": {
+              "kind": "instant",
+              "value": "2027-02-19T18:00:00+09:00",
+              "precision": "minute",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "endInclusion": "exclusive",
+            "point": false
+          }
+        ]
+      },
+      "guards": [
+        {
+          "sourceId": "v8-ce-shop",
+          "selector": ".visual .period .date1, .table_benefit",
+          "requiredText": [
+            "사전예약 기간 2026년 11월 4일(수) ~ 2027년 2월 19일(금) 18시",
+            "예약 특전 아이템 2종"
+          ]
+        }
+      ]
+    },
+    {
+      "event": {
+        "id": "kr:curated:pvp-series-12",
+        "title": "PvP 시리즈 12",
+        "category": "pvp-series",
+        "note": "패치 7.56 공개 후 시작한다는 패치노트와 9월 8일 점검 완료 공지를 결합한 날짜 단위 일정입니다. 패치 8.0 정식 출시일을 시리즈 종료 점검 시각으로 대입하지 않습니다.",
+        "phases": [
+          {
+            "id": "series-start",
+            "label": "시리즈 12",
+            "start": {
+              "kind": "date",
+              "value": "2026-09-08",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "end": {
+              "kind": "condition",
+              "condition": {
+                "type": "patch-maintenance",
+                "targetId": "kr:target:v8-maintenance-start",
+                "relation": "before"
+              },
+              "displayText": "패치 8.0 공개와 함께 진행되는 점검 시작 전까지 (점검 시작 일시 미발표)",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "endInclusion": "exclusive",
+            "point": false
+          },
+          {
+            "id": "reward-previous",
+            "label": "시리즈 11 이전 보상 수령",
+            "start": {
+              "kind": "unknown",
+              "reason": "not-announced"
+            },
+            "end": {
+              "kind": "condition",
+              "condition": {
+                "type": "patch-maintenance",
+                "targetId": "kr:target:v8-maintenance-start",
+                "relation": "before"
+              },
+              "displayText": "패치 8.0 공개와 함께 진행되는 점검 시작 전까지 (점검 시작 일시 미발표)",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "endInclusion": "exclusive",
+            "point": false
+          }
+        ]
+      },
+      "guards": [
+        {
+          "sourceId": "series12-patch",
+          "selector": ".view_contents",
+          "requiredText": [
+            "PvP 시리즈 11이 종료되고 PvP 시리즈 12가 시작됩니다.",
+            "시리즈 12는 패치 7.56 공개 후부터 패치 8.0 공개와 함께 진행되는 점검 시작 전까지",
+            "시리즈 11의 시리즈 보상을 받을 수 있는 기한은 시리즈 12 개최 기간 종료 시까지"
+          ]
+        },
+        {
+          "sourceId": "series12-open",
+          "selector": ".view_contents",
+          "requiredText": [
+            "2026년 9월 8일(화) 15:00 ~ 18:25",
+            "게임 및 런처 점검 완료",
+            "V7.56 업데이트 점검"
+          ]
+        }
+      ]
+    },
+    {
+      "event": {
+        "id": "kr:curated:ccrc-2027-korea",
+        "title": "CCRC 2027 Korea",
+        "category": "notice",
+        "note": "한국 공식 PvP 대회 발표 일정입니다. 크컨 등급전 시즌이나 PvP 시리즈와 별개입니다. 날짜만 발표된 단계에 임의 시각을 넣지 않습니다.",
+        "phases": [
+          {
+            "id": "selection",
+            "label": "선발전",
+            "start": {
+              "kind": "date",
+              "value": "2026-11-10",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "end": {
+              "kind": "date",
+              "value": "2026-12-07",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "endInclusion": "inclusive-unit",
+            "point": false
+          },
+          {
+            "id": "registration",
+            "label": "참가신청",
+            "start": {
+              "kind": "date",
+              "value": "2026-12-08",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "end": {
+              "kind": "date",
+              "value": "2026-12-28",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "endInclusion": "inclusive-unit",
+            "point": false
+          },
+          {
+            "id": "preliminaries",
+            "label": "예선·본선",
+            "start": {
+              "kind": "date",
+              "value": "2027-01-30",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "end": {
+              "kind": "unknown",
+              "reason": "not-announced"
+            },
+            "point": true,
+            "endInclusion": "exclusive"
+          },
+          {
+            "id": "finals",
+            "label": "결선",
+            "start": {
+              "kind": "date",
+              "value": "2027-03-14",
+              "timezone": "Asia/Seoul",
+              "certainty": "confirmed",
+              "evidenceIds": []
+            },
+            "end": {
+              "kind": "unknown",
+              "reason": "not-announced"
+            },
+            "point": true,
+            "endInclusion": "exclusive"
+          }
+        ]
+      },
+      "guards": [
+        {
+          "sourceId": "ccrc2027",
+          "selector": "body",
+          "requiredText": [
+            "CCRC 2027 Korea 개최 안내",
+            "선발전: 2026.11.10(화) ~ 2026.12.07(월)",
+            "참가신청: 2026.12.08(화) ~ 2026.12.28(월)",
+            "예선/본선: 2027.01.30(토)",
+            "결선: 2027.03.14(일)"
+          ]
+        }
+      ]
+    }
+  ],
+  "targets": [
+    {
+      "id": "kr:target:v8-maintenance-start",
+      "kind": "patch-maintenance",
+      "resolution": "unresolved"
+    }
+  ]
+}

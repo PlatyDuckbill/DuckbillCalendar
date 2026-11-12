@@ -1,0 +1,3740 @@
+{
+  "schemaVersion": 2,
+  "isExample": false,
+  "contentRevision": 1,
+  "region": "KR",
+  "generatedAt": "2026-11-12T10:32:45.174514+00:00",
+  "evidence": [
+    {
+      "id": "kr:event:772:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/772?category=1&page=1"
+    },
+    {
+      "id": "kr:event:771:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/771?category=1&page=1"
+    },
+    {
+      "id": "kr:event:770:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/770?category=1&page=1"
+    },
+    {
+      "id": "kr:event:768:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/768?category=1&page=1"
+    },
+    {
+      "id": "kr:event:701:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/701?category=1&page=1"
+    },
+    {
+      "id": "kr:event:660:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/660?category=1&page=1"
+    },
+    {
+      "id": "kr:event:564:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/564?category=1&page=1"
+    },
+    {
+      "id": "kr:event:487:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/487?category=1&page=1"
+    },
+    {
+      "id": "kr:event:460:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/460?category=1&page=1"
+    },
+    {
+      "id": "kr:event:394:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T10:32:25.9925927+00:00",
+      "sourceSnapshotSha256": "70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea",
+      "note": "기계 검증: 공식 목록 1페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/394?category=1&page=1"
+    },
+    {
+      "id": "kr:event:351:list:4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event?category=1&page=2",
+      "observedAt": "2026-11-12T10:32:26.3869473+00:00",
+      "sourceSnapshotSha256": "4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9",
+      "note": "기계 검증: 공식 목록 2페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/351?category=1&page=2"
+    },
+    {
+      "id": "kr:event:300:list:4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event?category=1&page=2",
+      "observedAt": "2026-11-12T10:32:26.3869473+00:00",
+      "sourceSnapshotSha256": "4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9",
+      "note": "기계 검증: 공식 목록 2페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/300?category=1&page=2"
+    },
+    {
+      "id": "kr:event:227:list:4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event?category=1&page=2",
+      "observedAt": "2026-11-12T10:32:26.3869473+00:00",
+      "sourceSnapshotSha256": "4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9",
+      "note": "기계 검증: 공식 목록 2페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/227?category=1&page=2"
+    },
+    {
+      "id": "kr:event:29:list:4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event?category=1&page=2",
+      "observedAt": "2026-11-12T10:32:26.3869473+00:00",
+      "sourceSnapshotSha256": "4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9",
+      "note": "기계 검증: 공식 목록 2페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: https://www.ff14.co.kr/news/event/view/29?category=1&page=2"
+    },
+    {
+      "id": "kr:patch-catalog:v7-5:008883290a9e",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:32:43.9892972+00:00",
+      "sourceSnapshotSha256": "008883290a9eddd943788589d0384dc17167af2932217806b3630e44678bb127",
+      "note": "공식 패치 목록의 대형 패치 카드에 직접 명시된 날짜. 부패치 날짜로 재사용하지 않습니다."
+    },
+    {
+      "id": "kr:patch-catalog:v7-4:008883290a9e",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:32:43.9892972+00:00",
+      "sourceSnapshotSha256": "008883290a9eddd943788589d0384dc17167af2932217806b3630e44678bb127",
+      "note": "공식 패치 목록의 대형 패치 카드에 직접 명시된 날짜. 부패치 날짜로 재사용하지 않습니다."
+    },
+    {
+      "id": "kr:patch-catalog:v7-3:008883290a9e",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:32:43.9892972+00:00",
+      "sourceSnapshotSha256": "008883290a9eddd943788589d0384dc17167af2932217806b3630e44678bb127",
+      "note": "공식 패치 목록의 대형 패치 카드에 직접 명시된 날짜. 부패치 날짜로 재사용하지 않습니다."
+    },
+    {
+      "id": "kr:patch-catalog:v7-2:008883290a9e",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:32:43.9892972+00:00",
+      "sourceSnapshotSha256": "008883290a9eddd943788589d0384dc17167af2932217806b3630e44678bb127",
+      "note": "공식 패치 목록의 대형 패치 카드에 직접 명시된 날짜. 부패치 날짜로 재사용하지 않습니다."
+    },
+    {
+      "id": "kr:patch-catalog:v7-1:008883290a9e",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:32:43.9892972+00:00",
+      "sourceSnapshotSha256": "008883290a9eddd943788589d0384dc17167af2932217806b3630e44678bb127",
+      "note": "공식 패치 목록의 대형 패치 카드에 직접 명시된 날짜. 부패치 날짜로 재사용하지 않습니다."
+    },
+    {
+      "id": "kr:patch-catalog:v7-0:008883290a9e",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:32:43.9892972+00:00",
+      "sourceSnapshotSha256": "008883290a9eddd943788589d0384dc17167af2932217806b3630e44678bb127",
+      "note": "공식 패치 목록의 대형 패치 카드에 직접 명시된 날짜. 부패치 날짜로 재사용하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2928:f986d5a10634",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2928",
+      "observedAt": "2026-11-12T10:32:43.3762666+00:00",
+      "sourceSnapshotSha256": "f986d5a10634a47d13b279424a8b9f6ce9e8346839f5d34166391c29f39e7ac3",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2929:39701c6c926b",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2929",
+      "observedAt": "2026-11-12T10:32:43.0989215+00:00",
+      "sourceSnapshotSha256": "39701c6c926b4250aa0fa4905906f2b7a22337458037b6b41c9590e495bfceae",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2930:82494496c5ca",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2930",
+      "observedAt": "2026-11-12T10:32:42.8663545+00:00",
+      "sourceSnapshotSha256": "82494496c5ca3b7de4300ff260af8d7f45bb7e4083fa4c898b325aa5ca734491",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2931:1cf3c99dcd44",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2931",
+      "observedAt": "2026-11-12T10:32:42.610895+00:00",
+      "sourceSnapshotSha256": "1cf3c99dcd441ed4ac979b69f1f5c4e9b50b3b5b0ce14f68dea56773214a8b4f",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2932:b7f149716139",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2932",
+      "observedAt": "2026-11-12T10:32:42.3510596+00:00",
+      "sourceSnapshotSha256": "b7f149716139d3a90e9ad2f485d2a400a477d4437e9407cbae0affb675849c99",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2933:06ebc36b2654",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2933",
+      "observedAt": "2026-11-12T10:32:42.1029325+00:00",
+      "sourceSnapshotSha256": "06ebc36b2654579403203d36ab92a28c79cd8b1329fd8ff200db447a8f1ccdb3",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2934:3ad215a58ac8",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2934",
+      "observedAt": "2026-11-12T10:32:41.8330173+00:00",
+      "sourceSnapshotSha256": "3ad215a58ac8d2b14455eab9e023d70bc48383ead7935f3b50473ac85f7b432d",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2935:022e0c41e098",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2935",
+      "observedAt": "2026-11-12T10:32:41.5689828+00:00",
+      "sourceSnapshotSha256": "022e0c41e098437c4aa5ab71992d29c070f0867e5435dd485da4f75de4af21f6",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2936:78de61dcba2b",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2936",
+      "observedAt": "2026-11-12T10:32:41.2926182+00:00",
+      "sourceSnapshotSha256": "78de61dcba2b04a8a8bfb1c044f26f35048fe3e1aad99581e29b13065ae37252",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2937:0f6516bd483b",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2937",
+      "observedAt": "2026-11-12T10:32:41.0388269+00:00",
+      "sourceSnapshotSha256": "0f6516bd483ba1bd9a8612035acff071331aacb9875a5a15f5a8fad1bb44369b",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2938:0b95126dfebe",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2938",
+      "observedAt": "2026-11-12T10:32:40.814116+00:00",
+      "sourceSnapshotSha256": "0b95126dfebe84d3a7e63ae0befcda248ca89679d5db0187bb402099bf8d384f",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2939:322ea988208f",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2939",
+      "observedAt": "2026-11-12T10:32:40.5784863+00:00",
+      "sourceSnapshotSha256": "322ea988208fb23fa79a95fc1dc921b7b9b129f664b2c242effe19df1b5626c2",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3142:fce5dfa00733",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3142",
+      "observedAt": "2026-11-12T10:32:40.3882526+00:00",
+      "sourceSnapshotSha256": "fce5dfa00733557ef86c091acc748ba4c3784721fb1cb9aa214aff9b6c740218",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2941:006dc7bbe54e",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2941",
+      "observedAt": "2026-11-12T10:32:40.1550125+00:00",
+      "sourceSnapshotSha256": "006dc7bbe54e74e9e82565754426a818c114f7d085e0ea2daec1adc098a3d922",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2942:31d68cc60c31",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2942",
+      "observedAt": "2026-11-12T10:32:39.9465205+00:00",
+      "sourceSnapshotSha256": "31d68cc60c3164f57d381dc43db29d89e44d9d5cc695f69b227600a8fce01780",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2943:4eb48d4cd3ba",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2943",
+      "observedAt": "2026-11-12T10:32:39.7191922+00:00",
+      "sourceSnapshotSha256": "4eb48d4cd3ba244e7fe6bb29f681af742036ce5cfa2aec686f0d28fdf036edc5",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2944:a5482bed9466",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2944",
+      "observedAt": "2026-11-12T10:32:39.4339597+00:00",
+      "sourceSnapshotSha256": "a5482bed9466bf651bc908ce0aadef27ad1cd4db6dc7b76c9553a59ae5a9b04c",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2945:cea8c1ebf5cd",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2945",
+      "observedAt": "2026-11-12T10:32:39.1598657+00:00",
+      "sourceSnapshotSha256": "cea8c1ebf5cdf2e2f2b8ee947eaba23727518668cfad60b69c14feadf2ef9dc0",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2946:022be481ffb0",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2946",
+      "observedAt": "2026-11-12T10:32:38.9157236+00:00",
+      "sourceSnapshotSha256": "022be481ffb029cef79b04bce2dfad243e25e92fa0d931c03a97710c0379992e",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2947:609c96de0d9a",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2947",
+      "observedAt": "2026-11-12T10:32:38.6568213+00:00",
+      "sourceSnapshotSha256": "609c96de0d9aa8a4188bd5a38b087c9f381a26cf600a588e4b833841ad11eae8",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2948:b2187a913c6d",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2948",
+      "observedAt": "2026-11-12T10:32:38.4285908+00:00",
+      "sourceSnapshotSha256": "b2187a913c6de918a03720a920d8b7935d8cfca6ef2abb408b210fd53e398015",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2949:ea1a4d89705e",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2949",
+      "observedAt": "2026-11-12T10:32:38.1892952+00:00",
+      "sourceSnapshotSha256": "ea1a4d89705e21729e0c86ca9a0b808c1a1f9a0e8fc496682647f45195e26105",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2950:adabfb5eadf9",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2950",
+      "observedAt": "2026-11-12T10:32:37.9343461+00:00",
+      "sourceSnapshotSha256": "adabfb5eadf907f4b47c8c151bc2b91ea5473271132148c98cef68743097d9aa",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2951:f7ae6122e8c1",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2951",
+      "observedAt": "2026-11-12T10:32:37.6857584+00:00",
+      "sourceSnapshotSha256": "f7ae6122e8c1a558d7eb9633c5f488ca697220b153d3452864ed8dfa422bbacc",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2952:1babd577eea5",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2952",
+      "observedAt": "2026-11-12T10:32:37.4211354+00:00",
+      "sourceSnapshotSha256": "1babd577eea5d0f7031efbaf2611cb20264fab9a383dcacc9e71a992ed3ee6aa",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2953:06b25ad55802",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2953",
+      "observedAt": "2026-11-12T10:32:37.1510974+00:00",
+      "sourceSnapshotSha256": "06b25ad558027806143b862953db5ba9b4cce896c2e9e376c0fa87475ea10c30",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2954:fa1354d639e0",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2954",
+      "observedAt": "2026-11-12T10:32:36.8755966+00:00",
+      "sourceSnapshotSha256": "fa1354d639e05b0ba1f3e9ffd08c803ac8a65800d5f3768882541718a6e3097a",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2955:eac4367994cc",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2955",
+      "observedAt": "2026-11-12T10:32:36.6346132+00:00",
+      "sourceSnapshotSha256": "eac4367994cc8427b8bc6b29aec21ccb2a8584f9d642405e77848a25ceb99845",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2956:b05e3730901f",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2956",
+      "observedAt": "2026-11-12T10:32:36.3692487+00:00",
+      "sourceSnapshotSha256": "b05e3730901fde3df541c94cfdf7f95aba44904a75507904428b16f5a9f1bdee",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2957:a9a861af18c5",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2957",
+      "observedAt": "2026-11-12T10:32:36.0926809+00:00",
+      "sourceSnapshotSha256": "a9a861af18c5a292eb8c96d9175e096da6a2b4d24af5c1e1ed0cbdffcfc6756e",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2959:2f61c96d0739",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2959",
+      "observedAt": "2026-11-12T10:32:35.8398728+00:00",
+      "sourceSnapshotSha256": "2f61c96d073984960c12b1b31b6a4e50b552157590490665fa438507f476037e",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2960:c4f9312fa951",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2960",
+      "observedAt": "2026-11-12T10:32:35.6434171+00:00",
+      "sourceSnapshotSha256": "c4f9312fa9518f5cc394c98c33aab2cd05edb778a96fa599c4bcf7677f0c3326",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2961:c3333397e89b",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2961",
+      "observedAt": "2026-11-12T10:32:35.4210083+00:00",
+      "sourceSnapshotSha256": "c3333397e89b2bcabcf936af0c0c50187aaf99a115880a5795c9b5bd2278484a",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2962:177719d14024",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2962",
+      "observedAt": "2026-11-12T10:32:35.1774061+00:00",
+      "sourceSnapshotSha256": "177719d140242b8e759e9cda097dffb2f171bd63ec418b1e0138413d3ec6e148",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2963:1ee10d7bfe58",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2963",
+      "observedAt": "2026-11-12T10:32:34.9002399+00:00",
+      "sourceSnapshotSha256": "1ee10d7bfe5865a9f61be5c525940cf6dd718b8390c904ad52e47c933faa5f0b",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2964:72a680befe73",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2964",
+      "observedAt": "2026-11-12T10:32:34.6277907+00:00",
+      "sourceSnapshotSha256": "72a680befe735baaad52999d86def168fa2eb4a9264525a8241d60b65c511203",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2965:87885123c757",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2965",
+      "observedAt": "2026-11-12T10:32:34.3648321+00:00",
+      "sourceSnapshotSha256": "87885123c75764af8fbeac7643ed0c0fbec74354cb7f60597edf9f9820aeb9f5",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2966:1747334a53d6",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2966",
+      "observedAt": "2026-11-12T10:32:34.1160495+00:00",
+      "sourceSnapshotSha256": "1747334a53d673ba4594d08b514c7686f2e995e667c02f362718970bc247fa0a",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2967:73039a135305",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2967",
+      "observedAt": "2026-11-12T10:32:33.8533096+00:00",
+      "sourceSnapshotSha256": "73039a1353059cac03ec0b7ae12e20b49b2ec5db1b48c03f4bfb98b83514c001",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2968:e5d669c041ed",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2968",
+      "observedAt": "2026-11-12T10:32:33.5973174+00:00",
+      "sourceSnapshotSha256": "e5d669c041ed6405e55d9ddd6521cb299f2acac7d49039588b2aa092b84a2ac8",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2969:376beadf0f2c",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2969",
+      "observedAt": "2026-11-12T10:32:33.3240763+00:00",
+      "sourceSnapshotSha256": "376beadf0f2c76916143e7cef9a7aa4f3c2fe1e992b8f5dee939ea6dd54e7fb7",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2970:228f5ec0a9b9",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2970",
+      "observedAt": "2026-11-12T10:32:33.0426545+00:00",
+      "sourceSnapshotSha256": "228f5ec0a9b98ae94311a2fd3bf12c7bd5310085cdad1125b3f173b9e618006c",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2971:02b6f59d23a3",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2971",
+      "observedAt": "2026-11-12T10:32:32.7622746+00:00",
+      "sourceSnapshotSha256": "02b6f59d23a35ea057d976b10684eb14577870c88e22530644e4d2d53dc7b378",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2972:fc337d01828e",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2972",
+      "observedAt": "2026-11-12T10:32:32.506326+00:00",
+      "sourceSnapshotSha256": "fc337d01828e91e30e64221149b94a3c11c956ac78ac4f44733a324baeab1d64",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3148:5fc708b167a9",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3148",
+      "observedAt": "2026-11-12T10:32:32.2192146+00:00",
+      "sourceSnapshotSha256": "5fc708b167a98563c67b7da02da8fc6010557d451d5fd103d96631e284c95383",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3143:4baa042c771d",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3143",
+      "observedAt": "2026-11-12T10:32:31.9423355+00:00",
+      "sourceSnapshotSha256": "4baa042c771de6a4be0cfd8e2d9fc1c97f0a4660c9c0c9ab5e87c2fecd40fcc0",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3149:b9982e4930f3",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3149",
+      "observedAt": "2026-11-12T10:32:31.6596336+00:00",
+      "sourceSnapshotSha256": "b9982e4930f36ca860e1de13e54e3967bad01f6820681463c9b408a9fa8ccc16",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3150:5e59705c085c",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3150",
+      "observedAt": "2026-11-12T10:32:31.4289235+00:00",
+      "sourceSnapshotSha256": "5e59705c085c3694f924d58b772fd664fd6e75edc96fdb5064db89748a937663",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3151:bce2d62cdba5",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3151",
+      "observedAt": "2026-11-12T10:32:31.2131024+00:00",
+      "sourceSnapshotSha256": "bce2d62cdba5db11500ddf2f9d7c981c3640807e31646cee2096a57dcd38c476",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3152:f759e086ef03",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3152",
+      "observedAt": "2026-11-12T10:32:30.9519705+00:00",
+      "sourceSnapshotSha256": "f759e086ef03c723f3231e349a6a920d8236e74dd9b0e8dcdd43c46c3ea6ba80",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3153:7eda5622f63d",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3153",
+      "observedAt": "2026-11-12T10:32:30.6728624+00:00",
+      "sourceSnapshotSha256": "7eda5622f63d1e2682c3aa4010e076c2e0de9260a95da7ab9685d8f95d7f38bb",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3154:e184467eb484",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3154",
+      "observedAt": "2026-11-12T10:32:30.4315249+00:00",
+      "sourceSnapshotSha256": "e184467eb484892c085cd66b096ecc5fe037c080af69cc074a42104e29c9c5af",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3155:0d0ba7077a6d",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3155",
+      "observedAt": "2026-11-12T10:32:30.1460679+00:00",
+      "sourceSnapshotSha256": "0d0ba7077a6d0397530507337ec0f26744dfcc542c9e5af80ee138758a282480",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3156:31173838ad62",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3156",
+      "observedAt": "2026-11-12T10:32:29.8740662+00:00",
+      "sourceSnapshotSha256": "31173838ad627218444d10964a6b4ca1d5fb07a859a13e3db2b5e9bda913dadc",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3157:bf3d24971a57",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3157",
+      "observedAt": "2026-11-12T10:32:29.6103293+00:00",
+      "sourceSnapshotSha256": "bf3d24971a57d71825547f5466d5df8f3acbacbc208db496b1490474e66fca53",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3158:08a160289043",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3158",
+      "observedAt": "2026-11-12T10:32:29.3628362+00:00",
+      "sourceSnapshotSha256": "08a1602890432e68bf50a47b47dc78994e522087b41707f8d54f2ff91df1fd4f",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3159:8444f1dc8400",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3159",
+      "observedAt": "2026-11-12T10:32:29.0833161+00:00",
+      "sourceSnapshotSha256": "8444f1dc84006098673f3d24ab79e7edf9954ffd4c3ec21ff3d02e270ed3b8ca",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3160:2b00079392ce",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3160",
+      "observedAt": "2026-11-12T10:32:28.8132941+00:00",
+      "sourceSnapshotSha256": "2b00079392cea3c397c367bc82c9405f8c18cb138395d96170d1df1e3a561005",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3161:758bf817817e",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3161",
+      "observedAt": "2026-11-12T10:32:28.524123+00:00",
+      "sourceSnapshotSha256": "758bf817817e3bcec53c2d39ed8bcff0cba49ae812d9eda1154ec9e758ea090b",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3162:1e06a6a7aa48",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3162",
+      "observedAt": "2026-11-12T10:32:28.2402895+00:00",
+      "sourceSnapshotSha256": "1e06a6a7aa48b157b70cb136d58fc03079c7711f99b66f9b86b38155e6eebb67",
+      "note": "공식 공지 본문. 게시일과 본문 일정을 분리해 표시합니다. 기계 규칙 검증이며 사람 검수나 전체 수집을 뜻하지 않습니다."
+    },
+    {
+      "id": "curated:v8-gm-live:f9ce03b31731",
+      "sourceId": "kr-curated:v8-gm-live",
+      "url": "https://www.ff14.co.kr/Eorzea/GMLive",
+      "observedAt": "2026-11-12T10:32:44.2987906+00:00",
+      "sourceSnapshotSha256": "f9ce03b31731e281474aa7bad7f5b5b0c8e31971124ed17261dd33bcc8e512bd",
+      "note": "공식 원문과 대조한 날짜 매핑을 필수 구절로 재확인. 원문/구성요소 직접 수집 URL: https://www.ff14.co.kr/Eorzea/GMLive (SHA256은 이 응답 바이트 대상)."
+    },
+    {
+      "id": "curated:v8-ce-template:25f7922472f4",
+      "sourceId": "kr-curated:v8-ce-template",
+      "url": "https://www.ff14.co.kr/events/2026/NovShop",
+      "observedAt": "2026-11-12T10:32:44.4453117+00:00",
+      "sourceSnapshotSha256": "25f7922472f4b0ca34ab53423f99232bbe1d2c7efc840a7a2a380d0eeec80815",
+      "note": "공식 원문과 대조한 날짜 매핑을 필수 구절로 재확인. 원문/구성요소 직접 수집 URL: https://image.ff14.co.kr/event/2026/novshop/js/ui.min.js?c9117f164c6663406779 (공식 동적 페이지의 정적 HTML 템플릿, 실행하지 않음; SHA256은 이 구성요소 바이트 대상)."
+    },
+    {
+      "id": "curated:v8-ce-shop:6dcc5ce5025b",
+      "sourceId": "kr-curated:v8-ce-shop",
+      "url": "https://www.ff14.co.kr/events/2026/NovShop",
+      "observedAt": "2026-11-12T10:32:44.4117275+00:00",
+      "sourceSnapshotSha256": "6dcc5ce5025b7dfa6d1c27f25a109b3ef0f7398a0273570b74e0c6cbae1b64f6",
+      "note": "공식 원문과 대조한 날짜 매핑을 필수 구절로 재확인. 원문/구성요소 직접 수집 URL: https://www.ff14.co.kr/events/2026/NovShop (SHA256은 이 응답 바이트 대상)."
+    },
+    {
+      "id": "curated:series12-patch:703e23484399",
+      "sourceId": "kr-curated:series12-patch",
+      "url": "https://www.ff14.co.kr/news/notice/view/2947",
+      "observedAt": "2026-11-12T10:32:44.7920057+00:00",
+      "sourceSnapshotSha256": "703e23484399d76594fa7e5a82d59d9b772b064a3ae71da55ed8b19e497fdbc0",
+      "note": "공식 원문과 대조한 날짜 매핑을 필수 구절로 재확인. 원문/구성요소 직접 수집 URL: https://www.ff14.co.kr/news/notice/view/2947 (SHA256은 이 응답 바이트 대상)."
+    },
+    {
+      "id": "curated:series12-open:a913b26813dd",
+      "sourceId": "kr-curated:series12-open",
+      "url": "https://www.ff14.co.kr/news/notice/view/2949",
+      "observedAt": "2026-11-12T10:32:45.0308591+00:00",
+      "sourceSnapshotSha256": "a913b26813dd4abacf6a650598eb6284c1e347db2bb1fc96b770d584411e1c63",
+      "note": "공식 원문과 대조한 날짜 매핑을 필수 구절로 재확인. 원문/구성요소 직접 수집 URL: https://www.ff14.co.kr/news/notice/view/2949 (SHA256은 이 응답 바이트 대상)."
+    },
+    {
+      "id": "curated:ccrc2027:3abc5f079c7a",
+      "sourceId": "kr-curated:ccrc2027",
+      "url": "https://www.ff14.co.kr/events/ccrc_Korea/news/detail/20",
+      "observedAt": "2026-11-12T10:32:45.1533694+00:00",
+      "sourceSnapshotSha256": "3abc5f079c7a086ba3cfedca574a4cc0653b93d678b55a9c15ae0c6eae5741c3",
+      "note": "공식 원문과 대조한 날짜 매핑을 필수 구절로 재확인. 원문/구성요소 직접 수집 URL: https://www.ff14.co.kr/events/ccrc_Korea/news/detail/20 (SHA256은 이 응답 바이트 대상)."
+    }
+  ],
+  "events": [
+    {
+      "id": "kr:event:772",
+      "revision": 1,
+      "category": "in-game-event",
+      "title": "염영의 여로",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-18T17:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:772:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-12-09T23:59:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:772:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 26. 11. 18 17:00 ~ 26. 12. 09 23:59"
+    },
+    {
+      "id": "kr:event:771",
+      "revision": 1,
+      "category": "web-event",
+      "title": "백은의 탐구자 콜렉터즈 에디션 사전예약",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-04T18:30:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:771:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2027-02-19T18:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:771:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 26. 11. 04 18:30 ~ 27. 02. 19 18:00"
+    },
+    {
+      "id": "kr:event:770",
+      "revision": 1,
+      "category": "web-event",
+      "title": "2027 탁상 달력 증정 이벤트",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-04T18:30:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:770:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-12-01T23:59:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:770:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 26. 11. 04 18:30 ~ 26. 12. 01 23:59"
+    },
+    {
+      "id": "kr:event:768",
+      "revision": 1,
+      "category": "in-game-event",
+      "title": "마법자판 난타전",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-28T17:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:768:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 26. 10. 28 17:00 ~ V8.0 업데이트 전까지"
+    },
+    {
+      "id": "kr:event:701",
+      "revision": 1,
+      "category": "in-game-event",
+      "title": "FFXIV × MONSTER HUNTER WILDS",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2025-12-23T19:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:701:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 25. 12. 23 19:00 ~ 진행 중"
+    },
+    {
+      "id": "kr:event:660",
+      "revision": 1,
+      "category": "web-event",
+      "title": "친구 초대 혜택",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2025-07-15T00:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:660:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 25. 07. 15 00:00 ~ 진행 중"
+    },
+    {
+      "id": "kr:event:564",
+      "revision": 1,
+      "category": "web-event",
+      "title": "무료 플레이 혜택",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2024-04-02T18:30:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:564:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 24. 04. 02 18:30 ~ 진행 중"
+    },
+    {
+      "id": "kr:event:487",
+      "revision": 1,
+      "category": "web-event",
+      "title": "내 정보 업데이트 이벤트",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2023-03-09T00:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:487:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 23. 03. 09 00:00 ~ 진행 중"
+    },
+    {
+      "id": "kr:event:460",
+      "revision": 1,
+      "category": "in-game-event",
+      "title": "GARO 콜라보 이벤트",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2022-10-04T18:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:460:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 22. 10. 04 18:00 ~ 진행 중"
+    },
+    {
+      "id": "kr:event:394",
+      "revision": 1,
+      "category": "web-event",
+      "title": "우대 서버만의 특별한 혜택!",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2021-10-19T11:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:394:list:70073b9bfa75d74c8885a58f4233b88cea0775156c3c8dfc6c22f9a5a77e4cea"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 21. 10. 19 11:00 ~ 진행 중"
+    },
+    {
+      "id": "kr:event:351",
+      "revision": 1,
+      "category": "web-event",
+      "title": "모험가 성장 지원",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2021-01-12T00:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:351:list:4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 21. 01. 12 00:00 ~ 진행 중"
+    },
+    {
+      "id": "kr:event:300",
+      "revision": 1,
+      "category": "web-event",
+      "title": "요르하: 어둠의 묵시록",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2020-03-24T19:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:300:list:4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 20. 03. 24 19:00 ~ 진행 중"
+    },
+    {
+      "id": "kr:event:227",
+      "revision": 1,
+      "category": "web-event",
+      "title": "몬스터헌터:월드 콜라보레이션",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2019-01-14T00:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:227:list:4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 19. 01. 14 00:00 ~ 진행 중"
+    },
+    {
+      "id": "kr:event:29",
+      "revision": 1,
+      "category": "web-event",
+      "title": "구부는 탱커를 좋아해!",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "이벤트 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2015-10-06T00:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:29:list:4594cc07c9232aea15a357c9b8e98a8db8eaddab4a7bd0335648ebde2ef2c6b9"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: 이벤트 기간 15. 10. 06 00:00 ~ 진행 중"
+    },
+    {
+      "id": "kr:patch:v7-5",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.5 Trail to the Heavens 저 너머로 이르는 길",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "주요 패치 적용일",
+          "start": {
+            "kind": "date",
+            "value": "2026-04-28",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-5:008883290a9e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-4",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.4 Into the Mist 안개 속 이상향",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "주요 패치 적용일",
+          "start": {
+            "kind": "date",
+            "value": "2026-02-03",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-4:008883290a9e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-3",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.3 The Promise of Tomorrow 내일을 향한 이정표",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "주요 패치 적용일",
+          "start": {
+            "kind": "date",
+            "value": "2025-10-28",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-3:008883290a9e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-2",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.2 Seekers of Eternity 영원의 탐구자",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "주요 패치 적용일",
+          "start": {
+            "kind": "date",
+            "value": "2025-07-15",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-2:008883290a9e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-1",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.1 Crossroads 미지와의 해후",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "주요 패치 적용일",
+          "start": {
+            "kind": "date",
+            "value": "2025-03-18",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-1:008883290a9e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-0",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.0 Dawntrail 황금의 유산",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "주요 패치 적용일",
+          "start": {
+            "kind": "date",
+            "value": "2024-12-03",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-0:008883290a9e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:notice:2928",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.04(화) 공식 가이드 및 크리스탈샵 점검 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-04T15:01:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2928:f986d5a10634"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2929",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.05(수) Hot-fix 적용 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-05T11:16:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2929:39701c6c926b"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2930",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(금) Hot-fix 점검 예정 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-06T19:06:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2930:82494496c5ca"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2931",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(금) Hot-fix 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T11:55:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2931:1cf3c99dcd44"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:maintenance:game:20260807:2026-08-07",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "게임·런처 점검",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "게임·런처 점검",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T15:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2934:3ad215a58ac8"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-08-07T18:55:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2934:3ad215a58ac8"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "같은 업데이트·날짜의 후속 공지에 명시된 시간이 우선합니다."
+    },
+    {
+      "id": "kr:notice:2932",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(금) Hot-fix 사전 패치 적용 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T16:30:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2932:b7f149716139"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2933",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(금) Hot-fix 점검 완료 시간 변경 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T18:30:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2933:06ebc36b2654"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2934",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(금) Hot-fix 점검 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T18:56:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2934:3ad215a58ac8"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2935",
+      "revision": 1,
+      "category": "notice",
+      "title": "Hot-fix 점검 후 확인된 오류 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T20:51:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2935:022e0c41e098"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2936",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.12(수) 크리스탈샵 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-10T11:03:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2936:78de61dcba2b"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2937",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.11(화) 레터라이브 Q&A 페이지 업데이트 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-11T17:40:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2937:0f6516bd483b"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2938",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.12(수) 크리스탈샵 점검 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-12T11:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2938:0b95126dfebe"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2939",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.14(금) 운영정책 위반에 따른 제재 현황 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-14T11:10:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2939:322ea988208f"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3142",
+      "revision": 1,
+      "category": "notice",
+      "title": "'황금의 패션 콘테스트' 이벤트 당첨자 발표",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-25T15:55:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3142:fce5dfa00733"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2941",
+      "revision": 1,
+      "category": "notice",
+      "title": "파이널판타지14 저작물 이용 허락 조건에 대한 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-27T17:38:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2941:006dc7bbe54e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2942",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.01(화) 크리스탈샵 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-28T12:05:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2942:31d68cc60c31"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2943",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.30(일) 런처 및 공식 홈페이지 오류 현상 정상화 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-30T06:33:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2943:4eb48d4cd3ba"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2944",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.01(화) 크리스탈샵 점검 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-01T17:15:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2944:a5482bed9466"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2945",
+      "revision": 1,
+      "category": "notice",
+      "title": "에오르제아 탐험 티켓 보상 중 선물상자에서 획득 가능한 아이템별 획득 확률 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-02T19:58:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2945:cea8c1ebf5cd"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2946",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.08(화) V7.56 업데이트 점검 안내(수정)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-04T15:35:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2946:022be481ffb0"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:maintenance:game:v7-56:2026-09-08",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "V7.56 게임·런처 점검",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "게임·런처 점검",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-08T15:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2949:ea1a4d89705e"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-09-08T18:25:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2949:ea1a4d89705e"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "같은 업데이트·날짜의 후속 공지에 명시된 시간이 우선합니다."
+    },
+    {
+      "id": "kr:patch:v7-56",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.56 업데이트",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "업데이트 적용일",
+          "start": {
+            "kind": "date",
+            "value": "2026-09-08",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2949:ea1a4d89705e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 점검 공지에 연결한 날짜입니다. 시작 분 단위 시각을 별도로 추정하지 않으며 예정일은 점검 완료 후 확인합니다."
+    },
+    {
+      "id": "kr:notice:2947",
+      "revision": 1,
+      "category": "notice",
+      "title": "패치 7.56 패치노트",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-08T15:44:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2947:609c96de0d9a"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2948",
+      "revision": 1,
+      "category": "notice",
+      "title": "V7.56 사전 패치 적용 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-08T16:42:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2948:b2187a913c6d"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2949",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.08(화) V7.56 업데이트 점검 완료 시간 변경 안내(완료)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-08T18:15:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2949:ea1a4d89705e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2950",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.09(수) Hot-fix 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-09T12:04:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2950:adabfb5eadf9"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:maintenance:game:20260909:2026-09-09",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "게임·런처 점검",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "게임·런처 점검",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-09T15:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2951:f7ae6122e8c1"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-09-09T17:40:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2951:f7ae6122e8c1"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "같은 업데이트·날짜의 후속 공지에 명시된 시간이 우선합니다."
+    },
+    {
+      "id": "kr:notice:2951",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.09(수) Hot-fix 점검 시간 변경 안내(완료)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-09T17:24:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2951:f7ae6122e8c1"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2952",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.11(금) 운영정책 위반에 따른 제재 현황 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-11T11:06:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2952:1babd577eea5"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2953",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.15(화) 공식 가이드 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-14T12:10:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2953:06b25ad55802"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2954",
+      "revision": 1,
+      "category": "notice",
+      "title": "빛의영자 마수조련사 특집편 생방송 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-14T16:56:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2954:fa1354d639e0"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2955",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.15(화) 공식 가이드 점검 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-15T11:01:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2955:eac4367994cc"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2956",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.17(목) Hot-fix 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-16T15:34:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2956:b05e3730901f"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:maintenance:game:20260917:2026-09-17",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "게임·런처 점검",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "게임·런처 점검",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-17T15:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2961:c3333397e89b"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-09-17T18:25:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2961:c3333397e89b"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "같은 업데이트·날짜의 후속 공지에 명시된 시간이 우선합니다."
+    },
+    {
+      "id": "kr:notice:2957",
+      "revision": 1,
+      "category": "notice",
+      "title": "VIP 포인트 추가 사용 방안 및 누적 한도 변경 사전 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-16T20:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2957:a9a861af18c5"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2959",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.17(목) Hot-fix 사전 패치 적용 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-17T16:50:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2959:2f61c96d0739"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2960",
+      "revision": 1,
+      "category": "notice",
+      "title": "'마수 시련장 랭킹' 시즌 1 일정 연기 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-17T17:35:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2960:c4f9312fa951"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2961",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.17(목) Hot-fix 점검 시간 변경 안내(완료)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-17T18:10:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2961:c3333397e89b"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2962",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.19(토) Hot-fix 적용 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-19T11:48:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2962:177719d14024"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2963",
+      "revision": 1,
+      "category": "notice",
+      "title": "캐릭터 정보 변경 및 아이템 수령 불가 현상 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-21T09:59:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2963:1ee10d7bfe58"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2964",
+      "revision": 1,
+      "category": "notice",
+      "title": "캐릭터 정보 변경 및 아이템 수령 불가 현상 정상화 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-21T14:01:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2964:72a680befe73"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2965",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.24(목) ~ 09.27(일) 추석 연휴 기간 고객센터 휴무 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-22T14:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2965:87885123c757"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2966",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.13(화) V7.57 업데이트 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-08T19:27:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2966:1747334a53d6"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:maintenance:game:v7-57:2026-10-13",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "V7.57 게임·런처 점검",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "게임·런처 점검",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T14:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2970:228f5ec0a9b9"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-10-13T18:25:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2970:228f5ec0a9b9"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "같은 업데이트·날짜의 후속 공지에 명시된 시간이 우선합니다."
+    },
+    {
+      "id": "kr:patch:v7-57",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.57 업데이트",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "업데이트 적용일",
+          "start": {
+            "kind": "date",
+            "value": "2026-10-13",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2970:228f5ec0a9b9"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 점검 공지에 연결한 날짜입니다. 시작 분 단위 시각을 별도로 추정하지 않으며 예정일은 점검 완료 후 확인합니다."
+    },
+    {
+      "id": "kr:notice:2967",
+      "revision": 1,
+      "category": "notice",
+      "title": "패치 7.57 패치노트",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T15:24:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2967:73039a135305"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2968",
+      "revision": 1,
+      "category": "notice",
+      "title": "'마수 시련장 랭킹' 시즌 1 개최 일정 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T15:32:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2968:e5d669c041ed"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2969",
+      "revision": 1,
+      "category": "notice",
+      "title": "V7.57 사전 패치 적용 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T16:32:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2969:376beadf0f2c"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2970",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.13(화) V7.57 업데이트 점검 완료 시간 변경 안내(완료)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T18:11:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2970:228f5ec0a9b9"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2971",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.14(수) 운영정책 위반에 따른 제재 현황 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-14T11:52:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2971:02b6f59d23a3"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:2972",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.20(화) 공식 홈페이지 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-16T17:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2972:fc337d01828e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3148",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.20(화) 공식 홈페이지 점검 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-20T16:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3148:5fc708b167a9"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3143",
+      "revision": 1,
+      "category": "notice",
+      "title": "빛의영자 도전! 크리스탈라인 컨플릭트 1편 생방송 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-20T17:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3143:4baa042c771d"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3149",
+      "revision": 1,
+      "category": "notice",
+      "title": "모그모그★컬렉션 ~천문으로 이르는 길 Part 1~ 관련 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-20T20:39:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3149:b9982e4930f3"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3150",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.22(목) 웹젠 PC방 서비스 점검 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-21T16:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3150:5e59705c085c"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3151",
+      "revision": 1,
+      "category": "notice",
+      "title": "전 서버 신규 로그인 일시 정지 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-22T01:44:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3151:bce2d62cdba5"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3152",
+      "revision": 1,
+      "category": "notice",
+      "title": "전 서버 신규 로그인 정상화 안내(11:25 내용 추가)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-23T02:50:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3152:f759e086ef03"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3153",
+      "revision": 1,
+      "category": "notice",
+      "title": "전 서버 신규 로그인 중지 관련 보상 및 이벤트 기간 변경 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-23T18:30:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3153:7eda5622f63d"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3154",
+      "revision": 1,
+      "category": "notice",
+      "title": "클라이언트 및 캐릭터 설정 백업 기능 정상화 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-26T18:08:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3154:e184467eb484"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3155",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.31(토) 팬페스티벌 2026 in 도쿄 기조강연 생중계 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-30T18:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3155:0d0ba7077a6d"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3156",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.04(수) 크리스탈샵 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-03T14:05:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3156:31173838ad62"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3157",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.05(목) 웹젠 PC방 서비스 점검 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-04T15:52:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3157:bf3d24971a57"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3158",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.04(수) 크리스탈샵 점검 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-04T18:30:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3158:08a160289043"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3159",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.10(화) V7.58 업데이트 점검 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-06T18:20:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3159:8444f1dc8400"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:maintenance:game:v7-58:2026-11-10",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "V7.58 게임·런처 점검",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "게임·런처 점검",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-10T12:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:1e06a6a7aa48"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-11-10T18:15:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:1e06a6a7aa48"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "같은 업데이트·날짜의 후속 공지에 명시된 시간이 우선합니다."
+    },
+    {
+      "id": "kr:patch:v7-58",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.58 업데이트",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "업데이트 적용일",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-10",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:1e06a6a7aa48"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 점검 공지에 연결한 날짜입니다. 시작 분 단위 시각을 별도로 추정하지 않으며 예정일은 점검 완료 후 확인합니다."
+    },
+    {
+      "id": "kr:pvp:cc-season-22",
+      "revision": 1,
+      "category": "pvp-season",
+      "title": "크리스탈라인 컨플릭트 시즌 22 시작",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "크컨 시즌 시작",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-10",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:1e06a6a7aa48"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 점검 일정에 연결한 시작일. 완료 전에는 예정으로 표시하며 종료일은 이 공지에 발표되지 않았습니다."
+    },
+    {
+      "id": "kr:notice:3160",
+      "revision": 1,
+      "category": "notice",
+      "title": "패치 7.58 패치노트",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-10T12:12:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3160:2b00079392ce"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3161",
+      "revision": 1,
+      "category": "notice",
+      "title": "V7.58 사전 패치 적용 완료 안내",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-10T15:16:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3161:758bf817817e"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:notice:3162",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.10(화) V7.58 업데이트 점검 완료 시간 변경 안내(완료)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "공지 게시",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-10T18:00:00.0000000+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:1e06a6a7aa48"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공지 게시 시각입니다. 점검·패치·시즌 시작 시각으로 간주하지 않습니다."
+    },
+    {
+      "id": "kr:curated:v8-release",
+      "revision": 1,
+      "category": "patch",
+      "title": "V8.0 백은의 탐구자 정식 출시",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "정식 출시",
+          "start": {
+            "kind": "date",
+            "value": "2027-02-23",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-gm-live:f9ce03b31731"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "한국 서비스 공식 발표일. 출시 날짜만 발표되었으며 서버 오픈 시각은 별도 점검 공지 확인 전까지 미정입니다."
+    },
+    {
+      "id": "kr:curated:v8-early-access",
+      "revision": 1,
+      "category": "patch",
+      "title": "V8.0 백은의 탐구자 앞서 해보기",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "early-access",
+          "label": "앞서 해보기 시작",
+          "start": {
+            "kind": "instant",
+            "value": "2027-02-19T18:00:00+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-template:25f7922472f4",
+              "curated:v8-ce-shop:6dcc5ce5025b"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 콜렉터즈 에디션 안내의 앞서 해보기 시작 시각입니다. 이용 권한과 구매 구간별 특전 조건은 공식 원문을 확인하세요."
+    },
+    {
+      "id": "kr:curated:v8-ce-discount",
+      "revision": 1,
+      "category": "sale",
+      "title": "V8.0 콜렉터즈 에디션 20% 할인",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "discount",
+          "label": "기간 한정 20% 할인",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-04",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-shop:6dcc5ce5025b"
+            ]
+          },
+          "end": {
+            "kind": "date",
+            "value": "2026-12-31",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-shop:6dcc5ce5025b"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "공식 페이지의 날짜 단위 할인 기간입니다. 마감 시각은 표시되지 않아 임의의 23:59나 정각으로 바꾸지 않습니다."
+    },
+    {
+      "id": "kr:curated:v8-reservation-items",
+      "revision": 1,
+      "category": "sale",
+      "title": "V8.0 사전예약 특전 아이템 대상 기간",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "reservation-bonus",
+          "label": "예약 특전 아이템 2종 대상 구매",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-04",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-shop:6dcc5ce5025b"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2027-02-19T18:00:00+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-shop:6dcc5ce5025b"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "사전예약 특전 아이템 2종 대상 기간입니다. 이미 구매했는지 플러그인이 확인하지 않으며, 앞서 해보기 이용권의 구매 구간별 제공 조건은 공식 안내를 확인하세요."
+    },
+    {
+      "id": "kr:curated:pvp-series-12",
+      "revision": 1,
+      "category": "pvp-series",
+      "title": "PvP 시리즈 12",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "series-start",
+          "label": "시리즈 12",
+          "start": {
+            "kind": "date",
+            "value": "2026-09-08",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:series12-patch:703e23484399",
+              "curated:series12-open:a913b26813dd"
+            ]
+          },
+          "end": {
+            "kind": "condition",
+            "condition": {
+              "type": "patch-maintenance",
+              "targetId": "kr:target:v8-maintenance-start",
+              "relation": "before"
+            },
+            "displayText": "패치 8.0 공개와 함께 진행되는 점검 시작 전까지 (점검 시작 일시 미발표)",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:series12-patch:703e23484399",
+              "curated:series12-open:a913b26813dd"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        },
+        {
+          "id": "reward-previous",
+          "label": "시리즈 11 이전 보상 수령",
+          "start": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "end": {
+            "kind": "condition",
+            "condition": {
+              "type": "patch-maintenance",
+              "targetId": "kr:target:v8-maintenance-start",
+              "relation": "before"
+            },
+            "displayText": "패치 8.0 공개와 함께 진행되는 점검 시작 전까지 (점검 시작 일시 미발표)",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:series12-patch:703e23484399",
+              "curated:series12-open:a913b26813dd"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "패치 7.56 공개 후 시작한다는 패치노트와 9월 8일 점검 완료 공지를 결합한 날짜 단위 일정입니다. 패치 8.0 정식 출시일을 시리즈 종료 점검 시각으로 대입하지 않습니다."
+    },
+    {
+      "id": "kr:curated:ccrc-2027-korea",
+      "revision": 1,
+      "category": "notice",
+      "title": "CCRC 2027 Korea",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "selection",
+          "label": "선발전",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-10",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:3abc5f079c7a"
+            ]
+          },
+          "end": {
+            "kind": "date",
+            "value": "2026-12-07",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:3abc5f079c7a"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        },
+        {
+          "id": "registration",
+          "label": "참가신청",
+          "start": {
+            "kind": "date",
+            "value": "2026-12-08",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:3abc5f079c7a"
+            ]
+          },
+          "end": {
+            "kind": "date",
+            "value": "2026-12-28",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:3abc5f079c7a"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        },
+        {
+          "id": "preliminaries",
+          "label": "예선·본선",
+          "start": {
+            "kind": "date",
+            "value": "2027-01-30",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:3abc5f079c7a"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        },
+        {
+          "id": "finals",
+          "label": "결선",
+          "start": {
+            "kind": "date",
+            "value": "2027-03-14",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:3abc5f079c7a"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "한국 공식 PvP 대회 발표 일정입니다. 크컨 등급전 시즌이나 PvP 시리즈와 별개입니다. 날짜만 발표된 단계에 임의 시각을 넣지 않습니다."
+    }
+  ],
+  "targets": [
+    {
+      "id": "kr:target:v8-maintenance-start",
+      "kind": "patch-maintenance",
+      "resolution": "unresolved"
+    }
+  ],
+  "withdrawals": [],
+  "frontlineRules": []
+}

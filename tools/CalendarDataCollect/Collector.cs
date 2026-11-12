@@ -18,6 +18,7 @@ internal sealed record CollectionManifest
     [JsonRequired] public int Bytes { get; init; }
     [JsonRequired] public string SnapshotSha256 { get; init; } = "";
     [JsonRequired] public bool CompleteCoverage { get; init; }
+    public int Page { get; init; } = 1;
 }
 
 internal sealed record ReviewedCandidate
@@ -48,9 +49,9 @@ internal static class Collector
         MaxResponseHeadersLength = 32
     }) { Timeout = Timeout.InfiniteTimeSpan };
 
-    public static async Task<byte[]> FetchAsync(HttpClient http, CancellationToken cancellationToken)
+    public static async Task<byte[]> FetchAsync(HttpClient http, CancellationToken cancellationToken, int page = 1)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, EventPageParser.Source);
+        using var request = new HttpRequestMessage(HttpMethod.Get, EventPageParser.PageAddress(page));
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
         request.Headers.AcceptEncoding.ParseAdd("identity");
         request.Headers.UserAgent.ParseAdd("DuckbillCalendarData/0.1 (+https://github.com/PlatyDuckbill/DuckbillCalendar)");
@@ -75,15 +76,15 @@ internal static class Collector
         return bytes;
     }
 
-    public static async Task<int> CollectAsync(string directory, HttpClient http, CancellationToken cancellationToken)
+    public static async Task<int> CollectAsync(string directory, HttpClient http, CancellationToken cancellationToken, int page = 1)
     {
         directory = Path.GetFullPath(directory);
         if (Directory.Exists(directory) || File.Exists(directory)) throw new IOException("CollectionDirectoryAlreadyExists");
-        var bytes = await FetchAsync(http, cancellationToken);
+        var bytes = await FetchAsync(http, cancellationToken, page);
         var fetchedAt = DateTimeOffset.UtcNow;
         var candidates = await EventPageParser.ParseAsync(Utf8.GetString(bytes), fetchedAt);
         if (candidates.IsSynthetic) throw new InvalidDataException("SyntheticLiveResponse");
-        var manifest = new CollectionManifest { FetchedAt = fetchedAt, Status = 200, Bytes = bytes.Length, SnapshotSha256 = Hash(bytes), CompleteCoverage = false };
+        var manifest = new CollectionManifest { Source = EventPageParser.PageAddress(page), Page = page, FetchedAt = fetchedAt, Status = 200, Bytes = bytes.Length, SnapshotSha256 = Hash(bytes), CompleteCoverage = false };
         Directory.CreateDirectory(directory);
         await WriteNewAsync(Path.Combine(directory, "source.html"), bytes);
         await WriteNewAsync(Path.Combine(directory, "candidates.json"), JsonSerializer.SerializeToUtf8Bytes(candidates, CalendarJson.Options));

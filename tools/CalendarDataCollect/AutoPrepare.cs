@@ -12,7 +12,7 @@ internal static class AutoPrepare
     {
         var manifest = CalendarJson.Parse<CollectionManifest>(await LocalInput.ReadAsync(Path.Combine(directory, "collection.json"), 65536));
         var bytes = await LocalInput.ReadAsync(Path.Combine(directory, "source.html"));
-        if (manifest.SchemaVersion != 1 || manifest.Source != EventPageParser.Source || manifest.Status != 200 || manifest.CompleteCoverage ||
+        if (manifest.SchemaVersion != 1 || manifest.Source != EventPageParser.PageAddress(manifest.Page) || manifest.Status != 200 || manifest.CompleteCoverage ||
             manifest.FetchedAt == default || manifest.FetchedAt > DateTimeOffset.UtcNow.AddMinutes(5) || manifest.Bytes != bytes.Length || manifest.SnapshotSha256 != Collector.Hash(bytes))
             throw new InvalidDataException("CollectionProvenanceMismatch");
         var candidates = await EventPageParser.ParseAsync(Collector.Utf8.GetString(bytes), manifest.FetchedAt, strictAuto: true);
@@ -24,29 +24,37 @@ internal static class AutoPrepare
 
     public static async Task<FeedDocument> PrepareAsync(string directory, FeedDocument? previous)
     {
-        var (manifest, candidates) = await ReadCollectionAsync(directory);
+        return PrepareMany([await ReadCollectionAsync(directory)], previous);
+    }
+
+    public static FeedDocument PrepareMany(IReadOnlyList<(CollectionManifest Manifest, CandidateDocument Candidates)> pages, FeedDocument? previous)
+    {
+        if (pages.Count is < 1 or > 8) throw new InvalidDataException("EventPageLimit");
+        var groups = pages.SelectMany(p => p.Candidates.Candidates.Select(c => (p.Manifest, Candidate: c))).GroupBy(p => p.Candidate.Id, StringComparer.Ordinal).ToArray();
+        if (groups.Any(g => g.Select(p => p.Candidate.NormalizedRecordHash).Distinct(StringComparer.Ordinal).Count() != 1)) throw new InvalidDataException("ConflictingEventPages");
+        var observed = groups.Select(g => g.First()).ToArray();
         if (previous is not null && (previous.ContentRevision < 1 || FeedValidator.Validate(previous).Count != 0)) throw new InvalidDataException("InvalidPreviousFeed");
         var oldEvents = (previous?.Events ?? []).ToDictionary(e => e.Id, StringComparer.Ordinal);
-        var listedIds = candidates.Candidates.Select(c => c.Id).ToHashSet(StringComparer.Ordinal);
+        var listedIds = observed.Select(c => c.Candidate.Id).ToHashSet(StringComparer.Ordinal);
         var retained = (previous?.Events ?? []).Where(e => !listedIds.Contains(e.Id)).Select(e => e.Id.StartsWith("kr:event:", StringComparison.Ordinal) && !(e.Note ?? "").Contains(MissingMarker, StringComparison.Ordinal)
             ? e with { Note = (e.Note is { Length: > 0 } ? e.Note + "\n" : "") + MissingMarker } : e).ToArray();
-        if (retained.Length + candidates.Candidates.Count > MaximumRetainedEvents) throw new InvalidDataException("RetainedEventLimitRequiresMaintenance");
+        if (retained.Length + observed.Length > MaximumRetainedEvents) throw new InvalidDataException("RetainedEventLimitRequiresMaintenance");
         var events = new List<CalendarEvent>();
         var evidence = new List<EvidenceRecord>();
-        foreach (var candidate in candidates.Candidates)
+        foreach (var (manifest, candidate) in observed)
         {
             oldEvents.TryGetValue(candidate.Id, out var old);
             var evidenceId = candidate.Id + ":list:" + manifest.SnapshotSha256;
             evidence.Add(new()
             {
-                Id = evidenceId, SourceId = "kr-events", Url = EventPageParser.Source, ObservedAt = manifest.FetchedAt, SourceSnapshotSha256 = manifest.SnapshotSha256,
-                Note = $"기계 검증: 공식 목록 첫 페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 부분 범위. 개별 안내: {candidate.SourceUrl}"
+                Id = evidenceId, SourceId = "kr-events", Url = manifest.Source, ObservedAt = manifest.FetchedAt, SourceSnapshotSha256 = manifest.SnapshotSha256,
+                Note = $"기계 검증: 공식 목록 {manifest.Page}페이지의 구조화된 time 필드와 표시 시각 일치. 사람/LLM 검수 아님. 개별 안내: {candidate.SourceUrl}"
             });
             events.Add(new()
             {
                 Id = candidate.Id, Revision = old is null ? 1 : checked(old.Revision + 1), Title = candidate.Title,
                 Category = old?.Category ?? "web-event", Lifecycle = old?.Lifecycle ?? "published",
-                Note = "공식 첫 페이지의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: " + string.Join(" / ", candidate.Phases.Select(p => p.RawText)),
+                Note = "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: " + string.Join(" / ", candidate.Phases.Select(p => p.RawText)),
                 Phases = candidate.Phases.Select((p, index) => new EventPhase
                 {
                     Id = p.Label.Contains("수령", StringComparison.Ordinal) || p.Label.Contains("보상", StringComparison.Ordinal) ? "reward-" + index : "participation-" + index,
@@ -64,7 +72,7 @@ internal static class AutoPrepare
         if (evidence.Count > 4000) throw new InvalidDataException("RetainedEvidenceLimitRequiresMaintenance");
         var feed = new FeedDocument
         {
-            ContentRevision = previous?.ContentRevision ?? 1, GeneratedAt = manifest.FetchedAt, Events = events, Evidence = evidence,
+            ContentRevision = previous?.ContentRevision ?? 1, GeneratedAt = pages.Max(p => p.Manifest.FetchedAt), Events = events, Evidence = evidence,
             Targets = previous?.Targets ?? [], Withdrawals = previous?.Withdrawals ?? [], FrontlineRules = previous?.FrontlineRules ?? []
         };
         var errors = FeedValidator.Validate(feed);

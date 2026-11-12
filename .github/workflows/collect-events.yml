@@ -1,4 +1,4 @@
-name: Collect and update KR events
+name: Collect and update KR calendar
 on:
   push:
     branches: [main]
@@ -7,6 +7,8 @@ on:
       - 'tools/CalendarDataCollect/**'
       - 'tools/Shared/EventPageParser.cs'
       - 'tools/CalendarDataPublish/**'
+      - 'data/curated/**'
+      - 'src/DuckbillCalendar.Core/**'
   workflow_dispatch:
   schedule:
     - cron: '17 */2 * * *'
@@ -18,7 +20,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
@@ -30,8 +32,6 @@ jobs:
           dotnet build tools/CalendarDataPublish -p:RestoreLockedMode=true
       - name: Offline collector checks
         run: dotnet run --project tools/CalendarDataCollect --no-build -- check
-      - name: Fetch one public list page
-        run: dotnet run --project tools/CalendarDataCollect --no-build -- collect event-collection
       - name: Checkout isolated publication workspace
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -62,11 +62,11 @@ jobs:
             if ($LASTEXITCODE -ne 0) { throw 'Previous pointer/payload verification failed; preserve remote feed' }
             $previous = '.preview/previous-feed.json'
           }
-          dotnet run --project tools/CalendarDataCollect --no-build -- prepare-auto event-collection $previous .preview/automatic-feed.json
-          if ($LASTEXITCODE -ne 0) { throw 'Structured data validation failed; preserve remote feed' }
-          dotnet run --project tools/CalendarDataPublish --no-build -- prepare .preview/automatic-feed.json .preview/publish-root/kr
+          dotnet run --project tools/CalendarDataCollect --no-build -- collect-all data/curated/sources.json $previous calendar-collection
+          if ($LASTEXITCODE -ne 0) { throw 'Combined source validation failed; preserve remote feed' }
+          dotnet run --project tools/CalendarDataPublish --no-build -- prepare calendar-collection/feed.json .preview/publish-root/kr
           if ($LASTEXITCODE -ne 0) { throw 'Immutable feed preparation failed; preserve remote feed' }
-          dotnet run --project tools/CalendarDataCollect --no-build -- mark-partial event-collection .preview/publish-root/kr
+          dotnet run --project tools/CalendarDataCollect --no-build -- mark-all-health calendar-collection .preview/publish-root/kr
           if ($LASTEXITCODE -ne 0) { throw 'Partial health validation failed; preserve remote feed' }
           dotnet run --project tools/CalendarDataCollect --no-build -- verify-current .preview/publish-root/kr .preview/final-verified-feed.json
           if ($LASTEXITCODE -ne 0) { throw 'Final pointer/payload validation failed; preserve remote feed' }
@@ -79,14 +79,22 @@ jobs:
           git -C .preview/publish-root config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git -C .preview/publish-root add kr/current.json kr/revisions/
           git -C .preview/publish-root diff --cached --check
-          git -C .preview/publish-root commit -m 'Update machine-validated KR event list'
+          git -C .preview/publish-root commit -m 'Update official KR calendar sources'
           # Any concurrent/outside writer causes rejection instead of replacing their work.
           git -C .preview/publish-root push origin HEAD:refs/heads/calendar-data
       - name: Preserve candidates and exact evidence even when parsing warns
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
+          name: kr-calendar-collection
+          path: calendar-collection/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Preserve first-page evidence for optional manual review workflow
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
           name: kr-events-collection
-          path: event-collection/
+          path: calendar-collection/events/page-01/
           if-no-files-found: warn
           retention-days: 14

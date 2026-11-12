@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "kr-events",
+      "attemptedAt": "2026-11-12T10:32:26.4598416+00:00",
+      "succeededAt": "2026-11-12T10:32:25.6563171+00:00",
+      "result": "partial",
+      "pendingEventIds": []
+    },
+    {
+      "id": "kr-notices",
+      "attemptedAt": "2026-11-12T10:32:44.1123594+00:00",
+      "succeededAt": "2026-11-12T10:32:26.460102+00:00",
+      "result": "partial",
+      "pendingEventIds": []
+    },
+    {
+      "id": "kr-patch-catalog",
+      "attemptedAt": "2026-11-12T10:32:44.1123597+00:00",
+      "succeededAt": "2026-11-12T10:32:26.460102+00:00",
+      "result": "partial",
+      "pendingEventIds": []
+    },
+    {
+      "id": "kr-curated:v8-gm-live",
+      "attemptedAt": "2026-11-12T10:32:44.2987906+00:00",
+      "succeededAt": "2026-11-12T10:32:44.2987906+00:00",
+      "result": "partial",
+      "pendingEventIds": []
+    },
+    {
+      "id": "kr-curated:v8-ce-shop",
+      "attemptedAt": "2026-11-12T10:32:44.4117275+00:00",
+      "succeededAt": "2026-11-12T10:32:44.4117275+00:00",
+      "result": "partial",
+      "pendingEventIds": []
+    },
+    {
+      "id": "kr-curated:v8-ce-template",
+      "attemptedAt": "2026-11-12T10:32:44.4453117+00:00",
+      "succeededAt": "2026-11-12T10:32:44.4453117+00:00",
+      "result": "partial",
+      "pendingEventIds": []
+    },
+    {
+      "id": "kr-curated:series12-patch",
+      "attemptedAt": "2026-11-12T10:32:44.7920057+00:00",
+      "succeededAt": "2026-11-12T10:32:44.7920057+00:00",
+      "result": "partial",
+      "pendingEventIds": []
+    },
+    {
+      "id": "kr-curated:series12-open",
+      "attemptedAt": "2026-11-12T10:32:45.0308591+00:00",
+      "succeededAt": "2026-11-12T10:32:45.0308591+00:00",
+      "result": "partial",
+      "pendingEventIds": []
+    },
+    {
+      "id": "kr-curated:ccrc2027",
+      "attemptedAt": "2026-11-12T10:32:45.1533694+00:00",
+      "succeededAt": "2026-11-12T10:32:45.1533694+00:00",
+      "result": "partial",
+      "pendingEventIds": []
+    }
+  ]
+}

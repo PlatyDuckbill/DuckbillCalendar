@@ -28,6 +28,7 @@ public sealed record AlertPreference
 
 public sealed record ViewSettings
 {
+    public bool ShowNoticePublications { get; init; }
     public string Language { get; init; } = "ko";
     public string Theme { get; init; } = "graphite";
     public bool PeriodBars { get; init; } = true;
