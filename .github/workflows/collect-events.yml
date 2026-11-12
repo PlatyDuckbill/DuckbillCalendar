@@ -1,4 +1,4 @@
-name: Collect KR event candidates
+name: Collect and update KR events
 on:
   push:
     branches: [main]
@@ -6,29 +6,82 @@ on:
       - '.github/workflows/collect-events.yml'
       - 'tools/CalendarDataCollect/**'
       - 'tools/Shared/EventPageParser.cs'
+      - 'tools/CalendarDataPublish/**'
   workflow_dispatch:
   schedule:
     - cron: '17 */2 * * *'
 permissions:
-  contents: read
+  contents: write
 concurrency:
-  group: collect-kr-events
+  group: publish-calendar-data
   cancel-in-progress: false
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
       - name: Build locked collector
-        run: dotnet build tools/CalendarDataCollect -p:RestoreLockedMode=true
+        run: |
+          dotnet build tools/CalendarDataCollect -p:RestoreLockedMode=true
+          dotnet build tools/CalendarDataPublish -p:RestoreLockedMode=true
       - name: Offline collector checks
         run: dotnet run --project tools/CalendarDataCollect --no-build -- check
       - name: Fetch one public list page
         run: dotnet run --project tools/CalendarDataCollect --no-build -- collect event-collection
+      - name: Checkout isolated publication workspace
+        uses: actions/checkout@v4
+        with:
+          path: .preview/publish-root
+          persist-credentials: true
+      - name: Load current data branch without changing source checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          git -C .preview/publish-root ls-remote --exit-code --heads origin calendar-data > .preview/data-branch-ref
+          result=$?
+          set -e
+          if [ "$result" -eq 0 ]; then
+            git -C .preview/publish-root fetch --depth=1 origin calendar-data
+            git -C .preview/publish-root checkout -b calendar-data FETCH_HEAD
+          elif [ "$result" -eq 2 ]; then
+            git -C .preview/publish-root switch --orphan calendar-data
+          else
+            exit "$result"
+          fi
+      - name: Validate previous bytes and prepare deterministic update
+        shell: pwsh
+        run: |
+          $previous = '-'
+          if (Test-Path .preview/publish-root/kr/current.json) {
+            dotnet run --project tools/CalendarDataCollect --no-build -- verify-current .preview/publish-root/kr .preview/previous-feed.json
+            if ($LASTEXITCODE -ne 0) { throw 'Previous pointer/payload verification failed; preserve remote feed' }
+            $previous = '.preview/previous-feed.json'
+          }
+          dotnet run --project tools/CalendarDataCollect --no-build -- prepare-auto event-collection $previous .preview/automatic-feed.json
+          if ($LASTEXITCODE -ne 0) { throw 'Structured data validation failed; preserve remote feed' }
+          dotnet run --project tools/CalendarDataPublish --no-build -- prepare .preview/automatic-feed.json .preview/publish-root/kr
+          if ($LASTEXITCODE -ne 0) { throw 'Immutable feed preparation failed; preserve remote feed' }
+          dotnet run --project tools/CalendarDataCollect --no-build -- mark-partial event-collection .preview/publish-root/kr
+          if ($LASTEXITCODE -ne 0) { throw 'Partial health validation failed; preserve remote feed' }
+          dotnet run --project tools/CalendarDataCollect --no-build -- verify-current .preview/publish-root/kr .preview/final-verified-feed.json
+          if ($LASTEXITCODE -ne 0) { throw 'Final pointer/payload validation failed; preserve remote feed' }
+      - name: Publish immutable data with normal push only
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .preview/publish-root/kr/.prepare.lock
+          git -C .preview/publish-root config user.name 'github-actions[bot]'
+          git -C .preview/publish-root config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git -C .preview/publish-root add kr/current.json kr/revisions/
+          git -C .preview/publish-root diff --cached --check
+          git -C .preview/publish-root commit -m 'Update machine-validated KR event list'
+          # Any concurrent/outside writer causes rejection instead of replacing their work.
+          git -C .preview/publish-root push origin HEAD:refs/heads/calendar-data
       - name: Preserve candidates and exact evidence even when parsing warns
         if: always()
         uses: actions/upload-artifact@v4

@@ -27,7 +27,7 @@ internal sealed record CandidateDocument
 internal static class EventPageParser
 {
     public const string Source = "https://www.ff14.co.kr/news/event";
-    public static async Task<CandidateDocument> ParseAsync(string html, DateTimeOffset? fetchedAt = null)
+    public static async Task<CandidateDocument> ParseAsync(string html, DateTimeOffset? fetchedAt = null, bool strictAuto = false)
     {
         var document = await new HtmlParser().ParseDocumentAsync(html); // No scripts or resource loading.
         var candidates = new List<EventCandidate>();
@@ -51,12 +51,16 @@ internal static class EventPageParser
                 var label = Text(term.QuerySelector(".lbl")?.TextContent ?? "");
                 var raw = Text(term.TextContent);
                 if (label.Length > 120 || raw.Length > 2000) { errors.Add("PhaseTextLimit:" + id); continue; }
-                var times = term.QuerySelectorAll("time[datetime]").Select(x => x.GetAttribute("datetime") ?? "").ToArray();
+                var timeNodes = term.QuerySelectorAll("time[datetime]").ToArray();
+                var times = timeNodes.Select(x => x.GetAttribute("datetime") ?? "").ToArray();
                 if (times.Length > 2) { errors.Add("AmbiguousDateCount:" + id); continue; }
+                if (strictAuto && term.QuerySelectorAll("time").Length != timeNodes.Length) errors.Add("MissingStructuredTimeAttribute:" + id);
+                if (strictAuto && (times.Length == 0 || string.IsNullOrWhiteSpace(label))) errors.Add("UnsupportedAutoPeriodShape:" + id);
                 DateTimeOffset? start = times.Length > 0 ? ParseKoreanMinute(times[0]) : null;
                 DateTimeOffset? end = times.Length > 1 ? ParseKoreanMinute(times[1]) : null;
                 if ((times.Length > 0 && start is null) || (times.Length > 1 && end is null)) errors.Add("DateParseFailure:" + id);
                 if (start > end) errors.Add("ReversedRange:" + id);
+                if (strictAuto && timeNodes.Any(node => !VisibleDateMatches(node.TextContent, node.GetAttribute("datetime") ?? ""))) errors.Add("VisibleDateMismatch:" + id);
                 phases.Add(new(label, start, end, end is null ? raw : null, raw));
             }
             if (phases.Count == 0) errors.Add("MissingPeriods:" + id);
@@ -71,6 +75,15 @@ internal static class EventPageParser
         return new() { FetchedAt = fetchedAt, IsSynthetic = document.DocumentElement.HasAttribute("data-synthetic"), Errors = errors, Candidates = candidates };
     }
     private static string Text(string value) => Regex.Replace(value, @"\s+", " ").Trim();
+    private static bool VisibleDateMatches(string text, string attribute)
+    {
+        var match = Regex.Match(Text(text), @"^(?<y>\d{2}|\d{4})\.\s*(?<m>\d{1,2})\.\s*(?<d>\d{1,2})\s+(?<t>\d{2}:\d{2})$", RegexOptions.CultureInvariant);
+        if (!match.Success) return false;
+        var year = int.Parse(match.Groups["y"].Value, CultureInfo.InvariantCulture);
+        if (year < 100) year += 2000;
+        var visible = FormattableString.Invariant($"{year:D4}-{int.Parse(match.Groups["m"].Value, CultureInfo.InvariantCulture):D2}-{int.Parse(match.Groups["d"].Value, CultureInfo.InvariantCulture):D2} {match.Groups["t"].Value}");
+        return ParseKoreanMinute(visible) is { } parsed && parsed == ParseKoreanMinute(attribute);
+    }
     private static DateTimeOffset? ParseKoreanMinute(string value) =>
         DateTime.TryParseExact(value, ["yyyy-MM-dd HH:mm", "yyyy-MM-ddTHH:mm"], CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsed)
             ? new DateTimeOffset(DateTime.SpecifyKind(parsed, DateTimeKind.Unspecified), TimeSpan.FromHours(9)) : null;
