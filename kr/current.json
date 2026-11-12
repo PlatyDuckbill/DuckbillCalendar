@@ -2,25 +2,97 @@
   "schemaVersion": 2,
   "isExample": false,
   "region": "KR",
-  "publicationSequence": 3,
-  "generatedAt": "2026-11-12T10:15:53.0838142+00:00",
+  "publicationSequence": 4,
+  "generatedAt": "2026-11-12T10:42:03.6064969+00:00",
   "content": {
-    "revision": 3,
+    "revision": 4,
     "schemaVersion": 2,
     "region": "KR",
-    "path": "revisions/000003.json",
-    "sha256": "1c1ed924711c35e2b9a5dad30b92e4712605c20e21155989df75904160d372f0",
-    "bytes": 19630
+    "path": "revisions/000004.json",
+    "sha256": "e369b069da8a2a29cda20bbfbcd4811dd8d01f09f2155af871a1eb6aad2d5e3f",
+    "bytes": 161875
   },
   "health": {
     "sources": [
       {
         "id": "kr-events",
-        "lastAttemptAt": "2026-11-12T10:15:47.3837942+00:00",
-        "lastSuccessAt": "2026-11-12T10:15:47.3837942+00:00",
+        "lastAttemptAt": "2026-11-12T10:41:29.9476352+00:00",
+        "lastSuccessAt": "2026-11-12T10:41:27.6577258+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 3,
+        "comparedContentRevision": 4,
+        "pendingChanges": []
+      },
+      {
+        "id": "kr-patch-catalog",
+        "lastAttemptAt": "2026-11-12T10:41:59.1115016+00:00",
+        "lastSuccessAt": "2026-11-12T10:41:29.9477798+00:00",
+        "lastResult": "partial",
+        "completeCoverage": false,
+        "comparedContentRevision": 4,
+        "pendingChanges": []
+      },
+      {
+        "id": "kr-notices",
+        "lastAttemptAt": "2026-11-12T10:41:59.1115011+00:00",
+        "lastSuccessAt": "2026-11-12T10:41:29.9477798+00:00",
+        "lastResult": "partial",
+        "completeCoverage": false,
+        "comparedContentRevision": 4,
+        "pendingChanges": []
+      },
+      {
+        "id": "kr-curated:v8-gm-live",
+        "lastAttemptAt": "2026-11-12T10:41:59.5575258+00:00",
+        "lastSuccessAt": "2026-11-12T10:41:59.5575258+00:00",
+        "lastResult": "partial",
+        "completeCoverage": false,
+        "comparedContentRevision": 4,
+        "pendingChanges": []
+      },
+      {
+        "id": "kr-curated:v8-ce-template",
+        "lastAttemptAt": "2026-11-12T10:42:01.1636615+00:00",
+        "lastSuccessAt": "2026-11-12T10:42:01.1636615+00:00",
+        "lastResult": "partial",
+        "completeCoverage": false,
+        "comparedContentRevision": 4,
+        "pendingChanges": []
+      },
+      {
+        "id": "kr-curated:v8-ce-shop",
+        "lastAttemptAt": "2026-11-12T10:41:59.8324851+00:00",
+        "lastSuccessAt": "2026-11-12T10:41:59.8324851+00:00",
+        "lastResult": "partial",
+        "completeCoverage": false,
+        "comparedContentRevision": 4,
+        "pendingChanges": []
+      },
+      {
+        "id": "kr-curated:series12-patch",
+        "lastAttemptAt": "2026-11-12T10:42:01.9904855+00:00",
+        "lastSuccessAt": "2026-11-12T10:42:01.9904855+00:00",
+        "lastResult": "partial",
+        "completeCoverage": false,
+        "comparedContentRevision": 4,
+        "pendingChanges": []
+      },
+      {
+        "id": "kr-curated:series12-open",
+        "lastAttemptAt": "2026-11-12T10:42:02.3953321+00:00",
+        "lastSuccessAt": "2026-11-12T10:42:02.3953321+00:00",
+        "lastResult": "partial",
+        "completeCoverage": false,
+        "comparedContentRevision": 4,
+        "pendingChanges": []
+      },
+      {
+        "id": "kr-curated:ccrc2027",
+        "lastAttemptAt": "2026-11-12T10:42:02.6681689+00:00",
+        "lastSuccessAt": "2026-11-12T10:42:02.6681689+00:00",
+        "lastResult": "partial",
+        "completeCoverage": false,
+        "comparedContentRevision": 4,
         "pendingChanges": []
       }
     ]
