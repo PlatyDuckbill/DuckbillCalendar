@@ -25,6 +25,7 @@ internal sealed class CalendarModel
     public CalendarWorkspace Workspace => workspace;
     public LocalState State => workspace.State;
     public FeedDocument Feed => workspace.Feed;
+    public DateTimeOffset OfficialEventsObservedAt { get; private set; }
     public DateTimeOffset Now { get; private set; }
     public DateOnly Today { get; private set; }
     public int Year { get; private set; }
@@ -76,6 +77,8 @@ internal sealed class CalendarModel
         }
         if (!dirty) return;
         UiText.SetLanguage(State.View.Language);
+        OfficialEventsObservedAt = Feed.Evidence.Where(e => e.SourceId == "kr-events" && e.ObservedAt.HasValue)
+            .Select(e => e.ObservedAt!.Value).DefaultIfEmpty(Feed.GeneratedAt).Max();
         Events = CalendarEngine.Merge(Feed, State);
         FilteredEvents = Events.Where(Matches).ToArray();
         Calendar = CalendarEngine.BuildMonth(FilteredEvents, Year, MonthNumber, State.View.PeriodBars, State.View.ShowRewardBars, 3);

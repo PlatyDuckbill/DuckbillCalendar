@@ -15,7 +15,7 @@
   <data name="AddSubscription" xml:space="preserve">
     <value>Add subscription</value>
   </data>
-  <data name="AlertsUnavailable" xml:space="preserve"><value>Select start/end reminders separately, then enable local chat reminders in Settings. Unknown or date-only boundaries do not create timed reminders.</value></data>
+  <data name="AlertsUnavailable" xml:space="preserve"><value>Select start/end reminders and enable local chat reminders in Settings. Timed reminders are held for partially collected public events. Unknown, inferred and date-only boundaries do not create timed reminders.</value></data>
   <data name="AlertsUnavailableCompact" xml:space="preserve"><value>Reminders follow Settings; the game must be running.</value></data>
   <data name="All" xml:space="preserve">
     <value>All</value>
@@ -63,7 +63,7 @@
     <value>Delete this event</value>
   </data>
   <data name="DataNotPublished" xml:space="preserve">
-    <value>A reviewed snapshot of the official event list is included. Its observation time is shown on the calendar. Remote periodic updates require collection and publication setup.</value>
+    <value>An official event snapshot is included. Enable remote updates and save to receive published updates. Full notice, patch and season collection is not included yet.</value>
   </data>
   <data name="DataSettings" xml:space="preserve">
     <value>Public calendar data</value>
@@ -405,5 +405,5 @@
   <data name="AlertDeliveryHelp" xml:space="preserve"><value>Reminders run only while the game is open. Delivery waits for combat, duties, PvP, loading and cutscenes to end. Public example records never send reminders. A crash after recording a reminder can lose that notification; recorded reminders are not replayed.</value></data>
   <data name="LocalAlertMessage" xml:space="preserve"><value>{0} — selected schedule boundary: {1} KST. Delivery may have been deferred.</value></data>
   <data name="UseActualFeed" xml:space="preserve"><value>Show actual events</value></data>
-  <data name="BundledSnapshotInfo" xml:space="preserve"><value>Official event snapshot · observed {0} · Only periods found in the list are shown. This does not guarantee live updates or coverage of every notice and event.</value></data>
+  <data name="BundledSnapshotInfo" xml:space="preserve"><value>Official events · observed {0} · periods displayed on the list</value></data>
 </root>

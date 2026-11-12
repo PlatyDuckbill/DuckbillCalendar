@@ -1,6 +1,6 @@
 # 개발판 빌드와 확인
 
-현재는 실제 Dalamud API15 플러그인과 로컬 데이터 도구를 구현한 첫 개발판이다. 공식 배포판이 아니다. 운영 일정 피드·GitHub 예약 수집·원격 게시·게임 자동 로드를 수행하지 않았다.
+현재는 실제 Dalamud API15 플러그인과 실제 이벤트 수집·정적 피드를 연결한 개발판이다. 코드와 일정 JSON을 GitHub에 게시하고 runner 수집·실제 플러그인 수신을 확인했다. Plugin Release·설치 저장소 게시·게임 자동 로드는 수행하지 않았다.
 
 ## 환경
 
@@ -20,7 +20,7 @@
 ./scripts/prepare-dev.ps1 -DalamudPath "$env:APPDATA/XIVLauncherKR/addon/Hooks/dev"
 ```
 
-`build.ps1`은 빌드만 한다. `check.ps1`은 Core·Infrastructure·실제 CalendarModel의 오프라인 검사, 로컬 CLI 검사, 한영 리소스 검사를 수행한다. PluginModel 검사에서 localization만 대역으로 바꾸며 실제 ImGui나 게임을 실행하지 않는다. `prepare-dev.ps1`은 검증된 파일만 묶고 ZIP 안의 필수 파일과 SHA-256을 재확인한다. 서버 업로드·git push·게임 설정 변경은 없다.
+`build.ps1`은 빌드만 한다. `check.ps1`은 Core·Infrastructure·실제 CalendarModel·Collector·CLI·리소스 검사와 실제 native ImGui 회귀 검사를 수행한다. PluginModel 검사에서 localization만 대역으로 바꾸고 별도 ImGui 프로젝트에서는 실제 UI 소스·한국어 폰트·native cimgui를 사용한다. GPU·게임은 실행하지 않는다. `prepare-dev.ps1`은 검증된 파일만 묶고 ZIP 안의 필수 파일과 SHA-256을 재확인한다. 이 스크립트들은 git push·게임 설정 변경을 하지 않는다.
 
 ## 수동으로 게임에서 확인
 
@@ -56,7 +56,7 @@ dotnet run --project tools/CalendarDataPublish -- prepare data/contracts/v2/revi
 
 Importer는 네트워크를 실행하지 않고 파일을 읽는다. 한 페이지의 후보 추출은 전체 소스 수집 성공이나 검수 완료가 아니다. 정상·오류 페이지와 상대 종료를 구분하며 모든 후보는 `canPublish: false`, `completeCoverage: false`다. 공통 배너의 같은 ID 때문에 실제 카드를 놓치지 않는다.
 
-Publish 도구는 이름과 달리 현재 **로컬 준비**만 한다. 생산 입력에는 출처 hash와 검증 가능한 v2 내용이 필요하고 예시·draft는 거부한다. payload 먼저, current 마지막으로 쓰며 예전 revision을 덮어쓰지 않는다. 아직 수집 성공/coverage를 증명하는 운영 workflow가 없으므로 health는 not-run으로 남긴다. 네트워크 업로드·분산 CAS·자동 검수·GitHub 스케줄은 다음 운영 작업이다.
+Publish CLI 자체는 **로컬 준비**만 한다. 생산 입력에는 출처 hash와 검증 가능한 v2 내용이 필요하고 예시·draft는 거부한다. payload 먼저, current 마지막으로 쓰며 예전 revision을 덮어쓰지 않는다. CLI 단독 실행은 health를 not-run으로 남긴다. 별도 GitHub workflow가 실제 수집·원문 검증·부분수집 health를 기록하고 calendar-data branch에 일반 push한다. 2시간 자동 갱신과 수동 검토 경로는 [실제 데이터 안내](LIVE-DATA.md)를 따른다.
 
 ## 확인해야 할 실기
 

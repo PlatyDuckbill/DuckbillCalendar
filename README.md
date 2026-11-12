@@ -9,7 +9,7 @@
 - 시작·마감 단계별 상세·알림 선택. 시즌·시리즈 시작일과 달력 이동, 오늘/내일 전장 요약. 실제 전장 기준점은 아직 미검증이므로 확인 불가입니다.
 - 로컬 계정 별칭, 개인 일정·정액제/집사/가방 이용권 입력·수정·삭제, 날짜만 입력, 파일 저장·백업·복구.
 - 기본 꺼짐인 로컬 채팅 알림. 발송 기록을 먼저 저장하고 전투·임무·PvP·로딩·영상 중에는 전달을 기다립니다. 공개 예시·미정·날짜 단위·추론 경계는 시간 알림을 만들지 않습니다.
-- 공개 JSON 파일 가져오기, 명시적인 예시 모드, opt-in HTTPS 수신·검증·캐시·실패 복구. 원격 운영 피드는 **아직 게시하지 않았습니다**.
+- 공개 JSON 파일 가져오기, 명시적인 예시 모드, opt-in HTTPS 수신·검증·캐시·실패 복구. GitHub `calendar-data` branch에 실제 이벤트 JSON을 게시했습니다.
 - 공식 이벤트 목록에서 실제 10건을 수집·대조한 저장본을 포함합니다. 예시 모드에서는 ‘실제 일정 보기’로 전환합니다. [실제 데이터 수집·갱신](docs/development/LIVE-DATA.md).
 - 한국어/영어와 Graphite/Paper. 공개 HTML을 읽어 미검수 후보를 만드는 오프라인 도구와 로컬 feed 준비 도구.
 
@@ -27,7 +27,7 @@
 
 ## 현재 검증 범위
 
-2026-11-12: **290개 검사와 한영 리소스138쌍**을 확인했습니다. 이 중30개는 실제 native ImGui에서 한국어 툴팁·팝업 폭·문자 입력·실제 일정 화면을 1/1.5/2배율로 확인합니다. [실기 제보 후 수정](docs/development/POST-PLAYTEST.md), [10회 개발 루프](docs/development/DEVELOPMENT-LOOPS.md), [현재 상태](docs/STATUS.md), [검증 기록](docs/VERIFICATION.md)에 근거와 한계를 남겼습니다.
+2026-11-12: **308개 검사와 한영 리소스138쌍**을 확인했습니다. 이 중30개는 실제 native ImGui에서 한국어 툴팁·팝업 폭·문자 입력·실제 일정 화면을 1/1.5/2배율로 확인합니다. [실기 제보 후 수정](docs/development/POST-PLAYTEST.md), [10회 개발 루프](docs/development/DEVELOPMENT-LOOPS.md), [현재 상태](docs/STATUS.md), [검증 기록](docs/VERIFICATION.md)에 근거와 한계를 남겼습니다.
 
 실제 인게임 로드·화면·DPI·채팅 전달은 확인 대기입니다. 게임이 닫힌 동안 알림은 동작하지 않고, 발송 기록 저장 후 출력 전 종료되면 누락될 수 있습니다. 기록된 알림은 재전송하지 않습니다.
 
@@ -39,8 +39,8 @@
 - [공식 데이터 조사](docs/DATA-SOURCES.md), [v2 계약 예시](data/contracts/v2/README.md)
 - [브리핑](docs/BRIEFING.md), [HTML 기획 목업](mockup/index.html), [화면 명세](docs/SCREENS.md)
 
-실제 HTTP 수집기와 GitHub 예약 수집·검토 게시 workflow를 구현했습니다. 원격 활성화, 공지/패치/정정의 전체 수집, 실제 전장 기준점·조건형 날짜 자동 해석은 후속 작업입니다. HTML 목업은 2026-11-11 고정 시각의 기획 자료이고 실제 Plugin은 현재 KST 날짜를 사용합니다.
+실제 HTTP 수집기와 GitHub 예약 수집·검토 게시 workflow를 구현했습니다. GitHub runner의 실제 수집과 Plugin의 실제 원격 수신을 확인했습니다. 공지/패치/정정의 전체 수집, 실제 전장 기준점·조건형 날짜 자동 해석은 후속 작업입니다. HTML 목업은 2026-11-11 고정 시각의 기획 자료이고 실제 Plugin은 현재 KST 날짜를 사용합니다.
 
 개인 일정·알림 선택·이용권은 로컬에 저장합니다. 공개 HTTPS를 켜면 제공자는 IP와 일반 HTTP 메타데이터를 관찰할 수 있지만, 앱은 개인 일정·계정·캐릭터 정보를 업로드하지 않습니다. [의존성 고지](THIRD-PARTY-NOTICES.md)를 참고하세요.
 
-저장소: <https://github.com/PlatyDuckbill/DuckbillCalendar>. GitHub 푸시·Release·설치 저장소 게시·사이트 배포는 수행하지 않았습니다.
+저장소: <https://github.com/PlatyDuckbill/DuckbillCalendar>. `main`에 코드, `calendar-data`에 실제 이벤트 JSON을 게시했습니다. Plugin Release·설치 저장소 게시·게임 자동 로드는 수행하지 않았습니다.

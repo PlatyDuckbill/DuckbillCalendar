@@ -15,7 +15,7 @@
   <data name="AddSubscription" xml:space="preserve">
     <value>이용권 추가</value>
   </data>
-  <data name="AlertsUnavailable" xml:space="preserve"><value>시작·마감 알림을 각각 선택하고 설정에서 로컬 채팅 알림을 켜세요. 미정·날짜 단위 경계는 시간 알림을 만들지 않습니다.</value></data>
+  <data name="AlertsUnavailable" xml:space="preserve"><value>시작·마감 알림 선택과 설정의 로컬 채팅 알림을 모두 켜세요. 부분 수집된 공개 이벤트는 시간 알림을 보류합니다. 미정·추론·날짜 단위 경계도 시간 알림을 만들지 않습니다.</value></data>
   <data name="AlertsUnavailableCompact" xml:space="preserve"><value>알림은 설정을 따르며 게임 실행 중에만 전달됩니다.</value></data>
   <data name="All" xml:space="preserve">
     <value>전체</value>
@@ -63,7 +63,7 @@
     <value>삭제 확정</value>
   </data>
   <data name="DataNotPublished" xml:space="preserve">
-    <value>공식 이벤트 목록을 확인한 저장본이 포함되어 있습니다. 확인 시각은 달력에서 볼 수 있습니다. 원격 정기 갱신은 별도 수집·게시 설정이 필요합니다.</value>
+    <value>공식 이벤트 저장본이 포함되어 있습니다. 원격 갱신을 켜고 저장하면 게시된 최신 이벤트를 가져옵니다. 공지·패치·시즌 전체 수집은 아직 포함하지 않습니다.</value>
   </data>
   <data name="DataSettings" xml:space="preserve">
     <value>공개 일정 데이터</value>
@@ -405,5 +405,5 @@
   <data name="AlertDeliveryHelp" xml:space="preserve"><value>게임 실행 중에만 알립니다. 전투·임무·PvP·로딩·영상 중에는 전달을 기다립니다. 공개 예시 일정은 알리지 않습니다. 발송 기록 저장 직후 게임이 종료되면 알림이 누락될 수 있으며 기록된 알림은 재전송하지 않습니다.</value></data>
   <data name="LocalAlertMessage" xml:space="preserve"><value>{0} — 선택한 일정의 기준 시각: {1} KST. 상황에 따라 전달이 지연됐을 수 있습니다.</value></data>
   <data name="UseActualFeed" xml:space="preserve"><value>실제 일정 보기</value></data>
-  <data name="BundledSnapshotInfo" xml:space="preserve"><value>공식 이벤트 저장본 · 확인 {0} · 목록에 확인된 기간만 표시합니다. 실시간 갱신 여부와 전체 공지·이벤트 포함을 보장하지 않습니다.</value></data>
+  <data name="BundledSnapshotInfo" xml:space="preserve"><value>공식 이벤트 · 확인 {0} · 목록에 명시된 기간 기준</value></data>
 </root>

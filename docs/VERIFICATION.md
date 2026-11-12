@@ -2,7 +2,11 @@
 
 ## 2026-11-12 실기 제보 후 수정
 
-[수정 기록](development/POST-PLAYTEST.md), [실제 데이터 연결](development/LIVE-DATA.md)을 추가했다. 현재 **290검사 + 한영138쌍** 통과. 실제 native ImGui30검사는 기존 오류패턴의 negative control, 1/1.5/2배율의100프레임 팝업 너비, 한국어 툴팁, 날짜·시각 문자 입력, 실제10건 데이터로 전체 화면을 확인한다. 실제 게임 GPU 화면을 확인한 것으로 보고하지 않는다. 공식 이벤트 HTTP수집·검토원문 재생성 hash·번들 연결과 fakeHTTP Collector18검사도 통과했다. 최신 확인 파일은 고정 Debug 경로이며 아래 ZIP은 수정 전 이력이다.
+[GitHub Actions 첫 실제 수집](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43197397575) 성공. calendar-data/kr/current.json과 immutable payload 게시 후 실제 Workspace 수신은 RemoteUpdated, revision1, events10이었다. SHA256/bytes 검증과 재시작 캐시 복원까지 통과했다. 네트워크 검사는 명시적 `dotnet run --project tests/DuckbillCalendar.Infrastructure.Checks -- --live-smoke`로만 수행하고 기본 검사는 오프라인으로 유지한다.
+
+[수정 기록](development/POST-PLAYTEST.md), [실제 데이터 연결](development/LIVE-DATA.md)을 추가했다. 현재 **308검사 + 한영138쌍** 통과. 실제 native ImGui30검사는 기존 오류패턴의 negative control, 1/1.5/2배율의100프레임 팝업 너비, 한국어 툴팁, 날짜·시각 문자 입력, 실제10건 데이터로 전체 화면을 확인한다. 실제 게임 GPU 화면을 확인한 것으로 보고하지 않는다. 공식 이벤트 HTTP수집·검토원문 재생성 hash·번들 연결과 fakeHTTP Collector18검사도 통과했다. 최신 확인 파일은 고정 Debug 경로이며 아래 ZIP은 수정 전 이력이다.
+
+[자동 게시 run](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43198381662)은 Ubuntu에서 수집·이전 payload 검증·자동 생성·partial health·일반 push까지 성공했다. 이어 실제 Workspace로 revision2/events10 수신과 캐시 재시작이 성공했다. 자동 규칙18검사를 추가해 현재308검사다.
 
 ## 2026-11-12 첫 개발판
 

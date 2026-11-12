@@ -50,7 +50,8 @@ internal sealed class MainWindow : Window
             ImGui.SameLine();
             if (Button("UseActualFeed", "useActualFeed")) model.Post(() => model.Workspace.LoadExample(false));
         }
-        if (model.Workspace.FeedSource == "bundled") UiWidgets.Wrapped(UiText.Get("BundledSnapshotInfo", UiText.Time(model.Feed.GeneratedAt)));
+        if (model.Workspace.FeedSource is "bundled" or "remote")
+            UiWidgets.Wrapped(UiText.Get("BundledSnapshotInfo", UiText.Time(model.OfficialEventsObservedAt)));
         if (model.Workspace.HasUnsavedChanges) UiWidgets.Colored(ThemeScope.Hex(0xd8bb79), UiText.Get("UnsavedChanges"));
         if (model.Feed.Events.Count == 0) UiWidgets.Wrapped(UiText.Get("EmptyPublicFeed"));
         if (ImGui.BeginTabBar("###DuckbillCalendar.Tabs"))

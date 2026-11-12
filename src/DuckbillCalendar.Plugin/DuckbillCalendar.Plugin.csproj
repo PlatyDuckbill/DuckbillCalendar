@@ -6,7 +6,7 @@
     <Author>PlatyDuckbill</Author>
     <Name>DuckbillCalendar</Name>
     <Punchline>한국 서비스 일정과 개인 이용권을 한 달력에.</Punchline>
-    <Description>한국 서비스 일정 캘린더 개발판. /dbcal 또는 /duckbillcalendar. 개인 일정·이용권은 로컬에 저장합니다. 공개 원격 피드는 아직 게시되지 않았습니다.</Description>
+    <Description>한국 서비스 일정 캘린더 개발판. /dbcal 또는 /duckbillcalendar. 공식 이벤트 저장본을 포함하며 원격 갱신을 선택할 수 있습니다. 개인 일정·이용권은 로컬에 저장합니다.</Description>
     <RepoUrl>https://github.com/PlatyDuckbill/DuckbillCalendar</RepoUrl>
     <Tags>calendar;events;한국어</Tags>
     <DalamudApiLevel>15</DalamudApiLevel>
