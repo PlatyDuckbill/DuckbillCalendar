@@ -1,0 +1,3740 @@
+{
+  "schemaVersion": 2,
+  "isExample": false,
+  "contentRevision": 6,
+  "region": "KR",
+  "generatedAt": "2026-11-12T11:17:23.4586363+00:00",
+  "evidence": [
+    {
+      "id": "kr:patch-catalog:v7-5:4a14eeda5145",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:41:58.9240777+00:00",
+      "sourceSnapshotSha256": "4a14eeda5145e4612295e5bb8ef06728802983281d42067713cbe808ee685b14",
+      "note": "\uACF5\uC2DD \uD328\uCE58 \uBAA9\uB85D\uC758 \uB300\uD615 \uD328\uCE58 \uCE74\uB4DC\uC5D0 \uC9C1\uC811 \uBA85\uC2DC\uB41C \uB0A0\uC9DC. \uBD80\uD328\uCE58 \uB0A0\uC9DC\uB85C \uC7AC\uC0AC\uC6A9\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:patch-catalog:v7-4:4a14eeda5145",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:41:58.9240777+00:00",
+      "sourceSnapshotSha256": "4a14eeda5145e4612295e5bb8ef06728802983281d42067713cbe808ee685b14",
+      "note": "\uACF5\uC2DD \uD328\uCE58 \uBAA9\uB85D\uC758 \uB300\uD615 \uD328\uCE58 \uCE74\uB4DC\uC5D0 \uC9C1\uC811 \uBA85\uC2DC\uB41C \uB0A0\uC9DC. \uBD80\uD328\uCE58 \uB0A0\uC9DC\uB85C \uC7AC\uC0AC\uC6A9\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:patch-catalog:v7-3:4a14eeda5145",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:41:58.9240777+00:00",
+      "sourceSnapshotSha256": "4a14eeda5145e4612295e5bb8ef06728802983281d42067713cbe808ee685b14",
+      "note": "\uACF5\uC2DD \uD328\uCE58 \uBAA9\uB85D\uC758 \uB300\uD615 \uD328\uCE58 \uCE74\uB4DC\uC5D0 \uC9C1\uC811 \uBA85\uC2DC\uB41C \uB0A0\uC9DC. \uBD80\uD328\uCE58 \uB0A0\uC9DC\uB85C \uC7AC\uC0AC\uC6A9\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:patch-catalog:v7-2:4a14eeda5145",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:41:58.9240777+00:00",
+      "sourceSnapshotSha256": "4a14eeda5145e4612295e5bb8ef06728802983281d42067713cbe808ee685b14",
+      "note": "\uACF5\uC2DD \uD328\uCE58 \uBAA9\uB85D\uC758 \uB300\uD615 \uD328\uCE58 \uCE74\uB4DC\uC5D0 \uC9C1\uC811 \uBA85\uC2DC\uB41C \uB0A0\uC9DC. \uBD80\uD328\uCE58 \uB0A0\uC9DC\uB85C \uC7AC\uC0AC\uC6A9\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:patch-catalog:v7-1:4a14eeda5145",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:41:58.9240777+00:00",
+      "sourceSnapshotSha256": "4a14eeda5145e4612295e5bb8ef06728802983281d42067713cbe808ee685b14",
+      "note": "\uACF5\uC2DD \uD328\uCE58 \uBAA9\uB85D\uC758 \uB300\uD615 \uD328\uCE58 \uCE74\uB4DC\uC5D0 \uC9C1\uC811 \uBA85\uC2DC\uB41C \uB0A0\uC9DC. \uBD80\uD328\uCE58 \uB0A0\uC9DC\uB85C \uC7AC\uC0AC\uC6A9\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:patch-catalog:v7-0:4a14eeda5145",
+      "sourceId": "kr-patch-catalog",
+      "url": "https://www.ff14.co.kr/news/patchnote",
+      "observedAt": "2026-11-12T10:41:58.9240777+00:00",
+      "sourceSnapshotSha256": "4a14eeda5145e4612295e5bb8ef06728802983281d42067713cbe808ee685b14",
+      "note": "\uACF5\uC2DD \uD328\uCE58 \uBAA9\uB85D\uC758 \uB300\uD615 \uD328\uCE58 \uCE74\uB4DC\uC5D0 \uC9C1\uC811 \uBA85\uC2DC\uB41C \uB0A0\uC9DC. \uBD80\uD328\uCE58 \uB0A0\uC9DC\uB85C \uC7AC\uC0AC\uC6A9\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "curated:v8-ce-template:25f7922472f4",
+      "sourceId": "kr-curated:v8-ce-template",
+      "url": "https://www.ff14.co.kr/events/2026/NovShop",
+      "observedAt": "2026-11-12T11:17:20.873973+00:00",
+      "sourceSnapshotSha256": "25f7922472f4b0ca34ab53423f99232bbe1d2c7efc840a7a2a380d0eeec80815",
+      "note": "\uACF5\uC2DD \uC6D0\uBB38\uACFC \uB300\uC870\uD55C \uB0A0\uC9DC \uB9E4\uD551\uC744 \uD544\uC218 \uAD6C\uC808\uB85C \uC7AC\uD655\uC778. \uC6D0\uBB38/\uAD6C\uC131\uC694\uC18C \uC9C1\uC811 \uC218\uC9D1 URL: https://image.ff14.co.kr/event/2026/novshop/js/ui.min.js?c9117f164c6663406779 (\uACF5\uC2DD \uB3D9\uC801 \uD398\uC774\uC9C0\uC758 \uC815\uC801 HTML \uD15C\uD50C\uB9BF, \uC2E4\uD589\uD558\uC9C0 \uC54A\uC74C; SHA256\uC740 \uC774 \uAD6C\uC131\uC694\uC18C \uBC14\uC774\uD2B8 \uB300\uC0C1)."
+    },
+    {
+      "id": "kr:event:772:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/772?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:771:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/771?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:770:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/770?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:768:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/768?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:701:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/701?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:660:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/660?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:564:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/564?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:487:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/487?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:460:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/460?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:394:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-12T11:16:44.3838766+00:00",
+      "sourceSnapshotSha256": "2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 1\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/394?category=1\u0026page=1"
+    },
+    {
+      "id": "kr:event:351:list:55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event?category=1\u0026page=2",
+      "observedAt": "2026-11-12T11:16:45.1704191+00:00",
+      "sourceSnapshotSha256": "55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 2\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/351?category=1\u0026page=2"
+    },
+    {
+      "id": "kr:event:300:list:55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event?category=1\u0026page=2",
+      "observedAt": "2026-11-12T11:16:45.1704191+00:00",
+      "sourceSnapshotSha256": "55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 2\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/300?category=1\u0026page=2"
+    },
+    {
+      "id": "kr:event:227:list:55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event?category=1\u0026page=2",
+      "observedAt": "2026-11-12T11:16:45.1704191+00:00",
+      "sourceSnapshotSha256": "55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 2\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/227?category=1\u0026page=2"
+    },
+    {
+      "id": "kr:event:29:list:55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event?category=1\u0026page=2",
+      "observedAt": "2026-11-12T11:16:45.1704191+00:00",
+      "sourceSnapshotSha256": "55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497",
+      "note": "\uAE30\uACC4 \uAC80\uC99D: \uACF5\uC2DD \uBAA9\uB85D 2\uD398\uC774\uC9C0\uC758 \uAD6C\uC870\uD654\uB41C time \uD544\uB4DC\uC640 \uD45C\uC2DC \uC2DC\uAC01 \uC77C\uCE58. \uC0AC\uB78C/LLM \uAC80\uC218 \uC544\uB2D8. \uAC1C\uBCC4 \uC548\uB0B4: https://www.ff14.co.kr/news/event/view/29?category=1\u0026page=2"
+    },
+    {
+      "id": "kr:notice:2928:77a144ddfaa9",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2928",
+      "observedAt": "2026-11-12T11:17:16.8076862+00:00",
+      "sourceSnapshotSha256": "77a144ddfaa98105222d2e05050617d78a78944f15f4a70f35d9c621927e86cb",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2929:39d8f0e6786b",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2929",
+      "observedAt": "2026-11-12T11:17:16.3722485+00:00",
+      "sourceSnapshotSha256": "39d8f0e6786b171ee081f1fdda999ebd87efe48a3cbf654a361e8f5b3fd8383c",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2930:39390efa0ba6",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2930",
+      "observedAt": "2026-11-12T11:17:15.9510102+00:00",
+      "sourceSnapshotSha256": "39390efa0ba661eb3a7f8e21e655cedb94c48bef7a220c7d75e7d78beccad589",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2931:10c60f50e671",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2931",
+      "observedAt": "2026-11-12T11:17:15.5742853+00:00",
+      "sourceSnapshotSha256": "10c60f50e6714e6bcb80ce13b1112d163f8cb7a8a2034b3c65c6d500eb690008",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2932:05a281ac4cbc",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2932",
+      "observedAt": "2026-11-12T11:17:15.1064014+00:00",
+      "sourceSnapshotSha256": "05a281ac4cbcb8f3496554cb434b307970df5d5b3bd453b46226f3103205fbe2",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2933:551b057778ff",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2933",
+      "observedAt": "2026-11-12T11:17:14.6539376+00:00",
+      "sourceSnapshotSha256": "551b057778ff53e35252f1919e24ddf30cc79d7651ecb4be7a20ab548af3ca46",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2934:5866de352620",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2934",
+      "observedAt": "2026-11-12T11:17:14.1963581+00:00",
+      "sourceSnapshotSha256": "5866de3526207bdeb39f126b60f4c05fe8e79e244a04bd5345240db9da5ad1b9",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2935:222721f72448",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2935",
+      "observedAt": "2026-11-12T11:17:13.7250963+00:00",
+      "sourceSnapshotSha256": "222721f724482050fee4cbddcc6a42402ced54b6dfbe29a9f7eb49d06215ce75",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2936:48f0aea7b5a1",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2936",
+      "observedAt": "2026-11-12T11:17:13.2704119+00:00",
+      "sourceSnapshotSha256": "48f0aea7b5a1ae24103292f4528cf67b9d50d4e015ba821b70fbdf4f3147fcdc",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2937:b036f4d89be3",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2937",
+      "observedAt": "2026-11-12T11:17:12.8145827+00:00",
+      "sourceSnapshotSha256": "b036f4d89be345a7f5364c0a86ba18b78fe1a8c3890a3f04bf816dc041557a04",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2938:ad6f60e018e5",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2938",
+      "observedAt": "2026-11-12T11:17:12.3583079+00:00",
+      "sourceSnapshotSha256": "ad6f60e018e52a3df62d2645b000d0557c2323231f7ff5ef216c586742564a49",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2939:4a77e0b94602",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2939",
+      "observedAt": "2026-11-12T11:17:11.9057287+00:00",
+      "sourceSnapshotSha256": "4a77e0b94602f6572c6bbf66d1dac92d02ecbf68b85b1f64abdd89508d640581",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3142:f67c8ad6b6eb",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3142",
+      "observedAt": "2026-11-12T11:17:11.2720735+00:00",
+      "sourceSnapshotSha256": "f67c8ad6b6ebe651912bd5b443f2a43053353dda66ea2ddfc844436e4fefd711",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2941:6d0708de5bfd",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2941",
+      "observedAt": "2026-11-12T11:17:10.806241+00:00",
+      "sourceSnapshotSha256": "6d0708de5bfdd9453884de7279cd19650002c8ae4ad8100b3cda71743898d4c5",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2942:02aacbe7fe53",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2942",
+      "observedAt": "2026-11-12T11:17:10.3523176+00:00",
+      "sourceSnapshotSha256": "02aacbe7fe53359e60f27cc1304bbbfb8b92f981594f70512f46b23ac8705ab7",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2943:3d954b8a5a81",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2943",
+      "observedAt": "2026-11-12T11:17:09.8931156+00:00",
+      "sourceSnapshotSha256": "3d954b8a5a81977a90a5427091f07902420c22eadc3168eaf5b847d07bf7835a",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2944:29d8e2ebee4b",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2944",
+      "observedAt": "2026-11-12T11:17:09.4359298+00:00",
+      "sourceSnapshotSha256": "29d8e2ebee4bd0651039e9d6d74aaa0b830c29e2013b1a352d4b98fe9e4dc302",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2945:5fab2ff377c4",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2945",
+      "observedAt": "2026-11-12T11:17:08.9815503+00:00",
+      "sourceSnapshotSha256": "5fab2ff377c4396ee8b5414aed055ba8f29dcaa58d7fd27f266f86afe1b3826a",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2946:0393aa980e48",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2946",
+      "observedAt": "2026-11-12T11:17:08.3480648+00:00",
+      "sourceSnapshotSha256": "0393aa980e487fea12d5ccb8ad08bbca7b43fce7ae239bda25d6cd414f89bbbd",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2947:8f32526ee9fc",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2947",
+      "observedAt": "2026-11-12T11:17:07.9283113+00:00",
+      "sourceSnapshotSha256": "8f32526ee9fc376536a4bdc5cdb23d9534ed2c2059d23390546c428f07a98ebe",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2948:77638f080b1b",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2948",
+      "observedAt": "2026-11-12T11:17:07.0236743+00:00",
+      "sourceSnapshotSha256": "77638f080b1b0ce5d1784c2d98d5fe927dd00b80335ba4afa3f60e8010d38957",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2949:0daaeff4fea4",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2949",
+      "observedAt": "2026-11-12T11:17:06.6629076+00:00",
+      "sourceSnapshotSha256": "0daaeff4fea45fb38bf52b5e05f8f95adfe297ec3fe0b2817b27812b7500239c",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2950:15cc51875d70",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2950",
+      "observedAt": "2026-11-12T11:17:06.2268566+00:00",
+      "sourceSnapshotSha256": "15cc51875d70c83fb591183f76ee7e2a0352f702818d871928f8ea0c5cf2a3a2",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2951:72f5803cf029",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2951",
+      "observedAt": "2026-11-12T11:17:05.7962372+00:00",
+      "sourceSnapshotSha256": "72f5803cf02941ec570a68301198146cf18ac7d916df51cc9cc839a54f71cc81",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2952:62229f5a7255",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2952",
+      "observedAt": "2026-11-12T11:17:05.3620652+00:00",
+      "sourceSnapshotSha256": "62229f5a72558b01ad7badd12bbd73b0b1ec131bc4dad873901dd3b4cec3773d",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2953:4f656313ea46",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2953",
+      "observedAt": "2026-11-12T11:17:04.6977335+00:00",
+      "sourceSnapshotSha256": "4f656313ea4607b6a3a8a66327f3150a7bc642b69833b6d7053bf0bcf32231d2",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2954:0de7c2e623fb",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2954",
+      "observedAt": "2026-11-12T11:17:04.280046+00:00",
+      "sourceSnapshotSha256": "0de7c2e623fb42966590970c5da6e86e8d90cdf9926de17a1d44f4b2f28a3ea0",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2955:86a1f39a8007",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2955",
+      "observedAt": "2026-11-12T11:17:03.8677109+00:00",
+      "sourceSnapshotSha256": "86a1f39a8007a8c18c36bb812eaf46aa694958dae7630f944c3e462d6dcef4d1",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2956:eaf361d41efe",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2956",
+      "observedAt": "2026-11-12T11:17:03.3332237+00:00",
+      "sourceSnapshotSha256": "eaf361d41efeae150817d6bc1df95c898646b1667d9a3b0cee688f28317d04f5",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2957:6bdc15d67321",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2957",
+      "observedAt": "2026-11-12T11:17:02.9755605+00:00",
+      "sourceSnapshotSha256": "6bdc15d67321fef441a7bb62ae92fe0ed7790094ebce2f1ef64230ee1dcc156e",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2959:b239d6dcb3aa",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2959",
+      "observedAt": "2026-11-12T11:17:02.5425897+00:00",
+      "sourceSnapshotSha256": "b239d6dcb3aadb776cac7a1fba618eca9ae931f3b010526e7764523f43dd073f",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2960:c643586960b2",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2960",
+      "observedAt": "2026-11-12T11:17:02.0780755+00:00",
+      "sourceSnapshotSha256": "c643586960b2db53e4d72311baaa127dc3939f79600316a94c1bbccc84882a51",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2961:fbce48cd8b55",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2961",
+      "observedAt": "2026-11-12T11:17:01.4700056+00:00",
+      "sourceSnapshotSha256": "fbce48cd8b55b1546892f26108830d7a815631162b22fb2200c5394ad0408fca",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2962:f45090e2cb5f",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2962",
+      "observedAt": "2026-11-12T11:17:00.9943883+00:00",
+      "sourceSnapshotSha256": "f45090e2cb5f0c51aecd3c1bcd8b1c08ddc17225cbda191580b74689a95e6647",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2963:04e1756c13f8",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2963",
+      "observedAt": "2026-11-12T11:17:00.4699491+00:00",
+      "sourceSnapshotSha256": "04e1756c13f8601a6f71768e1ae8f1671de19e5d5957f409db0958f853a24824",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2964:c8b314bae053",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2964",
+      "observedAt": "2026-11-12T11:17:00.0259827+00:00",
+      "sourceSnapshotSha256": "c8b314bae0535854233a1dc9851902531281541962be1503b95e3bdb9ed0680a",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2965:c29efac4f516",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2965",
+      "observedAt": "2026-11-12T11:16:59.5719892+00:00",
+      "sourceSnapshotSha256": "c29efac4f5169268039ab05db246dd19ace872596305633f4f7aad5829c64357",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2966:31c44b057562",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2966",
+      "observedAt": "2026-11-12T11:16:59.1921912+00:00",
+      "sourceSnapshotSha256": "31c44b05756215a3a943591f9ab8ea77edd69bf27799fdb6f681862570c7ea07",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2967:d803d3614628",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2967",
+      "observedAt": "2026-11-12T11:16:58.6522425+00:00",
+      "sourceSnapshotSha256": "d803d36146286ccd5e388ecef6e88b98c82f9cf1ee94896dd054855dd9f4cf77",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2968:9c833e53b2a2",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2968",
+      "observedAt": "2026-11-12T11:16:58.1963504+00:00",
+      "sourceSnapshotSha256": "9c833e53b2a2d2577fd9425716e9800ad361df50d586ee830ea8ad4dddf741e4",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2969:7e32fbb73bee",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2969",
+      "observedAt": "2026-11-12T11:16:57.7581793+00:00",
+      "sourceSnapshotSha256": "7e32fbb73bee229dd0bc762189a0dcd315dc4a594080b81cc8537d4a662013ea",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2970:bd731182b0db",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2970",
+      "observedAt": "2026-11-12T11:16:57.3196545+00:00",
+      "sourceSnapshotSha256": "bd731182b0db38dd37c3f9205a3a274ae112d32a54ad78d5dbc2d8496ea73921",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2971:90949b91e751",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2971",
+      "observedAt": "2026-11-12T11:16:56.8877008+00:00",
+      "sourceSnapshotSha256": "90949b91e7519bd5a826fd2b3c9d83517a21399369148024bfae3bf6b86e66e7",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2972:c033c8bd0397",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/2972",
+      "observedAt": "2026-11-12T11:16:56.2439453+00:00",
+      "sourceSnapshotSha256": "c033c8bd03977f9f0862fa2a15d8326e9e71067c93448b43f76c28d0147613fe",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3148:c39a68deb398",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3148",
+      "observedAt": "2026-11-12T11:16:55.7784808+00:00",
+      "sourceSnapshotSha256": "c39a68deb398ec07c075f3440921e3d7effca3b3e433c63dcb47999044d55c14",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3143:f4b752da8a5a",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3143",
+      "observedAt": "2026-11-12T11:16:55.3503296+00:00",
+      "sourceSnapshotSha256": "f4b752da8a5a896241ffb92ef852f732b18ae5e299f12cdc271eccb6cd4ec1a6",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3149:42584d2c9fcf",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3149",
+      "observedAt": "2026-11-12T11:16:54.9016689+00:00",
+      "sourceSnapshotSha256": "42584d2c9fcffd56581a977cab850e6d076833c8d7f4ad35789efc6db2e82967",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3150:eb8243c0555d",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3150",
+      "observedAt": "2026-11-12T11:16:54.4853607+00:00",
+      "sourceSnapshotSha256": "eb8243c0555d6a11b3d46a3f38376bd0207f847ef52edb9e46ac13d382107b8f",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3151:84319d7169ec",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3151",
+      "observedAt": "2026-11-12T11:16:54.1188531+00:00",
+      "sourceSnapshotSha256": "84319d7169ecbd44c38019f2b3bee8f9b580a6aa62c31b85c47f7f09bbce86d9",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3152:2ce1fbb77a59",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3152",
+      "observedAt": "2026-11-12T11:16:53.6603266+00:00",
+      "sourceSnapshotSha256": "2ce1fbb77a5960a5187aea1c04e08b7cd3c3284c25af245eb4f5ef4bf1b352c0",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3153:211637e701c4",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3153",
+      "observedAt": "2026-11-12T11:16:53.0502429+00:00",
+      "sourceSnapshotSha256": "211637e701c4cdbc08fbe933bcb072c30662b6f59f4104759b8d622d59927089",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3154:455ab81034f0",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3154",
+      "observedAt": "2026-11-12T11:16:52.5893266+00:00",
+      "sourceSnapshotSha256": "455ab81034f001293323f0afd5740c1cf880e7d0c1fe86c6c948ac98dbc95265",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3155:35f51702061f",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3155",
+      "observedAt": "2026-11-12T11:16:52.1680323+00:00",
+      "sourceSnapshotSha256": "35f51702061f24755c3d91f5958ac1a75bf093fce0ac08550ce4bff0fc971465",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3156:073134f2a6d6",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3156",
+      "observedAt": "2026-11-12T11:16:51.7031822+00:00",
+      "sourceSnapshotSha256": "073134f2a6d6e2cd04e73769c9e34153764a4a06af17545d6612f07557d28002",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3157:3efbdd6dc91a",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3157",
+      "observedAt": "2026-11-12T11:16:51.2861969+00:00",
+      "sourceSnapshotSha256": "3efbdd6dc91a5ce92e482a72192eb9a9754ac7bde0ff3985b07f0fb055a2c590",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3158:1ff74b129afa",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3158",
+      "observedAt": "2026-11-12T11:16:50.945872+00:00",
+      "sourceSnapshotSha256": "1ff74b129afaab28ed6f8981558d7ed707e69992edeb090725c84583deb4fb40",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3159:e0e1a6e05f2a",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3159",
+      "observedAt": "2026-11-12T11:16:50.5175543+00:00",
+      "sourceSnapshotSha256": "e0e1a6e05f2acfa4e2657a11bcdb3d9dfbd4a6ff0e6ff2324948b5dea7578055",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3160:56c30256b748",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3160",
+      "observedAt": "2026-11-12T11:16:50.0600782+00:00",
+      "sourceSnapshotSha256": "56c30256b748a285c8ff76027c8ad4709945be829f1ba9821edbe06f6e805531",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3161:984293d3b535",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3161",
+      "observedAt": "2026-11-12T11:16:49.3276477+00:00",
+      "sourceSnapshotSha256": "984293d3b535dcdaa579fdff695ed46f1db6764d7bc6791b6878d85645ad73ce",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3162:359eb47cf499",
+      "sourceId": "kr-notices",
+      "url": "https://www.ff14.co.kr/news/notice/view/3162",
+      "observedAt": "2026-11-12T11:16:48.92064+00:00",
+      "sourceSnapshotSha256": "359eb47cf49905f12dd0afa89e1812e9b0cf54cba76146a66f3d4af2cfb0237c",
+      "note": "\uACF5\uC2DD \uACF5\uC9C0 \uBCF8\uBB38. \uAC8C\uC2DC\uC77C\uACFC \uBCF8\uBB38 \uC77C\uC815\uC744 \uBD84\uB9AC\uD574 \uD45C\uC2DC\uD569\uB2C8\uB2E4. \uAE30\uACC4 \uADDC\uCE59 \uAC80\uC99D\uC774\uBA70 \uC0AC\uB78C \uAC80\uC218\uB098 \uC804\uCCB4 \uC218\uC9D1\uC744 \uB73B\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "curated:v8-gm-live:f87774925a1f",
+      "sourceId": "kr-curated:v8-gm-live",
+      "url": "https://www.ff14.co.kr/Eorzea/GMLive",
+      "observedAt": "2026-11-12T11:17:18.3952373+00:00",
+      "sourceSnapshotSha256": "f87774925a1f8f597d24b4afef59fb9aeda4fe40b791cefdd7e217d0e8ec67db",
+      "note": "\uACF5\uC2DD \uC6D0\uBB38\uACFC \uB300\uC870\uD55C \uB0A0\uC9DC \uB9E4\uD551\uC744 \uD544\uC218 \uAD6C\uC808\uB85C \uC7AC\uD655\uC778. \uC6D0\uBB38/\uAD6C\uC131\uC694\uC18C \uC9C1\uC811 \uC218\uC9D1 URL: https://www.ff14.co.kr/Eorzea/GMLive (SHA256\uC740 \uC774 \uC751\uB2F5 \uBC14\uC774\uD2B8 \uB300\uC0C1)."
+    },
+    {
+      "id": "curated:v8-ce-shop:26e651f608f7",
+      "sourceId": "kr-curated:v8-ce-shop",
+      "url": "https://www.ff14.co.kr/events/2026/NovShop",
+      "observedAt": "2026-11-12T11:17:18.7297727+00:00",
+      "sourceSnapshotSha256": "26e651f608f7920b4c3b57a0596d58b2a9eb0f4054369fbfcf69fa9637967539",
+      "note": "\uACF5\uC2DD \uC6D0\uBB38\uACFC \uB300\uC870\uD55C \uB0A0\uC9DC \uB9E4\uD551\uC744 \uD544\uC218 \uAD6C\uC808\uB85C \uC7AC\uD655\uC778. \uC6D0\uBB38/\uAD6C\uC131\uC694\uC18C \uC9C1\uC811 \uC218\uC9D1 URL: https://www.ff14.co.kr/events/2026/NovShop (SHA256\uC740 \uC774 \uC751\uB2F5 \uBC14\uC774\uD2B8 \uB300\uC0C1)."
+    },
+    {
+      "id": "curated:series12-patch:e7fa9824231a",
+      "sourceId": "kr-curated:series12-patch",
+      "url": "https://www.ff14.co.kr/news/notice/view/2947",
+      "observedAt": "2026-11-12T11:17:21.9124257+00:00",
+      "sourceSnapshotSha256": "e7fa9824231afbaed66ceeb0ea613ee04ca9dbaa8a6f119540133264f9402227",
+      "note": "\uACF5\uC2DD \uC6D0\uBB38\uACFC \uB300\uC870\uD55C \uB0A0\uC9DC \uB9E4\uD551\uC744 \uD544\uC218 \uAD6C\uC808\uB85C \uC7AC\uD655\uC778. \uC6D0\uBB38/\uAD6C\uC131\uC694\uC18C \uC9C1\uC811 \uC218\uC9D1 URL: https://www.ff14.co.kr/news/notice/view/2947 (SHA256\uC740 \uC774 \uC751\uB2F5 \uBC14\uC774\uD2B8 \uB300\uC0C1)."
+    },
+    {
+      "id": "curated:series12-open:9ebe91239166",
+      "sourceId": "kr-curated:series12-open",
+      "url": "https://www.ff14.co.kr/news/notice/view/2949",
+      "observedAt": "2026-11-12T11:17:22.3769685+00:00",
+      "sourceSnapshotSha256": "9ebe9123916679d7c4488f159ec64fc3ce8940d5be20c6251af9a4e1a717546f",
+      "note": "\uACF5\uC2DD \uC6D0\uBB38\uACFC \uB300\uC870\uD55C \uB0A0\uC9DC \uB9E4\uD551\uC744 \uD544\uC218 \uAD6C\uC808\uB85C \uC7AC\uD655\uC778. \uC6D0\uBB38/\uAD6C\uC131\uC694\uC18C \uC9C1\uC811 \uC218\uC9D1 URL: https://www.ff14.co.kr/news/notice/view/2949 (SHA256\uC740 \uC774 \uC751\uB2F5 \uBC14\uC774\uD2B8 \uB300\uC0C1)."
+    },
+    {
+      "id": "curated:ccrc2027:01200765eb86",
+      "sourceId": "kr-curated:ccrc2027",
+      "url": "https://www.ff14.co.kr/events/ccrc_Korea/news/detail/20",
+      "observedAt": "2026-11-12T11:17:22.7008668+00:00",
+      "sourceSnapshotSha256": "01200765eb86ed37c4140743c8442eab9b86a20e65566a8c4446378cfe4c6efc",
+      "note": "\uACF5\uC2DD \uC6D0\uBB38\uACFC \uB300\uC870\uD55C \uB0A0\uC9DC \uB9E4\uD551\uC744 \uD544\uC218 \uAD6C\uC808\uB85C \uC7AC\uD655\uC778. \uC6D0\uBB38/\uAD6C\uC131\uC694\uC18C \uC9C1\uC811 \uC218\uC9D1 URL: https://www.ff14.co.kr/events/ccrc_Korea/news/detail/20 (SHA256\uC740 \uC774 \uC751\uB2F5 \uBC14\uC774\uD2B8 \uB300\uC0C1)."
+    }
+  ],
+  "events": [
+    {
+      "id": "kr:event:772",
+      "revision": 6,
+      "category": "in-game-event",
+      "title": "\uC5FC\uC601\uC758 \uC5EC\uB85C",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-18T17:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:772:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-12-09T23:59:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:772:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 26. 11. 18 17:00 ~ 26. 12. 09 23:59"
+    },
+    {
+      "id": "kr:event:771",
+      "revision": 6,
+      "category": "web-event",
+      "title": "\uBC31\uC740\uC758 \uD0D0\uAD6C\uC790 \uCF5C\uB809\uD130\uC988 \uC5D0\uB514\uC158 \uC0AC\uC804\uC608\uC57D",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-04T18:30:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:771:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2027-02-19T18:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:771:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 26. 11. 04 18:30 ~ 27. 02. 19 18:00"
+    },
+    {
+      "id": "kr:event:770",
+      "revision": 6,
+      "category": "web-event",
+      "title": "2027 \uD0C1\uC0C1 \uB2EC\uB825 \uC99D\uC815 \uC774\uBCA4\uD2B8",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-04T18:30:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:770:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-12-01T23:59:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:770:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 26. 11. 04 18:30 ~ 26. 12. 01 23:59"
+    },
+    {
+      "id": "kr:event:768",
+      "revision": 6,
+      "category": "in-game-event",
+      "title": "\uB9C8\uBC95\uC790\uD310 \uB09C\uD0C0\uC804",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-28T17:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:768:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 26. 10. 28 17:00 ~ V8.0 \uC5C5\uB370\uC774\uD2B8 \uC804\uAE4C\uC9C0"
+    },
+    {
+      "id": "kr:event:701",
+      "revision": 6,
+      "category": "in-game-event",
+      "title": "FFXIV \u00D7 MONSTER HUNTER WILDS",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2025-12-23T19:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:701:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 25. 12. 23 19:00 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:event:660",
+      "revision": 6,
+      "category": "web-event",
+      "title": "\uCE5C\uAD6C \uCD08\uB300 \uD61C\uD0DD",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2025-07-15T00:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:660:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 25. 07. 15 00:00 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:event:564",
+      "revision": 6,
+      "category": "web-event",
+      "title": "\uBB34\uB8CC \uD50C\uB808\uC774 \uD61C\uD0DD",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2024-04-02T18:30:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:564:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 24. 04. 02 18:30 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:event:487",
+      "revision": 6,
+      "category": "web-event",
+      "title": "\uB0B4 \uC815\uBCF4 \uC5C5\uB370\uC774\uD2B8 \uC774\uBCA4\uD2B8",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2023-03-09T00:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:487:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 23. 03. 09 00:00 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:event:460",
+      "revision": 6,
+      "category": "in-game-event",
+      "title": "GARO \uCF5C\uB77C\uBCF4 \uC774\uBCA4\uD2B8",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2022-10-04T18:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:460:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 22. 10. 04 18:00 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:event:394",
+      "revision": 6,
+      "category": "web-event",
+      "title": "\uC6B0\uB300 \uC11C\uBC84\uB9CC\uC758 \uD2B9\uBCC4\uD55C \uD61C\uD0DD!",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2021-10-19T11:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:394:list:2bba287413900a0f8fc99dab323080711e783c29d4e9dac2592153f6683d2074"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 21. 10. 19 11:00 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:event:351",
+      "revision": 3,
+      "category": "web-event",
+      "title": "\uBAA8\uD5D8\uAC00 \uC131\uC7A5 \uC9C0\uC6D0",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2021-01-12T00:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:351:list:55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 21. 01. 12 00:00 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:event:300",
+      "revision": 3,
+      "category": "web-event",
+      "title": "\uC694\uB974\uD558: \uC5B4\uB460\uC758 \uBB35\uC2DC\uB85D",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2020-03-24T19:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:300:list:55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 20. 03. 24 19:00 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:event:227",
+      "revision": 3,
+      "category": "web-event",
+      "title": "\uBAAC\uC2A4\uD130\uD5CC\uD130:\uC6D4\uB4DC \uCF5C\uB77C\uBCF4\uB808\uC774\uC158",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2019-01-14T00:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:227:list:55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 19. 01. 14 00:00 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:event:29",
+      "revision": 3,
+      "category": "web-event",
+      "title": "\uAD6C\uBD80\uB294 \uD0F1\uCEE4\uB97C \uC88B\uC544\uD574!",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation-0",
+          "label": "\uC774\uBCA4\uD2B8 \uAE30\uAC04",
+          "start": {
+            "kind": "instant",
+            "value": "2015-10-06T00:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:event:29:list:55b317f34b2f3a67fa433f4186a5994eaa54c6cefc3197e0f94d904c8417f497"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uBAA9\uB85D\uC758 \uAD6C\uC870\uD654\uB41C \uAE30\uAC04\uC744 \uC790\uB3D9 \uBC18\uC601. \uBCF8\uBB38 \uC870\uAC74\uC740 \uC6D0\uBB38 \uD655\uC778. \uAE30\uAC04 \uC6D0\uBB38: \uC774\uBCA4\uD2B8 \uAE30\uAC04 15. 10. 06 00:00 ~ \uC9C4\uD589 \uC911"
+    },
+    {
+      "id": "kr:patch:v7-5",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.5 Trail to the Heavens \uC800 \uB108\uBA38\uB85C \uC774\uB974\uB294 \uAE38",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "\uC8FC\uC694 \uD328\uCE58 \uC801\uC6A9\uC77C",
+          "start": {
+            "kind": "date",
+            "value": "2026-04-28",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-5:4a14eeda5145"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-4",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.4 Into the Mist \uC548\uAC1C \uC18D \uC774\uC0C1\uD5A5",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "\uC8FC\uC694 \uD328\uCE58 \uC801\uC6A9\uC77C",
+          "start": {
+            "kind": "date",
+            "value": "2026-02-03",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-4:4a14eeda5145"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-3",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.3 The Promise of Tomorrow \uB0B4\uC77C\uC744 \uD5A5\uD55C \uC774\uC815\uD45C",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "\uC8FC\uC694 \uD328\uCE58 \uC801\uC6A9\uC77C",
+          "start": {
+            "kind": "date",
+            "value": "2025-10-28",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-3:4a14eeda5145"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-2",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.2 Seekers of Eternity \uC601\uC6D0\uC758 \uD0D0\uAD6C\uC790",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "\uC8FC\uC694 \uD328\uCE58 \uC801\uC6A9\uC77C",
+          "start": {
+            "kind": "date",
+            "value": "2025-07-15",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-2:4a14eeda5145"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-1",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.1 Crossroads \uBBF8\uC9C0\uC640\uC758 \uD574\uD6C4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "\uC8FC\uC694 \uD328\uCE58 \uC801\uC6A9\uC77C",
+          "start": {
+            "kind": "date",
+            "value": "2025-03-18",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-1:4a14eeda5145"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:patch:v7-0",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.0 Dawntrail \uD669\uAE08\uC758 \uC720\uC0B0",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "\uC8FC\uC694 \uD328\uCE58 \uC801\uC6A9\uC77C",
+          "start": {
+            "kind": "date",
+            "value": "2024-12-03",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:patch-catalog:v7-0:4a14eeda5145"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false
+    },
+    {
+      "id": "kr:notice:2928",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.04(\uD654) \uACF5\uC2DD \uAC00\uC774\uB4DC \uBC0F \uD06C\uB9AC\uC2A4\uD0C8\uC0F5 \uC810\uAC80 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-04T15:01:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2928:77a144ddfaa9"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2929",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.05(\uC218) Hot-fix \uC801\uC6A9 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-05T11:16:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2929:39d8f0e6786b"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2930",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(\uAE08) Hot-fix \uC810\uAC80 \uC608\uC815 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-06T19:06:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2930:39390efa0ba6"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2931",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(\uAE08) Hot-fix \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T11:55:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2931:10c60f50e671"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:maintenance:game:20260807:2026-08-07",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "\uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "\uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T15:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2934:5866de352620"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-08-07T18:55:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2934:5866de352620"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uAC19\uC740 \uC5C5\uB370\uC774\uD2B8\u00B7\uB0A0\uC9DC\uC758 \uD6C4\uC18D \uACF5\uC9C0\uC5D0 \uBA85\uC2DC\uB41C \uC2DC\uAC04\uC774 \uC6B0\uC120\uD569\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2932",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(\uAE08) Hot-fix \uC0AC\uC804 \uD328\uCE58 \uC801\uC6A9 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T16:30:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2932:05a281ac4cbc"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2933",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(\uAE08) Hot-fix \uC810\uAC80 \uC644\uB8CC \uC2DC\uAC04 \uBCC0\uACBD \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T18:30:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2933:551b057778ff"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2934",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.07(\uAE08) Hot-fix \uC810\uAC80 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T18:56:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2934:5866de352620"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2935",
+      "revision": 1,
+      "category": "notice",
+      "title": "Hot-fix \uC810\uAC80 \uD6C4 \uD655\uC778\uB41C \uC624\uB958 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-07T20:51:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2935:222721f72448"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2936",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.12(\uC218) \uD06C\uB9AC\uC2A4\uD0C8\uC0F5 \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-10T11:03:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2936:48f0aea7b5a1"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2937",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.11(\uD654) \uB808\uD130\uB77C\uC774\uBE0C Q\u0026A \uD398\uC774\uC9C0 \uC5C5\uB370\uC774\uD2B8 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-11T17:40:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2937:b036f4d89be3"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2938",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.12(\uC218) \uD06C\uB9AC\uC2A4\uD0C8\uC0F5 \uC810\uAC80 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-12T11:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2938:ad6f60e018e5"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2939",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.14(\uAE08) \uC6B4\uC601\uC815\uCC45 \uC704\uBC18\uC5D0 \uB530\uB978 \uC81C\uC7AC \uD604\uD669 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-14T11:10:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2939:4a77e0b94602"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3142",
+      "revision": 1,
+      "category": "notice",
+      "title": "\u0027\uD669\uAE08\uC758 \uD328\uC158 \uCF58\uD14C\uC2A4\uD2B8\u0027 \uC774\uBCA4\uD2B8 \uB2F9\uCCA8\uC790 \uBC1C\uD45C",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-25T15:55:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3142:f67c8ad6b6eb"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2941",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uD30C\uC774\uB110\uD310\uD0C0\uC9C014 \uC800\uC791\uBB3C \uC774\uC6A9 \uD5C8\uB77D \uC870\uAC74\uC5D0 \uB300\uD55C \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-27T17:38:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2941:6d0708de5bfd"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2942",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.01(\uD654) \uD06C\uB9AC\uC2A4\uD0C8\uC0F5 \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-28T12:05:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2942:02aacbe7fe53"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2943",
+      "revision": 1,
+      "category": "notice",
+      "title": "08.30(\uC77C) \uB7F0\uCC98 \uBC0F \uACF5\uC2DD \uD648\uD398\uC774\uC9C0 \uC624\uB958 \uD604\uC0C1 \uC815\uC0C1\uD654 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-08-30T06:33:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2943:3d954b8a5a81"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2944",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.01(\uD654) \uD06C\uB9AC\uC2A4\uD0C8\uC0F5 \uC810\uAC80 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-01T17:15:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2944:29d8e2ebee4b"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2945",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uC5D0\uC624\uB974\uC81C\uC544 \uD0D0\uD5D8 \uD2F0\uCF13 \uBCF4\uC0C1 \uC911 \uC120\uBB3C\uC0C1\uC790\uC5D0\uC11C \uD68D\uB4DD \uAC00\uB2A5\uD55C \uC544\uC774\uD15C\uBCC4 \uD68D\uB4DD \uD655\uB960 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-02T19:58:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2945:5fab2ff377c4"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2946",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.08(\uD654) V7.56 \uC5C5\uB370\uC774\uD2B8 \uC810\uAC80 \uC548\uB0B4(\uC218\uC815)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-04T15:35:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2946:0393aa980e48"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:maintenance:game:v7-56:2026-09-08",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "V7.56 \uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "\uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-08T15:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2949:0daaeff4fea4"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-09-08T18:25:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2949:0daaeff4fea4"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uAC19\uC740 \uC5C5\uB370\uC774\uD2B8\u00B7\uB0A0\uC9DC\uC758 \uD6C4\uC18D \uACF5\uC9C0\uC5D0 \uBA85\uC2DC\uB41C \uC2DC\uAC04\uC774 \uC6B0\uC120\uD569\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:patch:v7-56",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.56 \uC5C5\uB370\uC774\uD2B8",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uC5C5\uB370\uC774\uD2B8 \uC801\uC6A9\uC77C",
+          "start": {
+            "kind": "date",
+            "value": "2026-09-08",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2949:0daaeff4fea4"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uC810\uAC80 \uACF5\uC9C0\uC5D0 \uC5F0\uACB0\uD55C \uB0A0\uC9DC\uC785\uB2C8\uB2E4. \uC2DC\uC791 \uBD84 \uB2E8\uC704 \uC2DC\uAC01\uC744 \uBCC4\uB3C4\uB85C \uCD94\uC815\uD558\uC9C0 \uC54A\uC73C\uBA70 \uC608\uC815\uC77C\uC740 \uC810\uAC80 \uC644\uB8CC \uD6C4 \uD655\uC778\uD569\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2947",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uD328\uCE58 7.56 \uD328\uCE58\uB178\uD2B8",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-08T15:44:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2947:8f32526ee9fc"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2948",
+      "revision": 1,
+      "category": "notice",
+      "title": "V7.56 \uC0AC\uC804 \uD328\uCE58 \uC801\uC6A9 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-08T16:42:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2948:77638f080b1b"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2949",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.08(\uD654) V7.56 \uC5C5\uB370\uC774\uD2B8 \uC810\uAC80 \uC644\uB8CC \uC2DC\uAC04 \uBCC0\uACBD \uC548\uB0B4(\uC644\uB8CC)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-08T18:15:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2949:0daaeff4fea4"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2950",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.09(\uC218) Hot-fix \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-09T12:04:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2950:15cc51875d70"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:maintenance:game:20260909:2026-09-09",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "\uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "\uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-09T15:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2951:72f5803cf029"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-09-09T17:40:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2951:72f5803cf029"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uAC19\uC740 \uC5C5\uB370\uC774\uD2B8\u00B7\uB0A0\uC9DC\uC758 \uD6C4\uC18D \uACF5\uC9C0\uC5D0 \uBA85\uC2DC\uB41C \uC2DC\uAC04\uC774 \uC6B0\uC120\uD569\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2951",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.09(\uC218) Hot-fix \uC810\uAC80 \uC2DC\uAC04 \uBCC0\uACBD \uC548\uB0B4(\uC644\uB8CC)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-09T17:24:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2951:72f5803cf029"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2952",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.11(\uAE08) \uC6B4\uC601\uC815\uCC45 \uC704\uBC18\uC5D0 \uB530\uB978 \uC81C\uC7AC \uD604\uD669 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-11T11:06:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2952:62229f5a7255"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2953",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.15(\uD654) \uACF5\uC2DD \uAC00\uC774\uB4DC \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-14T12:10:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2953:4f656313ea46"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2954",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uBE5B\uC758\uC601\uC790 \uB9C8\uC218\uC870\uB828\uC0AC \uD2B9\uC9D1\uD3B8 \uC0DD\uBC29\uC1A1 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-14T16:56:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2954:0de7c2e623fb"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2955",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.15(\uD654) \uACF5\uC2DD \uAC00\uC774\uB4DC \uC810\uAC80 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-15T11:01:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2955:86a1f39a8007"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2956",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.17(\uBAA9) Hot-fix \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-16T15:34:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2956:eaf361d41efe"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:maintenance:game:20260917:2026-09-17",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "\uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "\uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-17T15:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2961:fbce48cd8b55"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-09-17T18:25:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2961:fbce48cd8b55"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uAC19\uC740 \uC5C5\uB370\uC774\uD2B8\u00B7\uB0A0\uC9DC\uC758 \uD6C4\uC18D \uACF5\uC9C0\uC5D0 \uBA85\uC2DC\uB41C \uC2DC\uAC04\uC774 \uC6B0\uC120\uD569\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2957",
+      "revision": 1,
+      "category": "notice",
+      "title": "VIP \uD3EC\uC778\uD2B8 \uCD94\uAC00 \uC0AC\uC6A9 \uBC29\uC548 \uBC0F \uB204\uC801 \uD55C\uB3C4 \uBCC0\uACBD \uC0AC\uC804 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-16T20:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2957:6bdc15d67321"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2959",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.17(\uBAA9) Hot-fix \uC0AC\uC804 \uD328\uCE58 \uC801\uC6A9 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-17T16:50:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2959:b239d6dcb3aa"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2960",
+      "revision": 1,
+      "category": "notice",
+      "title": "\u0027\uB9C8\uC218 \uC2DC\uB828\uC7A5 \uB7AD\uD0B9\u0027 \uC2DC\uC98C 1 \uC77C\uC815 \uC5F0\uAE30 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-17T17:35:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2960:c643586960b2"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2961",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.17(\uBAA9) Hot-fix \uC810\uAC80 \uC2DC\uAC04 \uBCC0\uACBD \uC548\uB0B4(\uC644\uB8CC)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-17T18:10:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2961:fbce48cd8b55"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2962",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.19(\uD1A0) Hot-fix \uC801\uC6A9 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-19T11:48:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2962:f45090e2cb5f"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2963",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uCE90\uB9AD\uD130 \uC815\uBCF4 \uBCC0\uACBD \uBC0F \uC544\uC774\uD15C \uC218\uB839 \uBD88\uAC00 \uD604\uC0C1 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-21T09:59:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2963:04e1756c13f8"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2964",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uCE90\uB9AD\uD130 \uC815\uBCF4 \uBCC0\uACBD \uBC0F \uC544\uC774\uD15C \uC218\uB839 \uBD88\uAC00 \uD604\uC0C1 \uC815\uC0C1\uD654 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-21T14:01:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2964:c8b314bae053"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2965",
+      "revision": 1,
+      "category": "notice",
+      "title": "09.24(\uBAA9) ~ 09.27(\uC77C) \uCD94\uC11D \uC5F0\uD734 \uAE30\uAC04 \uACE0\uAC1D\uC13C\uD130 \uD734\uBB34 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-22T14:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2965:c29efac4f516"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2966",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.13(\uD654) V7.57 \uC5C5\uB370\uC774\uD2B8 \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-08T19:27:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2966:31c44b057562"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:maintenance:game:v7-57:2026-10-13",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "V7.57 \uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "\uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T14:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2970:bd731182b0db"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-10-13T18:25:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2970:bd731182b0db"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uAC19\uC740 \uC5C5\uB370\uC774\uD2B8\u00B7\uB0A0\uC9DC\uC758 \uD6C4\uC18D \uACF5\uC9C0\uC5D0 \uBA85\uC2DC\uB41C \uC2DC\uAC04\uC774 \uC6B0\uC120\uD569\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:patch:v7-57",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.57 \uC5C5\uB370\uC774\uD2B8",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uC5C5\uB370\uC774\uD2B8 \uC801\uC6A9\uC77C",
+          "start": {
+            "kind": "date",
+            "value": "2026-10-13",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2970:bd731182b0db"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uC810\uAC80 \uACF5\uC9C0\uC5D0 \uC5F0\uACB0\uD55C \uB0A0\uC9DC\uC785\uB2C8\uB2E4. \uC2DC\uC791 \uBD84 \uB2E8\uC704 \uC2DC\uAC01\uC744 \uBCC4\uB3C4\uB85C \uCD94\uC815\uD558\uC9C0 \uC54A\uC73C\uBA70 \uC608\uC815\uC77C\uC740 \uC810\uAC80 \uC644\uB8CC \uD6C4 \uD655\uC778\uD569\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2967",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uD328\uCE58 7.57 \uD328\uCE58\uB178\uD2B8",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T15:24:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2967:d803d3614628"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2968",
+      "revision": 1,
+      "category": "notice",
+      "title": "\u0027\uB9C8\uC218 \uC2DC\uB828\uC7A5 \uB7AD\uD0B9\u0027 \uC2DC\uC98C 1 \uAC1C\uCD5C \uC77C\uC815 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T15:32:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2968:9c833e53b2a2"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2969",
+      "revision": 1,
+      "category": "notice",
+      "title": "V7.57 \uC0AC\uC804 \uD328\uCE58 \uC801\uC6A9 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T16:32:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2969:7e32fbb73bee"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2970",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.13(\uD654) V7.57 \uC5C5\uB370\uC774\uD2B8 \uC810\uAC80 \uC644\uB8CC \uC2DC\uAC04 \uBCC0\uACBD \uC548\uB0B4(\uC644\uB8CC)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T18:11:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2970:bd731182b0db"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2971",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.14(\uC218) \uC6B4\uC601\uC815\uCC45 \uC704\uBC18\uC5D0 \uB530\uB978 \uC81C\uC7AC \uD604\uD669 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-14T11:52:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2971:90949b91e751"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:2972",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.20(\uD654) \uACF5\uC2DD \uD648\uD398\uC774\uC9C0 \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-16T17:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:2972:c033c8bd0397"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3148",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.20(\uD654) \uACF5\uC2DD \uD648\uD398\uC774\uC9C0 \uC810\uAC80 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-20T16:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3148:c39a68deb398"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3143",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uBE5B\uC758\uC601\uC790 \uB3C4\uC804! \uD06C\uB9AC\uC2A4\uD0C8\uB77C\uC778 \uCEE8\uD50C\uB9AD\uD2B8 1\uD3B8 \uC0DD\uBC29\uC1A1 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-20T17:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3143:f4b752da8a5a"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3149",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uBAA8\uADF8\uBAA8\uADF8\u2605\uCEEC\uB809\uC158 ~\uCC9C\uBB38\uC73C\uB85C \uC774\uB974\uB294 \uAE38 Part 1~ \uAD00\uB828 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-20T20:39:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3149:42584d2c9fcf"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3150",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.22(\uBAA9) \uC6F9\uC820 PC\uBC29 \uC11C\uBE44\uC2A4 \uC810\uAC80 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-21T16:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3150:eb8243c0555d"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3151",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uC804 \uC11C\uBC84 \uC2E0\uADDC \uB85C\uADF8\uC778 \uC77C\uC2DC \uC815\uC9C0 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-22T01:44:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3151:84319d7169ec"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3152",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uC804 \uC11C\uBC84 \uC2E0\uADDC \uB85C\uADF8\uC778 \uC815\uC0C1\uD654 \uC548\uB0B4(11:25 \uB0B4\uC6A9 \uCD94\uAC00)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-23T02:50:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3152:2ce1fbb77a59"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3153",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uC804 \uC11C\uBC84 \uC2E0\uADDC \uB85C\uADF8\uC778 \uC911\uC9C0 \uAD00\uB828 \uBCF4\uC0C1 \uBC0F \uC774\uBCA4\uD2B8 \uAE30\uAC04 \uBCC0\uACBD \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-23T18:30:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3153:211637e701c4"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3154",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uD074\uB77C\uC774\uC5B8\uD2B8 \uBC0F \uCE90\uB9AD\uD130 \uC124\uC815 \uBC31\uC5C5 \uAE30\uB2A5 \uC815\uC0C1\uD654 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-26T18:08:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3154:455ab81034f0"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3155",
+      "revision": 1,
+      "category": "notice",
+      "title": "10.31(\uD1A0) \uD32C\uD398\uC2A4\uD2F0\uBC8C 2026 in \uB3C4\uCFC4 \uAE30\uC870\uAC15\uC5F0 \uC0DD\uC911\uACC4 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-30T18:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3155:35f51702061f"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3156",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.04(\uC218) \uD06C\uB9AC\uC2A4\uD0C8\uC0F5 \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-03T14:05:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3156:073134f2a6d6"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3157",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.05(\uBAA9) \uC6F9\uC820 PC\uBC29 \uC11C\uBE44\uC2A4 \uC810\uAC80 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-04T15:52:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3157:3efbdd6dc91a"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3158",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.04(\uC218) \uD06C\uB9AC\uC2A4\uD0C8\uC0F5 \uC810\uAC80 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-04T18:30:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3158:1ff74b129afa"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3159",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.10(\uD654) V7.58 \uC5C5\uB370\uC774\uD2B8 \uC810\uAC80 \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-06T18:20:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3159:e0e1a6e05f2a"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:maintenance:game:v7-58:2026-11-10",
+      "revision": 1,
+      "category": "maintenance",
+      "title": "V7.58 \uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "maintenance",
+          "label": "\uAC8C\uC784\u00B7\uB7F0\uCC98 \uC810\uAC80",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-10T12:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:359eb47cf499"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-11-10T18:15:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:359eb47cf499"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uAC19\uC740 \uC5C5\uB370\uC774\uD2B8\u00B7\uB0A0\uC9DC\uC758 \uD6C4\uC18D \uACF5\uC9C0\uC5D0 \uBA85\uC2DC\uB41C \uC2DC\uAC04\uC774 \uC6B0\uC120\uD569\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:patch:v7-58",
+      "revision": 1,
+      "category": "patch",
+      "title": "V7.58 \uC5C5\uB370\uC774\uD2B8",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uC5C5\uB370\uC774\uD2B8 \uC801\uC6A9\uC77C",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-10",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:359eb47cf499"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uC810\uAC80 \uACF5\uC9C0\uC5D0 \uC5F0\uACB0\uD55C \uB0A0\uC9DC\uC785\uB2C8\uB2E4. \uC2DC\uC791 \uBD84 \uB2E8\uC704 \uC2DC\uAC01\uC744 \uBCC4\uB3C4\uB85C \uCD94\uC815\uD558\uC9C0 \uC54A\uC73C\uBA70 \uC608\uC815\uC77C\uC740 \uC810\uAC80 \uC644\uB8CC \uD6C4 \uD655\uC778\uD569\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:pvp:cc-season-22",
+      "revision": 1,
+      "category": "pvp-season",
+      "title": "\uD06C\uB9AC\uC2A4\uD0C8\uB77C\uC778 \uCEE8\uD50C\uB9AD\uD2B8 \uC2DC\uC98C 22 \uC2DC\uC791",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uD06C\uCEE8 \uC2DC\uC98C \uC2DC\uC791",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-10",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:359eb47cf499"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uC810\uAC80 \uC77C\uC815\uC5D0 \uC5F0\uACB0\uD55C \uC2DC\uC791\uC77C. \uC644\uB8CC \uC804\uC5D0\uB294 \uC608\uC815\uC73C\uB85C \uD45C\uC2DC\uD558\uBA70 \uC885\uB8CC\uC77C\uC740 \uC774 \uACF5\uC9C0\uC5D0 \uBC1C\uD45C\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3160",
+      "revision": 1,
+      "category": "notice",
+      "title": "\uD328\uCE58 7.58 \uD328\uCE58\uB178\uD2B8",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-10T12:12:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3160:56c30256b748"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3161",
+      "revision": 1,
+      "category": "notice",
+      "title": "V7.58 \uC0AC\uC804 \uD328\uCE58 \uC801\uC6A9 \uC644\uB8CC \uC548\uB0B4",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-10T15:16:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3161:984293d3b535"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:notice:3162",
+      "revision": 1,
+      "category": "notice",
+      "title": "11.10(\uD654) V7.58 \uC5C5\uB370\uC774\uD2B8 \uC810\uAC80 \uC644\uB8CC \uC2DC\uAC04 \uBCC0\uACBD \uC548\uB0B4(\uC644\uB8CC)",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "point",
+          "label": "\uACF5\uC9C0 \uAC8C\uC2DC",
+          "start": {
+            "kind": "instant",
+            "value": "2026-11-10T18:00:00.0000000\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "kr:notice:3162:359eb47cf499"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC9C0 \uAC8C\uC2DC \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC810\uAC80\u00B7\uD328\uCE58\u00B7\uC2DC\uC98C \uC2DC\uC791 \uC2DC\uAC01\uC73C\uB85C \uAC04\uC8FC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:curated:v8-release",
+      "revision": 1,
+      "category": "patch",
+      "title": "V8.0 \uBC31\uC740\uC758 \uD0D0\uAD6C\uC790 \uC815\uC2DD \uCD9C\uC2DC",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "release",
+          "label": "\uC815\uC2DD \uCD9C\uC2DC",
+          "start": {
+            "kind": "date",
+            "value": "2027-02-23",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-gm-live:f87774925a1f"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uD55C\uAD6D \uC11C\uBE44\uC2A4 \uACF5\uC2DD \uBC1C\uD45C\uC77C. \uCD9C\uC2DC \uB0A0\uC9DC\uB9CC \uBC1C\uD45C\uB418\uC5C8\uC73C\uBA70 \uC11C\uBC84 \uC624\uD508 \uC2DC\uAC01\uC740 \uBCC4\uB3C4 \uC810\uAC80 \uACF5\uC9C0 \uD655\uC778 \uC804\uAE4C\uC9C0 \uBBF8\uC815\uC785\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:curated:v8-early-access",
+      "revision": 1,
+      "category": "patch",
+      "title": "V8.0 \uBC31\uC740\uC758 \uD0D0\uAD6C\uC790 \uC55E\uC11C \uD574\uBCF4\uAE30",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "early-access",
+          "label": "\uC55E\uC11C \uD574\uBCF4\uAE30 \uC2DC\uC791",
+          "start": {
+            "kind": "instant",
+            "value": "2027-02-19T18:00:00\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-template:25f7922472f4",
+              "curated:v8-ce-shop:26e651f608f7"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uCF5C\uB809\uD130\uC988 \uC5D0\uB514\uC158 \uC548\uB0B4\uC758 \uC55E\uC11C \uD574\uBCF4\uAE30 \uC2DC\uC791 \uC2DC\uAC01\uC785\uB2C8\uB2E4. \uC774\uC6A9 \uAD8C\uD55C\uACFC \uAD6C\uB9E4 \uAD6C\uAC04\uBCC4 \uD2B9\uC804 \uC870\uAC74\uC740 \uACF5\uC2DD \uC6D0\uBB38\uC744 \uD655\uC778\uD558\uC138\uC694."
+    },
+    {
+      "id": "kr:curated:v8-ce-discount",
+      "revision": 1,
+      "category": "sale",
+      "title": "V8.0 \uCF5C\uB809\uD130\uC988 \uC5D0\uB514\uC158 20% \uD560\uC778",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "discount",
+          "label": "\uAE30\uAC04 \uD55C\uC815 20% \uD560\uC778",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-04",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-shop:26e651f608f7"
+            ]
+          },
+          "end": {
+            "kind": "date",
+            "value": "2026-12-31",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-shop:26e651f608f7"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uACF5\uC2DD \uD398\uC774\uC9C0\uC758 \uB0A0\uC9DC \uB2E8\uC704 \uD560\uC778 \uAE30\uAC04\uC785\uB2C8\uB2E4. \uB9C8\uAC10 \uC2DC\uAC01\uC740 \uD45C\uC2DC\uB418\uC9C0 \uC54A\uC544 \uC784\uC758\uC758 23:59\uB098 \uC815\uAC01\uC73C\uB85C \uBC14\uAFB8\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:curated:v8-reservation-items",
+      "revision": 1,
+      "category": "sale",
+      "title": "V8.0 \uC0AC\uC804\uC608\uC57D \uD2B9\uC804 \uC544\uC774\uD15C \uB300\uC0C1 \uAE30\uAC04",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "reservation-bonus",
+          "label": "\uC608\uC57D \uD2B9\uC804 \uC544\uC774\uD15C 2\uC885 \uB300\uC0C1 \uAD6C\uB9E4",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-04",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-shop:26e651f608f7"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2027-02-19T18:00:00\u002B09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:v8-ce-shop:26e651f608f7"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uC0AC\uC804\uC608\uC57D \uD2B9\uC804 \uC544\uC774\uD15C 2\uC885 \uB300\uC0C1 \uAE30\uAC04\uC785\uB2C8\uB2E4. \uC774\uBBF8 \uAD6C\uB9E4\uD588\uB294\uC9C0 \uD50C\uB7EC\uADF8\uC778\uC774 \uD655\uC778\uD558\uC9C0 \uC54A\uC73C\uBA70, \uC55E\uC11C \uD574\uBCF4\uAE30 \uC774\uC6A9\uAD8C\uC758 \uAD6C\uB9E4 \uAD6C\uAC04\uBCC4 \uC81C\uACF5 \uC870\uAC74\uC740 \uACF5\uC2DD \uC548\uB0B4\uB97C \uD655\uC778\uD558\uC138\uC694."
+    },
+    {
+      "id": "kr:curated:pvp-series-12",
+      "revision": 1,
+      "category": "pvp-series",
+      "title": "PvP \uC2DC\uB9AC\uC988 12",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "series-start",
+          "label": "\uC2DC\uB9AC\uC988 12",
+          "start": {
+            "kind": "date",
+            "value": "2026-09-08",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:series12-patch:e7fa9824231a",
+              "curated:series12-open:9ebe91239166"
+            ]
+          },
+          "end": {
+            "kind": "condition",
+            "condition": {
+              "type": "patch-maintenance",
+              "targetId": "kr:target:v8-maintenance-start",
+              "relation": "before"
+            },
+            "displayText": "\uD328\uCE58 8.0 \uACF5\uAC1C\uC640 \uD568\uAED8 \uC9C4\uD589\uB418\uB294 \uC810\uAC80 \uC2DC\uC791 \uC804\uAE4C\uC9C0 (\uC810\uAC80 \uC2DC\uC791 \uC77C\uC2DC \uBBF8\uBC1C\uD45C)",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:series12-patch:e7fa9824231a",
+              "curated:series12-open:9ebe91239166"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        },
+        {
+          "id": "reward-previous",
+          "label": "\uC2DC\uB9AC\uC988 11 \uC774\uC804 \uBCF4\uC0C1 \uC218\uB839",
+          "start": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "end": {
+            "kind": "condition",
+            "condition": {
+              "type": "patch-maintenance",
+              "targetId": "kr:target:v8-maintenance-start",
+              "relation": "before"
+            },
+            "displayText": "\uD328\uCE58 8.0 \uACF5\uAC1C\uC640 \uD568\uAED8 \uC9C4\uD589\uB418\uB294 \uC810\uAC80 \uC2DC\uC791 \uC804\uAE4C\uC9C0 (\uC810\uAC80 \uC2DC\uC791 \uC77C\uC2DC \uBBF8\uBC1C\uD45C)",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:series12-patch:e7fa9824231a",
+              "curated:series12-open:9ebe91239166"
+            ]
+          },
+          "endInclusion": "exclusive",
+          "point": false
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uD328\uCE58 7.56 \uACF5\uAC1C \uD6C4 \uC2DC\uC791\uD55C\uB2E4\uB294 \uD328\uCE58\uB178\uD2B8\uC640 9\uC6D4 8\uC77C \uC810\uAC80 \uC644\uB8CC \uACF5\uC9C0\uB97C \uACB0\uD569\uD55C \uB0A0\uC9DC \uB2E8\uC704 \uC77C\uC815\uC785\uB2C8\uB2E4. \uD328\uCE58 8.0 \uC815\uC2DD \uCD9C\uC2DC\uC77C\uC744 \uC2DC\uB9AC\uC988 \uC885\uB8CC \uC810\uAC80 \uC2DC\uAC01\uC73C\uB85C \uB300\uC785\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    },
+    {
+      "id": "kr:curated:ccrc-2027-korea",
+      "revision": 1,
+      "category": "notice",
+      "title": "CCRC 2027 Korea",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "selection",
+          "label": "\uC120\uBC1C\uC804",
+          "start": {
+            "kind": "date",
+            "value": "2026-11-10",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:01200765eb86"
+            ]
+          },
+          "end": {
+            "kind": "date",
+            "value": "2026-12-07",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:01200765eb86"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        },
+        {
+          "id": "registration",
+          "label": "\uCC38\uAC00\uC2E0\uCCAD",
+          "start": {
+            "kind": "date",
+            "value": "2026-12-08",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:01200765eb86"
+            ]
+          },
+          "end": {
+            "kind": "date",
+            "value": "2026-12-28",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:01200765eb86"
+            ]
+          },
+          "endInclusion": "inclusive-unit",
+          "point": false
+        },
+        {
+          "id": "preliminaries",
+          "label": "\uC608\uC120\u00B7\uBCF8\uC120",
+          "start": {
+            "kind": "date",
+            "value": "2027-01-30",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:01200765eb86"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        },
+        {
+          "id": "finals",
+          "label": "\uACB0\uC120",
+          "start": {
+            "kind": "date",
+            "value": "2027-03-14",
+            "timezone": "Asia/Seoul",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "curated:ccrc2027:01200765eb86"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive",
+          "point": true
+        }
+      ],
+      "isPersonal": false,
+      "note": "\uD55C\uAD6D \uACF5\uC2DD PvP \uB300\uD68C \uBC1C\uD45C \uC77C\uC815\uC785\uB2C8\uB2E4. \uD06C\uCEE8 \uB4F1\uAE09\uC804 \uC2DC\uC98C\uC774\uB098 PvP \uC2DC\uB9AC\uC988\uC640 \uBCC4\uAC1C\uC785\uB2C8\uB2E4. \uB0A0\uC9DC\uB9CC \uBC1C\uD45C\uB41C \uB2E8\uACC4\uC5D0 \uC784\uC758 \uC2DC\uAC01\uC744 \uB123\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    }
+  ],
+  "targets": [
+    {
+      "id": "kr:target:v8-maintenance-start",
+      "kind": "patch-maintenance",
+      "resolution": "unresolved"
+    }
+  ],
+  "withdrawals": [],
+  "frontlineRules": []
+}
