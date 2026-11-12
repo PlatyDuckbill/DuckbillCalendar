@@ -17,13 +17,13 @@ jobs:
     # Manual dispatch plus exact reviewed source hashes are required.
     # Repository owners may additionally configure environment reviewers.
     environment: calendar-data
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: true
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
         with:
           dotnet-version: '10.0.x'
       - name: Validate run ID before using it
@@ -31,7 +31,7 @@ jobs:
           COLLECTION_RUN_ID: ${{ inputs.collection_run_id }}
         run: '[[ "$COLLECTION_RUN_ID" =~ ^[0-9]+$ ]]'
       - name: Download exact evidence from this repository
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: kr-events-collection
           run-id: ${{ inputs.collection_run_id }}
@@ -48,7 +48,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Snapshot/review provenance rejected' }
           if ((Get-FileHash .preview/approved-feed.json).Hash -ne (Get-FileHash data/live/kr-events.snapshot.json).Hash) { throw 'Committed snapshot differs from reviewed source' }
       - name: Checkout isolated publication workspace
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           path: .preview/publish-root
           persist-credentials: true
