@@ -33,6 +33,7 @@ var drawNews = typeof(MainWindow).GetMethod("DrawNews", BindingFlags.Instance | 
 var drawSettings = typeof(MainWindow).GetMethod("DrawSettings", BindingFlags.Instance | BindingFlags.NonPublic)!;
 var drawSubscriptions = typeof(MainWindow).GetMethod("DrawSubscriptions", BindingFlags.Instance | BindingFlags.NonPublic)!;
 var drawFilters = typeof(MainWindow).GetMethod("DrawFilters", BindingFlags.Instance | BindingFlags.NonPublic)!;
+var drawVisibility = typeof(MainWindow).GetMethod("DrawCalendarVisibility", BindingFlags.Instance | BindingFlags.NonPublic)!;
 var drawActions = typeof(MainWindow).GetMethod("DrawCalendarActions", BindingFlags.Instance | BindingFlags.NonPublic)!;
 var report = new List<string> { "scale,modalWidth,modalHeight,tooltipWidth,tooltipHeight" };
 const string TooltipText = "모험가 맞춤 헬스케어 프로그램 참여\n참여 기간\n2026-10-13 00:00 KST — 2026-11-11 23:59 KST";
@@ -167,6 +168,7 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
                 Vector2 detailSize = default, emptySize = default;
                 var settingHeight = 0f;
                 var filtersFit = false;
+                var visibilityFits = false;
                 for (var frame = 0; frame < 3; frame++)
                 {
                     ImGui.NewFrame(); ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Always); ImGui.SetNextWindowSize(new(hostWidth, 1000), ImGuiCond.Always);
@@ -176,6 +178,8 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
                     var actionRight = ImGui.GetItemRectMax().X;
                     drawFilters.Invoke(main, null);
                     filtersFit = actionRight <= contentRight + .5f && ImGui.GetItemRectMax().X <= contentRight + .5f;
+                    drawVisibility.Invoke(main, null);
+                    visibilityFits = ImGui.GetItemRectMax().X <= contentRight + .5f;
                     ImGui.End(); ImGui.Render();
                     ImGui.NewFrame(); ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Always); ImGui.SetNextWindowSize(new(hostWidth, 1000), ImGuiCond.Always);
                     ImGui.Begin("News table measurement", ImGuiWindowFlags.NoSavedSettings);
@@ -199,6 +203,7 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
                     }
                 }
                 Check(filtersFit, $"Actual action row and filter checkbox wrap inside content at {scale}x / {hostWidth}px");
+                Check(visibilityFits, $"Calendar group checkboxes wrap inside content at {scale}x / {hostWidth}px");
                 Check(detailSize.X > 0 && detailSize.X < hostWidth && detailSize.Y <= font * 31 + 2,
                     $"Actual news detail has bounded internal scrolling at {scale}x / {hostWidth}px");
                 Check(settingHeight > font * 5 && settingHeight < font * 28,

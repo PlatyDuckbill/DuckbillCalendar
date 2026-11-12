@@ -246,10 +246,10 @@
     <value>End reminder · waiting for confirmed date</value>
   </data>
   <data name="PeriodBars" xml:space="preserve">
-    <value>Period bars</value>
+    <value>Show period bars</value>
   </data>
   <data name="PeriodBarsHelp" xml:space="preserve">
-    <value>On: continuous period bars. Off: start and end dates only. This changes display, not the schedule or alert choices.</value>
+    <value>Starts and ends are shown by default. Enable this option for continuous period bars. The schedule and alert choices stay unchanged.</value>
   </data>
   <data name="PointAlert" xml:space="preserve">
     <value>Event reminder</value>
@@ -445,4 +445,9 @@
   <data name="AdvancedData" xml:space="preserve"><value>Advanced data and diagnostics</value></data>
   <data name="PrivacyDetails" xml:space="preserve"><value>Storage and privacy details</value></data>
   <data name="NeedsReviewShort" xml:space="preserve"><value>Recheck needed</value></data>
+  <data name="VisibleCalendars" xml:space="preserve"><value>Visible calendars</value></data>
+  <data name="SelectAllCalendars" xml:space="preserve"><value>Select all</value></data>
+  <data name="HideAllCalendars" xml:space="preserve"><value>Hide all</value></data>
+  <data name="CategoryMaintenance" xml:space="preserve"><value>Maintenance</value></data>
+  <data name="CategoryCompetitions" xml:space="preserve"><value>Competitions</value></data>
 </root>

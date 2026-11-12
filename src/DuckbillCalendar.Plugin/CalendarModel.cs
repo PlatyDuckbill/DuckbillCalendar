@@ -18,6 +18,10 @@ internal sealed class CalendarModel
     public CalendarModel(CalendarWorkspace workspace)
     {
         this.workspace = workspace;
+        // Earlier builds enabled bars by default. Apply the requested endpoint default
+        // once, then preserve explicit choices made with the current controls.
+        if (workspace.State.View.PeriodBars && !workspace.State.View.PeriodBarsConfigured)
+            workspace.UpdateState(workspace.State with { View = workspace.State.View with { PeriodBars = false, PeriodBarsConfigured = true } });
         Now = DateTimeOffset.UtcNow;
         Today = CalendarEngine.Today(Now);
         Year = Today.Year;
@@ -42,6 +46,7 @@ internal sealed class CalendarModel
     public IReadOnlyList<CalendarEvent> Events { get; private set; } = [];
     public IReadOnlyList<CalendarEvent> FilteredEvents { get; private set; } = [];
     public IReadOnlyList<CalendarEvent> CalendarEvents { get; private set; } = [];
+    public IReadOnlyList<CalendarEvent> VisibleCalendarEvents { get; private set; } = [];
     public IReadOnlyList<CalendarEvent> NewsEvents { get; private set; } = [];
     public IReadOnlyList<EvidenceRecord> SelectedEvidence { get; private set; } = [];
     public IReadOnlyList<ScheduleHighlight> UpcomingHighlights { get; private set; } = [];
@@ -54,7 +59,7 @@ internal sealed class CalendarModel
     public FrontlineResult? TodayFrontline { get; private set; }
     public FrontlineResult? TomorrowFrontline { get; private set; }
     public CalendarEvent? SelectedEvent => Events.FirstOrDefault(e => e.Id == SelectedEventId);
-    public bool SelectionFiltered => SelectedEventId != null && !FilteredEvents.Any(e => e.Id == SelectedEventId);
+    public bool SelectionFiltered => SelectedEventId != null && (!FilteredEvents.Any(e => e.Id == SelectedEventId) || !VisibleCalendarEvents.Any(e => e.Id == SelectedEventId));
     public void Post(Action action) => commands.Enqueue(action);
     public void Invalidate() => dirty = true;
     public void UpdateView(Func<ViewSettings, ViewSettings> change) => Post(() =>
@@ -88,13 +93,14 @@ internal sealed class CalendarModel
             .Select(e => e.ObservedAt!.Value).DefaultIfEmpty(Feed.GeneratedAt).Max();
         Events = CalendarEngine.Merge(Feed, State);
         FilteredEvents = Events.Where(Matches).ToArray();
-        CalendarEvents = FilteredEvents.Select(e => e.Category == "notice" && !State.View.ShowNoticePublications && CategoryFilter != 6
-            ? e with { Phases = e.Phases.Where(p => !IsPublicationPhase(p)).ToArray() } : e).Where(e => e.Phases.Count > 0).ToArray();
+        VisibleCalendarEvents = Events.Select(e => e with { Phases = e.Phases.Where(p => IsCalendarVisible(GroupFor(e, p))).ToArray() })
+            .Where(e => e.Phases.Count > 0).ToArray();
+        CalendarEvents = VisibleCalendarEvents.Where(MatchesSearchAndAlerts).ToArray();
         NewsEvents = FilteredEvents.Where(e => !e.IsPersonal).OrderByDescending(e => e.Phases.Select(p => CalendarEngine.BoundaryDate(p.Start)).Max()).ToArray();
         Calendar = CalendarEngine.BuildMonth(CalendarEvents, Year, MonthNumber, State.View.PeriodBars, State.View.ShowRewardBars, 3);
         MonthEvents = CalendarEngine.MonthEvents(CalendarEvents, Year, MonthNumber);
         DayItems = CalendarEngine.DayEvents(CalendarEvents, SelectedDate, includeOngoing: true);
-        UpcomingHighlights = Events.Where(IsHighlightEvent).SelectMany(e => e.Phases.Where(p => !IsPublicationPhase(p)).SelectMany(p =>
+        UpcomingHighlights = VisibleCalendarEvents.Where(IsHighlightEvent).SelectMany(e => e.Phases.Where(p => !IsPublicationPhase(p)).SelectMany(p =>
         {
             var edges = e.Category is "sale" or "discount" ? new[] { "end" } : p.Point ? ["start"] : ["start", "end"];
             return edges.SelectMany(edge =>
@@ -105,8 +111,8 @@ internal sealed class CalendarModel
                     ? new[] { new ScheduleHighlight(e, p, edge, boundary, date) } : [];
             });
         })).OrderBy(h => h.Date).ThenBy(h => CalendarEngine.StartInstant(h.Boundary)).ThenBy(h => h.Event.Id, StringComparer.Ordinal).ToArray();
-        PendingHighlights = Events.Where(IsHighlightEvent).Where(e => e.Phases.All(p => CalendarEngine.BoundaryDate(p.Start) is null)).ToArray();
-        TodayDeadlines = CalendarEngine.DayEvents(Events, Today, includeOngoing: false)
+        PendingHighlights = VisibleCalendarEvents.Where(IsHighlightEvent).Where(e => e.Phases.All(p => CalendarEngine.BoundaryDate(p.Start) is null)).ToArray();
+        TodayDeadlines = CalendarEngine.DayEvents(VisibleCalendarEvents, Today, includeOngoing: false)
             .Where(i => i.Edge == "end" && (i.Phase.End.Kind == "date" || CalendarEngine.EndExclusive(i.Phase) > now))
             .OrderBy(i => CalendarEngine.EndExclusive(i.Phase) ?? DateTimeOffset.MaxValue).ToArray();
         NextSubscription = State.Entries.Where(e => e.ProfileId == State.ActiveProfileId && e.Kind is "subscription" or "retainer" or "bag")
@@ -145,6 +151,40 @@ internal sealed class CalendarModel
         workspace.UpdateState(State with { Alerts = alerts });
     });
     public void SetQuery(string search, int category, bool onlyAlerts) => Post(() => { Search = search; CategoryFilter = category; OnlyAlerts = onlyAlerts; });
+    public void SetPeriodBars(bool enabled) => UpdateView(v => v with { PeriodBars = enabled, PeriodBarsConfigured = true });
+    public bool IsCalendarVisible(CalendarGroup group) => group switch
+    {
+        CalendarGroup.Events => State.View.Calendars.Events, CalendarGroup.Patches => State.View.Calendars.Patches,
+        CalendarGroup.Maintenance => State.View.Calendars.Maintenance, CalendarGroup.Pvp => State.View.Calendars.Pvp,
+        CalendarGroup.Competitions => State.View.Calendars.Competitions, CalendarGroup.Sales => State.View.Calendars.Sales,
+        CalendarGroup.Subscriptions => State.View.Calendars.Subscriptions, CalendarGroup.Personal => State.View.Calendars.Personal,
+        CalendarGroup.Notices => State.View.ShowNoticePublications, _ => false
+    };
+    public void SetCalendarVisible(CalendarGroup group, bool enabled) => UpdateView(v => group switch
+    {
+        CalendarGroup.Events => v with { Calendars = v.Calendars with { Events = enabled } },
+        CalendarGroup.Patches => v with { Calendars = v.Calendars with { Patches = enabled } },
+        CalendarGroup.Maintenance => v with { Calendars = v.Calendars with { Maintenance = enabled } },
+        CalendarGroup.Pvp => v with { Calendars = v.Calendars with { Pvp = enabled } },
+        CalendarGroup.Competitions => v with { Calendars = v.Calendars with { Competitions = enabled } },
+        CalendarGroup.Sales => v with { Calendars = v.Calendars with { Sales = enabled } },
+        CalendarGroup.Subscriptions => v with { Calendars = v.Calendars with { Subscriptions = enabled } },
+        CalendarGroup.Personal => v with { Calendars = v.Calendars with { Personal = enabled } },
+        CalendarGroup.Notices => v with { ShowNoticePublications = enabled }, _ => v
+    });
+    public void SetAllCalendars(bool enabled) => UpdateView(v => v with
+    {
+        Calendars = new() { Events = enabled, Patches = enabled, Maintenance = enabled, Pvp = enabled, Competitions = enabled, Sales = enabled, Subscriptions = enabled, Personal = enabled },
+        ShowNoticePublications = enabled
+    });
+    public static CalendarGroup GroupFor(CalendarEvent e, EventPhase p) => e.IsPersonal
+        ? e.Category is "subscription" or "retainer" or "bag" ? CalendarGroup.Subscriptions : CalendarGroup.Personal
+        : e.Category switch
+        {
+            "patch" => CalendarGroup.Patches, "maintenance" => CalendarGroup.Maintenance,
+            "pvp-season" or "pvp-series" or "reward" => CalendarGroup.Pvp, "sale" or "discount" => CalendarGroup.Sales,
+            "notice" => IsPublicationPhase(p) ? CalendarGroup.Notices : CalendarGroup.Competitions, _ => CalendarGroup.Events
+        };
     public void SetListView(bool list) => Post(() => ListView = list);
     public void ChangeMonth(int delta) => Post(() =>
     {
@@ -204,8 +244,8 @@ internal sealed class CalendarModel
         workspace.UpdateState(State with { Entries = State.Entries.Where(e => e.Id != id).ToArray(), Alerts = State.Alerts.Where(a => a.EventId != id).ToArray() });
         if (SelectedEventId == id) { SelectedEventId = null; SelectedPhaseId = null; }
     });
-    private bool Matches(CalendarEvent e) => (string.IsNullOrWhiteSpace(Search) || e.Title.Contains(Search, StringComparison.OrdinalIgnoreCase))
-        && (!OnlyAlerts || HasAlert(e)) && (CategoryFilter switch
+    private bool MatchesSearchAndAlerts(CalendarEvent e) => (string.IsNullOrWhiteSpace(Search) || e.Title.Contains(Search, StringComparison.OrdinalIgnoreCase)) && (!OnlyAlerts || HasAlert(e));
+    private bool Matches(CalendarEvent e) => MatchesSearchAndAlerts(e) && (CategoryFilter switch
         {
             1 => e.Category is "web-event" or "in-game-event" or "seasonal-event",
             2 => e.Category is "patch" or "maintenance",

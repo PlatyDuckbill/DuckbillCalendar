@@ -81,7 +81,8 @@ internal sealed class MainWindow : Window
     private void DrawCalendar()
     {
         DrawCalendarActions();
-        DrawFilters();
+        DrawFiltersCore(false);
+        DrawCalendarVisibility();
         var width = ImGui.GetContentRegionAvail().X;
         var split = width >= ImGui.GetFontSize() * 53;
         if (split && ImGui.BeginTable("###CalendarSplit", 2, ImGuiTableFlags.Resizable | ImGuiTableFlags.SizingStretchProp))
@@ -117,11 +118,12 @@ internal sealed class MainWindow : Window
         ContinueRow(CheckboxWidth(UiText.Get("ListView"))); var list = model.ListView;
         if (ImGui.Checkbox(UiText.Get("ListView") + "###ListView", ref list)) model.SetListView(list);
         ContinueRow(CheckboxWidth(UiText.Get("PeriodBars"))); var bars = model.State.View.PeriodBars;
-        if (ImGui.Checkbox(UiText.Get("PeriodBars") + "###PeriodBars", ref bars)) model.UpdateView(v => v with { PeriodBars = bars });
+        if (ImGui.Checkbox(UiText.Get("PeriodBars") + "###PeriodBars", ref bars)) model.SetPeriodBars(bars);
         if (ImGui.IsItemHovered()) UiWidgets.Tooltip(UiText.Get("PeriodBarsHelp"));
         ContinueRow(ButtonWidth(UiText.Get("AddEvent"))); if (Button("AddEvent", "add")) OpenEditor();
     }
-    private void DrawFilters()
+    private void DrawFilters() => DrawFiltersCore(true);
+    private void DrawFiltersCore(bool showCategory)
     {
         if (appliedSearch != model.Search || appliedCategory != model.CategoryFilter || appliedOnlyAlerts != model.OnlyAlerts)
         {
@@ -134,11 +136,41 @@ internal sealed class MainWindow : Window
         appliedOnlyAlerts = model.OnlyAlerts;
         ImGui.SetNextItemWidth(ImGui.GetFontSize() * 12);
         if (ImGui.InputText(UiText.Get("Search") + "###Search", ref search, 120)) model.SetQuery(search, category, onlyAlerts);
-        ContinueRow(ImGui.GetFontSize() * 11); ImGui.SetNextItemWidth(ImGui.GetFontSize() * 11);
-        var names = new[] { "All", "CategoryEvent", "CategoryPatch", "CategoryPvp", "CategorySale", "CategoryPersonal", "CategoryNotice" }.Select(k => UiText.Get(k)).ToArray();
-        if (ImGui.Combo("###CategoryFilter", ref category, names, names.Length)) model.SetQuery(search, category, onlyAlerts);
+        if (showCategory)
+        {
+            ContinueRow(ImGui.GetFontSize() * 11); ImGui.SetNextItemWidth(ImGui.GetFontSize() * 11);
+            var names = new[] { "All", "CategoryEvent", "CategoryPatch", "CategoryPvp", "CategorySale", "CategoryPersonal", "CategoryNotice" }.Select(k => UiText.Get(k)).ToArray();
+            if (ImGui.Combo("###CategoryFilter", ref category, names, names.Length)) model.SetQuery(search, category, onlyAlerts);
+        }
         ContinueRow(CheckboxWidth(UiText.Get("OnlyAlertEvents")));
         if (ImGui.Checkbox(UiText.Get("OnlyAlertEvents") + "###OnlyAlerts", ref onlyAlerts)) model.SetQuery(search, category, onlyAlerts);
+    }
+    private void DrawCalendarVisibility()
+    {
+        if (!ImGui.CollapsingHeader(UiText.Get("VisibleCalendars") + "###VisibleCalendars", ImGuiTreeNodeFlags.DefaultOpen)) return;
+        if (ImGui.SmallButton(UiText.Get("SelectAllCalendars") + "###calendarsAll")) model.SetAllCalendars(true);
+        ImGui.SameLine();
+        if (ImGui.SmallButton(UiText.Get("HideAllCalendars") + "###calendarsNone")) model.SetAllCalendars(false);
+        var groups = new (CalendarGroup Group, string Key, string Color)[]
+        {
+            (CalendarGroup.Events, "CategoryEvent", "web-event"), (CalendarGroup.Patches, "CategoryPatch", "patch"),
+            (CalendarGroup.Maintenance, "CategoryMaintenance", "maintenance"), (CalendarGroup.Pvp, "CategoryPvp", "pvp-season"),
+            (CalendarGroup.Competitions, "CategoryCompetitions", "notice"), (CalendarGroup.Sales, "CategorySale", "sale"),
+            (CalendarGroup.Subscriptions, "CategorySubscription", "subscription"), (CalendarGroup.Personal, "CategoryPersonal", "personal"),
+            (CalendarGroup.Notices, "ShowNoticePublications", "notice")
+        };
+        foreach (var item in groups)
+        {
+            var label = UiText.Get(item.Key);
+            ContinueRow(CheckboxWidth(label));
+            var visible = model.IsCalendarVisible(item.Group);
+            ImGui.PushStyleColor(ImGuiCol.CheckMark, ThemeScope.EventColor(item.Color, model.State.View.Theme == "paper"));
+            try
+            {
+                if (ImGui.Checkbox(label + "###calendar.visible." + item.Group, ref visible)) model.SetCalendarVisible(item.Group, visible);
+            }
+            finally { ImGui.PopStyleColor(); }
+        }
     }
     private static float ButtonWidth(string label) => ImGui.CalcTextSize(label).X + ImGui.GetStyle().FramePadding.X * 2;
     private static float CheckboxWidth(string label) => ImGui.CalcTextSize(label).X + ImGui.GetFrameHeight() + ImGui.GetStyle().ItemInnerSpacing.X;
@@ -205,17 +237,11 @@ internal sealed class MainWindow : Window
     {
         if (model.ListView) DrawEventList(model.MonthEvents, "month");
         else DrawMonth();
-        var showNotices = model.State.View.ShowNoticePublications || model.CategoryFilter == 6;
-        ImGui.BeginDisabled(model.CategoryFilter == 6);
-        if (ImGui.Checkbox(UiText.Get("ShowNoticePublications") + "###ShowNoticePublications", ref showNotices))
-            model.UpdateView(v => v with { ShowNoticePublications = showNotices });
-        ImGui.EndDisabled();
-        if (ImGui.IsItemHovered()) UiWidgets.Tooltip(UiText.Get("NoticePublicationHelp"));
         ImGui.Separator();
         ImGui.TextUnformatted(UiText.Get("FrontlineStrip", model.TodayFrontline?.IsKnown == true ? model.TodayFrontline.Name ?? UiText.Get("UnknownField") : UiText.Get("UnknownField"), model.TomorrowFrontline?.IsKnown == true ? model.TomorrowFrontline.Name ?? UiText.Get("UnknownField") : UiText.Get("UnknownField")));
         if (ImGui.IsItemHovered()) UiWidgets.Tooltip(UiText.Get("FrontlineHelp"));
         if (Button("Compact", "compact")) ToggleCompact?.Invoke();
-        var undated = model.FilteredEvents.Where(e => e.Phases.Any(p => !p.Point && p.End.Kind is "condition" or "unknown")).ToArray();
+        var undated = model.CalendarEvents.Where(e => e.Phases.Any(p => !p.Point && p.End.Kind is "condition" or "unknown")).ToArray();
         if (undated.Length > 0 && ImGui.CollapsingHeader(UiText.Get("Undated", undated.Length) + "###Undated")) DrawEventList(undated, "undated");
     }
     private void DrawMonth()
@@ -502,7 +528,7 @@ internal sealed class MainWindow : Window
                 var light = view.Theme == "paper";
                 if (ImGui.Checkbox(UiText.Get("PaperTheme") + "###theme", ref light)) model.UpdateView(v => v with { Theme = light ? "paper" : "graphite" });
                 var bars = view.PeriodBars;
-                if (ImGui.Checkbox(UiText.Get("PeriodBars") + "###settingsBars", ref bars)) model.UpdateView(v => v with { PeriodBars = bars });
+                if (ImGui.Checkbox(UiText.Get("PeriodBars") + "###settingsBars", ref bars)) model.SetPeriodBars(bars);
                 if (ImGui.IsItemHovered()) UiWidgets.Tooltip(UiText.Get("PeriodBarsHelp"));
                 var rewards = view.ShowRewardBars;
                 if (ImGui.Checkbox(UiText.Get("ShowRewardBars") + "###rewardBars", ref rewards)) model.UpdateView(v => v with { ShowRewardBars = rewards });

@@ -183,6 +183,7 @@ public static partial class FeedValidator
         if (local.View is null) errors.Add("NullViewSettings");
         else
         {
+            if (local.View.Calendars is null) errors.Add("NullCalendarVisibility");
             if (local.View.Language is not ("ko" or "en") || local.View.Theme is not ("graphite" or "paper")) errors.Add("InvalidViewSettings");
             Text(local.View.CurrentUrl, "CurrentUrl", 512, errors, false);
         }

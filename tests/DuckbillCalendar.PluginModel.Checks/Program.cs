@@ -108,6 +108,7 @@ using (var futureHttp = new HttpClient(new FailureHandler()))
 using (var futureWorkspace = new CalendarWorkspace(Path.Combine(root, "future-presentation"), example, futureHttp, bundledFeed: JsonSerializer.SerializeToUtf8Bytes(futureFeed, CalendarJson.Options)))
 {
     var futureModel = new CalendarModel(futureWorkspace); futureModel.Tick(now);
+    Check(!futureWorkspace.State.View.PeriodBars && futureModel.Calendar!.Weeks.All(w => w.Bars.Count == 0), "First use defaults to start/end markers instead of continuous bars");
     Check(futureModel.FilteredEvents.Any(e => e.Id == "kr:fixture:notice") && futureModel.CalendarEvents.All(e => e.Id != "kr:fixture:notice"), "Notice remains in news while publication markers stay off calendar by default");
     Check(futureModel.UpcomingHighlights.Count == 8 && futureModel.UpcomingHighlights[0].Event.Category == "pvp-season", "Upcoming milestones sort real starts and sale deadlines across year boundary");
     Check(futureModel.CalendarEvents.Single(e => e.Id == "kr:curated:competition-fixture").Phases.Count == 3 && futureModel.UpcomingHighlights.Count(h => h.Event.Id == "kr:curated:competition-fixture") == 4,
@@ -128,10 +129,48 @@ using (var futureWorkspace = new CalendarWorkspace(Path.Combine(root, "future-pr
     futureModel.GoToMonth(2101, 13); futureModel.Tick(now);
     Check(futureModel.Year == 2027 && futureModel.MonthNumber == 1, "Invalid direct year/month never changes visible calendar");
     futureModel.SetQuery("", 6, false); futureModel.Tick(now);
-    Check(futureModel.CalendarEvents.Count == 2 && futureModel.NewsEvents.All(e => e.Category == "notice"), "Explicit notice filter shows publication calendar entries and notice-only news");
+    Check(futureModel.CalendarEvents.Any(e => e.Category == "patch") && futureModel.CalendarEvents.All(e => e.Phases.All(p => !CalendarModel.IsPublicationPhase(p))) && futureModel.NewsEvents.All(e => e.Category == "notice"), "News category filter does not override independent calendar checkboxes");
     futureModel.SetQuery("", 0, false); futureModel.UpdateView(v => v with { ShowNoticePublications = true }); futureModel.Tick(now);
-    Check(futureModel.CalendarEvents.Any(e => e.Category == "notice"), "Persistent notice visibility option takes effect in calendar projection");
+    Check(futureModel.CalendarEvents.Any(e => e.Id == "kr:fixture:notice"), "Persistent notice visibility option takes effect in calendar projection");
+    futureModel.GoToMonth(2026, 12); futureModel.SetPeriodBars(true); futureModel.Tick(now);
+    Check(futureModel.Calendar!.Weeks.Any(w => w.Bars.Count > 0) && futureWorkspace.State.View.PeriodBarsConfigured, "Continuous bars remain an explicit persisted display option");
+    futureModel.SetPeriodBars(false); futureModel.Tick(now);
+    var boundaryDays = futureModel.Calendar!.Weeks.SelectMany(w => w.Days).ToArray();
+    Check(futureModel.Calendar.Weeks.All(w => w.Bars.Count == 0) &&
+        boundaryDays.Single(d => d.Date == new DateOnly(2026, 12, 8)).Items.Any(i => i.Phase.Id == "registration" && i.Edge == "start") &&
+        boundaryDays.Single(d => d.Date == new DateOnly(2026, 12, 28)).Items.Any(i => i.Phase.Id == "registration" && i.Edge == "end") &&
+        boundaryDays.Single(d => d.Date == new DateOnly(2026, 12, 15)).Items.All(i => i.Phase.Id != "registration"), "Endpoint mode shows both edges and leaves intermediate days free of period markers");
+    futureWorkspace.UpdateState(futureWorkspace.State with { Alerts = [new() { EventId = "kr:fixture:expansion", PhaseId = "release", Edge = "start" }] });
+    futureModel.SetCalendarVisible(CalendarGroup.Patches, false); futureModel.Tick(now);
+    Check(futureModel.CalendarEvents.All(e => e.Category != "patch") && futureModel.UpcomingHighlights.All(h => h.Event.Category != "patch"), "Unchecked patch calendar hides release and early-access milestones together");
+    Check(futureModel.NewsEvents.Any(e => e.Category == "patch") && futureWorkspace.State.Alerts.Count == 1 && futureModel.Events.Count == futureFeed.Events.Count, "Visibility never deletes source data, news or reminder selections");
+    futureModel.SetCalendarVisible(CalendarGroup.Pvp, false); futureModel.Tick(now);
+    Check(futureModel.CalendarEvents.All(e => e.Category is not ("pvp-season" or "pvp-series")) && futureModel.PendingHighlights.Count == 0, "PvP checkbox also hides undated series and upcoming entries");
+    futureModel.SetCalendarVisible(CalendarGroup.Notices, false); futureModel.Tick(now);
+    Check(futureModel.CalendarEvents.Any(e => e.Id == "kr:curated:competition-fixture") && futureModel.CalendarEvents.All(e => e.Phases.All(p => !CalendarModel.IsPublicationPhase(p))), "Notice checkbox hides only publication dates while competition periods remain visible");
+    futureModel.SetCalendarVisible(CalendarGroup.Notices, true); futureModel.SetCalendarVisible(CalendarGroup.Competitions, false); futureModel.Tick(now);
+    Check(futureModel.CalendarEvents.Single(e => e.Id == "kr:curated:competition-fixture").Phases.All(CalendarModel.IsPublicationPhase), "Competition checkbox can hide actual phases while keeping its independently selected publication date");
+    futureModel.SetAllCalendars(false); futureModel.Tick(now);
+    Check(futureModel.CalendarEvents.Count == 0 && futureModel.UpcomingHighlights.Count == 0 && futureModel.PendingHighlights.Count == 0 && futureModel.NewsEvents.Count > 0, "Hide-all clears calendar and highlights while news remains accessible");
+    futureModel.SetAllCalendars(true); futureModel.Tick(now);
+    Check(Enum.GetValues<CalendarGroup>().All(futureModel.IsCalendarVisible) && futureModel.CalendarEvents.Count == futureFeed.Events.Count, "Select-all restores every calendar group");
+    futureModel.SetCalendarVisible(CalendarGroup.Patches, false); futureModel.SetPeriodBars(true); futureModel.Tick(now);
     await futureWorkspace.FlushAsync(); futureWorkspace.Pump();
+    using var persisted = new CalendarWorkspace(Path.Combine(root, "future-presentation"), example, futureHttp, bundledFeed: JsonSerializer.SerializeToUtf8Bytes(futureFeed, CalendarJson.Options));
+    var persistedModel = new CalendarModel(persisted); persistedModel.Tick(now);
+    Check(!persistedModel.IsCalendarVisible(CalendarGroup.Patches) && persisted.State.View.PeriodBars && persisted.State.View.PeriodBarsConfigured, "Category choices and explicit bar option survive restart");
+}
+
+using (var legacyHttp = new HttpClient(new FailureHandler()))
+using (var legacy = new CalendarWorkspace(Path.Combine(root, "legacy-bars"), example, legacyHttp))
+{
+    legacy.UpdateState(legacy.State with { View = legacy.State.View with { PeriodBars = true, PeriodBarsConfigured = false } });
+    await legacy.FlushAsync(); legacy.Pump();
+    var legacyModel = new CalendarModel(legacy); legacyModel.Tick(now);
+    Check(!legacy.State.View.PeriodBars && legacy.State.View.PeriodBarsConfigured, "Previous default-on settings switch once to requested endpoint default");
+    legacyModel.SetPeriodBars(true); legacyModel.Tick(now); await legacy.FlushAsync(); legacy.Pump();
+    var reloadedModel = new CalendarModel(legacy);
+    Check(legacy.State.View.PeriodBars, "Explicitly re-enabling bars is not reset by another model load");
 }
 
 Console.WriteLine($"PASS: {checks} actual CalendarModel checks; localization is stubbed, no ImGui/game runtime is exercised.");
