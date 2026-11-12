@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DuckbillCalendar Boundary v2 draft",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "value",
+        "precision",
+        "certainty",
+        "evidenceIds"
+      ],
+      "properties": {
+        "kind": {
+          "const": "instant"
+        },
+        "value": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+        },
+        "precision": {
+          "enum": [
+            "second",
+            "minute"
+          ]
+        },
+        "evidenceIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        },
+        "certainty": {
+          "enum": [
+            "confirmed",
+            "tentative",
+            "inferred"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "value",
+        "timezone",
+        "certainty",
+        "evidenceIds"
+      ],
+      "properties": {
+        "kind": {
+          "const": "date"
+        },
+        "value": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "timezone": {
+          "const": "Asia/Seoul"
+        },
+        "evidenceIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        },
+        "certainty": {
+          "enum": [
+            "confirmed",
+            "tentative",
+            "inferred"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "condition",
+        "displayText",
+        "certainty",
+        "evidenceIds"
+      ],
+      "properties": {
+        "kind": {
+          "const": "condition"
+        },
+        "condition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "targetId",
+            "relation"
+          ],
+          "properties": {
+            "type": {
+              "enum": [
+                "patch-maintenance",
+                "season-end",
+                "patch-open"
+              ]
+            },
+            "targetId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "relation": {
+              "enum": [
+                "before",
+                "after"
+              ]
+            }
+          }
+        },
+        "displayText": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "evidenceIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        },
+        "certainty": {
+          "enum": [
+            "confirmed",
+            "tentative",
+            "inferred"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "reason"
+      ],
+      "properties": {
+        "kind": {
+          "const": "unknown"
+        },
+        "reason": {
+          "enum": [
+            "not-announced",
+            "source-ambiguous",
+            "unsupported"
+          ]
+        }
+      }
+    }
+  ]
+}

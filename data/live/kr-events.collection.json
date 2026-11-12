@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "source": "https://www.ff14.co.kr/news/event",
+  "fetchedAt": "2026-11-12T08:48:46.929589+00:00",
+  "status": 200,
+  "bytes": 48866,
+  "snapshotSha256": "73dfe97dcf63f0a060ee391f33095c729358ae603143a2bb66e9417a7abde196",
+  "completeCoverage": false
+}

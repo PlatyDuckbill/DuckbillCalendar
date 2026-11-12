@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup><PackageReference Include="AngleSharp" Version="[1.10.1]" /></ItemGroup>
+  <ItemGroup><Compile Include="../Shared/LocalInput.cs" Link="LocalInput.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="../Shared/EventPageParser.cs" Link="EventPageParser.cs" /></ItemGroup>
+</Project>

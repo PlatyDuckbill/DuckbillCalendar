@@ -1,0 +1,79 @@
+name: Publish reviewed KR event feed
+on:
+  workflow_dispatch:
+    inputs:
+      collection_run_id:
+        description: 'Successful Collect KR event candidates run ID matching committed review/snapshot'
+        required: true
+        type: string
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: publish-calendar-data
+  cancel-in-progress: false
+jobs:
+  publish:
+    # Configure the calendar-data environment with required reviewers before enabling.
+    environment: calendar-data
+    if: vars.ENABLE_KR_EVENT_PUBLISH == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Validate run ID before using it
+        env:
+          COLLECTION_RUN_ID: ${{ inputs.collection_run_id }}
+        run: '[[ "$COLLECTION_RUN_ID" =~ ^[0-9]+$ ]]'
+      - name: Download exact evidence from this repository
+        uses: actions/download-artifact@v4
+        with:
+          name: kr-events-collection
+          run-id: ${{ inputs.collection_run_id }}
+          github-token: ${{ github.token }}
+          path: .preview/reviewed-collection
+      - name: Rebuild reviewed feed and compare committed bytes
+        shell: pwsh
+        run: |
+          dotnet build tools/CalendarDataCollect -p:RestoreLockedMode=true
+          if ($LASTEXITCODE -ne 0) { throw 'Collector build failed' }
+          dotnet build tools/CalendarDataPublish -p:RestoreLockedMode=true
+          if ($LASTEXITCODE -ne 0) { throw 'Publisher build failed' }
+          dotnet run --project tools/CalendarDataCollect --no-build -- prepare .preview/reviewed-collection data/live/kr-events.review.json .preview/approved-feed.json
+          if ($LASTEXITCODE -ne 0) { throw 'Snapshot/review provenance rejected' }
+          if ((Get-FileHash .preview/approved-feed.json).Hash -ne (Get-FileHash data/live/kr-events.snapshot.json).Hash) { throw 'Committed snapshot differs from reviewed source' }
+      - name: Checkout isolated publication workspace
+        uses: actions/checkout@v4
+        with:
+          path: .preview/publish-root
+          persist-credentials: true
+      - name: Prepare immutable revision on isolated data branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          git -C .preview/publish-root ls-remote --exit-code --heads origin calendar-data > .preview/data-branch-ref
+          result=$?
+          set -e
+          if [ "$result" -eq 0 ]; then
+            git -C .preview/publish-root fetch --depth=1 origin calendar-data
+            git -C .preview/publish-root checkout -b calendar-data FETCH_HEAD
+          elif [ "$result" -eq 2 ]; then
+            git -C .preview/publish-root switch --orphan calendar-data
+          else
+            exit "$result"
+          fi
+          dotnet run --project tools/CalendarDataPublish --no-build -- prepare .preview/approved-feed.json .preview/publish-root/kr
+          rm -f .preview/publish-root/kr/.prepare.lock
+          git -C .preview/publish-root config user.name 'github-actions[bot]'
+          git -C .preview/publish-root config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git -C .preview/publish-root add kr/current.json kr/revisions/
+          git -C .preview/publish-root diff --cached --check
+          git -C .preview/publish-root commit -m 'Publish reviewed KR event snapshot'
+          # Normal push only: concurrent/outside writers cause rejection, never force overwrite.
+          git -C .preview/publish-root push origin HEAD:refs/heads/calendar-data

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "AngleSharp": {
+        "type": "Direct",
+        "requested": "[1.10.1, 1.10.1]",
+        "resolved": "1.10.1",
+        "contentHash": "yWQuJAaxcvKmhzl77SYfiIbSMloqsHWrzJaqgY5QOoIfEFk0HQZbQQv3gKyIuQBxMwmglcqzXfykGZ4JrkWK5Q=="
+      },
+      "duckbillcalendar.core": {
+        "type": "Project"
+      }
+    }
+  }
+}

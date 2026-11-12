@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko" data-theme="graphite">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>DuckbillCalendar · 파판 캘린더 목업</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="compact.css">
+  <script src="feed.js" defer></script>
+  <script src="calendar-layout.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="prototype"><span><b>DESIGN PREVIEW</b> 기획 목업 · 게임/계정 연동 없음</span><span>기준 시각 2026.11.11 20:00 KST · 공개 정보 + 표시된 예시</span></div>
+  <div class="app-shell">
+    <div class="workspace">
+      <header class="topbar"><a class="brand" href="#calendar" aria-label="DuckbillCalendar 달력">◷ <strong>DuckbillCalendar</strong><span class="badge">KR</span></a><div class="topbar-right"><span class="timezone">11.11 수 · KST</span><button class="button small" data-action="compact">작은 화면 ↗</button></div></header>
+      <nav class="tabbar" role="tablist" aria-label="주 메뉴">
+        <button id="tab-calendar" class="nav active" role="tab" aria-selected="true" aria-controls="main" data-page="calendar">달력</button>
+        <button id="tab-news" class="nav" role="tab" aria-selected="false" aria-controls="main" tabindex="-1" data-page="news">새소식</button>
+        <button id="tab-subscription" class="nav" role="tab" aria-selected="false" aria-controls="main" tabindex="-1" data-page="subscription">이용권</button>
+        <button id="tab-data" class="nav" role="tab" aria-selected="false" aria-controls="main" tabindex="-1" data-page="data">데이터 관리</button>
+        <button id="tab-settings" class="nav" role="tab" aria-selected="false" aria-controls="main" tabindex="-1" data-page="settings">설정</button>
+      </nav>
+      <main id="main" role="tabpanel" aria-labelledby="tab-calendar" tabindex="0"></main>
+      <footer><span><span class="status-dot"></span><b id="connection-label">로컬 스냅샷</b> · <span id="connection-hint">확인 11.11 · 실시간 갱신 없음</span></span><span>공식 안내 기준 · 목업 0.2</span></footer>
+    </div>
+  </div>
+  <dialog id="editor"><form id="editor-form"><div class="dialog-top"><span class="eyebrow">PERSONAL CALENDAR</span><button type="button" class="icon-button" data-action="close-editor" aria-label="닫기">×</button></div><h2 id="editor-title">내 일정 추가</h2><p id="editor-hint" class="muted">이 브라우저에만 저장됩니다.</p><input id="edit-id" type="hidden"><input id="edit-mode" type="hidden"><label>이름<input id="edit-name" maxlength="80" required placeholder="예: 자유부대 모임"></label><div class="form-row"><label>종류<select id="edit-kind"><option value="personal">개인 일정</option><option value="subscription">정액제</option><option value="retainer">집사 이용권</option></select></label><label>날짜 · 시각 (KST)<input id="edit-date" type="datetime-local" min="2020-01-01T00:00" max="2100-12-31T23:59" required></label></div><label>메모<textarea id="edit-note" rows="3" maxlength="400" placeholder="확인할 내용을 적어두세요"></textarea></label><p id="form-error" class="error" role="alert"></p><div class="dialog-actions"><button type="button" class="button danger hidden" id="delete-event" data-action="delete-event">삭제</button><span></span><button type="button" class="button" data-action="close-editor">취소</button><button class="button primary" type="submit">저장</button></div></form></dialog>
+  <section id="compact" class="compact hidden" aria-label="작은 일정 화면"><div class="compact-head"><b>◷ DuckbillCalendar</b><button class="icon-button" data-action="compact" aria-label="작은 화면 닫기">×</button></div><div id="compact-content"></div><div class="compact-foot">11.11 수요일 · KST · 목업 기준</div></section>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

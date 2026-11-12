@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "snapshotSha256": "73dfe97dcf63f0a060ee391f33095c729358ae603143a2bb66e9417a7abde196",
+  "reviewedAt": "2026-11-12T08:49:11.5893338+00:00",
+  "reviewedBy": "Codex: official list title/period comparison",
+  "scope": "event-list-first-page",
+  "approved": [
+    {
+      "id": "kr:event:772",
+      "normalizedRecordHash": "288795f6327a98dfa33d421b355d971c66f8ea1fbcf7fb69efb6888b9e13ceb1",
+      "category": "in-game-event"
+    },
+    {
+      "id": "kr:event:771",
+      "normalizedRecordHash": "7573add96ef0ce732ba89f465f79e5c27535e081360016260e9640769d3423cb",
+      "category": "web-event"
+    },
+    {
+      "id": "kr:event:770",
+      "normalizedRecordHash": "681b595198f661eacf296f2d360250391c2e01472aa9cefeaa0e3cd2b2ab6b13",
+      "category": "web-event"
+    },
+    {
+      "id": "kr:event:768",
+      "normalizedRecordHash": "51f314bf13faecce5921ebf2d1c77a6a5a6b2a5696e39a83dac2a1817786a0f8",
+      "category": "in-game-event"
+    },
+    {
+      "id": "kr:event:701",
+      "normalizedRecordHash": "1da5e0ee9bbf44a4c84696c04a9318d8f94819407dccccf8568fcc0119dd2fc7",
+      "category": "in-game-event"
+    },
+    {
+      "id": "kr:event:660",
+      "normalizedRecordHash": "1cbd9c6bc5669b37ce6d59697c4437855ac3fd84acd212f04bef790d4897219d",
+      "category": "web-event"
+    },
+    {
+      "id": "kr:event:564",
+      "normalizedRecordHash": "79ca5645fd284f7c5f0411c2d9256b44e73f72fc40fd8c70fde581514cbb5c72",
+      "category": "web-event"
+    },
+    {
+      "id": "kr:event:487",
+      "normalizedRecordHash": "3015449d03613db588a1812521bca2be5f2adf671649c42dea744aebe5a53533",
+      "category": "web-event"
+    },
+    {
+      "id": "kr:event:460",
+      "normalizedRecordHash": "15929001c2a263a86359c953d1cb21f84e7e7e189cab4a3e63c7f1e80e64d7ec",
+      "category": "in-game-event"
+    },
+    {
+      "id": "kr:event:394",
+      "normalizedRecordHash": "24c8bffc7fbc2561d26a329d312c4cafee97cd463deb5279edef47c0c9b6c5c5",
+      "category": "web-event"
+    }
+  ]
+}

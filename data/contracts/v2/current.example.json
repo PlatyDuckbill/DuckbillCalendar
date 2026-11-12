@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 2,
+  "isExample": true,
+  "region": "KR",
+  "publicationSequence": 1,
+  "generatedAt": "2026-11-11T11:55:00Z",
+  "content": {
+    "revision": 1,
+    "schemaVersion": 2,
+    "region": "KR",
+    "path": "revisions/000001.json",
+    "sha256": "d831fbd88daedf139ca1b2cc6a6c3d3637882774d9705209ebe47f457169d958",
+    "bytes": 4760
+  },
+  "health": {
+    "sources": [
+      {
+        "id": "kr-events",
+        "lastAttemptAt": null,
+        "lastSuccessAt": null,
+        "lastReviewedAt": null,
+        "normalizedSourceHash": null,
+        "approvedSourceHash": null,
+        "lastResult": "not-run",
+        "pendingChanges": [],
+        "completeCoverage": false,
+        "comparedContentRevision": null
+      },
+      {
+        "id": "kr-news",
+        "lastAttemptAt": null,
+        "lastSuccessAt": null,
+        "lastReviewedAt": null,
+        "normalizedSourceHash": null,
+        "approvedSourceHash": null,
+        "lastResult": "not-run",
+        "pendingChanges": [],
+        "completeCoverage": false,
+        "comparedContentRevision": null
+      },
+      {
+        "id": "kr-patch",
+        "lastAttemptAt": null,
+        "lastSuccessAt": null,
+        "lastReviewedAt": null,
+        "normalizedSourceHash": null,
+        "approvedSourceHash": null,
+        "lastResult": "not-run",
+        "pendingChanges": [],
+        "completeCoverage": false,
+        "comparedContentRevision": null
+      }
+    ]
+  }
+}

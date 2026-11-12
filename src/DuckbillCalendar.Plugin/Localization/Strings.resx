@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <data name="ActiveProfile" xml:space="preserve">
+    <value>Account profile: {0}</value>
+  </data>
+  <data name="AddEvent" xml:space="preserve">
+    <value>Add personal event</value>
+  </data>
+  <data name="AddSubscription" xml:space="preserve">
+    <value>Add subscription</value>
+  </data>
+  <data name="AlertsUnavailable" xml:space="preserve"><value>Select start/end reminders separately, then enable local chat reminders in Settings. Unknown or date-only boundaries do not create timed reminders.</value></data>
+  <data name="AlertsUnavailableCompact" xml:space="preserve"><value>Reminders follow Settings; the game must be running.</value></data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="AtValue" xml:space="preserve">
+    <value>Scheduled: {0}</value>
+  </data>
+  <data name="Calendar" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CategoryEvent" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="CategoryPatch" xml:space="preserve">
+    <value>Patches / maintenance</value>
+  </data>
+  <data name="CategoryPersonal" xml:space="preserve">
+    <value>Personal</value>
+  </data>
+  <data name="CategoryPvp" xml:space="preserve">
+    <value>Seasons / series</value>
+  </data>
+  <data name="CategorySale" xml:space="preserve">
+    <value>Sales</value>
+  </data>
+  <data name="CategorySubscription" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
+  <data name="CommandHelp" xml:space="preserve">
+    <value>Open calendar. /dbcal compact: compact view; /dbcal settings: settings.</value>
+  </data>
+  <data name="Compact" xml:space="preserve">
+    <value>Compact view</value>
+  </data>
+  <data name="CompactToday" xml:space="preserve">
+    <value>Today · {0} KST</value>
+  </data>
+  <data name="ConditionalBoundary" xml:space="preserve">
+    <value>Date depends on an announced condition.</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Delete this event</value>
+  </data>
+  <data name="DataNotPublished" xml:space="preserve">
+    <value>A reviewed snapshot of the official event list is included. Its observation time is shown on the calendar. Remote periodic updates require collection and publication setup.</value>
+  </data>
+  <data name="DataSettings" xml:space="preserve">
+    <value>Public calendar data</value>
+  </data>
+  <data name="DataStatusCode" xml:space="preserve">
+    <value>Data status: {0}</value>
+  </data>
+  <data name="DateOnly" xml:space="preserve">
+    <value>I only know the date</value>
+  </data>
+  <data name="DateOnlyHelp" xml:space="preserve">
+    <value>A date-only entry has no hour countdown or timed notification. Do not guess an expiry time.</value>
+  </data>
+  <data name="DateOnlyValue" xml:space="preserve">
+    <value>{0} · time not specified</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteEntryQuestion" xml:space="preserve">
+    <value>Delete “{0}” and its alert choices from this device?</value>
+  </data>
+  <data name="DisplaySettings" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditEvent" xml:space="preserve">
+    <value>Edit personal event</value>
+  </data>
+  <data name="EmptyPublicFeed" xml:space="preserve">
+    <value>No public calendar data is loaded. Add a personal event or use Settings to import a verified file.</value>
+  </data>
+  <data name="EndAlert" xml:space="preserve">
+    <value>End reminder</value>
+  </data>
+  <data name="EndShort" xml:space="preserve">
+    <value>ends</value>
+  </data>
+  <data name="EndValue" xml:space="preserve">
+    <value>End: {0}</value>
+  </data>
+  <data name="EntryDate" xml:space="preserve">
+    <value>Date (YYYY-MM-DD)</value>
+  </data>
+  <data name="EntryKind" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="EntryNote" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="EntryScope" xml:space="preserve">
+    <value>Stored only in the selected local account profile.</value>
+  </data>
+  <data name="EntryTime" xml:space="preserve">
+    <value>Time (HH:mm, KST)</value>
+  </data>
+  <data name="EntryTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="ExampleBanner" xml:space="preserve">
+    <value>DESIGN EXAMPLES · archived sample data, not current operating information</value>
+  </data>
+  <data name="ExampleHelp" xml:space="preserve">
+    <value>Loads the bundled design examples explicitly. Example records never become production data or real notifications.</value>
+  </data>
+  <data name="ExampleMode" xml:space="preserve">
+    <value>Show bundled design examples</value>
+  </data>
+  <data name="ExampleRecord" xml:space="preserve">
+    <value>Example record</value>
+  </data>
+  <data name="ExpiresValue" xml:space="preserve">
+    <value>Expires: {0}</value>
+  </data>
+  <data name="FeedRevision" xml:space="preserve">
+    <value>Active content revision: {0}</value>
+  </data>
+  <data name="FeedUrl" xml:space="preserve">
+    <value>Public feed URL</value>
+  </data>
+  <data name="FilePath" xml:space="preserve">
+    <value>Absolute JSON file path</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Fri</value>
+  </data>
+  <data name="FrontlineHelp" xml:space="preserve">
+    <value>Today's and tomorrow's fields require a verified KR sequence, anchor and validity period. Unknown values remain unknown.</value>
+  </data>
+  <data name="FrontlineStrip" xml:space="preserve">
+    <value>Frontline · Today: {0} / Tomorrow: {1}</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import verified file</value>
+  </data>
+  <data name="ImportHelp" xml:space="preserve">
+    <value>Reads a local v2 feed after validation. Examples and unverified provenance are rejected here; use the explicit example option above.</value>
+  </data>
+  <data name="ImportLocalFile" xml:space="preserve">
+    <value>Import a local feed</value>
+  </data>
+  <data name="InvalidDate" xml:space="preserve">
+    <value>Enter a valid date between 2020 and 2100 in YYYY-MM-DD format.</value>
+  </data>
+  <data name="InvalidFeedUrl" xml:space="preserve">
+    <value>Only the fixed DuckbillCalendar public feed address is accepted.</value>
+  </data>
+  <data name="InvalidTime" xml:space="preserve">
+    <value>Enter an exact time in HH:mm format, or select date only.</value>
+  </data>
+  <data name="KindBag" xml:space="preserve">
+    <value>Chocobo saddlebag service</value>
+  </data>
+  <data name="KindPersonal" xml:space="preserve">
+    <value>Personal event</value>
+  </data>
+  <data name="KindRetainer" xml:space="preserve">
+    <value>Retainer service</value>
+  </data>
+  <data name="KindSubscription" xml:space="preserve">
+    <value>Game subscription</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="LanguageKorean" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="LastSourceSuccess" xml:space="preserve">
+    <value>Last source success: {0}</value>
+  </data>
+  <data name="ListView" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="ManualLocal" xml:space="preserve">
+    <value>Manual entry · this device only</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Mon</value>
+  </data>
+  <data name="MoreCount" xml:space="preserve">
+    <value>+{0} more</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Not confirmed</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="NextMonth" xml:space="preserve">
+    <value>Next &gt;</value>
+  </data>
+  <data name="NextSubscription" xml:space="preserve">
+    <value>Next subscription expiry</value>
+  </data>
+  <data name="NoResults" xml:space="preserve">
+    <value>No matching events.</value>
+  </data>
+  <data name="NoSubscriptions" xml:space="preserve">
+    <value>No subscription expiry is registered.</value>
+  </data>
+  <data name="NoTodayDeadlines" xml:space="preserve">
+    <value>No known deadlines today.</value>
+  </data>
+  <data name="ObservedAt" xml:space="preserve">
+    <value>Source checked: {0} KST</value>
+  </data>
+  <data name="OnlyAlertEvents" xml:space="preserve">
+    <value>Events with alert choices</value>
+  </data>
+  <data name="OpenMain" xml:space="preserve">
+    <value>Open calendar</value>
+  </data>
+  <data name="PaperTheme" xml:space="preserve">
+    <value>Paper · light theme</value>
+  </data>
+  <data name="PendingEndAlert" xml:space="preserve">
+    <value>End reminder · waiting for confirmed date</value>
+  </data>
+  <data name="PeriodBars" xml:space="preserve">
+    <value>Period bars</value>
+  </data>
+  <data name="PeriodBarsHelp" xml:space="preserve">
+    <value>On: continuous period bars. Off: start and end dates only. This changes display, not the schedule or alert choices.</value>
+  </data>
+  <data name="PointAlert" xml:space="preserve">
+    <value>Event reminder</value>
+  </data>
+  <data name="PreviousMonth" xml:space="preserve">
+    <value>&lt; Previous</value>
+  </data>
+  <data name="PrivacyHelp" xml:space="preserve">
+    <value>Personal entries and account aliases stay on this device. Public downloads disclose IP and ordinary HTTP metadata to the host; no account ID or personal calendar is uploaded.</value>
+  </data>
+  <data name="ProfileUnbound" xml:space="preserve">
+    <value>Profile not selected</value>
+  </data>
+  <data name="PublicRecord" xml:space="preserve">
+    <value>Public source record</value>
+  </data>
+  <data name="PublishedRevision" xml:space="preserve">
+    <value>Remote publication: {0} / advertised content: {1}</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Check now</value>
+  </data>
+  <data name="RemoteEnabled" xml:space="preserve">
+    <value>Allow scheduled public feed downloads</value>
+  </data>
+  <data name="RemoteHelp" xml:space="preserve">
+    <value>Opt-in only. Accepts the fixed DuckbillCalendar public URL. Refresh checks the published file; it does not trigger collection or operator review.</value>
+  </data>
+  <data name="RewardBarsHelp" xml:space="preserve">
+    <value>Turning this off hides reward-claim bars only. Claim deadlines, the day list and reminder choices remain available.</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Sat</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveDataSettings" xml:space="preserve">
+    <value>Save data settings</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SelectedDate" xml:space="preserve">
+    <value>Selected date: {0}</value>
+  </data>
+  <data name="SelectedPhase" xml:space="preserve">
+    <value>{0} · selected</value>
+  </data>
+  <data name="SelectEvent" xml:space="preserve">
+    <value>Select a date or event to view its details.</value>
+  </data>
+  <data name="SelectionFiltered" xml:space="preserve">
+    <value>The selected event is outside the current filter.</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ShowRewardBars" xml:space="preserve">
+    <value>Show reward-claim period bars</value>
+  </data>
+  <data name="SourceHealth" xml:space="preserve">
+    <value>Source {0}: {1}</value>
+  </data>
+  <data name="SourceValue" xml:space="preserve">
+    <value>Source: {0}</value>
+  </data>
+  <data name="StartAlert" xml:space="preserve">
+    <value>Start reminder</value>
+  </data>
+  <data name="StartJump" xml:space="preserve">
+    <value>{0} · starts {1}</value>
+  </data>
+  <data name="StartShort" xml:space="preserve">
+    <value>starts</value>
+  </data>
+  <data name="StartValue" xml:space="preserve">
+    <value>Start: {0}</value>
+  </data>
+  <data name="StatusLine" xml:space="preserve">
+    <value>{0} · {1} local entries · content {2}</value>
+  </data>
+  <data name="SubscriptionHelp" xml:space="preserve">
+    <value>Record the actual expiry shown in your official account page. Compensation, renewals or refunds are not applied automatically.</value>
+  </data>
+  <data name="Subscriptions" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sun</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thu</value>
+  </data>
+  <data name="TitleRequired" xml:space="preserve">
+    <value>Enter a title.</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tue</value>
+  </data>
+  <data name="Undated" xml:space="preserve">
+    <value>Unconfirmed end dates ({0})</value>
+  </data>
+  <data name="UnknownBoundary" xml:space="preserve">
+    <value>Not announced</value>
+  </data>
+  <data name="UnknownField" xml:space="preserve">
+    <value>Not confirmed</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wed</value>
+  </data>
+  <data name="PointShort" xml:space="preserve">
+    <value>at</value>
+  </data>
+  <data name="LocalExpiryPhase" xml:space="preserve">
+    <value>Service expiry</value>
+  </data>
+  <data name="LocalPersonalPhase" xml:space="preserve">
+    <value>Personal event</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Changes are not yet saved. If this persists, check the data status in Settings.</value>
+  </data>
+  <data name="OpenSource" xml:space="preserve">
+    <value>Open official page</value>
+  </data>
+  <data name="LastClientCheck" xml:space="preserve">
+    <value>This device last checked: {0}</value>
+  </data>
+  <data name="InferredSuffix" xml:space="preserve">
+    <value> · inferred</value>
+  </data>
+  <data name="CoverageUnknown" xml:space="preserve">
+    <value>unconfirmed</value>
+  </data>
+  <data name="CoverageComplete" xml:space="preserve">
+    <value>reported complete</value>
+  </data>
+  <data name="TentativeSuffix" xml:space="preserve">
+    <value> · tentative</value>
+  </data>
+  <data name="LastSourceReview" xml:space="preserve">
+    <value>Content last reviewed: {0}</value>
+  </data>
+  <data name="SourceCoverage" xml:space="preserve">
+    <value>Comparison coverage: {0} / content {1} / pending {2}</value>
+  </data>
+  <data name="EnableLocalAlerts" xml:space="preserve"><value>Enable local chat reminders</value></data>
+  <data name="AlertDeliveryHelp" xml:space="preserve"><value>Reminders run only while the game is open. Delivery waits for combat, duties, PvP, loading and cutscenes to end. Public example records never send reminders. A crash after recording a reminder can lose that notification; recorded reminders are not replayed.</value></data>
+  <data name="LocalAlertMessage" xml:space="preserve"><value>{0} — selected schedule boundary: {1} KST. Delivery may have been deferred.</value></data>
+  <data name="UseActualFeed" xml:space="preserve"><value>Show actual events</value></data>
+  <data name="BundledSnapshotInfo" xml:space="preserve"><value>Official event snapshot · observed {0} · Only periods found in the list are shown. This does not guarantee live updates or coverage of every notice and event.</value></data>
+</root>

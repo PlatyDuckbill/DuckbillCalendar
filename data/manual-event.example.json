@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "isExample": true,
+  "reviewStatus": "draft",
+  "event": {
+    "id": "manual:kr:seasonal-demo",
+    "revision": 1,
+    "category": "seasonal-event",
+    "title": "시즈널 이벤트 — 입력 형식 예시",
+    "status": "scheduled",
+    "sources": [{"url": "https://www.ff14.co.kr/news/event", "publishedAt": null, "checkedAt": null, "method": "manual", "note": "실제 원문 상세 URL·확인 시각·기간으로 교체한 뒤 검수. 이 예시는 게시 금지"}],
+    "phases": [{"id": "participation", "label": "참여 기간", "startsAt": "2026-11-19T17:00:00+09:00", "endsAt": "2026-11-30T23:59:00+09:00", "startCondition": null, "endCondition": null, "precision": "minute", "endSemantics": "inclusive-minute", "certainty": "tentative"}]
+  }
+}

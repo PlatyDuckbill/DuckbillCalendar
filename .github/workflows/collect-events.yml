@@ -1,0 +1,35 @@
+name: Collect KR event candidates
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */2 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: collect-kr-events
+  cancel-in-progress: false
+jobs:
+  collect:
+    # Scheduled collection stays dormant until the repository owner enables this variable.
+    if: github.event_name == 'workflow_dispatch' || vars.ENABLE_KR_EVENT_COLLECTION == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build locked collector
+        run: dotnet build tools/CalendarDataCollect -p:RestoreLockedMode=true
+      - name: Offline collector checks
+        run: dotnet run --project tools/CalendarDataCollect --no-build -- check
+      - name: Fetch one public list page
+        run: dotnet run --project tools/CalendarDataCollect --no-build -- collect event-collection
+      - name: Preserve candidates and exact evidence even when parsing warns
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kr-events-collection
+          path: event-collection/
+          if-no-files-found: warn
+          retention-days: 14

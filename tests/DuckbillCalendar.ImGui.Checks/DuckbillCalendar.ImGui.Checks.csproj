@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+    <DalamudLibPath Condition="'$(DalamudLibPath)' == ''">$(AppData)/XIVLauncherKR/addon/Hooks/dev</DalamudLibPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dalamud.Bindings.ImGui"><HintPath>$(DalamudLibPath)/Dalamud.Bindings.ImGui.dll</HintPath></Reference>
+    <Reference Include="Dalamud"><HintPath>$(DalamudLibPath)/Dalamud.dll</HintPath></Reference>
+    <ProjectReference Include="../../src/DuckbillCalendar.Core/DuckbillCalendar.Core.csproj" />
+    <ProjectReference Include="../../src/DuckbillCalendar.Infrastructure/DuckbillCalendar.Infrastructure.csproj" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/CalendarModel.cs" Link="CalendarModel.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/MainWindow.cs" Link="MainWindow.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/UiWidgets.cs" Link="UiWidgets.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/ThemeScope.cs" Link="ThemeScope.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/Localization/UiText.cs" Link="UiText.cs" />
+    <EmbeddedResource Include="../../src/DuckbillCalendar.Plugin/Localization/Strings.resx" LogicalName="DuckbillCalendar.Plugin.Localization.Strings.resources" />
+    <EmbeddedResource Include="../../src/DuckbillCalendar.Plugin/Localization/Strings.ko.resx" LogicalName="DuckbillCalendar.Plugin.Localization.Strings.ko.resources" />
+    <None Include="$(DalamudLibPath)/cimgui.dll" Link="cimgui.dll" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

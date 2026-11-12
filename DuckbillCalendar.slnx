@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DuckbillCalendar.Core/DuckbillCalendar.Core.csproj" />
+    <Project Path="src/DuckbillCalendar.Infrastructure/DuckbillCalendar.Infrastructure.csproj" />
+    <Project Path="src/DuckbillCalendar.Plugin/DuckbillCalendar.Plugin.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DuckbillCalendar.Core.Checks/DuckbillCalendar.Core.Checks.csproj" />
+    <Project Path="tests/DuckbillCalendar.Infrastructure.Checks/DuckbillCalendar.Infrastructure.Checks.csproj" />
+    <Project Path="tests/DuckbillCalendar.PluginModel.Checks/DuckbillCalendar.PluginModel.Checks.csproj" />
+    <Project Path="tests/DuckbillCalendar.ImGui.Checks/DuckbillCalendar.ImGui.Checks.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/CalendarDataImport/CalendarDataImport.csproj" />
+    <Project Path="tools/CalendarDataCollect/CalendarDataCollect.csproj" />
+    <Project Path="tools/CalendarDataPublish/CalendarDataPublish.csproj" />
+  </Folder>
+</Solution>

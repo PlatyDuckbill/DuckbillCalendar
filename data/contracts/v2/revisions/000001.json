@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 2,
+  "isExample": true,
+  "contentRevision": 1,
+  "region": "KR",
+  "generatedAt": "2026-11-11T11:55:00Z",
+  "evidence": [
+    {
+      "id": "ev:healthcare",
+      "sourceId": "kr-events",
+      "url": "https://www.ff14.co.kr/news/event",
+      "observedAt": "2026-11-11T11:55:00Z",
+      "sourceSnapshotSha256": null,
+      "note": "계약 검토용. production 게시 전 실제 source hash와 검수 provenance 필요"
+    },
+    {
+      "id": "ev:series12",
+      "sourceId": "kr-patch",
+      "url": "https://www.ff14.co.kr/news/notice/view/2947",
+      "observedAt": "2026-11-11T11:55:00Z",
+      "sourceSnapshotSha256": null,
+      "note": "시리즈12 전환/조건. 시작 시각은 점검 완료 공지2949와 연결한 해석"
+    },
+    {
+      "id": "ev:date-demo",
+      "sourceId": "manual-demo",
+      "url": null,
+      "observedAt": null,
+      "sourceSnapshotSha256": null,
+      "note": "날짜만 알려진 경계 표현용 가상 일정"
+    },
+    {
+      "id": "ev:maintenance756",
+      "sourceId": "kr-news",
+      "url": "https://www.ff14.co.kr/news/notice/view/2949",
+      "observedAt": "2026-11-11T11:55:00Z",
+      "sourceSnapshotSha256": null,
+      "note": "점검 완료18:25를 시리즈 시작과 연결하는 추론의 두번째 근거. 계약예시로 실제 snapshot은 미보관"
+    }
+  ],
+  "events": [
+    {
+      "id": "kr:event:766",
+      "revision": 1,
+      "category": "web-event",
+      "title": "모험가 맞춤 헬스케어 프로그램",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "participation",
+          "label": "참여",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T00:00:00+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "ev:healthcare"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-11-11T23:59:00+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "ev:healthcare"
+            ]
+          },
+          "endInclusion": "inclusive-unit"
+        },
+        {
+          "id": "reward-claim",
+          "label": "보상 수령",
+          "start": {
+            "kind": "instant",
+            "value": "2026-10-13T00:00:00+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "ev:healthcare"
+            ]
+          },
+          "end": {
+            "kind": "instant",
+            "value": "2026-12-09T23:59:00+09:00",
+            "precision": "minute",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "ev:healthcare"
+            ]
+          },
+          "endInclusion": "inclusive-unit"
+        }
+      ]
+    },
+    {
+      "id": "kr:pvp:series:12",
+      "revision": 1,
+      "category": "pvp-series",
+      "title": "PvP 시리즈 12",
+      "lifecycle": "published",
+      "phases": [
+        {
+          "id": "series",
+          "label": "시리즈 기간",
+          "start": {
+            "kind": "instant",
+            "value": "2026-09-08T18:25:00+09:00",
+            "precision": "minute",
+            "certainty": "inferred",
+            "evidenceIds": [
+              "ev:series12",
+              "ev:maintenance756"
+            ]
+          },
+          "end": {
+            "kind": "condition",
+            "condition": {
+              "type": "patch-maintenance",
+              "targetId": "kr:patch:8.0",
+              "relation": "before"
+            },
+            "displayText": "패치 8.0 점검 시작 전까지",
+            "certainty": "confirmed",
+            "evidenceIds": [
+              "ev:series12"
+            ]
+          },
+          "endInclusion": "exclusive"
+        }
+      ]
+    },
+    {
+      "id": "demo:date-only",
+      "revision": 1,
+      "category": "personal-demo",
+      "title": "날짜만 발표된 일정 · 예시",
+      "lifecycle": "draft",
+      "phases": [
+        {
+          "id": "period",
+          "label": "예정",
+          "start": {
+            "kind": "date",
+            "value": "2026-12-01",
+            "timezone": "Asia/Seoul",
+            "certainty": "tentative",
+            "evidenceIds": [
+              "ev:date-demo"
+            ]
+          },
+          "end": {
+            "kind": "unknown",
+            "reason": "not-announced"
+          },
+          "endInclusion": "exclusive"
+        }
+      ]
+    }
+  ],
+  "withdrawals": [],
+  "frontlineRules": [],
+  "targets": [
+    {
+      "id": "kr:patch:8.0",
+      "kind": "patch-maintenance",
+      "resolution": "unresolved",
+      "resolvedBoundary": null
+    }
+  ]
+}

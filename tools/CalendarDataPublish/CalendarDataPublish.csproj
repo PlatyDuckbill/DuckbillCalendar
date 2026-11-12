@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../src/DuckbillCalendar.Core/DuckbillCalendar.Core.csproj" /></ItemGroup>
+  <ItemGroup><Compile Include="../Shared/LocalInput.cs" Link="LocalInput.cs" /></ItemGroup>
+</Project>
