@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 2,
+  "isExample": false,
+  "region": "KR",
+  "publicationSequence": 1,
+  "generatedAt": "2026-11-12T10:05:28.52714+00:00",
+  "content": {
+    "revision": 1,
+    "schemaVersion": 2,
+    "region": "KR",
+    "path": "revisions/000001.json",
+    "sha256": "2576b913f636c59c193cd4d75b19e1e6295f13182b0e1ab4fc580f37b042ae0b",
+    "bytes": 18960
+  },
+  "health": {
+    "sources": [
+      {
+        "id": "kr-events",
+        "lastResult": "not-run",
+        "completeCoverage": false,
+        "pendingChanges": []
+      }
+    ]
+  }
+}
