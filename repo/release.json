@@ -1,0 +1,28 @@
+{
+  "Author": "PlatyDuckbill",
+  "Name": "DuckbillCalendar",
+  "InternalName": "DuckbillCalendar",
+  "AssemblyVersion": "0.3.2.0",
+  "Description": "한국 파이널판타지14의 주요 일정과 나의 약속을 한 달력에서 확인합니다.\n\n• 주요 이벤트·업데이트·게임 서버 점검과 공식 안내 링크\n• 개인·공격대 일정, 요일별 시각을 지정하는 여러 주 일괄 등록\n• 이용권 만료일과 일·시간·분 단위 충전 관리\n• 사용자 분류·아이콘·색상과 미드나이트·차콜·라이트 테마\n• 오늘·내일 전장 정보와 선택형 알림\n\n열기: /dbcal 또는 /duckbillcalendar\n업데이트 내역: 설정 → 업데이트 내역 또는 /dbcal changelog\n\n한국어 전용, Dalamud API 15. 개인 일정·이용권은 로컬에 저장합니다. 알림은 기본 꺼짐이며 설정에서 켤 수 있습니다.\n대표 아이콘은 AI 이미지 도구를 사용해 제작했습니다.",
+  "ApplicableVersion": "any",
+  "RepoUrl": "https://github.com/PlatyDuckbill/DuckbillCalendar",
+  "Tags": [
+    "calendar",
+    "events",
+    "한국어"
+  ],
+  "DalamudApiLevel": 15,
+  "LoadRequiredState": 0,
+  "LoadSync": false,
+  "CanUnloadAsync": false,
+  "LoadPriority": 0,
+  "IconUrl": "https://raw.githubusercontent.com/PlatyDuckbill/DuckbillCalendar/v0.3.2.0/assets/duckbillcalendar-icon.png",
+  "Punchline": "한국 서비스 일정과 개인 이용권을 한 달력에.",
+  "Changelog": "최초 배포\n• 주요 공개 일정과 공식 안내 링크\n• 개인·공격대 일정과 요일별 반복 등록\n• 이용권 만료일과 일·시간·분 단위 충전\n• 사용자 분류·아이콘·색상과 세 가지 테마\n• 최신 일정·전장 정보 수신과 선택형 알림\n\n전체 내역: 설정 → 업데이트 내역 또는 /dbcal changelog",
+  "AcceptsFeedback": true,
+  "DownloadLinkInstall": "https://github.com/PlatyDuckbill/DuckbillCalendar/releases/download/v0.3.2.0/DuckbillCalendar-0.3.2.0.zip",
+  "DownloadLinkUpdate": "https://github.com/PlatyDuckbill/DuckbillCalendar/releases/download/v0.3.2.0/DuckbillCalendar-0.3.2.0.zip",
+  "LastUpdate": 1794606125,
+  "IsTestingExclusive": false,
+  "IsHide": false
+}
