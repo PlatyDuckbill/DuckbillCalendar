@@ -79,7 +79,7 @@ internal static class NotificationCoordinatorChecks
         using (var notifications = new NotificationCoordinator(workspace))
         {
             workspace.UpdateState(Seed()); await Drain(workspace); var delivered = 0;
-            using (var hold = new FileStream(Path.Combine(failedPath,"state.json"),FileMode.Open,FileAccess.Read,FileShare.None))
+            using (var blocked = new StateWriteBarrier(failedPath))
             {
                 notifications.Tick(now,"s",true,_ => delivered++); await Drain(workspace);
                 notifications.Tick(now.AddSeconds(1),"s",true,_ => delivered++);

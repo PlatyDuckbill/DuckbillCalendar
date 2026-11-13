@@ -148,7 +148,7 @@ internal static class LocalAlertChecks
         await Scenario("failed-write", async (workspace, alerts, area) =>
         {
             workspace.UpdateState(State()); await Drain(workspace); int delivered = 0;
-            using (var locked = new FileStream(Path.Combine(area, "state.json"), FileMode.Open, FileAccess.Read, FileShare.None))
+            using (var blocked = new StateWriteBarrier(area))
             {
                 alerts.Tick(now, "s1", true, _ => delivered++); await Drain(workspace);
                 alerts.Tick(now.AddSeconds(1), "s1", true, _ => delivered++);
