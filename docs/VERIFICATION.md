@@ -160,3 +160,7 @@ SHA256: `753F294194AEC65439C1A3A523856E2E646947DFAF79AE89C4FFB37A7E9E86FB`.
 Dalamud DLL 빌드, KR/글로벌 실제 호환성, 게임 내 폰트·크기·입력, 실제 알림 중복과 캐릭터 전환, 계정 기간 자동 관찰, 실시간 수집 파서·CI·게시·캐시 갱신은 이번 산출물의 검증 대상이 아니다. 해당 기능은 아직 구현하지 않았다. GitHub 푸시와 외부 배포도 수행하지 않았다.
 
 최종 [원문·템플릿 연결까지 포함한 자동 수집 run](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43204681599)도 성공했다. 실제 Workspace가 revision5/96건을 수신해 SHA/bytes 검증과 캐시 재시작을 통과했다.
+
+## 2026-11-14 · 공개 배포와 공용 설치 목록
+
+0.3.2.0 정식 Release ZIP/SHA256과 태그 아이콘을 인증 없이 내려받아 검증했다. DLL/JSON/BUILD-INFO/태그 커밋과10개 파일 해시가 일치한다. 덕빌레포 동기화·-Check·Actions 성공, 실제 공개 목록의3항목을 확인했다. 수집 Actions는 Linux 파일 잠금 검사 가정을 고친 뒤203검사·9출처/99건/오류0·publication25 게시에 성공했다. 실제 플러그인 Workspace의 HTTPS 수신·캐시 재시작과 전장 오늘/내일 실수신도 통과했다. [링크·소스·해시·운영 보정 기록](development/RELEASE-0.3.2.0.md). 게임 안의 GPU/글꼴/DPI·채팅 전달은 이 검증과 별도다.

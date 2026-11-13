@@ -1,8 +1,10 @@
 # 현재 상태
 
-2026-11-14 · 0.3.2.0 개발판. 이전 화면 명세보다 현재 문서와 [노출 규칙](design/DISPLAY-POLICY-RESEARCH.md)이 우선합니다.
+2026-11-14 · 0.3.2.0 최초 배포. 이전 화면 명세보다 현재 문서와 [노출 규칙](design/DISPLAY-POLICY-RESEARCH.md)이 우선합니다.
 
 - 업데이트 내역: 설정 버튼 또는 /dbcal changelog로 현재0.3.2.0의 최초 배포 한 건을 엽니다. 본문 페이지의 스크롤 목록이며 오프라인에서 읽습니다. 설치 목록 manifest에도 최초 배포 요약을 포함합니다.
+- 운영 수집: [수집 Actions](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43513731543) 성공. 9출처/99건/오류0, publication25. 실제 HTTPS 수신·payload 검증·캐시 재시작과 오늘/내일 전장 실수신을 확인했다.
+- 공개 배포: [v0.3.2.0 Release](https://github.com/PlatyDuckbill/DuckbillCalendar/releases/tag/v0.3.2.0)와 덕빌레포 등록 완료. 공개 ZIP·체크섬·DLL·태그 아이콘 검증과 공용 목록 Actions가 성공했다. [배포 기록](development/RELEASE-0.3.2.0.md).
 - 한국어 전용. 달력·새소식·설정의 세 진입점. 이용권은 설정 안에서 관리합니다.
 - 월 제목과 아이콘 탐색을 새로 구성했습니다. 오른쪽 상세·월 목록·진행/미정 목록·상시 수집 푸터를 제거했습니다.
 - 달력은 남은 너비·높이를 사용합니다. 좁거나 큰 배율이면 도구를 압축하고 달력 안에서 스크롤합니다. 날짜/표식은 그날의 전체 제목·기간·링크 팝업을 엽니다.
@@ -13,7 +15,7 @@
 - 전장: 에테르웨이의 공개 HTTPS API에서 한국 날짜별 맵을 수신합니다. 상단 오늘/내일 요약을 한 묶음으로 표시합니다. 날짜 칸 전장 표기는 기본 꺼짐이며 표시 메뉴에서 별도로 켭니다. 공식 검증 회전 규칙이나 임의 기준일을 만들지 않습니다.
 - 전장 수신은 기본 켜짐, 별도 설정으로 끌 수 있습니다. 요청에는 월만 포함합니다. 6시간 캐시·15분 실패 재시도·최대24시간 저장본·원자적 파일 캐시를 적용했습니다.
 - Core291 / Infrastructure203 / Model151 / Native571 / 수집117 / CLI30 = 1363검사. 한국어 리소스222개와 별도 게시/실제 소비자/손상/재시작 통합 smoke. 이전 파이프라인 점검에서 실제 재수집99건·9출처 오류0, 원격 기존 publication18/96건의 HTTPS 수신·전장 API 재확인도 통과했다.
-- 게임 내 로드·실제 게임 GPU/글꼴/DPI·실제 알림 전달은 재확인 대기입니다. 자동 게임 로드·원격 Release 게시·설치 저장소 배포를 수행하지 않았습니다.
+- 게임 내 로드·실제 게임 GPU/글꼴/DPI·실제 알림 전달은 별도 확인 대상입니다. 원격 Release와 설치 목록은 공개했으며 자동 게임 로드는 수행하지 않았습니다.
 
 기본 Debug DLL: `src/DuckbillCalendar.Plugin/bin/Debug/DuckbillCalendar.dll`. Release 확인용 묶음은 `scripts/prepare-dev.ps1`이 생성합니다.
 

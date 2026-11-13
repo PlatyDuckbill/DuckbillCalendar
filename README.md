@@ -58,13 +58,13 @@ https://raw.githubusercontent.com/PlatyDuckbill/DuckbillRepo/main/pluginmaster.j
 
 `/dbcal`, `/duckbillcalendar`: 열기/닫기. `/dbcal settings`: 설정. `/dbcal changelog`: 업데이트 내역.
 
-[최초 배포 내역](CHANGELOG.md)은 설정에서도 볼 수 있으며 인터넷 연결 없이 열립니다.
+[최초 배포 내역](CHANGELOG.md)은 설정에서도 볼 수 있으며 인터넷 연결 없이 열립니다. [공개 배포·설치 목록·자동 수집 검증 기록](docs/development/RELEASE-0.3.2.0.md).
 
 개발 중에는 `src/DuckbillCalendar.Plugin/bin/Debug/DuckbillCalendar.dll`을 등록하고 빌드 후 게임에서 다시 로드합니다. Plugin/Core/Infrastructure DLL을 함께 보존합니다. `prepare-release.ps1`은 깨끗한 소스 커밋에서 정식 ZIP·SHA256·단일 배포 객체를 만들며, 자동 게임 로드나 원격 게시를 수행하지 않습니다.
 
 ## 검증 범위
 
-2026-11-14 배포 후보 점검: Core291 + Infrastructure203 + Model151 + native UI571 + 수집 도구117 + CLI30 = **1363개 검사**, 한국어 리소스222개와 별도 게시→수신→손상 유지→재시작 통합 smoke. native UI는 3개 테마·3개 창 크기·1/1.5/2배율에서 실제 MainWindow를 실행하며 클릭·팝업·휠·미니 달력 선택·시각 문자 입력·숨김/복원·충전 폼·전장 표시 독립·색상 설정 배치를 확인합니다. 사용자 분류·분류/개별 알림 저장·250개 일정 페이지 처리를 추가 확인합니다. 실제 DrawData를 PNG로 렌더링해 별도로 시각 검토합니다.
+2026-11-14 최초 배포 검증: Core291 + Infrastructure203 + Model151 + native UI571 + 수집 도구117 + CLI30 = **1363개 검사**, 한국어 리소스222개와 별도 게시→수신→손상 유지→재시작 통합 smoke. native UI는 3개 테마·3개 창 크기·1/1.5/2배율에서 실제 MainWindow를 실행하며 클릭·팝업·휠·미니 달력 선택·시각 문자 입력·숨김/복원·충전 폼·전장 표시 독립·색상 설정 배치를 확인합니다. 사용자 분류·분류/개별 알림 저장·250개 일정 페이지 처리를 추가 확인합니다. 실제 DrawData를 PNG로 렌더링해 별도로 시각 검토합니다.
 
 전장 HTTPS 실수신을 확인했습니다. 게임 GPU·게임 글꼴/DPI·게임 안에서의 로드 및 채팅 전달 확인은 별도입니다. [검증 기록](docs/VERIFICATION.md).
 

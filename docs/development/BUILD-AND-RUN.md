@@ -1,6 +1,6 @@
 # 개발판 빌드와 실행
 
-0.3.2.0 개발판. .NET10, Windows x64, 완전한 Dalamud API15 참조가 필요하다. 기본 참조는 `%APPDATA%/XIVLauncherKR/addon/Hooks/dev`이며 다른 배포판 DLL과 섞지 않는다.
+0.3.2.0. .NET10, Windows x64, 완전한 Dalamud API15 참조가 필요하다. 기본 참조는 `%APPDATA%/XIVLauncherKR/addon/Hooks/dev`이며 다른 배포판 DLL과 섞지 않는다.
 
 ```powershell
 ./scripts/build.ps1
@@ -44,3 +44,5 @@ dotnet run --project tests/DuckbillCalendar.ImGui.Checks -- --preview 1320 1050 
 전장 실수신과 오프라인 fixture 검사는 별개다. Preview는 실제 DrawData의 CPU 렌더이며 게임 GPU 화면을 대체하지 않는다. 실제 로드/unload·게임 DPI/폰트·임무 찾기의 전장과 대조·채팅 전달은 인게임 재확인이 필요하다.
 
 0.3.2 배포 후보의 기능·검사·인게임 인수 항목과 되돌리기는 [최종 보고](RELEASE-READINESS-2026-11-14.md)를 따른다. 개발 ZIP은 자동으로 게임에 로드하거나 원격으로 게시하지 않는다.
+
+정식 배포: [설치/공개 검증 기록](RELEASE-0.3.2.0.md), [다음 배포 절차](PUBLISHING.md).
