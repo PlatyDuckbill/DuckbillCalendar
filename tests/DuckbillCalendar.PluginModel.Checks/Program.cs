@@ -4,6 +4,8 @@ using DuckbillCalendar.Core;
 using DuckbillCalendar.Infrastructure;
 using DuckbillCalendar.Plugin;
 
+CalendarModel OfflineModel(CalendarWorkspace workspace)
+{ var model = new CalendarModel(workspace); model.SetAutomaticUpdateState(false, null); return model; }
 var checks = 0;
 void Check(bool valid, string message) { if (!valid) throw new Exception(message); checks++; }
 static async Task Settle(CalendarModel model, CalendarWorkspace workspace, DateTimeOffset time)
@@ -26,7 +28,7 @@ var now = new DateTimeOffset(2026, 11, 11, 20, 0, 0, TimeSpan.FromHours(9));
 
 var firstPath = Path.Combine(root, "shutdown");
 var workspace = new CalendarWorkspace(firstPath, example);
-var model = new CalendarModel(workspace);
+var model = OfflineModel(workspace);
 model.Tick(now);
 Check(model.Events.Count == 0, "Default is an empty real feed, no fictional records");
 Check(model.TodayFrontline?.IsKnown == false && model.TomorrowFrontline?.IsKnown == false, "Unknown frontline never invents maps");
@@ -41,7 +43,7 @@ await workspace.FlushAsync();
 using (var restored = new CalendarWorkspace(firstPath, example))
 {
     Check(restored.State.Entries.Single().Title == entry.Title, "Last-frame entry survives unload and restart");
-    var next = new CalendarModel(restored);
+    var next = OfflineModel(restored);
     next.Tick(now);
     Check(next.Events.Any(e => e.IsPersonal && e.Id == entry.Id), "Personal subscription projection selects active profile");
     next.SelectDate(new(2026, 11, 18)); next.Tick(now);
@@ -66,9 +68,18 @@ using (var restored = new CalendarWorkspace(firstPath, example))
 }
 
 var clock = now;
+using (var defaultHandler = new FailureHandler())
+using (var defaultClient = new HttpClient(defaultHandler))
+using (var defaultOnline = new CalendarWorkspace(Path.Combine(root, "default-online"), example, defaultClient, () => clock))
+{
+    var defaultModel = new CalendarModel(defaultOnline); await Settle(defaultModel, defaultOnline, clock);
+    Check(defaultOnline.State.View.RemoteUpdatesEnabled && defaultHandler.Requests == 1 && defaultOnline.StatusCode == "Http503",
+        "Fresh settings automatically check the default approved endpoint even when the stored address is empty");
+}
 var handler = new FailureHandler();
 using var client = new HttpClient(handler);
 using var remote = new CalendarWorkspace(Path.Combine(root, "retry"), example, client, () => clock);
+remote.UpdateState(remote.State with { View = remote.State.View with { RemoteUpdatesEnabled = false } });
 var remoteModel = new CalendarModel(remote);
 remoteModel.Tick(clock);
 Check(handler.Requests == 0, "Opt-out model starts no request");
@@ -108,7 +119,7 @@ var futureFeed = new FeedDocument
 using (var futureHttp = new HttpClient(new FailureHandler()))
 using (var futureWorkspace = new CalendarWorkspace(Path.Combine(root, "future-presentation"), example, futureHttp, bundledFeed: JsonSerializer.SerializeToUtf8Bytes(futureFeed, CalendarJson.Options)))
 {
-    var futureModel = new CalendarModel(futureWorkspace); futureModel.Tick(now);
+    var futureModel = OfflineModel(futureWorkspace); futureModel.Tick(now);
     Check(!futureWorkspace.State.View.PeriodBars && futureModel.Calendar!.Weeks.All(w => w.Bars.Count == 0), "First use defaults to start/end markers instead of continuous bars");
     Check(futureModel.FilteredEvents.Any(e => e.Id == "kr:fixture:notice") && futureModel.CalendarEvents.All(e => e.Id != "kr:fixture:notice"), "Notice remains in news while publication markers stay off calendar by default");
     Check(futureModel.UpcomingHighlights.Count == 8 && futureModel.UpcomingHighlights[0].Event.Category == "pvp-season", "Upcoming milestones sort real starts and sale deadlines across year boundary");
@@ -129,10 +140,10 @@ using (var futureWorkspace = new CalendarWorkspace(Path.Combine(root, "future-pr
     Check(futureModel.Year == 2027 && futureModel.MonthNumber == 1, "Direct month navigation reaches next year without repeated arrow clicks");
     futureModel.GoToMonth(2101, 13); futureModel.Tick(now);
     Check(futureModel.Year == 2027 && futureModel.MonthNumber == 1, "Invalid direct year/month never changes visible calendar");
-    futureModel.SetQuery("", 6, false); futureModel.Tick(now);
+    futureModel.SetNewsQuery("", 5); futureModel.Tick(now);
     Check(futureModel.CalendarEvents.Any(e => e.Category == "patch") && futureModel.CalendarEvents.All(e => e.Phases.All(p => !CalendarModel.IsPublicationPhase(p))) && futureModel.NewsEvents.All(e => e.Category == "notice"), "News category filter does not override independent calendar checkboxes");
-    futureModel.SetQuery("", 0, false); futureModel.UpdateView(v => v with { ShowNoticePublications = true }); futureModel.Tick(now);
-    Check(futureModel.CalendarEvents.Any(e => e.Id == "kr:fixture:notice"), "Persistent notice visibility option takes effect in calendar projection");
+    futureModel.SetNewsQuery("", 0); futureModel.UpdateView(v => v with { ShowNoticePublications = true }); futureModel.Tick(now);
+    Check(futureModel.CalendarEvents.All(e => e.Id != "kr:fixture:notice"), "Legacy publication setting cannot put announcement dates back on the calendar");
     futureModel.GoToMonth(2026, 12); futureModel.SetPeriodBars(true); futureModel.Tick(now);
     Check(futureModel.Calendar!.Weeks.Any(w => w.Bars.Count > 0) && futureWorkspace.State.View.PeriodBarsConfigured, "Continuous bars remain an explicit persisted display option");
     futureModel.SetPeriodBars(false); futureModel.Tick(now);
@@ -150,15 +161,15 @@ using (var futureWorkspace = new CalendarWorkspace(Path.Combine(root, "future-pr
     futureModel.SetCalendarVisible(CalendarGroup.Notices, false); futureModel.Tick(now);
     Check(futureModel.CalendarEvents.Any(e => e.Id == "kr:curated:competition-fixture") && futureModel.CalendarEvents.All(e => e.Phases.All(p => !CalendarModel.IsPublicationPhase(p))), "Notice checkbox hides only publication dates while competition periods remain visible");
     futureModel.SetCalendarVisible(CalendarGroup.Notices, true); futureModel.SetCalendarVisible(CalendarGroup.Competitions, false); futureModel.Tick(now);
-    Check(futureModel.CalendarEvents.Single(e => e.Id == "kr:curated:competition-fixture").Phases.All(CalendarModel.IsPublicationPhase), "Competition checkbox can hide actual phases while keeping its independently selected publication date");
+    Check(futureModel.CalendarEvents.All(e => e.Id != "kr:curated:competition-fixture"), "Hiding competitions does not leave behind their publication dates");
     futureModel.SetAllCalendars(false); futureModel.Tick(now);
     Check(futureModel.CalendarEvents.Count == 0 && futureModel.UpcomingHighlights.Count == 0 && futureModel.PendingHighlights.Count == 0 && futureModel.NewsEvents.Count > 0, "Hide-all clears calendar and highlights while news remains accessible");
     futureModel.SetAllCalendars(true); futureModel.Tick(now);
-    Check(Enum.GetValues<CalendarGroup>().All(futureModel.IsCalendarVisible) && futureModel.CalendarEvents.Count == futureFeed.Events.Count, "Select-all restores every calendar group");
+    Check(Enum.GetValues<CalendarGroup>().Where(g => g != CalendarGroup.Notices).All(futureModel.IsCalendarVisible) && futureModel.CalendarEvents.Count == futureFeed.Events.Count - 1, "Select-all restores actual schedules and permanently excludes publication-only records");
     futureModel.SetCalendarVisible(CalendarGroup.Patches, false); futureModel.SetPeriodBars(true); futureModel.Tick(now);
     await futureWorkspace.FlushAsync(); futureWorkspace.Pump();
     using var persisted = new CalendarWorkspace(Path.Combine(root, "future-presentation"), example, futureHttp, bundledFeed: JsonSerializer.SerializeToUtf8Bytes(futureFeed, CalendarJson.Options));
-    var persistedModel = new CalendarModel(persisted); persistedModel.Tick(now);
+    var persistedModel = OfflineModel(persisted); persistedModel.Tick(now);
     Check(!persistedModel.IsCalendarVisible(CalendarGroup.Patches) && persisted.State.View.PeriodBars && persisted.State.View.PeriodBarsConfigured, "Category choices and explicit bar option survive restart");
 }
 
@@ -167,10 +178,10 @@ using (var legacy = new CalendarWorkspace(Path.Combine(root, "legacy-bars"), exa
 {
     legacy.UpdateState(legacy.State with { View = legacy.State.View with { PeriodBars = true, PeriodBarsConfigured = false } });
     await legacy.FlushAsync(); legacy.Pump();
-    var legacyModel = new CalendarModel(legacy); legacyModel.Tick(now);
+    var legacyModel = OfflineModel(legacy); legacyModel.Tick(now);
     Check(!legacy.State.View.PeriodBars && legacy.State.View.PeriodBarsConfigured, "Previous default-on settings switch once to requested endpoint default");
     legacyModel.SetPeriodBars(true); legacyModel.Tick(now); await legacy.FlushAsync(); legacy.Pump();
-    var reloadedModel = new CalendarModel(legacy);
+    var reloadedModel = OfflineModel(legacy);
     Check(legacy.State.View.PeriodBars, "Explicitly re-enabling bars is not reset by another model load");
 }
 
@@ -182,7 +193,7 @@ using (var uxHttp = new HttpClient(new FailureHandler()))
 using (var uxWorkspace = new CalendarWorkspace(Path.Combine(root, "product-flows"), example, uxHttp,
     bundledFeed: JsonSerializer.SerializeToUtf8Bytes(realSnapshot, CalendarJson.Options)))
 {
-    var ux = new CalendarModel(uxWorkspace); ux.Tick(now);
+    var ux = OfflineModel(uxWorkspace); ux.Tick(now);
     ux.GoToMonth(2027, 2); ux.Tick(now);
     Check(ux.PanelMode == CalendarPanelMode.Month && !ux.HasDateFocus && ux.SelectedDate == new DateOnly(2027, 2, 1) && ux.SelectedEventId is null,
         "Entering February opens a month overview instead of retaining November selection");
@@ -259,6 +270,69 @@ using (var uxWorkspace = new CalendarWorkspace(Path.Combine(root, "product-flows
         $"Withdrawing the selected event restores its day agenda with the two remaining choices instead of an orphaned detail panel (panel={ux.PanelMode}, previous={ux.PreviousPanelMode}, view={ux.ViewMode}, id={ux.SelectedEventId}, phase={ux.SelectedPhaseId}, edge={ux.SelectedEdge}, date={ux.SelectedDate}, day={ux.DayBoundaryItems.Count}, status={uxWorkspace.StatusCode})");
 }
 
+using (var revisionHttp = new HttpClient(new FailureHandler()))
+using (var revisionWorkspace = new CalendarWorkspace(Path.Combine(root, "redesign"), example, revisionHttp, bundledFeed: JsonSerializer.SerializeToUtf8Bytes(realSnapshot, CalendarJson.Options)))
+{
+    var revisionModel = OfflineModel(revisionWorkspace); revisionModel.Tick(now);
+    revisionModel.GoToMonth(2026, 11); revisionModel.Tick(now);
+    var calendarIds = revisionModel.CalendarEvents.Select(e => e.Id).ToArray();
+    revisionModel.SetNewsQuery("웹젠", 5); revisionModel.Tick(now);
+    Check(revisionModel.NewsEvents.All(e => e.Title.Contains("웹젠")) && calendarIds.SequenceEqual(revisionModel.CalendarEvents.Select(e => e.Id)), "News search does not filter or mutate the calendar");
+    Check(revisionModel.CalendarEvents.All(e => e.Phases.All(p => !CalendarContentPolicy.IsPublication(p))) && revisionModel.CalendarEvents.All(e => !e.Title.Contains("웹젠")), "Real feed cannot put PC cafe notices or publication dates onto the calendar");
+    Check(revisionModel.CalendarEvents.Any(e => e.Id == "kr:maintenance:game:v7-58:2026-11-10"), "Real V7.58 game downtime remains on November 10");
+    var local = new PersonalEntry { Id = "renewal", Kind = "subscription", Title = "Old custom title", When = CalendarBoundary.Date(new(2026, 12, 13)) };
+    revisionModel.SaveSubscription(local); revisionModel.Tick(now);
+    Check(revisionModel.MonthNumber == 11 && revisionWorkspace.State.Entries.Single().Title == "정액제", "Registering a service uses its type name and keeps the visible month");
+    revisionModel.ExtendSubscription(local.Id, 90); revisionModel.Tick(now);
+    Check(revisionWorkspace.State.Entries.Single().When.Value == "2027-03-13" && revisionModel.MonthNumber == 11, "90-day renewal adds to existing expiry without navigating the calendar");
+    revisionModel.ExtendSubscription("missing", 90); revisionModel.Tick(now);
+    Check(revisionWorkspace.State.Entries.Count == 1, "Renewing a missing service cannot create a duplicate");
+    revisionModel.SetEntryReminder(local.Id, true); revisionModel.SetEntryReminder(local.Id, true); revisionModel.Tick(now);
+    Check(revisionWorkspace.State.Alerts.Count == 1 && revisionWorkspace.State.Alerts[0].Edge == "end", "Expiry reminder selection survives renewal and cannot duplicate itself");
+    revisionModel.SetEntryReminder(local.Id, false); revisionModel.Tick(now);
+    Check(revisionWorkspace.State.Alerts.Count == 0, "Disabling an entry reminder removes its preference");
+    revisionModel.SetNewsQuery("", 0); revisionModel.Tick(now);
+    Check(revisionModel.NewsEvents.Select(CalendarModel.NewsDate).SequenceEqual(revisionModel.NewsEvents.Select(CalendarModel.NewsDate).OrderByDescending(d => d)), "News uses the same date for sorting and display");
+    revisionWorkspace.UpdateState(revisionWorkspace.State with { View = revisionWorkspace.State.View with { Language = "en", Theme = "paper", ShowNoticePublications = true } });
+    var migrated = OfflineModel(revisionWorkspace); migrated.Tick(now);
+    Check(revisionWorkspace.State.View is { Language: "ko", Theme: "cloud", ShowNoticePublications: false } && revisionWorkspace.State.Entries.Count == 1, "Legacy language/theme/publication settings migrate without deleting local services");
+    revisionModel.GoToMonth(2027, 2); revisionModel.SelectDate(new(2027, 2, 19)); revisionModel.SetEventHidden("kr:curated:v8-reservation-items", true); revisionModel.Tick(now);
+    Check(revisionModel.CalendarEvents.All(e => e.Id != "kr:curated:v8-reservation-items") && revisionModel.DayDisplayEntries.All(e => e.Members.All(i => i.Event.Id != "kr:curated:v8-reservation-items")), "Per-event hide applies before month/day grouping");
+    Check(revisionModel.NewsEvents.Any(e => e.Id == "kr:curated:v8-reservation-items") && revisionModel.Events.Any(e => e.Id == "kr:curated:v8-reservation-items"), "Calendar hide keeps news links and original public data");
+    revisionModel.SetEventHidden("kr:curated:v8-reservation-items", true); revisionModel.Tick(now);
+    Check(revisionWorkspace.State.View.HiddenEventIds.Count == 1, "Repeated hide actions cannot duplicate stored preferences");
+    await Settle(revisionModel, revisionWorkspace, now);
+    using (var hiddenReload = new CalendarWorkspace(Path.Combine(root, "redesign"), example, revisionHttp, bundledFeed: JsonSerializer.SerializeToUtf8Bytes(realSnapshot, CalendarJson.Options)))
+    {
+        var restored = OfflineModel(hiddenReload); restored.Tick(now);
+        Check(restored.State.View.HiddenEventIds.Contains("kr:curated:v8-reservation-items") && restored.CalendarEvents.All(e => e.Id != "kr:curated:v8-reservation-items"), "Hidden events remain hidden after workspace restart");
+        restored.SetEventHidden("kr:curated:v8-reservation-items", false); restored.Tick(now);
+        Check(restored.CalendarEvents.Any(e => e.Id == "kr:curated:v8-reservation-items"), "Individual restore returns an event without refetching or recreating it");
+        restored.SetEventHidden("kr:event:771", true); restored.SetEventHidden("kr:event:772", true); restored.Tick(now); restored.RestoreHiddenEvents(); restored.Tick(now);
+        Check(restored.State.View.HiddenEventIds.Count == 0 && restored.CalendarEvents.Any(e => e.Id == "kr:event:772"), "Restore-all clears per-event visibility choices");
+    }
+}
+var preferencePath = Path.Combine(root, "display-preferences");
+using (var preferences = new CalendarWorkspace(preferencePath, example))
+{
+    var prefModel = OfflineModel(preferences); prefModel.Tick(now);
+    Check(prefModel.State.View.FrontlineUpdatesEnabled && !prefModel.State.View.ShowFrontlineInCalendar, "Today/tomorrow loading defaults on independently of optional date-cell labels");
+    prefModel.SaveEntry(new() { Id = "preserved-local", Title = "공대", When = CalendarBoundary.Date(new(2026, 11, 15)) });
+    prefModel.UpdateView(v => v with { RemoteRefreshMinutes = 180, ShowFrontlineInCalendar = true,
+        CalendarAppearances = [new() { Group = CalendarGroup.Personal, Icon = "Flag", Color = "#123ABC" }] });
+    await Settle(prefModel, preferences, now);
+    Check(prefModel.State.Entries.Count == 1 && prefModel.CalendarEvents.Any(e => e.Id == "preserved-local"), "Changing display preferences keeps the user's calendar entries");
+}
+using (var preferences = new CalendarWorkspace(preferencePath, example))
+{
+    var prefModel = OfflineModel(preferences); prefModel.Tick(now);
+    Check(prefModel.State.View.RemoteRefreshMinutes == 180 && prefModel.State.View.ShowFrontlineInCalendar &&
+        prefModel.State.View.CalendarAppearances.Single() is { Icon: "Flag", Color: "#123ABC" } && prefModel.State.Entries.Count == 1,
+        "Cadence, optional frontline labels, custom icon/color and personal entries survive workspace restart together");
+}
+checks += await BehaviorChecks.Run(root, example, realSnapshot);
+checks += await NotificationBehaviorChecks.Run(root, example);
+checks += await WeeklyScheduleBehaviorChecks.Run(root, example);
 Console.WriteLine($"PASS: {checks} actual CalendarModel checks; localization is stubbed, no ImGui/game runtime is exercised.");
 
 sealed class FailureHandler : HttpMessageHandler

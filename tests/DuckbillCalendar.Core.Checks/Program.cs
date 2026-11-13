@@ -190,4 +190,88 @@ finally
     CultureInfo.CurrentUICulture = originalUiCulture;
 }
 WireChecks.Run(Check);
+PublicationChecks.Run(Check);
+ActivityAndHidingChecks.Run(Check);
+NotificationChecks.Run(Check);
+WeeklyScheduleChecks.Run(Check);
+OfficialLinkChecks.Run(Check);
+var oldStateNode = System.Text.Json.Nodes.JsonNode.Parse(JsonSerializer.SerializeToUtf8Bytes(new LocalState(), CalendarJson.Options))!;
+oldStateNode["view"]!.AsObject().Remove("remoteRefreshMinutes");
+oldStateNode["view"]!.AsObject().Remove("showFrontlineInCalendar");
+oldStateNode["view"]!.AsObject().Remove("calendarAppearances");
+oldStateNode["view"]!.AsObject().Remove("hiddenPhases");
+oldStateNode["view"]!.AsObject().Remove("pauseAutomaticUpdatesWhenBusy");
+oldStateNode["view"]!.AsObject().Remove("hideWindowInCombat");
+oldStateNode["view"]!.AsObject().Remove("hideWindowInDuty");
+var oldView = CalendarJson.Parse<LocalState>(JsonSerializer.SerializeToUtf8Bytes(oldStateNode, CalendarJson.Options));
+Check(oldView.View.RemoteRefreshMinutes == 60 && !oldView.View.ShowFrontlineInCalendar && oldView.View.CalendarAppearances.Count == 0, "Older state defaults to hourly refresh, clean date cells and standard appearance");
+Check(oldView.View.HiddenPhases.Count == 0 && oldView.View.PauseAutomaticUpdatesWhenBusy && !oldView.View.HideWindowInCombat && !oldView.View.HideWindowInDuty, "Older settings retain entries and defer updates without automatically hiding the window");
+oldStateNode["view"]!["hideWindowInCombat"] = true; oldStateNode["view"]!["hideWindowInDuty"] = true;
+var removedHideSettings = CalendarJson.Parse<LocalState>(JsonSerializer.SerializeToUtf8Bytes(oldStateNode, CalendarJson.Options));
+Check(!removedHideSettings.View.HideWindowInCombat && !removedHideSettings.View.HideWindowInDuty && FeedValidator.ValidateLocal(removedHideSettings).Count == 0,
+    "Removed hide settings are accepted and discarded without rejecting existing local state");
+Check(!JsonSerializer.Serialize(removedHideSettings, CalendarJson.Options).Contains("hideWindowInCombat", StringComparison.Ordinal), "Saving removes obsolete auto-hide settings");
+Check(new ViewSettings().RemoteUpdatesEnabled, "New installations receive schedule updates by default");
+var savedOffline = new LocalState { View = new() { RemoteUpdatesEnabled = false } };
+Check(!CalendarJson.Parse<LocalState>(JsonSerializer.SerializeToUtf8Bytes(savedOffline, CalendarJson.Options)).View.RemoteUpdatesEnabled, "A saved offline choice is retained instead of overwritten by new defaults");
+foreach (var interval in new[] { -1, 0, 1, 59, 1440 })
+    Check(FeedValidator.ValidateLocal(new() { View = new() { RemoteRefreshMinutes = interval } }).Contains("InvalidRemoteRefreshInterval"), "Unsupported refresh interval rejected: " + interval);
+var customized = new LocalState { View = new() { RemoteRefreshMinutes = 180, ShowFrontlineInCalendar = true,
+    CalendarAppearances = [new() { Group = CalendarGroup.Personal, Color = "#abcdef", Icon = "Flag" }] } };
+var customizedCopy = CalendarJson.Parse<LocalState>(JsonSerializer.SerializeToUtf8Bytes(customized, CalendarJson.Options));
+Check(FeedValidator.ValidateLocal(customizedCopy).Count == 0 && customizedCopy.View.CalendarAppearances.Single().Color == "#abcdef" && customizedCopy.View.ShowFrontlineInCalendar,
+    "Color, icon, frontline visibility and cadence survive serialization");
+foreach (var appearance in new CalendarAppearance[] { new() { Icon = "Unknown" }, new() { Color = "abcdef" }, new() { Color = "#gggggg" }, new() { Color = null! }, new() { Group = (CalendarGroup)999 } })
+    Check(FeedValidator.ValidateLocal(new() { View = new() { CalendarAppearances = [appearance] } }).Count > 0, "Malformed calendar appearance rejected");
+Check(FeedValidator.ValidateLocal(new() { View = new() { CalendarAppearances = [new(), new()] } }).Contains("InvalidAppearanceGroup"), "Duplicate category appearance rejected");
+PresentationChecks.Run(Check);
+var chargeNow = new DateTimeOffset(2026, 11, 13, 12, 0, 0, TimeSpan.FromHours(9));
+Check(SubscriptionTime.Extend(null, 90, chargeNow).Value == "2027-02-11", "First 90-day registration starts on today's KST date");
+Check(SubscriptionTime.Extend(CalendarBoundary.Date(new(2026, 12, 13)), 90, chargeNow).Value == "2027-03-13", "90-day renewal keeps the existing 30 days");
+Check(SubscriptionTime.Extend(CalendarBoundary.Date(new(2026, 10, 1)), 30, chargeNow).Value == "2026-12-13", "An expired service renews from today instead of a past date");
+Check(SubscriptionTime.Extend(CalendarBoundary.Date(new(2028, 2, 28)), 2, chargeNow).Value == "2028-03-01", "Date-only renewal handles leap day without inventing a time");
+var exactExpiry = CalendarBoundary.Instant(chargeNow.AddDays(3));
+Check(CalendarEngine.StartInstant(SubscriptionTime.Extend(exactExpiry, 90, chargeNow)) == chargeNow.AddDays(93), "Timed renewal preserves the exact expiry time");
+Check(CalendarEngine.StartInstant(SubscriptionTime.Extend(CalendarBoundary.Instant(chargeNow.AddDays(-3)), 30, chargeNow)) == chargeNow.AddDays(30), "Expired timed renewal starts at now");
+Check(CalendarEngine.StartInstant(SubscriptionTime.ExtendDuration(null, 0, 6, chargeNow)) == chargeNow.AddHours(6), "A new service can receive hours without requiring one day");
+Check(CalendarEngine.StartInstant(SubscriptionTime.ExtendDuration(exactExpiry, 30, 6, chargeNow)) == chargeNow.AddDays(33).AddHours(6), "Mixed day/hour renewal adds both durations to the active expiry instead of replacing its clock");
+Check(CalendarEngine.StartInstant(SubscriptionTime.ExtendDuration(CalendarBoundary.Instant(chargeNow.AddDays(-3)), 0, 36, chargeNow)) == chargeNow.AddHours(36), "Expired hourly renewal starts now and accepts more than 24 hours");
+Check(CalendarEngine.StartInstant(SubscriptionTime.ExtendDuration(CalendarBoundary.Date(new(2026, 12, 13)), 0, 6, chargeNow, new(21, 30))) ==
+    new DateTimeOffset(2026, 12, 14, 3, 30, 0, TimeSpan.FromHours(9)), "Hourly renewal of a date-only expiry requires an explicit existing clock and carries into the next KST date");
+Check(CalendarEngine.StartInstant(SubscriptionTime.ExtendDuration(CalendarBoundary.Date(new(2026, 10, 1)), 0, 6, chargeNow)) == chargeNow.AddHours(6), "An expired date-only service does not require an irrelevant historical expiry clock");
+var missingClockRejected = false;
+try { SubscriptionTime.ExtendDuration(CalendarBoundary.Date(new(2026, 12, 13)), 0, 6, chargeNow); } catch (InvalidOperationException) { missingClockRejected = true; }
+Check(missingClockRejected, "An unknown active expiry time cannot silently become midnight during hourly renewal");
+Check(CalendarEngine.StartInstant(SubscriptionTime.ExtendDuration(null, 0, 0, 1, chargeNow)) == chargeNow.AddMinutes(1), "Minute-only renewal accepts a single minute without requiring an hour");
+Check(CalendarEngine.StartInstant(SubscriptionTime.ExtendDuration(exactExpiry, 1, 2, 30, chargeNow)) == chargeNow.AddDays(4).AddHours(2).AddMinutes(30), "Renewal adds days, hours and minutes together to the active expiry");
+Check(CalendarEngine.StartInstant(SubscriptionTime.ExtendDuration(CalendarBoundary.Date(new(2026, 12, 13)), 0, 0, 30, chargeNow, new(23, 50))) ==
+    new DateTimeOffset(2026, 12, 14, 0, 20, 0, TimeSpan.FromHours(9)), "Minute-only renewal carries a user-supplied existing clock across midnight");
+var missingMinuteClockRejected = false;
+try { SubscriptionTime.ExtendDuration(CalendarBoundary.Date(new(2026, 12, 13)), 0, 0, 30, chargeNow); } catch (InvalidOperationException) { missingMinuteClockRejected = true; }
+Check(missingMinuteClockRejected, "Minute-only renewal cannot guess an active date-only expiry's clock");
+Check(CalendarEngine.StartInstant(SubscriptionTime.ExtendDuration(CalendarBoundary.Instant(chargeNow.AddDays(-1)), 0, 0, 90, chargeNow)) == chargeNow.AddMinutes(90), "Expired service can renew by more than sixty minutes from now");
+foreach (var invalidMinutes in new[] { (0, -1), (3650, 1), (int.MaxValue, int.MaxValue) })
+{
+    var rejected = false;
+    try { SubscriptionTime.ExtendDuration(null, invalidMinutes.Item1, 0, invalidMinutes.Item2, chargeNow); } catch (ArgumentOutOfRangeException) { rejected = true; }
+    Check(rejected, "Invalid minute duration is rejected: " + invalidMinutes);
+}
+foreach (var invalidDuration in new[] { (0, 0), (-1, 6), (0, -1), (3650, 1), (int.MaxValue, int.MaxValue) })
+{
+    var rejected = false;
+    try { SubscriptionTime.ExtendDuration(null, invalidDuration.Item1, invalidDuration.Item2, chargeNow); } catch (ArgumentOutOfRangeException) { rejected = true; }
+    Check(rejected, "Invalid total renewal duration is rejected: " + invalidDuration);
+}
+foreach (var invalidDays in new[] { -1, 0, 3651 })
+{
+    var rejected = false;
+    try { SubscriptionTime.Extend(null, invalidDays, chargeNow); } catch (ArgumentOutOfRangeException) { rejected = true; }
+    Check(rejected, "Invalid renewal day count is rejected: " + invalidDays);
+}
+var policyPhase = new EventPhase { Id = "period", Label = "점검" };
+foreach (var title in new[] { "웹젠 PC방 점검", "크리스탈샵 점검", "공식 홈페이지 점검", "공식 가이드 점검" })
+    Check(!CalendarContentPolicy.Includes(new() { Id = "kr:maintenance:aux", Category = "maintenance", Title = title }, policyPhase), "Calendar excludes auxiliary maintenance: " + title);
+Check(CalendarContentPolicy.Includes(new() { Id = "kr:maintenance:game:test", Category = "maintenance", Title = "V7.58 게임·런처 점검" }, policyPhase), "Calendar keeps actual game server downtime");
+Check(CalendarContentPolicy.Includes(new() { Id = "kr:maintenance:game:mixed", Category = "maintenance", Title = "게임·런처 및 공식 가이드 점검" }, policyPhase), "A normalized game interval survives a source notice which also lists guide maintenance");
+Check(!CalendarContentPolicy.Includes(new() { Category = "notice", Title = "점검 완료 안내" }, new() { Id = "published" }), "Publication time is never treated as a playable calendar date");
 Console.WriteLine($"PASS: {checks.Count} Core checks (calendar, boundaries, lanes, validation, profiles, freshness, offline alerts).");

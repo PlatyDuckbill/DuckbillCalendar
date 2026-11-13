@@ -8,7 +8,7 @@ internal sealed record ScheduleHighlight(CalendarEvent Event, EventPhase Phase, 
 internal enum CalendarPanelMode { Month, Day, Event, Undated }
 internal enum CalendarViewMode { Grid, Agenda, Undated }
 
-internal sealed class CalendarModel
+internal sealed partial class CalendarModel
 {
     private readonly CalendarWorkspace workspace;
     private readonly ConcurrentQueue<Action> commands = new();
@@ -17,13 +17,27 @@ internal sealed class CalendarModel
     private long lastMinute = -1;
     private bool dirty = true;
     private DateTimeOffset nextRefresh;
+    public bool AutomaticUpdatesAllowed { get; private set; } = true;
+    public string? AutomaticUpdateHoldMessage { get; private set; }
+    public void SetAutomaticUpdateState(bool allowed, string? message)
+    {
+        AutomaticUpdatesAllowed = allowed; AutomaticUpdateHoldMessage = message;
+        workspace.SetAutomaticRefreshAllowed(allowed);
+    }
     public CalendarModel(CalendarWorkspace workspace)
     {
         this.workspace = workspace;
         // Earlier builds enabled bars by default. Apply the requested endpoint default
         // once, then preserve explicit choices made with the current controls.
-        if (workspace.State.View.PeriodBars && !workspace.State.View.PeriodBarsConfigured)
-            workspace.UpdateState(workspace.State with { View = workspace.State.View with { PeriodBars = false, PeriodBarsConfigured = true } });
+        var local = InitializePersonalCategory(workspace.State);
+        var view = local.View;
+        if (!view.DefaultRaidCategoryInitialized)
+            view = view with { DefaultRaidCategoryInitialized = true, UserCategories = view.UserCategories.Count < 64 && !view.UserCategories.Any(c => c.Id == "user:default-raid" || c.Name.Trim().Equals("공격대",StringComparison.OrdinalIgnoreCase))
+                ? view.UserCategories.Append(new() { Id = "user:default-raid", Name = "공격대", Icon = "Raid", Color = "#C2A1EB" }).ToArray() : view.UserCategories };
+        if (view.PeriodBars && !view.PeriodBarsConfigured) view = view with { PeriodBars = false, PeriodBarsConfigured = true };
+        if (view.Language != "ko" || view.ShowNoticePublications || view.Theme == "paper")
+            view = view with { Language = "ko", ShowNoticePublications = false, Theme = view.Theme == "paper" ? "cloud" : view.Theme };
+        if (view != workspace.State.View || !ReferenceEquals(local,workspace.State)) workspace.UpdateState(local with { View = view });
         Now = DateTimeOffset.UtcNow;
         Today = CalendarEngine.Today(Now);
         Year = Today.Year;
@@ -44,6 +58,8 @@ internal sealed class CalendarModel
     public string Search { get; private set; } = "";
     public int CategoryFilter { get; private set; }
     public bool OnlyAlerts { get; private set; }
+    private string newsSearch = "";
+    private int newsCategory;
     public CalendarViewMode ViewMode { get; private set; } = CalendarViewMode.Grid;
     public CalendarPanelMode PanelMode { get; private set; } = CalendarPanelMode.Month;
     public CalendarPanelMode PreviousPanelMode { get; private set; } = CalendarPanelMode.Month;
@@ -63,6 +79,7 @@ internal sealed class CalendarModel
     public IReadOnlyList<ScheduleHighlight> MonthAgenda { get; private set; } = [];
     public IReadOnlyList<CalendarItem> DayBoundaryItems { get; private set; } = [];
     public IReadOnlyList<CalendarItem> DayOngoingItems { get; private set; } = [];
+    public IReadOnlyList<CalendarDisplayEntry> DayDisplayEntries { get; private set; } = [];
     public IReadOnlyList<CalendarEvent> UndatedEvents { get; private set; } = [];
     public CalendarMonth? Calendar { get; private set; }
     public FrontlineResult? TodayFrontline { get; private set; }
@@ -89,7 +106,8 @@ internal sealed class CalendarModel
             Today = CalendarEngine.Today(now);
             dirty = true;
         }
-        if (State.View.RemoteUpdatesEnabled && IsPublishedEndpoint(State.View.CurrentUrl) && !workspace.IsBusy && now >= nextRefresh)
+        if (AutomaticUpdatesAllowed && State.View.RemoteUpdatesEnabled && IsPublishedEndpoint(State.View.CurrentUrl) && !workspace.IsBusy && now >= nextRefresh &&
+            workspace.NextAutomaticRefreshAt is { } due && now >= due)
         {
             // The workspace owns TTL, cooldown and failure backoff. A second hourly timer here
             // would accidentally delay its 15-minute recovery attempt until an hour has passed.
@@ -102,16 +120,22 @@ internal sealed class CalendarModel
             .Select(e => e.ObservedAt!.Value).DefaultIfEmpty(Feed.GeneratedAt).Max();
         Events = CalendarEngine.Merge(Feed, State);
         FilteredEvents = Events.Where(Matches).ToArray();
-        VisibleCalendarEvents = Events.Select(e => e with { Phases = e.Phases.Where(p => IsCalendarVisible(GroupFor(e, p))).ToArray() })
+        var hidden = State.View.HiddenEventIds.ToHashSet(StringComparer.Ordinal);
+        var hiddenPhases = State.View.HiddenPhases.Select(p => (p.EventId, p.PhaseId)).ToHashSet();
+        VisibleCalendarEvents = Events.Where(e => !hidden.Contains(e.Id)).Select(e => e with { Phases = e.Phases.Where(p => !hiddenPhases.Contains((e.Id, p.Id)) && CalendarContentPolicy.Includes(e, p) &&
+            (e.Category.StartsWith("user:", StringComparison.Ordinal) ? !State.View.HiddenUserCategoryIds.Contains(e.Category) : IsCalendarVisible(GroupFor(e, p)))).ToArray() })
             .Where(e => e.Phases.Count > 0).ToArray();
         CalendarEvents = VisibleCalendarEvents.Where(MatchesSearchAndAlerts).ToArray();
-        NewsEvents = FilteredEvents.Where(e => !e.IsPersonal).OrderByDescending(e => e.Phases.Select(p => CalendarEngine.BoundaryDate(p.Start)).Max()).ToArray();
-        Calendar = CalendarEngine.BuildMonth(CalendarEvents, Year, MonthNumber, State.View.PeriodBars, State.View.ShowRewardBars, 3);
+        NewsEvents = Events.Where(e => !e.IsPersonal && (string.IsNullOrWhiteSpace(newsSearch) || e.Title.Contains(newsSearch, StringComparison.OrdinalIgnoreCase)))
+            .Where(e => newsCategory switch { 1 => e.Category is "web-event" or "in-game-event" or "seasonal-event", 2 => e.Category is "patch" or "maintenance", 3 => e.Category is "pvp-season" or "pvp-series" or "reward", 4 => e.Category is "sale" or "discount", 5 => e.Category == "notice", _ => true })
+            .OrderByDescending(NewsDate).ToArray();
+        Calendar = CalendarEngine.BuildMonth(CalendarEvents, Year, MonthNumber, State.View.PeriodBars, State.View.ShowRewardBars, 8);
         MonthEvents = CalendarEngine.MonthEvents(CalendarEvents, Year, MonthNumber);
         DayItems = CalendarEngine.DayEvents(CalendarEvents, SelectedDate, includeOngoing: true);
         DayBoundaryItems = DayItems.Where(i => !i.Ongoing).OrderBy(i => (i.Edge == "start" ? CalendarEngine.StartInstant(i.Phase.Start) : CalendarEngine.StartInstant(i.Phase.End)) ?? DateTimeOffset.MaxValue)
             .ThenBy(i => i.Edge == "end" ? 0 : 1).ThenBy(i => i.Event.Title, StringComparer.Ordinal).ToArray();
         DayOngoingItems = DayItems.Where(i => i.Ongoing).ToArray();
+        DayDisplayEntries = CalendarPresentation.Build(DayItems, SelectedDate);
         MonthAgenda = CalendarEvents.SelectMany(e => e.Phases.SelectMany(p =>
             (p.Point ? new[] { "start" } : ["start", "end"]).SelectMany(edge =>
             {
@@ -151,8 +175,8 @@ internal sealed class CalendarModel
         lastRevision = workspace.Revision;
         dirty = false;
     }
-    public static bool IsPublishedEndpoint(string url) => string.Equals(url,
-        "https://raw.githubusercontent.com/PlatyDuckbill/DuckbillCalendar/calendar-data/kr/current.json", StringComparison.Ordinal);
+    public static bool IsPublishedEndpoint(string url) => string.IsNullOrWhiteSpace(url) ||
+        string.Equals(url, BoundedFeedTransport.CurrentAddress, StringComparison.Ordinal);
 
     public void DrainPendingActions(Action<Exception> onError)
     {
@@ -164,15 +188,38 @@ internal sealed class CalendarModel
             catch (Exception ex) { onError(ex); }
         }
     }
-    public bool HasAlert(CalendarEvent e) => State.Alerts.Any(a => a.Enabled && a.ProfileId == State.ActiveProfileId && a.EventId == e.Id);
-    public bool HasAlert(CalendarEvent e, EventPhase p, string edge) => State.Alerts.Any(a => a.Enabled && a.ProfileId == State.ActiveProfileId && a.EventId == e.Id && a.PhaseId == p.Id && a.Edge == edge);
+    public bool HasAlert(CalendarEvent e) => NotificationPolicy.EffectiveAlerts(Feed, State).Any(a => a.EventId == e.Id);
+    public bool HasAlert(CalendarEvent e, EventPhase p, string edge) => NotificationPolicy.EffectiveAlerts(Feed, State).Any(a => a.EventId == e.Id && a.PhaseId == p.Id && a.Edge == edge);
     public void ToggleAlert(CalendarEvent e, EventPhase p, string edge) => Post(() =>
     {
+        if (State.Notifications.Schedules.Any(r => r.ProfileId == State.ActiveProfileId && r.EventId == e.Id && r.PhaseId == p.Id) ||
+            NotificationPolicy.CategoryRule(State, NotificationPolicy.CategoryKey(e)).Enabled)
+        {
+            var effective = NotificationPolicy.EffectiveAlerts(Feed, State).Where(a => a.EventId == e.Id && a.PhaseId == p.Id).ToArray();
+            var remaining = effective.Where(a => a.Edge != edge).ToList();
+            if (!effective.Any(a => a.Edge == edge)) remaining.Add(new() { Edge = edge, LeadMinutes = 60 });
+            SetScheduleNotification(e.Id, p.Id, remaining.Count == 0 ? "off" : "custom",
+                remaining.Where(a => a.Edge == "start").Select(a => a.LeadMinutes).ToArray(), remaining.Where(a => a.Edge == "end").Select(a => a.LeadMinutes).ToArray());
+            return;
+        }
         var alerts = State.Alerts.Where(a => !(a.ProfileId == State.ActiveProfileId && a.EventId == e.Id && a.PhaseId == p.Id && a.Edge == edge)).ToList();
         if (!HasAlert(e, p, edge)) alerts.Add(new() { ProfileId = State.ActiveProfileId, EventId = e.Id, PhaseId = p.Id, Edge = edge, LeadMinutes = 60 });
         workspace.UpdateState(State with { Alerts = alerts });
     });
     public void SetQuery(string search, int category, bool onlyAlerts) => Post(() => { Search = search; CategoryFilter = category; OnlyAlerts = onlyAlerts; });
+    public void SetNewsQuery(string search, int category) => Post(() => { newsSearch = search; newsCategory = category; });
+    public void SetEventHidden(string id, bool hidden) => UpdateView(v => v with
+    {
+        HiddenEventIds = hidden ? v.HiddenEventIds.Append(id).Distinct(StringComparer.Ordinal).ToArray() : v.HiddenEventIds.Where(value => value != id).ToArray(),
+        HiddenPhases = hidden ? v.HiddenPhases.Where(p => p.EventId != id).ToArray() : v.HiddenPhases
+    });
+    public void SetPhaseHidden(string eventId, string phaseId, bool hidden) => UpdateView(v => v with
+    {
+        HiddenPhases = hidden ? v.HiddenPhases.Append(new() { EventId = eventId, PhaseId = phaseId }).DistinctBy(p => (p.EventId, p.PhaseId)).ToArray()
+            : v.HiddenPhases.Where(p => p.EventId != eventId || p.PhaseId != phaseId).ToArray()
+    });
+    public IReadOnlyList<string> RelatedEventIds(IEnumerable<string> ids) => CalendarPresentation.RelatedEventIds(Events, ids);
+    public void RestoreHiddenEvents() => UpdateView(v => v with { HiddenEventIds = [], HiddenPhases = [] });
     public void SetPeriodBars(bool enabled) => UpdateView(v => v with { PeriodBars = enabled, PeriodBarsConfigured = true });
     public bool IsCalendarVisible(CalendarGroup group) => group switch
     {
@@ -180,7 +227,7 @@ internal sealed class CalendarModel
         CalendarGroup.Maintenance => State.View.Calendars.Maintenance, CalendarGroup.Pvp => State.View.Calendars.Pvp,
         CalendarGroup.Competitions => State.View.Calendars.Competitions, CalendarGroup.Sales => State.View.Calendars.Sales,
         CalendarGroup.Subscriptions => State.View.Calendars.Subscriptions, CalendarGroup.Personal => State.View.Calendars.Personal,
-        CalendarGroup.Notices => State.View.ShowNoticePublications, _ => false
+        CalendarGroup.Notices => false, _ => false
     };
     public void SetCalendarVisible(CalendarGroup group, bool enabled) => UpdateView(v => group switch
     {
@@ -246,6 +293,7 @@ internal sealed class CalendarModel
         if (date.Year is < 2020 or > 2100) return;
         if (ViewMode == CalendarViewMode.Undated) ViewMode = CalendarViewMode.Grid;
         SelectedDate = date;
+        Year = date.Year; MonthNumber = date.Month;
         ClearEventSelection();
         PanelMode = CalendarPanelMode.Day;
     }
@@ -291,9 +339,50 @@ internal sealed class CalendarModel
         SelectedEdge = entry.Kind is "subscription" or "retainer" or "bag" ? "end" : "start";
         PreviousPanelMode = CalendarPanelMode.Day; PanelMode = CalendarPanelMode.Event;
     });
+    public void SaveSubscription(PersonalEntry entry) => Post(() =>
+    {
+        if (!SubscriptionTime.IsSubscription(entry.Kind)) return;
+        workspace.UpdateState(State with { Entries = State.Entries.Where(e => e.Id != entry.Id).Append(entry with { Title = SubscriptionTime.Name(entry.Kind) }).ToArray() });
+    });
+    public void ExtendSubscription(string id, int days) => Post(() =>
+    {
+        var entry = State.Entries.FirstOrDefault(e => e.Id == id && e.ProfileId == State.ActiveProfileId && SubscriptionTime.IsSubscription(e.Kind));
+        if (entry is null) return;
+        var updated = entry with { Title = SubscriptionTime.Name(entry.Kind), When = SubscriptionTime.Extend(entry.When, days, Now) };
+        workspace.UpdateState(State with { Entries = State.Entries.Select(e => e.Id == id ? updated : e).ToArray() });
+    });
+    public void ResetSubscription(string id) => Post(() =>
+    {
+        var profile = State.ActiveProfileId;
+        if (!State.Entries.Any(e => e.Id == id && e.ProfileId == profile && SubscriptionTime.IsSubscription(e.Kind))) return;
+        workspace.UpdateState(State with
+        {
+            Entries = State.Entries.Where(e => e.Id != id).ToArray(),
+            Alerts = State.Alerts.Where(a => a.ProfileId != profile || a.EventId != id).ToArray(),
+            View = State.View with
+            {
+                HiddenEventIds = State.View.HiddenEventIds.Where(hidden => hidden != id).ToArray(),
+                HiddenPhases = State.View.HiddenPhases.Where(hidden => hidden.EventId != id).ToArray()
+            },
+            Notifications = State.Notifications with { Schedules = State.Notifications.Schedules.Where(r => r.EventId != id).ToArray() }
+        });
+        if (SelectedEventId == id) { ClearEventSelection(); PanelMode = CalendarPanelMode.Day; }
+    });
+    public void SetEntryReminder(string id, bool enabled) => Post(() =>
+    {
+        var entry = State.Entries.FirstOrDefault(e => e.Id == id && e.ProfileId == State.ActiveProfileId);
+        if (entry is null) return;
+        var existing = State.Alerts.Where(a => a.ProfileId == State.ActiveProfileId && a.EventId == id).ToArray();
+        if (enabled && existing.Any(a => a.Enabled)) return;
+        var remaining = State.Alerts.Where(a => a.ProfileId != State.ActiveProfileId || a.EventId != id);
+        workspace.UpdateState(State with { Alerts = enabled
+            ? remaining.Append(existing.FirstOrDefault() is { } prior ? prior with { Enabled = true } : new() { ProfileId = State.ActiveProfileId, EventId = id, PhaseId = "local", Edge = SubscriptionTime.IsSubscription(entry.Kind) ? "end" : "start", LeadMinutes = 60 }).ToArray()
+            : remaining.ToArray() });
+    });
     public void DeleteEntry(string id) => Post(() =>
     {
-        workspace.UpdateState(State with { Entries = State.Entries.Where(e => e.Id != id).ToArray(), Alerts = State.Alerts.Where(a => a.EventId != id).ToArray() });
+        workspace.UpdateState(State with { Entries = State.Entries.Where(e => e.Id != id).ToArray(), Alerts = State.Alerts.Where(a => a.EventId != id).ToArray(),
+            Notifications = State.Notifications with { Schedules = State.Notifications.Schedules.Where(r => r.EventId != id).ToArray() } });
         if (SelectedEventId == id) { ClearEventSelection(); PanelMode = CalendarPanelMode.Day; }
     });
     private bool MatchesSearchAndAlerts(CalendarEvent e) => (string.IsNullOrWhiteSpace(Search) || e.Title.Contains(Search, StringComparison.OrdinalIgnoreCase)) && (!OnlyAlerts || HasAlert(e));
@@ -305,6 +394,8 @@ internal sealed class CalendarModel
             4 => e.Category is "sale" or "discount", 5 => e.IsPersonal, 6 => e.Category == "notice", _ => true
         });
     public static bool IsPublicationPhase(EventPhase phase) => phase.Id == "published" || phase.Label.Contains("공지 게시", StringComparison.Ordinal);
+    public static DateOnly? NewsDate(CalendarEvent item) => CalendarEngine.BoundaryDate(item.Phases.FirstOrDefault(IsPublicationPhase)?.Start)
+        ?? item.Phases.Select(p => CalendarEngine.BoundaryDate(p.Start)).Min();
     private static bool IsHighlightEvent(CalendarEvent e) => !e.IsPersonal && e.Lifecycle == "published" &&
         (e.Category is "patch" or "maintenance" or "pvp-season" or "pvp-series" or "sale" or "discount" ||
          e.Id.StartsWith("kr:curated:", StringComparison.Ordinal) || e.Phases.Any(p => p.Point && !IsPublicationPhase(p)));

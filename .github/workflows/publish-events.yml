@@ -44,6 +44,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Collector build failed' }
           dotnet build tools/CalendarDataPublish -p:RestoreLockedMode=true
           if ($LASTEXITCODE -ne 0) { throw 'Publisher build failed' }
+          dotnet build tests/DuckbillCalendar.Infrastructure.Checks -p:RestoreLockedMode=true
+          if ($LASTEXITCODE -ne 0) { throw 'Consumer checks build failed' }
           dotnet run --project tools/CalendarDataCollect --no-build -- prepare .preview/reviewed-collection data/live/kr-events.review.json .preview/approved-feed.json
           if ($LASTEXITCODE -ne 0) { throw 'Snapshot/review provenance rejected' }
           if ((Get-FileHash .preview/approved-feed.json).Hash -ne (Get-FileHash data/live/kr-events.snapshot.json).Hash) { throw 'Committed snapshot differs from reviewed source' }
@@ -75,6 +77,7 @@ jobs:
             feed=.preview/manual-combined-feed.json
           fi
           dotnet run --project tools/CalendarDataPublish --no-build -- prepare "$feed" .preview/publish-root/kr
+          dotnet run --project tests/DuckbillCalendar.Infrastructure.Checks --no-build -- --publication-smoke .preview/publish-root/kr
           rm -f .preview/publish-root/kr/.prepare.lock
           git -C .preview/publish-root config user.name 'github-actions[bot]'
           git -C .preview/publish-root config user.email '41898282+github-actions[bot]@users.noreply.github.com'

@@ -9,6 +9,9 @@ on:
       - 'tools/CalendarDataPublish/**'
       - 'data/curated/**'
       - 'src/DuckbillCalendar.Core/**'
+      - 'src/DuckbillCalendar.Infrastructure/**'
+      - 'tests/DuckbillCalendar.Infrastructure.Checks/**'
+      - 'tools/Shared/**'
   workflow_dispatch:
   schedule:
     - cron: '17 */2 * * *'
@@ -30,8 +33,11 @@ jobs:
         run: |
           dotnet build tools/CalendarDataCollect -p:RestoreLockedMode=true
           dotnet build tools/CalendarDataPublish -p:RestoreLockedMode=true
+          dotnet build tests/DuckbillCalendar.Infrastructure.Checks -p:RestoreLockedMode=true
       - name: Offline collector checks
         run: dotnet run --project tools/CalendarDataCollect --no-build -- check
+      - name: Offline client integrity and recovery checks
+        run: dotnet run --project tests/DuckbillCalendar.Infrastructure.Checks --no-build
       - name: Checkout isolated publication workspace
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -64,12 +70,18 @@ jobs:
           }
           dotnet run --project tools/CalendarDataCollect --no-build -- collect-all data/curated/sources.json $previous calendar-collection
           if ($LASTEXITCODE -ne 0) { throw 'Combined source validation failed; preserve remote feed' }
+          $report = Get-Content calendar-collection/sources.json -Raw | ConvertFrom-Json
+          $degraded = @($report.sources | Where-Object { $_.result -ne 'partial' })
+          "## Calendar source collection`nSources: $($report.sources.Count); degraded: $($degraded.Count). Partial coverage remains explicit." | Add-Content $env:GITHUB_STEP_SUMMARY
+          if ($degraded.Count -gt 0) { Write-Output '::warning::Some calendar sources failed or require review; their previous verified data is retained. See collection artifacts.' }
           dotnet run --project tools/CalendarDataPublish --no-build -- prepare calendar-collection/feed.json .preview/publish-root/kr
           if ($LASTEXITCODE -ne 0) { throw 'Immutable feed preparation failed; preserve remote feed' }
           dotnet run --project tools/CalendarDataCollect --no-build -- mark-all-health calendar-collection .preview/publish-root/kr
           if ($LASTEXITCODE -ne 0) { throw 'Partial health validation failed; preserve remote feed' }
           dotnet run --project tools/CalendarDataCollect --no-build -- verify-current .preview/publish-root/kr .preview/final-verified-feed.json
           if ($LASTEXITCODE -ne 0) { throw 'Final pointer/payload validation failed; preserve remote feed' }
+          dotnet run --project tests/DuckbillCalendar.Infrastructure.Checks --no-build -- --publication-smoke .preview/publish-root/kr
+          if ($LASTEXITCODE -ne 0) { throw 'Actual consumer/restart check failed; preserve remote feed' }
       - name: Publish immutable data with normal push only
         shell: bash
         run: |

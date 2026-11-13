@@ -42,6 +42,11 @@ internal static class CuratedSourcesChecks
         Check(first.Feed.Events.Count == 1 && first.PendingEventIds.Count == 0 && FeedValidator.Validate(first.Feed).Count == 0, "Matching official statement emits valid production event");
         Check(first.Feed.Events[0].Phases[0].Start.Kind == "date", "Release date never becomes invented midnight instant");
         Check(first.Feed.Evidence[0].SourceSnapshotSha256 == Collector.Hash(Encoding.UTF8.GetBytes(html)), "Curated boundary is bound to exact source bytes");
+        var targetProof = first.Feed.Evidence[0] with { Id = "proof-target-only" };
+        var withTarget = first.Feed with { Evidence = first.Feed.Evidence.Append(targetProof).ToArray(),
+            Targets = [new() { Id = "kr:target:resolved", Kind = "patch-open", Resolution = "resolved", ResolvedBoundary = CalendarBoundary.Date(new(2027, 2, 23)) with { EvidenceIds = [targetProof.Id] } }] };
+        var retainedTarget = await CuratedSources.CollectAsync(rulePath, Path.Combine(area, "resolved-target"), withTarget, http, CancellationToken.None);
+        Check(retainedTarget.Feed.Evidence.Any(e => e.Id == targetProof.Id) && FeedValidator.Validate(retainedTarget.Feed).Count == 0, "Resolved target proof survives even when no mapped event references it");
         html = "<article>2027년 2월 24일 출시</article>";
         var changed = await CuratedSources.CollectAsync(rulePath, Path.Combine(area, "changed"), first.Feed, http, CancellationToken.None);
         Check(changed.PendingEventIds.SequenceEqual(new[] { calendarEvent.Id }) && changed.Feed.Events[0].Phases[0].Start.Value == "2027-02-23", "Source date change preserves prior date and flags review");

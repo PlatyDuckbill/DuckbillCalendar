@@ -60,6 +60,22 @@ try {
     $next = Get-Content -LiteralPath $currentPath -Raw | ConvertFrom-Json
     Assert-Tool ($next.content.revision -eq 2 -and $next.publicationSequence -eq 2) 'new immutable revision allocated'
     Assert-Tool ((Get-FileHash -LiteralPath $payloadPath -Algorithm SHA256).Hash -eq $originalPayloadHash) 'previous immutable payload untouched'
+    $currentBeforeFailure = [IO.File]::ReadAllBytes($currentPath)
+    $newPayloadPath = Join-Path $prepared $next.content.path
+    $newPayloadBytes = [IO.File]::ReadAllBytes($newPayloadPath)
+    [IO.File]::AppendAllText($newPayloadPath, ' ')
+    Invoke-Tool 'tools/CalendarDataPublish' @('prepare',$feedPath,$prepared,'--allow-example') 2
+    Assert-Tool ([Convert]::ToBase64String([IO.File]::ReadAllBytes($currentPath)) -eq [Convert]::ToBase64String($currentBeforeFailure)) 'damaged prior publication cannot advance current pointer'
+    Assert-Tool (@(Get-ChildItem -LiteralPath (Join-Path $prepared 'revisions') -Filter '*.json').Count -eq 2) 'invalid prior publication allocates no revision'
+    [IO.File]::WriteAllBytes($newPayloadPath, $newPayloadBytes)
+    $publicationLock = [IO.FileStream]::new((Join-Path $prepared '.prepare.lock'),[IO.FileMode]::OpenOrCreate,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None)
+    try { Invoke-Tool 'tools/CalendarDataPublish' @('prepare',$feedPath,$prepared,'--allow-example') 2 }
+    finally { $publicationLock.Dispose() }
+    Assert-Tool ([Convert]::ToBase64String([IO.File]::ReadAllBytes($currentPath)) -eq [Convert]::ToBase64String($currentBeforeFailure)) 'concurrent preparation cannot modify active pointer'
+    [IO.File]::WriteAllText((Join-Path $prepared 'revisions/000003.json'),'orphan from interrupted preparation')
+    Invoke-Tool 'tools/CalendarDataPublish' @('prepare',$feedPath,$prepared,'--allow-example') 0
+    $afterOrphan = Get-Content -LiteralPath $currentPath -Raw | ConvertFrom-Json
+    Assert-Tool ($afterOrphan.content.revision -eq 4 -and $afterOrphan.publicationSequence -eq 3) 'interrupted orphan revision is skipped without reusing immutable bytes'
     $malformed = Join-Path $caseRoot 'duplicate.json'
     [IO.File]::WriteAllText($malformed,'{"schemaVersion":2,"schemaVersion":2}')
     Invoke-Tool 'tools/CalendarDataPublish' @('validate',$malformed,'--allow-example') 2

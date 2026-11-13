@@ -12,12 +12,21 @@
     <ProjectReference Include="../../src/DuckbillCalendar.Core/DuckbillCalendar.Core.csproj" />
     <ProjectReference Include="../../src/DuckbillCalendar.Infrastructure/DuckbillCalendar.Infrastructure.csproj" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/CalendarModel.cs" Link="CalendarModel.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/CalendarModel.Notifications.cs" Link="CalendarModel.Notifications.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/NotificationPanels.cs" Link="NotificationPanels.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/NotificationViews.cs" Link="NotificationViews.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/WeeklyRaidPlanner.cs" Link="WeeklyRaidPlanner.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/ScheduleCardActions.cs" Link="ScheduleCardActions.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/EntryNotificationControls.cs" Link="EntryNotificationControls.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/OguDayDecoration.cs" Link="OguDayDecoration.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/CalendarModel.WeeklySchedules.cs" Link="CalendarModel.WeeklySchedules.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/MainWindow.cs" Link="MainWindow.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/ReleaseNotesPanel.cs" Link="ReleaseNotesPanel.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/UiWidgets.cs" Link="UiWidgets.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/ThemeScope.cs" Link="ThemeScope.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/CalendarAppearanceStyle.cs" Link="CalendarAppearanceStyle.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/Localization/UiText.cs" Link="UiText.cs" />
     <EmbeddedResource Include="../../src/DuckbillCalendar.Plugin/Localization/Strings.resx" LogicalName="DuckbillCalendar.Plugin.Localization.Strings.resources" />
-    <EmbeddedResource Include="../../src/DuckbillCalendar.Plugin/Localization/Strings.ko.resx" LogicalName="DuckbillCalendar.Plugin.Localization.Strings.ko.resources" />
     <None Include="$(DalamudLibPath)/cimgui.dll" Link="cimgui.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

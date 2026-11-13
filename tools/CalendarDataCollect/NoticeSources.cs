@@ -10,7 +10,7 @@ using DuckbillCalendar.Tools;
 
 namespace DuckbillCalendar.Collect;
 
-internal sealed record NoticeIndexItem(string Id, string Title, DateOnly PublishedDate);
+internal sealed record NoticeIndexItem(string Id, string Title, DateOnly? PublishedDate, TimeOnly? PublishedTime = null);
 internal sealed record NoticePage(string Kind, string Url, string File, int Bytes, string Sha256, DateTimeOffset ObservedAt);
 internal sealed record NoticeManifest
 {
@@ -20,6 +20,7 @@ internal sealed record NoticeManifest
     public int LookbackDays { get; init; } = 180;
     public int MaximumPages { get; init; } = NoticeCollector.MaximumPages;
     public bool CompleteCoverage { get; init; }
+    public bool IncludesPatchCatalog { get; init; } = true;
     public IReadOnlyList<NoticePage> Pages { get; init; } = [];
 }
 
@@ -43,6 +44,7 @@ internal static class NoticeCollector
         request.Headers.UserAgent.ParseAdd("DuckbillCalendarData/0.1 (+https://github.com/PlatyDuckbill/DuckbillCalendar)");
         using var response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, deadline.Token);
         if (response.StatusCode != HttpStatusCode.OK) throw new InvalidDataException("NoticeHttpStatus:" + (int)response.StatusCode);
+        if (response.RequestMessage?.RequestUri is { } final && final != request.RequestUri) throw new InvalidDataException("NoticeRedirectNotAllowed");
         if (response.Content.Headers.ContentType?.MediaType is not ("text/html" or "application/xhtml+xml") || response.Content.Headers.ContentEncoding.Count != 0)
             throw new InvalidDataException("NoticeContentTypeOrEncoding");
         var charset = response.Content.Headers.ContentType.CharSet?.Trim('"');
@@ -62,7 +64,7 @@ internal static class NoticeCollector
         return bytes;
     }
 
-    public static async Task<int> CollectAsync(string directory, HttpClient http, CancellationToken cancellationToken)
+    public static async Task<int> CollectAsync(string directory, HttpClient http, CancellationToken cancellationToken, bool includePatchCatalog = true)
     {
         directory = Path.GetFullPath(directory);
         if (Directory.Exists(directory) || File.Exists(directory)) throw new IOException("NoticeCollectionAlreadyExists");
@@ -83,18 +85,18 @@ internal static class NoticeCollector
         {
             var bytes = await Save("index", NoticeRoot + "?page=" + page, $"notice-list-{page}.html");
             var parsed = await NoticeParser.ParseIndexAsync(Collector.Utf8.GetString(bytes));
-            foreach (var item in parsed.Where(n => n.PublishedDate >= cutoff))
+            foreach (var item in parsed.Where(n => n.PublishedDate is null || n.PublishedDate >= cutoff))
             {
                 if (notices.TryGetValue(item.Id, out var previous) && previous != item) throw new InvalidDataException("ConflictingNoticeIndex:" + item.Id);
                 notices[item.Id] = item;
             }
             if (notices.Count > MaximumArticles) throw new InvalidDataException("NoticeArticleLimit");
-            if (parsed.All(n => n.PublishedDate < cutoff)) break;
+            if (parsed.All(n => n.PublishedDate is not null && n.PublishedDate < cutoff)) break;
         }
         foreach (var item in notices.Values)
             await Save("article", NoticeRoot + "/view/" + item.Id, "notice-" + item.Id + ".html");
-        await Save("patch-catalog", PatchRoot, "patch-catalog.html");
-        var manifest = new NoticeManifest { CollectedAt = DateTimeOffset.UtcNow, Pages = pages };
+        if (includePatchCatalog) await Save("patch-catalog", PatchRoot, "patch-catalog.html");
+        var manifest = new NoticeManifest { CollectedAt = DateTimeOffset.UtcNow, Pages = pages, IncludesPatchCatalog = includePatchCatalog };
         await Collector.WriteNewAsync(Path.Combine(directory, "notices.collection.json"), JsonSerializer.SerializeToUtf8Bytes(manifest, CalendarJson.Options));
         Console.WriteLine($"Collected notices: {notices.Count} articles; bounded {MaximumPages} list pages / 180 days; completeCoverage=false");
         return notices.Count;
@@ -105,7 +107,7 @@ internal static class NoticeCollector
         directory = Path.GetFullPath(directory);
         var manifest = CalendarJson.Parse<NoticeManifest>(await LocalInput.ReadAsync(Path.Combine(directory, "notices.collection.json"), 65536));
         if (manifest.SchemaVersion != 1 || manifest.SourceId != "kr-notices" || manifest.CompleteCoverage || manifest.LookbackDays != 180 || manifest.MaximumPages != MaximumPages ||
-            manifest.CollectedAt == default || manifest.CollectedAt > DateTimeOffset.UtcNow.AddMinutes(5) || manifest.Pages is null || manifest.Pages.Count is < 3 or > MaximumPages + MaximumArticles + 1 ||
+            manifest.CollectedAt == default || manifest.CollectedAt > DateTimeOffset.UtcNow.AddMinutes(5) || manifest.Pages is null || manifest.Pages.Count < (manifest.IncludesPatchCatalog ? 3 : 2) || manifest.Pages.Count > MaximumPages + MaximumArticles + 1 ||
             manifest.Pages.Any(p => p is null) || manifest.Pages.Select(p => p.File).Distinct(StringComparer.Ordinal).Count() != manifest.Pages.Count)
             throw new InvalidDataException("NoticeManifestInvalid");
         if (previous is not null && FeedValidator.Validate(previous).Count != 0) throw new InvalidDataException("InvalidNoticePreviousFeed");
@@ -130,18 +132,22 @@ internal static class NoticeCollector
                 listed[item.Id] = item;
             }
         var patchCatalogs = documents.Where(d => d.Page.Kind == "patch-catalog").ToArray();
-        if (patchCatalogs.Length != 1) throw new InvalidDataException("MissingNoticePatchCatalog");
-        var catalog = patchCatalogs[0];
-        foreach (var item in await NoticeParser.ParsePatchCatalogAsync(catalog.Html, catalog.Page))
+        if (patchCatalogs.Length != (manifest.IncludesPatchCatalog ? 1 : 0)) throw new InvalidDataException("MissingNoticePatchCatalog");
+        foreach (var catalog in patchCatalogs)
         {
-            if (!events.ContainsKey(item.Event.Id)) events[item.Event.Id] = item.Event;
-            evidence[item.Evidence.Id] = item.Evidence;
+            foreach (var item in await NoticeParser.ParsePatchCatalogAsync(catalog.Html, catalog.Page))
+            {
+                if (!events.ContainsKey(item.Event.Id)) events[item.Event.Id] = item.Event;
+                evidence[item.Evidence.Id] = item.Evidence;
+            }
         }
         var parsedArticles = new List<NoticeArticle>();
         foreach (var source in documents.Where(d => d.Page.Kind == "article"))
         {
             var article = await NoticeParser.ParseArticleAsync(source.Html, source.Page);
-            if (!listed.TryGetValue(article.Id, out var index) || index.PublishedDate != DateOnly.FromDateTime(article.PublishedAt.Date) || index.Title != article.Title)
+            if (!listed.TryGetValue(article.Id, out var index) || index.Title != article.Title ||
+                index.PublishedDate is { } date && date != DateOnly.FromDateTime(article.PublishedAt.Date) ||
+                index.PublishedTime is { } time && time != TimeOnly.FromDateTime(article.PublishedAt.DateTime))
                 throw new InvalidDataException("NoticeIndexArticleMismatch:" + article.Id);
             parsedArticles.Add(article);
         }
@@ -168,6 +174,25 @@ internal static class NoticeCollector
         return feed;
     }
 
+    public static async Task<FeedDocument> CollectPatchCatalogAsync(string directory, FeedDocument previous, HttpClient http, CancellationToken token)
+    {
+        if (Directory.Exists(directory) || File.Exists(directory)) throw new IOException("PatchCollectionAlreadyExists");
+        Directory.CreateDirectory(directory);
+        var bytes = await FetchAsync(http, PatchRoot, token);
+        var source = new NoticePage("patch-catalog", PatchRoot, "patch-catalog.html", bytes.Length, Collector.Hash(bytes), DateTimeOffset.UtcNow);
+        await Collector.WriteNewAsync(Path.Combine(directory, source.File), bytes);
+        var parsed = await NoticeParser.ParsePatchCatalogAsync(Collector.Utf8.GetString(bytes), source);
+        var previousProofs = previous.Evidence.ToDictionary(e => e.Id, StringComparer.Ordinal);
+        var items = parsed.Where(item =>
+        {
+            var old = previous.Events.FirstOrDefault(e => e.Id == item.Event.Id);
+            return old is null || old.Phases.SelectMany(p => p.Start.EvidenceIds.Concat(p.End.EvidenceIds))
+                .All(id => previousProofs.TryGetValue(id, out var proof) && proof.SourceId == "kr-patch-catalog");
+        }).ToArray();
+        await Collector.WriteNewAsync(Path.Combine(directory, "source.json"), JsonSerializer.SerializeToUtf8Bytes(source, CalendarJson.Options));
+        return new() { ContentRevision = 1, GeneratedAt = source.ObservedAt, Events = items.Select(i => i.Event).ToArray(), Evidence = items.Select(i => i.Evidence).ToArray() };
+    }
+
     private static bool IsAllowed(string url) => Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Scheme == "https" && uri.Host == "www.ff14.co.kr" && uri.IsDefaultPort && uri.UserInfo.Length == 0 && uri.Fragment.Length == 0 &&
         ((uri.AbsolutePath == "/news/notice" && (uri.Query.Length == 0 || Regex.IsMatch(uri.Query, @"^\?page=[1-6]$", RegexOptions.CultureInvariant))) ||
         (Regex.IsMatch(uri.AbsolutePath, @"^/news/notice/view/\d+$", RegexOptions.CultureInvariant) && uri.Query.Length == 0) || (uri.AbsolutePath == "/news/patchnote" && uri.Query.Length == 0));
@@ -192,9 +217,13 @@ internal static class NoticeParser
             var match = Regex.Match(anchor.GetAttribute("href") ?? "", @"^/news/notice/view/(\d+)(?:\?[^#]*)?$", RegexOptions.CultureInvariant);
             var title = Text(anchor.QuerySelector(".txt")?.TextContent ?? anchor.TextContent);
             var rawDate = row.QuerySelector("time[datetime]")?.GetAttribute("datetime");
-            if (!match.Success || title.Length is < 1 or > 200 || !DateOnly.TryParseExact(rawDate, "yyyy.MM.dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+            var hasDate = DateOnly.TryParseExact(rawDate, "yyyy.MM.dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date);
+            var hasTime = TimeOnly.TryParseExact(rawDate, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out var time);
+            if (!match.Success || title.Length is < 1 or > 200 || !hasDate && !hasTime)
                 throw new InvalidDataException("UnexpectedNoticeIndexShape");
-            result.Add(new(match.Groups[1].Value, title, date));
+            // Today's list rows carry only a clock. The article is the date authority;
+            // neither the runner's timezone nor its current date may fill this field.
+            result.Add(new(match.Groups[1].Value, title, hasDate ? date : null, hasTime ? time : null));
         }
         if (result.Count is < 1 or > 20) throw new InvalidDataException("EmptyOrOversizedNoticeIndex");
         return result;

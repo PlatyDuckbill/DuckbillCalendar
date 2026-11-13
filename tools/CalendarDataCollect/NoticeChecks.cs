@@ -29,7 +29,9 @@ internal static class NoticeChecks
         var index = await NoticeParser.ParseIndexAsync(Index("3162", "V7.58 업데이트 점검 완료"));
         Check(index.Single().Title == "V7.58 업데이트 점검 완료", "Notice index title excludes NEW badge");
         await Reject(async () => { await NoticeParser.ParseIndexAsync("<h1>error</h1>"); }, "HTTP-200 error page is not an empty successful notice list");
-        await Reject(async () => { await NoticeParser.ParseIndexAsync(Index("1", "bad date", "18:00")); }, "List clock display cannot invent publication date");
+        var clockIndex = (await NoticeParser.ParseIndexAsync(Index("1", "today notice", "18:00"))).Single();
+        Check(clockIndex.PublishedDate is null && clockIndex.PublishedTime == new TimeOnly(18, 0), "List clock is retained without inventing a date; article will supply the date");
+        await Reject(async () => { await NoticeParser.ParseIndexAsync(Index("1", "bad time", "24:00")); }, "Invalid clock cannot stand in for a date");
         const string body = "1. 게임 및 런처 점검 완료 - 일시: 2026년 11월 10일(화) 12:00 ~ 18:15 - 내용: V7.58 업데이트 점검 3. 크리스탈라인 컨플릭트 시즌 관련 안내 - V7.58 업데이트 점검이 완료되어, 시즌 21이 종료되고 시즌 22가 시작됩니다.";
         var html = Article("V7.58 업데이트 점검 완료", body);
         var article = await NoticeParser.ParseArticleAsync(html, Page("article", "/news/notice/view/3162", "notice-3162.html", html));
@@ -67,6 +69,26 @@ internal static class NoticeChecks
         Check(FeedValidator.Validate(feed).Count == 0 && feed.Events.Count == 6, "Notice collection produces validated production feed");
         Check(feed.Events.Single(e => e.Category == "maintenance").Phases[0].End.Value!.Contains("18:15", StringComparison.Ordinal), "Later completed notice supersedes earlier scheduled maintenance end");
         Check(feed.Evidence.All(e => e.Url!.StartsWith("https://www.ff14.co.kr/", StringComparison.Ordinal) && e.SourceSnapshotSha256!.Length == 64), "Notice feed carries exact official evidence hashes");
+        await File.WriteAllBytesAsync(Path.Combine(area, "notices.collection.json"), JsonSerializer.SerializeToUtf8Bytes(new NoticeManifest
+            { CollectedAt = observed.AddSeconds(1), IncludesPatchCatalog = false, Pages = sources.Where(s => s.Item1.Kind != "patch-catalog").Select(s => s.Item1).ToArray() }, CalendarJson.Options));
+        var noticeOnly = await NoticeCollector.PrepareAsync(area);
+        Check(noticeOnly.Events.Any(e => e.Category == "maintenance") && noticeOnly.Events.All(e => e.Id != "kr:patch:v7-5"), "Notice and game downtime processing do not depend on the separate patch catalog");
+        using (var catalogHttp = new HttpClient(new ResponseHandler(() => HtmlResponse(catalog))))
+        {
+            var catalogOnly = await NoticeCollector.CollectPatchCatalogAsync(Path.Combine(area, "catalog-only"), noticeOnly, catalogHttp, default);
+            Check(catalogOnly.Events.Single().Id == "kr:patch:v7-5" && FeedValidator.Validate(catalogOnly).Count == 0, "Patch catalog can independently provide a validated calendar snapshot");
+        }
+        var clockListing = Index("3159", oldTitle, "2026.11.06") + Index("3162", article.Title, "18:00");
+        await File.WriteAllTextAsync(Path.Combine(area, "notice-list-1.html"), clockListing, Collector.Utf8);
+        var clockSources = sources.Select(s => s.Item1.Kind == "index" ? Page("index", "/news/notice?page=1", "notice-list-1.html", clockListing) : s.Item1).ToArray();
+        await File.WriteAllBytesAsync(Path.Combine(area, "notices.collection.json"), JsonSerializer.SerializeToUtf8Bytes(new NoticeManifest { CollectedAt = observed.AddSeconds(1), Pages = clockSources }, CalendarJson.Options));
+        var clockFeed = await NoticeCollector.PrepareAsync(area);
+        Check(clockFeed.Events.Single(e => e.Id == "kr:notice:3162").Phases[0].Start.Value!.StartsWith("2026-11-10T18:00", StringComparison.Ordinal), "A clock-only index uses the article's full KST date, independent of the collector's current date");
+        var mismatchedClock = clockListing.Replace("18:00", "17:00", StringComparison.Ordinal);
+        await File.WriteAllTextAsync(Path.Combine(area, "notice-list-1.html"), mismatchedClock, Collector.Utf8);
+        clockSources[0] = Page("index", "/news/notice?page=1", "notice-list-1.html", mismatchedClock);
+        await File.WriteAllBytesAsync(Path.Combine(area, "notices.collection.json"), JsonSerializer.SerializeToUtf8Bytes(new NoticeManifest { CollectedAt = observed.AddSeconds(1), Pages = clockSources }, CalendarJson.Options));
+        await Reject(async () => { await NoticeCollector.PrepareAsync(area); }, "Clock-only list and full article timestamp must still agree");
         await File.AppendAllTextAsync(Path.Combine(area, article.Source.File), "changed");
         await Reject(async () => { await NoticeCollector.PrepareAsync(area); }, "Notice source tampering is rejected before publication");
         Console.WriteLine($"PASS: {checks} Notice source checks; deterministic fixtures and fake HTTP only; artifacts={area}");

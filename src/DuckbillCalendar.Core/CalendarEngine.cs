@@ -48,7 +48,7 @@ public static partial class CalendarEngine
             bool expiry = entry.Kind is "subscription" or "retainer" or "bag";
             result.Add(new CalendarEvent
             {
-                Id = entry.Id, Category = entry.Kind, Title = entry.Title, IsPersonal = true,
+                Id = entry.Id, Category = entry.Kind == "personal" && entry.CategoryId.Length > 0 ? entry.CategoryId : entry.Kind, Title = entry.Title, IsPersonal = true,
                 ProfileId = entry.ProfileId, Note = entry.Note,
                 Phases = [new EventPhase
                 {

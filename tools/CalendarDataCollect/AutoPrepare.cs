@@ -44,6 +44,7 @@ internal static class AutoPrepare
         foreach (var (manifest, candidate) in observed)
         {
             oldEvents.TryGetValue(candidate.Id, out var old);
+            var phaseIds = StablePhaseIds(candidate.Phases, old?.Phases ?? []);
             var evidenceId = candidate.Id + ":list:" + manifest.SnapshotSha256;
             evidence.Add(new()
             {
@@ -57,7 +58,7 @@ internal static class AutoPrepare
                 Note = "공식 목록의 구조화된 기간을 자동 반영. 본문 조건은 원문 확인. 기간 원문: " + string.Join(" / ", candidate.Phases.Select(p => p.RawText)),
                 Phases = candidate.Phases.Select((p, index) => new EventPhase
                 {
-                    Id = p.Label.Contains("수령", StringComparison.Ordinal) || p.Label.Contains("보상", StringComparison.Ordinal) ? "reward-" + index : "participation-" + index,
+                    Id = phaseIds[index],
                     Label = p.Label,
                     Start = CalendarBoundary.Instant(p.StartsAt!.Value) with { EvidenceIds = [evidenceId] },
                     End = p.EndsAt is { } end ? CalendarBoundary.Instant(end) with { EvidenceIds = [evidenceId] } : new() { Reason = "not-announced" },
@@ -80,6 +81,29 @@ internal static class AutoPrepare
         if (JsonSerializer.SerializeToUtf8Bytes(feed, CalendarJson.Options).Length > Collector.MaximumBytes) throw new InvalidDataException("AutomaticFeedSizeLimit");
         return feed;
     }
+    internal static IReadOnlyList<string> StablePhaseIds(IReadOnlyList<PhaseCandidate> current, IReadOnlyList<EventPhase> previous)
+    {
+        static string Label(string text) => string.Concat(text.Where(c => !char.IsWhiteSpace(c)));
+        static string Role(string text) => text.Contains("수령", StringComparison.Ordinal) || text.Contains("보상", StringComparison.Ordinal) ? "reward" : "participation";
+        if (current.GroupBy(p => Label(p.Label), StringComparer.Ordinal).Any(g => g.Count() != 1)) throw new InvalidDataException("AmbiguousEventPhaseIdentity");
+        var result = new string[current.Count]; var used = new HashSet<string>(StringComparer.Ordinal);
+        for (var i = 0; i < current.Count; i++)
+        {
+            var matches = previous.Where(p => Label(p.Label) == Label(current[i].Label)).ToArray();
+            if (matches.Length == 1 && used.Add(matches[0].Id)) result[i] = matches[0].Id;
+        }
+        for (var i = 0; i < current.Count; i++)
+        {
+            if (result[i] is not null) continue;
+            var role = Role(current[i].Label);
+            // A single unmatched old/new phase may be a replacement, not a rename.
+            // Do not transfer a user's hidden/alert key on role or dates alone.
+            var id = role + "-" + Collector.Hash(System.Text.Encoding.UTF8.GetBytes(Label(current[i].Label)))[..12];
+            if (previous.Any(p => p.Id == id) || !used.Add(id)) throw new InvalidDataException("AmbiguousEventPhaseIdentity");
+            result[i] = id;
+        }
+        return result;
+    }
 
     public static async Task<(CurrentPointer Pointer, FeedDocument Feed, byte[] Payload)> VerifyCurrentAsync(string directory)
     {
@@ -89,14 +113,13 @@ internal static class AutoPrepare
         var payloadPath = Path.GetFullPath(Path.Combine(directory, pointer.Content.Path));
         if (!payloadPath.StartsWith(root, StringComparison.Ordinal)) throw new InvalidDataException("PreviousPayloadEscapesRoot");
         var payload = await LocalInput.ReadAsync(payloadPath);
-        if (payload.Length != pointer.Content.Bytes || !Collector.Hash(payload).Equals(pointer.Content.Sha256, StringComparison.OrdinalIgnoreCase)) throw new InvalidDataException("PreviousPayloadHashMismatch");
-        var feed = CalendarJson.Parse<FeedDocument>(payload);
-        if (feed.ContentRevision != pointer.Content.Revision || FeedValidator.Validate(feed).Count != 0) throw new InvalidDataException("PreviousPayloadInvalid");
+        var feed = FeedPublication.ReadPayload(pointer, payload);
         return (pointer, feed, payload);
     }
 
     public static async Task MarkPartialAsync(string collectionDirectory, string publishedDirectory)
     {
+        await using var publicationLock = new FileStream(Path.Combine(publishedDirectory, ".prepare.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
         var (manifest, candidates) = await ReadCollectionAsync(collectionDirectory);
         var (pointer, feed, _) = await VerifyCurrentAsync(publishedDirectory);
         foreach (var candidate in candidates.Candidates)

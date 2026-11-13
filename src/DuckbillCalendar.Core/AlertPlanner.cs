@@ -39,7 +39,7 @@ public static class HealthFreshness
 public static class AlertPlanner
 {
     /// <summary>Returns due exact-boundary alerts only. Persistence, delivery and game-state suppression belong to the caller.</summary>
-    public static IReadOnlyList<PlannedAlert> Plan(FeedDocument feed, LocalState local, DateTimeOffset now, FeedHealth? health = null, TimeSpan? dueWindow = null)
+    public static IReadOnlyList<PlannedAlert> Plan(FeedDocument feed, LocalState local, DateTimeOffset now, FeedHealth? health = null, TimeSpan? dueWindow = null, Func<CalendarEvent, bool>? canAlert = null)
     {
         var result = new List<PlannedAlert>();
         if (local.Profiles is null || !local.Profiles.Any(p => p is not null && p.Id == local.ActiveProfileId)) return result;
@@ -51,7 +51,7 @@ public static class AlertPlanner
         foreach (var preference in local.Alerts ?? [])
         {
             if (preference is null || !preference.Enabled || preference.ProfileId != local.ActiveProfileId || preference.Edge is not ("start" or "end") || preference.LeadMinutes is < 0 or > 525600) continue;
-            if (!items.TryGetValue(preference.EventId, out var item) || !HealthFreshness.ForEvent(feed, health, item, now).IsFresh) continue;
+            if (!items.TryGetValue(preference.EventId, out var item) || !(canAlert?.Invoke(item) ?? HealthFreshness.ForEvent(feed, health, item, now).IsFresh)) continue;
             var phase = (item.Phases ?? []).FirstOrDefault(p => p is not null && p.Id == preference.PhaseId);
             if (phase is null) continue;
             var boundary = preference.Edge == "start" ? phase.Start : phase.End;

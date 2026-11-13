@@ -57,6 +57,7 @@ internal static class Collector
         request.Headers.UserAgent.ParseAdd("DuckbillCalendarData/0.1 (+https://github.com/PlatyDuckbill/DuckbillCalendar)");
         using var response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
         if (response.StatusCode != HttpStatusCode.OK) throw new InvalidDataException("UnexpectedHttpStatus:" + (int)response.StatusCode);
+        if (response.RequestMessage?.RequestUri is { } final && final != request.RequestUri) throw new InvalidDataException("EventRedirectNotAllowed");
         if (response.Content.Headers.ContentType?.MediaType is not ("text/html" or "application/xhtml+xml")) throw new InvalidDataException("UnexpectedContentType");
         if (response.Content.Headers.ContentEncoding.Count != 0) throw new InvalidDataException("UnexpectedContentEncoding");
         var charset = response.Content.Headers.ContentType.CharSet?.Trim('"');

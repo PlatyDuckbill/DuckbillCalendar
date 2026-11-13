@@ -7,179 +7,179 @@
     <value>2.0</value>
   </resheader>
   <data name="ActiveProfile" xml:space="preserve">
-    <value>Account profile: {0}</value>
+    <value>계정 프로필: {0}</value>
   </data>
   <data name="AddEvent" xml:space="preserve">
-    <value>Add personal event</value>
+    <value>내 일정 추가</value>
   </data>
   <data name="AddSubscription" xml:space="preserve">
-    <value>Add subscription</value>
+    <value>이용권 추가</value>
   </data>
-  <data name="AlertsUnavailable" xml:space="preserve"><value>Select start/end reminders and enable local chat reminders in Settings. Timed reminders are held for partially collected public events. Unknown, inferred and date-only boundaries do not create timed reminders.</value></data>
+  <data name="AlertsUnavailable" xml:space="preserve"><value>시작·마감 알림 선택과 설정의 로컬 채팅 알림을 모두 켜세요. 부분 수집된 공개 이벤트는 시간 알림을 보류합니다. 미정·추론·날짜 단위 경계도 시간 알림을 만들지 않습니다.</value></data>
   <data name="All" xml:space="preserve">
-    <value>All</value>
+    <value>전체</value>
   </data>
   <data name="AtValue" xml:space="preserve">
-    <value>Scheduled: {0}</value>
+    <value>예정 시각: {0}</value>
   </data>
   <data name="Calendar" xml:space="preserve">
-    <value>Calendar</value>
+    <value>달력</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>취소</value>
   </data>
   <data name="CategoryEvent" xml:space="preserve">
-    <value>Events</value>
+    <value>이벤트</value>
   </data>
   <data name="CategoryPatch" xml:space="preserve">
-    <value>Patches / maintenance</value>
+    <value>패치·점검</value>
   </data>
   <data name="CategoryPersonal" xml:space="preserve">
-    <value>Personal</value>
+    <value>내 일정</value>
   </data>
   <data name="CategoryPvp" xml:space="preserve">
-    <value>Seasons / series</value>
+    <value>시즌·시리즈</value>
   </data>
   <data name="CategorySale" xml:space="preserve">
-    <value>Sales</value>
+    <value>할인</value>
   </data>
   <data name="CategorySubscription" xml:space="preserve">
-    <value>Subscriptions</value>
+    <value>이용권</value>
   </data>
   <data name="CommandHelp" xml:space="preserve">
-    <value>Open calendar. /dbcal settings: settings.</value>
+      <value>캘린더를 엽니다. /dbcal settings: 설정 · /dbcal changelog: 업데이트 내역</value>
   </data>
   <data name="ConditionalBoundary" xml:space="preserve">
-    <value>Date depends on an announced condition.</value>
+    <value>조건에 따라 결정되는 시각입니다.</value>
   </data>
   <data name="ConfirmDelete" xml:space="preserve">
-    <value>Delete this event</value>
+    <value>삭제 확정</value>
   </data>
   <data name="DataNotPublished" xml:space="preserve">
-    <value>Official notices, events, patches and announced release/PvP dates are included. Unknown dates are not guessed, and changed source announcements are marked for rechecking.</value>
+    <value>공식 공지·이벤트·패치와 발표된 출시·PvP 일정을 제공합니다. 날짜가 미정이면 임의로 채우지 않으며 원문 변경 시 재확인 대상으로 표시합니다.</value>
   </data>
   <data name="DataSettings" xml:space="preserve">
-    <value>Public calendar data</value>
+    <value>공개 일정 데이터</value>
   </data>
   <data name="DataStatusCode" xml:space="preserve">
-    <value>Data status: {0}</value>
+    <value>데이터 상태: {0}</value>
   </data>
   <data name="DateOnly" xml:space="preserve">
-    <value>I only know the date</value>
+    <value>날짜만 알고 있음</value>
   </data>
   <data name="DateOnlyHelp" xml:space="preserve">
-    <value>A date-only entry has no hour countdown or timed notification. Do not guess an expiry time.</value>
+    <value>날짜만 입력하면 시간 카운트다운이나 시간 알림을 만들지 않습니다. 종료 시각을 추측해 입력하지 마세요.</value>
   </data>
   <data name="DateOnlyValue" xml:space="preserve">
-    <value>{0} · time not specified</value>
+    <value>{0} · 시각 미확인</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>삭제</value>
   </data>
   <data name="DeleteEntryQuestion" xml:space="preserve">
-    <value>Delete “{0}” and its alert choices from this device?</value>
+    <value>이 기기의 ‘{0}’ 일정과 알림 선택을 삭제할까요?</value>
   </data>
   <data name="DisplaySettings" xml:space="preserve">
-    <value>Display</value>
+    <value>화면 표시</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>수정</value>
   </data>
   <data name="EditEvent" xml:space="preserve">
-    <value>Edit personal event</value>
+    <value>내 일정 수정</value>
   </data>
   <data name="EmptyPublicFeed" xml:space="preserve">
-    <value>No public calendar data is loaded. Add a personal event or use Settings to import a verified file.</value>
+    <value>불러온 공개 일정이 없습니다. 내 일정을 추가하거나 설정에서 검증된 파일을 가져오세요.</value>
   </data>
   <data name="EndAlert" xml:space="preserve">
-    <value>End reminder</value>
+    <value>마감 알림 선택</value>
   </data>
   <data name="EndShort" xml:space="preserve">
-    <value>ends</value>
+    <value>종료</value>
   </data>
   <data name="EndValue" xml:space="preserve">
-    <value>End: {0}</value>
+    <value>종료: {0}</value>
   </data>
   <data name="EntryDate" xml:space="preserve">
-    <value>Date (YYYY-MM-DD)</value>
+    <value>날짜 (YYYY-MM-DD)</value>
   </data>
   <data name="EntryKind" xml:space="preserve">
-    <value>Type</value>
+    <value>종류</value>
   </data>
   <data name="EntryNote" xml:space="preserve">
-    <value>Note</value>
+    <value>메모</value>
   </data>
   <data name="EntryScope" xml:space="preserve">
-    <value>Stored only in the selected local account profile.</value>
+    <value>선택한 로컬 계정 프로필에만 저장합니다.</value>
   </data>
   <data name="EntryTime" xml:space="preserve">
-    <value>Time (HH:mm, KST)</value>
+    <value>시각 (HH:mm, KST)</value>
   </data>
   <data name="EntryTitle" xml:space="preserve">
-    <value>Title</value>
+    <value>이름</value>
   </data>
   <data name="ExampleBanner" xml:space="preserve">
-    <value>DESIGN EXAMPLES · archived sample data, not current operating information</value>
+    <value>기획 예시 · 보관된 샘플이며 현재 운영 정보가 아닙니다.</value>
   </data>
   <data name="ExampleHelp" xml:space="preserve">
-    <value>Loads the bundled design examples explicitly. Example records never become production data or real notifications.</value>
+    <value>내장된 기획 예시를 명시적으로 불러옵니다. 예시를 운영 데이터나 실제 알림으로 사용하지 않습니다.</value>
   </data>
   <data name="ExampleMode" xml:space="preserve">
-    <value>Show bundled design examples</value>
+    <value>내장 기획 예시 보기</value>
   </data>
   <data name="ExampleRecord" xml:space="preserve">
-    <value>Example record</value>
+    <value>예시 일정</value>
   </data>
   <data name="ExpiresValue" xml:space="preserve">
-    <value>Expires: {0}</value>
+    <value>이용 종료: {0}</value>
   </data>
   <data name="FeedRevision" xml:space="preserve">
-    <value>Active content revision: {0}</value>
+    <value>적용된 일정 버전: {0}</value>
   </data>
   <data name="FeedUrl" xml:space="preserve">
-    <value>Public feed URL</value>
+    <value>공개 피드 주소</value>
   </data>
   <data name="FilePath" xml:space="preserve">
-    <value>Absolute JSON file path</value>
+    <value>JSON 파일의 절대 경로</value>
   </data>
   <data name="Friday" xml:space="preserve">
-    <value>Fri</value>
+    <value>금</value>
   </data>
   <data name="FrontlineHelp" xml:space="preserve">
-    <value>Today's and tomorrow's fields require a verified KR sequence, anchor and validity period. Unknown values remain unknown.</value>
+    <value>한국 서비스의 검증된 순서·기준일·유효 기간이 필요합니다. 확인하지 못한 필드는 미확인으로 남깁니다.</value>
   </data>
   <data name="FrontlineStrip" xml:space="preserve">
-    <value>Frontline · Today: {0} / Tomorrow: {1}</value>
+    <value>전장 · 오늘: {0} / 내일: {1}</value>
   </data>
   <data name="Import" xml:space="preserve">
-    <value>Import verified file</value>
+    <value>검증된 파일 가져오기</value>
   </data>
   <data name="ImportHelp" xml:space="preserve">
-    <value>Reads a local v2 feed after validation. Examples and unverified provenance are rejected here; use the explicit example option above.</value>
+    <value>로컬 v2 피드를 검증한 뒤 불러옵니다. 여기서는 예시와 미검수 근거를 거부하며, 예시는 위의 전용 옵션으로 켭니다.</value>
   </data>
   <data name="ImportLocalFile" xml:space="preserve">
-    <value>Import a local feed</value>
+    <value>로컬 일정 파일 가져오기</value>
   </data>
   <data name="InvalidDate" xml:space="preserve">
-    <value>Enter a valid date between 2020 and 2100 in YYYY-MM-DD format.</value>
+    <value>2020~2100년 사이의 올바른 날짜를 YYYY-MM-DD로 입력하세요.</value>
   </data>
   <data name="InvalidFeedUrl" xml:space="preserve">
-    <value>Only the fixed DuckbillCalendar public feed address is accepted.</value>
+    <value>정해진 DuckbillCalendar 공개 피드 주소만 사용할 수 있습니다.</value>
   </data>
   <data name="InvalidTime" xml:space="preserve">
-    <value>Enter an exact time in HH:mm format, or select date only.</value>
+    <value>정확한 시각을 HH:mm으로 입력하거나 날짜만 입력을 선택하세요.</value>
   </data>
   <data name="KindBag" xml:space="preserve">
-    <value>Chocobo saddlebag service</value>
+    <value>초코보 가방 이용권</value>
   </data>
   <data name="KindPersonal" xml:space="preserve">
-    <value>Personal event</value>
+    <value>개인 일정</value>
   </data>
   <data name="KindRetainer" xml:space="preserve">
-    <value>Retainer service</value>
+    <value>집사 이용권</value>
   </data>
   <data name="KindSubscription" xml:space="preserve">
-    <value>Game subscription</value>
+    <value>정액제</value>
   </data>
   <data name="LanguageEnglish" xml:space="preserve">
     <value>English</value>
@@ -188,301 +188,302 @@
     <value>한국어</value>
   </data>
   <data name="LastSourceSuccess" xml:space="preserve">
-    <value>Last source success: {0}</value>
+    <value>마지막 수집 성공: {0}</value>
   </data>
   <data name="ListView" xml:space="preserve">
-    <value>List</value>
+    <value>목록</value>
   </data>
   <data name="ManualLocal" xml:space="preserve">
-    <value>Manual entry · this device only</value>
+    <value>수동 입력 · 이 기기에만 저장</value>
   </data>
   <data name="Monday" xml:space="preserve">
-    <value>Mon</value>
+    <value>월</value>
   </data>
   <data name="MoreCount" xml:space="preserve">
-    <value>+{0} more</value>
+    <value>+{0}개 더 보기</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Not confirmed</value>
+    <value>확인 기록 없음</value>
   </data>
   <data name="News" xml:space="preserve">
-    <value>News</value>
+    <value>새소식</value>
   </data>
   <data name="NextMonth" xml:space="preserve">
-    <value>Next &gt;</value>
+    <value>다음 &gt;</value>
   </data>
   <data name="NextSubscription" xml:space="preserve">
-    <value>Next subscription expiry</value>
+    <value>다음 이용권 만료</value>
   </data>
   <data name="NoResults" xml:space="preserve">
-    <value>No matching events.</value>
+    <value>선택한 조건의 일정이 없습니다.</value>
   </data>
   <data name="NoSubscriptions" xml:space="preserve">
-    <value>No subscription expiry is registered.</value>
+    <value>등록한 이용권 종료일이 없습니다.</value>
   </data>
   <data name="NoTodayDeadlines" xml:space="preserve">
-    <value>No known deadlines today.</value>
+    <value>오늘 알려진 마감이 없습니다.</value>
   </data>
   <data name="ObservedAt" xml:space="preserve">
-    <value>Source checked: {0} KST</value>
+    <value>원문 확인: {0} KST</value>
   </data>
   <data name="OnlyAlertEvents" xml:space="preserve">
-    <value>Events with alert choices</value>
+    <value>알림 설정 일정</value>
   </data>
   <data name="OpenMain" xml:space="preserve">
-    <value>Open calendar</value>
+    <value>전체 달력 열기</value>
   </data>
   <data name="PaperTheme" xml:space="preserve">
-    <value>Paper · light theme</value>
+    <value>Paper · 밝은 화면</value>
   </data>
   <data name="PendingEndAlert" xml:space="preserve">
-    <value>End reminder · waiting for confirmed date</value>
+    <value>마감 알림 선택 · 일시 확정 대기</value>
   </data>
   <data name="PeriodBars" xml:space="preserve">
-    <value>Show period bars</value>
+    <value>기간 막대로 보기</value>
   </data>
   <data name="PeriodBarsHelp" xml:space="preserve">
-    <value>Starts and ends are shown by default. Enable this option for continuous period bars. The schedule and alert choices stay unchanged.</value>
+    <value>기본은 시작일·종료일만 표시합니다. 이 옵션을 켜면 기간을 긴 막대로 표시합니다. 실제 일정과 알림 선택은 바뀌지 않습니다.</value>
   </data>
   <data name="PointAlert" xml:space="preserve">
-    <value>Event reminder</value>
+    <value>일정 알림 선택</value>
   </data>
   <data name="PreviousMonth" xml:space="preserve">
-    <value>&lt; Previous</value>
+    <value>&lt; 이전</value>
   </data>
   <data name="PrivacyHelp" xml:space="preserve">
-    <value>Personal entries and account aliases stay on this device. Public downloads disclose IP and ordinary HTTP metadata to the host; no account ID or personal calendar is uploaded.</value>
+    <value>개인 일정과 계정 별칭은 이 기기에 저장합니다. 공개 파일 다운로드 시 제공자에게 IP·일반 HTTP 정보가 전달되며, 계정 ID나 개인 일정은 업로드하지 않습니다.</value>
   </data>
   <data name="ProfileUnbound" xml:space="preserve">
-    <value>Profile not selected</value>
+    <value>프로필 미선택</value>
   </data>
   <data name="PublicRecord" xml:space="preserve">
-    <value>Public source record</value>
+    <value>공개 출처 일정</value>
   </data>
   <data name="PublishedRevision" xml:space="preserve">
-    <value>Remote publication: {0} / advertised content: {1}</value>
+    <value>원격 게시 버전: {0} / 제공 일정 버전: {1}</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Check now</value>
+    <value>지금 확인</value>
   </data>
   <data name="RemoteEnabled" xml:space="preserve">
-    <value>Allow scheduled public feed downloads</value>
+    <value>공개 피드 주기적 다운로드 허용</value>
   </data>
   <data name="RemoteHelp" xml:space="preserve">
-    <value>Opt-in only. Accepts the fixed DuckbillCalendar public URL. Refresh checks the published file; it does not trigger collection or operator review.</value>
+    <value>선택한 경우에만 정해진 DuckbillCalendar 주소에 요청합니다. 새로고침은 게시 파일을 확인하며 수집이나 운영자 검수를 즉시 실행하지 않습니다.</value>
   </data>
   <data name="RewardBarsHelp" xml:space="preserve">
-    <value>Turning this off hides reward-claim bars only. Claim deadlines, the day list and reminder choices remain available.</value>
+    <value>끄면 보상 수령 기간 막대만 숨깁니다. 수령 마감·일별 목록·알림 선택은 유지됩니다.</value>
   </data>
   <data name="Saturday" xml:space="preserve">
-    <value>Sat</value>
+    <value>토</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>저장</value>
   </data>
   <data name="SaveDataSettings" xml:space="preserve">
-    <value>Save data settings</value>
+    <value>데이터 설정 저장</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>검색</value>
   </data>
   <data name="SelectedDate" xml:space="preserve">
-    <value>Selected date: {0}</value>
+    <value>선택 날짜: {0}</value>
   </data>
   <data name="SelectedPhase" xml:space="preserve">
-    <value>{0} · selected</value>
+    <value>{0} · 선택</value>
   </data>
   <data name="SelectEvent" xml:space="preserve">
-    <value>Select a date or event to view its details.</value>
+    <value>날짜나 일정을 선택하면 상세를 볼 수 있습니다.</value>
   </data>
   <data name="SelectionFiltered" xml:space="preserve">
-    <value>The selected event is outside the current filter.</value>
+    <value>현재 필터 밖에 있는 선택 일정입니다.</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>설정</value>
   </data>
   <data name="ShowRewardBars" xml:space="preserve">
-    <value>Show reward-claim period bars</value>
+    <value>보상 수령 기간도 막대로 표시</value>
   </data>
   <data name="SourceHealth" xml:space="preserve">
-    <value>Source {0}: {1}</value>
+    <value>출처 {0}: {1}</value>
   </data>
   <data name="SourceValue" xml:space="preserve">
-    <value>Source: {0}</value>
+    <value>출처: {0}</value>
   </data>
   <data name="StartAlert" xml:space="preserve">
-    <value>Start reminder</value>
+    <value>시작 알림 선택</value>
   </data>
   <data name="StartJump" xml:space="preserve">
-    <value>{0} · starts {1}</value>
+    <value>{0} · 시작 {1}</value>
   </data>
   <data name="StartShort" xml:space="preserve">
-    <value>starts</value>
+    <value>시작</value>
   </data>
   <data name="StartValue" xml:space="preserve">
-    <value>Start: {0}</value>
+    <value>시작: {0}</value>
   </data>
   <data name="StatusLine" xml:space="preserve">
-    <value>{0} · {1} local entries · content {2}</value>
+    <value>{0} · 개인 일정 {1}건 · 일정 버전 {2}</value>
   </data>
   <data name="SubscriptionHelp" xml:space="preserve">
-    <value>Record the actual expiry shown in your official account page. Compensation, renewals or refunds are not applied automatically.</value>
+    <value>공식 계정 화면에서 확인한 실제 종료일을 입력하세요. 보상·연장·환불을 자동 적용하지 않습니다.</value>
   </data>
   <data name="Subscriptions" xml:space="preserve">
-    <value>Subscriptions</value>
+    <value>이용권</value>
   </data>
   <data name="Sunday" xml:space="preserve">
-    <value>Sun</value>
+    <value>일</value>
   </data>
   <data name="Thursday" xml:space="preserve">
-    <value>Thu</value>
+    <value>목</value>
   </data>
   <data name="TitleRequired" xml:space="preserve">
-    <value>Enter a title.</value>
+    <value>일정 이름을 입력하세요.</value>
   </data>
   <data name="Today" xml:space="preserve">
-    <value>Today</value>
+    <value>오늘</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
-    <value>Tue</value>
+    <value>화</value>
   </data>
   <data name="Undated" xml:space="preserve">
-    <value>Unconfirmed end dates ({0})</value>
+    <value>종료 날짜 미정 ({0})</value>
   </data>
   <data name="UnknownBoundary" xml:space="preserve">
-    <value>Not announced</value>
+    <value>미발표</value>
   </data>
   <data name="UnknownField" xml:space="preserve">
-    <value>Not confirmed</value>
+    <value>확인 불가</value>
   </data>
   <data name="Wednesday" xml:space="preserve">
-    <value>Wed</value>
+    <value>수</value>
   </data>
   <data name="PointShort" xml:space="preserve">
-    <value>at</value>
+    <value>일정</value>
   </data>
   <data name="LocalExpiryPhase" xml:space="preserve">
-    <value>Service expiry</value>
+    <value>이용 종료</value>
   </data>
   <data name="LocalPersonalPhase" xml:space="preserve">
-    <value>Personal event</value>
+    <value>개인 일정</value>
   </data>
   <data name="UnsavedChanges" xml:space="preserve">
-    <value>Changes are not yet saved. If this persists, check the data status in Settings.</value>
+    <value>변경 내용이 아직 저장되지 않았습니다. 계속 표시되면 설정의 데이터 상태를 확인하세요.</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open official page</value>
+    <value>공식 안내 열기</value>
   </data>
   <data name="LastClientCheck" xml:space="preserve">
-    <value>This device last checked: {0}</value>
+    <value>이 기기 마지막 확인: {0}</value>
   </data>
   <data name="InferredSuffix" xml:space="preserve">
-    <value> · inferred</value>
+    <value> · 추론</value>
   </data>
   <data name="CoverageUnknown" xml:space="preserve">
-    <value>unconfirmed</value>
+    <value>미확인</value>
   </data>
   <data name="CoverageComplete" xml:space="preserve">
-    <value>reported complete</value>
+    <value>완전 비교 보고됨</value>
   </data>
   <data name="TentativeSuffix" xml:space="preserve">
-    <value> · tentative</value>
+    <value> · 예정</value>
   </data>
   <data name="LastSourceReview" xml:space="preserve">
-    <value>Content last reviewed: {0}</value>
+    <value>내용 마지막 검수: {0}</value>
   </data>
   <data name="SourceCoverage" xml:space="preserve">
-    <value>Comparison coverage: {0} / content {1} / pending {2}</value>
+    <value>비교 범위: {0} / 일정 버전 {1} / 확인 대기 {2}건</value>
   </data>
-  <data name="EnableLocalAlerts" xml:space="preserve"><value>Enable local chat reminders</value></data>
-  <data name="AlertDeliveryHelp" xml:space="preserve"><value>Reminders run only while the game is open. Delivery waits for combat, duties, PvP, loading and cutscenes to end. Public example records never send reminders. A crash after recording a reminder can lose that notification; recorded reminders are not replayed.</value></data>
-  <data name="LocalAlertMessage" xml:space="preserve"><value>{0} — selected schedule boundary: {1} KST. Delivery may have been deferred.</value></data>
-  <data name="UseActualFeed" xml:space="preserve"><value>Show actual events</value></data>
-  <data name="BundledSnapshotInfo" xml:space="preserve"><value>Official schedule · latest collection {0} · check each item's source</value></data>
-  <data name="CategoryNotice" xml:space="preserve"><value>Notices</value></data>
-  <data name="GoToMonth" xml:space="preserve"><value>Go to year and month</value></data>
-  <data name="Year" xml:space="preserve"><value>Year</value></data>
-  <data name="Month" xml:space="preserve"><value>Month</value></data>
-  <data name="Go" xml:space="preserve"><value>Go</value></data>
-  <data name="UpcomingHighlights" xml:space="preserve"><value>Upcoming milestones ({0})</value></data>
-  <data name="NoUpcomingHighlights" xml:space="preserve"><value>No confirmed upcoming milestone.</value></data>
-  <data name="AllHighlights" xml:space="preserve"><value>Show all {0}</value></data>
-  <data name="PendingHighlights" xml:space="preserve"><value>Date not announced ({0})</value></data>
-  <data name="ShowNoticePublications" xml:space="preserve"><value>Show notice publication dates</value></data>
-  <data name="NoticePublicationHelp" xml:space="preserve"><value>A notice publication date is when the article was posted. Updates, maintenance and season starts have separate entries. The Notices filter shows publication dates.</value></data>
-  <data name="NoticePublishedAt" xml:space="preserve"><value>Notice posted · {0}</value></data>
-  <data name="HighlightEarlyAccess" xml:space="preserve"><value>Early access</value></data>
-  <data name="HighlightRelease" xml:space="preserve"><value>Release</value></data>
-  <data name="HighlightDeadline" xml:space="preserve"><value>Deadline</value></data>
-  <data name="HighlightPvpSeason" xml:space="preserve"><value>CC season start</value></data>
-  <data name="HighlightPvpSeries" xml:space="preserve"><value>PvP series start</value></data>
-  <data name="HighlightMaintenance" xml:space="preserve"><value>Maintenance</value></data>
-  <data name="HighlightPatch" xml:space="preserve"><value>Update</value></data>
-  <data name="CalendarSummary" xml:space="preserve"><value>{0} items · personal entries stay on this device</value></data>
-  <data name="DateColumn" xml:space="preserve"><value>Date</value></data>
-  <data name="CategoryColumn" xml:space="preserve"><value>Category</value></data>
-  <data name="TitleColumn" xml:space="preserve"><value>Title</value></data>
-  <data name="UnknownDateShort" xml:space="preserve"><value>TBA</value></data>
-  <data name="SelectedDayItems" xml:space="preserve"><value>Items on selected day ({0})</value></data>
-  <data name="ReminderOptions" xml:space="preserve"><value>Reminder options</value></data>
-  <data name="SourceDetails" xml:space="preserve"><value>Notes and source details</value></data>
-  <data name="SubscriptionEmptyHelp" xml:space="preserve"><value>Add the expiry of your subscription, retainer or saddlebag service. See days remaining and the expiry date on the calendar.</value></data>
-  <data name="ExpiryColumn" xml:space="preserve"><value>Expires</value></data>
-  <data name="RemainingColumn" xml:space="preserve"><value>Remaining</value></data>
-  <data name="Expired" xml:space="preserve"><value>Expired</value></data>
-  <data name="ExpiresToday" xml:space="preserve"><value>Expires today</value></data>
+  <data name="EnableLocalAlerts" xml:space="preserve"><value>로컬 채팅 알림 켜기</value></data>
+  <data name="AlertDeliveryHelp" xml:space="preserve"><value>게임 실행 중에만 알립니다. 전투·임무·PvP·로딩·영상 중에는 전달을 기다립니다. 공개 예시 일정은 알리지 않습니다. 발송 기록 저장 직후 게임이 종료되면 알림이 누락될 수 있으며 기록된 알림은 재전송하지 않습니다.</value></data>
+  <data name="LocalAlertMessage" xml:space="preserve"><value>{0} — 선택한 일정의 기준 시각: {1} KST. 상황에 따라 전달이 지연됐을 수 있습니다.</value></data>
+  <data name="UseActualFeed" xml:space="preserve"><value>실제 일정 보기</value></data>
+  <data name="BundledSnapshotInfo" xml:space="preserve"><value>공식 일정 · 최근 수집 {0} · 항목별 출처에서 확인</value></data>
+  <data name="CategoryNotice" xml:space="preserve"><value>공지</value></data>
+  <data name="GoToMonth" xml:space="preserve"><value>년월 바로 이동</value></data>
+  <data name="Year" xml:space="preserve"><value>년</value></data>
+  <data name="Month" xml:space="preserve"><value>월</value></data>
+  <data name="Go" xml:space="preserve"><value>이동</value></data>
+  <data name="UpcomingHighlights" xml:space="preserve"><value>다가오는 주요 일정 ({0})</value></data>
+  <data name="NoUpcomingHighlights" xml:space="preserve"><value>확인된 다음 주요 일정이 없습니다.</value></data>
+  <data name="AllHighlights" xml:space="preserve"><value>전체 {0}건 보기</value></data>
+  <data name="PendingHighlights" xml:space="preserve"><value>날짜 미정 ({0})</value></data>
+  <data name="ShowNoticePublications" xml:space="preserve"><value>공지 게시일 표시</value></data>
+  <data name="NoticePublicationHelp" xml:space="preserve"><value>공지 게시일은 글이 올라온 날입니다. 실제 업데이트·점검·시즌 시작은 별도 일정으로 표시합니다. 공지 필터에서는 게시일을 표시합니다.</value></data>
+  <data name="NoticePublishedAt" xml:space="preserve"><value>공지 게시 · {0}</value></data>
+  <data name="HighlightEarlyAccess" xml:space="preserve"><value>얼리 액세스</value></data>
+  <data name="HighlightRelease" xml:space="preserve"><value>정식 출시</value></data>
+  <data name="HighlightDeadline" xml:space="preserve"><value>마감</value></data>
+  <data name="HighlightPvpSeason" xml:space="preserve"><value>크컨 시즌 시작</value></data>
+  <data name="HighlightPvpSeries" xml:space="preserve"><value>PvP 시리즈 시작</value></data>
+  <data name="HighlightMaintenance" xml:space="preserve"><value>점검 시작</value></data>
+  <data name="HighlightPatch" xml:space="preserve"><value>업데이트</value></data>
+  <data name="CalendarSummary" xml:space="preserve"><value>{0}개 항목 · 개인 일정은 이 기기에 저장</value></data>
+  <data name="DateColumn" xml:space="preserve"><value>날짜</value></data>
+  <data name="CategoryColumn" xml:space="preserve"><value>분류</value></data>
+  <data name="TitleColumn" xml:space="preserve"><value>제목</value></data>
+  <data name="UnknownDateShort" xml:space="preserve"><value>미정</value></data>
+  <data name="SelectedDayItems" xml:space="preserve"><value>선택한 날의 항목 ({0})</value></data>
+  <data name="ReminderOptions" xml:space="preserve"><value>알림 선택</value></data>
+  <data name="SourceDetails" xml:space="preserve"><value>참고 사항 · 출처 확인</value></data>
+  <data name="SubscriptionEmptyHelp" xml:space="preserve"><value>만료일을 달력에 표시합니다.</value></data>
+  <data name="ExpiryColumn" xml:space="preserve"><value>만료일</value></data>
+  <data name="RemainingColumn" xml:space="preserve"><value>남은 기간</value></data>
+  <data name="Expired" xml:space="preserve"><value>만료</value></data>
+  <data name="ExpiresToday" xml:space="preserve"><value>오늘 만료</value></data>
   <data name="DaysRemaining" xml:space="preserve"><value>D-{0}</value></data>
-  <data name="NotificationSettings" xml:space="preserve"><value>Reminders</value></data>
-  <data name="DataReceiveSummary" xml:space="preserve"><value>{0} public items are available offline.</value></data>
-  <data name="SettingsAutoSave" xml:space="preserve"><value>Changes are saved automatically.</value></data>
-  <data name="AdvancedData" xml:space="preserve"><value>Advanced data and diagnostics</value></data>
-  <data name="PrivacyDetails" xml:space="preserve"><value>Storage and privacy details</value></data>
-  <data name="NeedsReviewShort" xml:space="preserve"><value>Recheck needed</value></data>
-  <data name="VisibleCalendars" xml:space="preserve"><value>Visible calendars</value></data>
-  <data name="SelectAllCalendars" xml:space="preserve"><value>Select all</value></data>
-  <data name="HideAllCalendars" xml:space="preserve"><value>Hide all</value></data>
-  <data name="CategoryMaintenance" xml:space="preserve"><value>Maintenance</value></data>
-  <data name="CategoryCompetitions" xml:space="preserve"><value>Competitions</value></data>
-  <data name="WorkspaceFooter" xml:space="preserve"><value>{0} public records in total · last fetched {1}</value></data>
-  <data name="MonthGridView" xml:space="preserve"><value>Month</value></data>
-  <data name="MonthAgendaView" xml:space="preserve"><value>Agenda</value></data>
-  <data name="UndatedView" xml:space="preserve"><value>Ongoing / undated</value></data>
-  <data name="CalendarVisibilityButton" xml:space="preserve"><value>Calendars {0}/9</value></data>
-  <data name="CalendarViewOptions" xml:space="preserve"><value>View</value></data>
-  <data name="DefaultEndpointDisplay" xml:space="preserve"><value>Starts and ends are shown by default.</value></data>
-  <data name="CalendarSearchHint" xml:space="preserve"><value>Search events</value></data>
-  <data name="ReleaseLandmark" xml:space="preserve"><value>Major release</value></data>
-  <data name="BackToDateAgenda" xml:space="preserve"><value>‹ Back to agenda</value></data>
-  <data name="MonthAgendaTitle" xml:space="preserve"><value>Schedule for {0}.{1:00}</value></data>
-  <data name="MonthAgendaScope" xml:space="preserve"><value>Starts, deadlines and milestones this month</value></data>
-  <data name="NoMonthBoundaries" xml:space="preserve"><value>No starts or deadlines to show this month.</value></data>
-  <data name="BrowseUndated" xml:space="preserve"><value>Browse ongoing and undated events</value></data>
-  <data name="ShowMonthAgenda" xml:space="preserve"><value>Show this month</value></data>
-  <data name="NoDayBoundaries" xml:space="preserve"><value>No events start or end on this day.</value></data>
-  <data name="OngoingOnDay" xml:space="preserve"><value>In progress ({0})</value></data>
-  <data name="UndatedCollectionTitle" xml:space="preserve"><value>Ongoing / undated ({0})</value></data>
-  <data name="UndatedCollectionHelp" xml:space="preserve"><value>These events have an unannounced or conditional end. This does not imply permanent availability.</value></data>
-  <data name="NoUndatedCollection" xml:space="preserve"><value>No events match the current visibility settings.</value></data>
-  <data name="UndatedContextTitle" xml:space="preserve"><value>Dates stay unassigned</value></data>
-  <data name="UndatedContextHelp" xml:space="preserve"><value>Select an event to see its end condition and the official source last checked.</value></data>
-  <data name="TimeNotAnnouncedShort" xml:space="preserve"><value>Time not announced</value></data>
-  <data name="OngoingRole" xml:space="preserve"><value>In progress</value></data>
-  <data name="ShortEarlyAccess" xml:space="preserve"><value>Early access</value></data>
-  <data name="ShortFormalRelease" xml:space="preserve"><value>Release</value></data>
-  <data name="ShortPreorderDeadline" xml:space="preserve"><value>CE preorder ends</value></data>
-  <data name="ShortPreorderStart" xml:space="preserve"><value>CE preorder opens</value></data>
-  <data name="ShortBonusDeadline" xml:space="preserve"><value>Bonus purchase ends</value></data>
-  <data name="ShortBonusStart" xml:space="preserve"><value>Bonus purchase opens</value></data>
-  <data name="ShortDiscountDeadline" xml:space="preserve"><value>20% offer ends</value></data>
-  <data name="ShortDiscountStart" xml:space="preserve"><value>20% offer opens</value></data>
-  <data name="ShortCcrcPreliminary" xml:space="preserve"><value>CCRC preliminaries</value></data>
-  <data name="ShortCcrcFinal" xml:space="preserve"><value>CCRC final</value></data>
-  <data name="ShortCcrcRegistrationEnd" xml:space="preserve"><value>CCRC entry ends</value></data>
-  <data name="ShortCcrcRegistrationStart" xml:space="preserve"><value>CCRC entry opens</value></data>
-  <data name="ShortCcrcSelectionEnd" xml:space="preserve"><value>CCRC selection ends</value></data>
-  <data name="ShortCcrcSelectionStart" xml:space="preserve"><value>CCRC selection opens</value></data>
-  <data name="ShortPvpSeasonStart" xml:space="preserve"><value>Season {0} starts</value></data>
-  <data name="NoRemainingMonthBoundaries" xml:space="preserve"><value>No starts or deadlines remain this month.</value></data>
-  <data name="PastMonthItems" xml:space="preserve"><value>Earlier this month ({0})</value></data>
-  <data name="RelatedPhases" xml:space="preserve"><value>Related stages ({0})</value></data>
+  <data name="NotificationSettings" xml:space="preserve"><value>알림</value></data>
+  <data name="DataReceiveSummary" xml:space="preserve"><value>공개 항목 {0}건을 보관하고 있습니다.</value></data>
+  <data name="SettingsAutoSave" xml:space="preserve"><value>변경 사항은 자동으로 저장됩니다.</value></data>
+  <data name="AdvancedData" xml:space="preserve"><value>고급 데이터 · 진단</value></data>
+  <data name="PrivacyDetails" xml:space="preserve"><value>저장 및 개인정보 안내</value></data>
+  <data name="NeedsReviewShort" xml:space="preserve"><value>재확인 필요</value></data>
+  <data name="VisibleCalendars" xml:space="preserve"><value>표시할 캘린더</value></data>
+  <data name="SelectAllCalendars" xml:space="preserve"><value>전체 선택</value></data>
+  <data name="HideAllCalendars" xml:space="preserve"><value>모두 숨기기</value></data>
+  <data name="CategoryMaintenance" xml:space="preserve"><value>점검</value></data>
+  <data name="CategoryCompetitions" xml:space="preserve"><value>대회</value></data>
+  <data name="WorkspaceFooter" xml:space="preserve"><value>전체 공개 일정 {0}건 · 최근 수집 {1}</value></data>
+  <data name="MonthGridView" xml:space="preserve"><value>월간</value></data>
+  <data name="MonthAgendaView" xml:space="preserve"><value>월 목록</value></data>
+  <data name="UndatedView" xml:space="preserve"><value>진행·기한 미정</value></data>
+  <data name="CalendarVisibilityButton" xml:space="preserve"><value>캘린더 {0}/9</value></data>
+  <data name="CalendarViewOptions" xml:space="preserve"><value>보기</value></data>
+  <data name="DefaultEndpointDisplay" xml:space="preserve"><value>기본은 시작일과 종료일을 표시합니다.</value></data>
+  <data name="CalendarSearchHint" xml:space="preserve"><value>일정 검색</value></data>
+  <data name="ReleaseLandmark" xml:space="preserve"><value>주요 출시</value></data>
+  <data name="BackToDateAgenda" xml:space="preserve"><value>‹ 일정 목록</value></data>
+  <data name="MonthAgendaTitle" xml:space="preserve"><value>{0}년 {1}월 일정</value></data>
+  <data name="MonthAgendaScope" xml:space="preserve"><value>이 달의 시작·마감·주요 시점</value></data>
+  <data name="NoMonthBoundaries" xml:space="preserve"><value>이 달에 표시할 시작·마감이 없습니다.</value></data>
+  <data name="BrowseUndated" xml:space="preserve"><value>진행·기한 미정 목록 보기</value></data>
+  <data name="ShowMonthAgenda" xml:space="preserve"><value>이 달 일정 보기</value></data>
+  <data name="NoDayBoundaries" xml:space="preserve"><value>이 날 시작하거나 마감하는 일정이 없습니다.</value></data>
+  <data name="OngoingOnDay" xml:space="preserve"><value>기간 중인 일정 ({0})</value></data>
+  <data name="UndatedCollectionTitle" xml:space="preserve"><value>진행·기한 미정 ({0})</value></data>
+  <data name="UndatedCollectionHelp" xml:space="preserve"><value>종료 날짜가 발표되지 않았거나 조건으로 정해진 일정입니다. 상시 제공을 보장하지 않습니다.</value></data>
+  <data name="NoUndatedCollection" xml:space="preserve"><value>현재 표시 조건에 해당하는 일정이 없습니다.</value></data>
+  <data name="UndatedContextTitle" xml:space="preserve"><value>날짜를 추측하지 않습니다</value></data>
+  <data name="UndatedContextHelp" xml:space="preserve"><value>항목을 선택하면 종료 조건과 마지막으로 확인한 공식 원문을 볼 수 있습니다.</value></data>
+  <data name="TimeNotAnnouncedShort" xml:space="preserve"><value>시각 미발표</value></data>
+  <data name="OngoingRole" xml:space="preserve"><value>진행 중</value></data>
+  <data name="ShortEarlyAccess" xml:space="preserve"><value>얼리</value></data>
+  <data name="ShortFormalRelease" xml:space="preserve"><value>출시</value></data>
+  <data name="ShortPreorderDeadline" xml:space="preserve"><value>CE 예약 마감</value></data>
+  <data name="ShortPreorderStart" xml:space="preserve"><value>CE 예약 시작</value></data>
+  <data name="ShortBonusDeadline" xml:space="preserve"><value>특전 마감</value></data>
+  <data name="ShortBonusStart" xml:space="preserve"><value>특전 시작</value></data>
+  <data name="ShortDiscountDeadline" xml:space="preserve"><value>20% 할인 마감</value></data>
+  <data name="ShortDiscountStart" xml:space="preserve"><value>20% 할인 시작</value></data>
+  <data name="ShortCcrcPreliminary" xml:space="preserve"><value>CCRC 예선</value></data>
+  <data name="ShortCcrcFinal" xml:space="preserve"><value>CCRC 결선</value></data>
+  <data name="ShortCcrcRegistrationEnd" xml:space="preserve"><value>CCRC 신청 마감</value></data>
+  <data name="ShortCcrcRegistrationStart" xml:space="preserve"><value>CCRC 신청 시작</value></data>
+  <data name="ShortCcrcSelectionEnd" xml:space="preserve"><value>CCRC 선발 마감</value></data>
+  <data name="ShortCcrcSelectionStart" xml:space="preserve"><value>CCRC 선발 시작</value></data>
+  <data name="ShortPvpSeasonStart" xml:space="preserve"><value>시즌 {0} 시작</value></data>
+  <data name="NoRemainingMonthBoundaries" xml:space="preserve"><value>이번 달에 남은 시작·마감이 없습니다.</value></data>
+  <data name="PastMonthItems" xml:space="preserve"><value>지난 일정 ({0})</value></data>
+  <data name="RelatedPhases" xml:space="preserve"><value>관련 단계 ({0})</value></data>
+  <data name="AdditionalDetails" xml:space="preserve"><value>추가 정보 · 알림</value></data>
 </root>

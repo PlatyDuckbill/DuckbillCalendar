@@ -24,7 +24,16 @@ internal static class AllSources
 {
     public static FeedDocument Merge(FeedDocument earlier, FeedDocument later)
     {
-        var events = earlier.Events.Concat(later.Events).GroupBy(e => e.Id, StringComparer.Ordinal).Select(g => g.Last()).ToArray();
+        var withdrawals = earlier.Withdrawals.Concat(later.Withdrawals).ToHashSet(StringComparer.Ordinal);
+        var oldEvents = earlier.Events.GroupBy(e => e.Id, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.First(), StringComparer.Ordinal);
+        var incoming = later.Events.Select(item =>
+        {
+            if (!item.Id.StartsWith("kr:event:", StringComparison.Ordinal) || !oldEvents.TryGetValue(item.Id, out var old)) return item;
+            var candidates = item.Phases.Select(p => new PhaseCandidate(p.Label, CalendarEngine.StartInstant(p.Start), CalendarEngine.StartInstant(p.End), null, "")).ToArray();
+            var ids = AutoPrepare.StablePhaseIds(candidates, old.Phases);
+            return item with { Phases = item.Phases.Select((p, index) => p with { Id = ids[index] }).ToArray() };
+        });
+        var events = earlier.Events.Concat(incoming).Where(e => !withdrawals.Contains(e.Id)).GroupBy(e => e.Id, StringComparer.Ordinal).Select(g => g.Last()).ToArray();
         var targets = earlier.Targets.Concat(later.Targets).GroupBy(t => t.Id, StringComparer.Ordinal).Select(g => g.Last()).ToArray();
         var ids = events.SelectMany(e => e.Phases).SelectMany(p => p.Start.EvidenceIds.Concat(p.End.EvidenceIds))
             .Concat(targets.Where(t => t.ResolvedBoundary is not null).SelectMany(t => t.ResolvedBoundary!.EvidenceIds)).ToHashSet(StringComparer.Ordinal);
@@ -32,7 +41,7 @@ internal static class AllSources
         return earlier with
         {
             GeneratedAt = later.GeneratedAt, Events = events, Evidence = evidence, Targets = targets,
-            Withdrawals = earlier.Withdrawals.Concat(later.Withdrawals).Distinct(StringComparer.Ordinal).ToArray(),
+            Withdrawals = withdrawals.ToArray(),
             FrontlineRules = earlier.FrontlineRules.Concat(later.FrontlineRules).GroupBy(r => r.Id, StringComparer.Ordinal).Select(g => g.Last()).ToArray()
         };
     }
@@ -74,12 +83,14 @@ internal static class AllSources
             var eventHistory = feed with { Events = feed.Events.Where(e => e.Id.StartsWith("kr:event:", StringComparison.Ordinal)).ToArray() };
             return Merge(feed, await PagedEvents.PrepareAsync(area, eventHistory));
         }, 120);
-        await Stage(["kr-notices", "kr-patch-catalog"], async token =>
+        await Stage(["kr-notices"], async token =>
         {
             var area = Path.Combine(directory, "notices");
-            await NoticeCollector.CollectAsync(area, http, token);
+            await NoticeCollector.CollectAsync(area, http, token, includePatchCatalog: false);
             return await NoticeCollector.PrepareAsync(area, feed);
         }, 360);
+        await Stage(["kr-patch-catalog"], async token =>
+            Merge(feed, await NoticeCollector.CollectPatchCatalogAsync(Path.Combine(directory, "patch-catalog"), feed, http, token)), 30);
         // The mapped facts are separately guarded so a changed component preserves its
         // previous date and records review-needed IDs while other sources still update.
         try
@@ -90,15 +101,21 @@ internal static class AllSources
             var merged = Merge(feed, curated.Feed);
             Validate(merged);
             feed = merged;
-            successes++;
+            // A result retaining only old mappings is useful for diagnosis, but is not
+            // evidence that any source was reachable during this collection.
+            if (curated.SourceResults.Any(s => s.Status == "fetched")) successes++;
+            var rules = CalendarJson.Parse<CuratedRules>(await LocalInput.ReadAsync(rulesPath));
             foreach (var source in curated.SourceResults)
+            {
+                var pendingForSource = rules.Rules.Where(r => curated.PendingEventIds.Contains(r.Event.Id) && r.Guards.Any(g => g.SourceId == source.Id)).Select(r => r.Event.Id).ToArray();
                 reports.Add(new()
                 {
                     Id = "kr-curated:" + source.Id, AttemptedAt = source.FetchedAt,
                     SucceededAt = source.Status == "fetched" ? source.FetchedAt : null,
-                    Result = source.Status == "fetched" && curated.PendingEventIds.Count == 0 ? "partial" : "review-needed",
-                    Error = source.Error, PendingEventIds = curated.PendingEventIds
+                    Result = source.Status != "fetched" ? "failed" : pendingForSource.Length == 0 ? "partial" : "review-needed",
+                    Error = source.Error, PendingEventIds = pendingForSource
                 });
+            }
         }
         catch (Exception ex) when (ex is IOException or InvalidDataException or JsonException or HttpRequestException or OperationCanceledException or ArgumentException)
         {
@@ -106,18 +123,20 @@ internal static class AllSources
             var rules = CalendarJson.Parse<CuratedRules>(await LocalInput.ReadAsync(rulesPath));
             foreach (var source in rules.Sources) reports.Add(new() { Id = "kr-curated:" + source.Id, AttemptedAt = DateTimeOffset.UtcNow, Result = "failed", Error = ex.GetType().Name, PendingEventIds = rules.Rules.Select(r => r.Event.Id).ToArray() });
         }
+        await Collector.WriteNewAsync(Path.Combine(directory, "sources.json"), JsonSerializer.SerializeToUtf8Bytes(new AllCollectionReport { Sources = reports }, CalendarJson.Options));
         if (successes == 0 || feed.Events.Count == 0) throw new InvalidDataException("AllSourcesUnavailable");
         Validate(feed);
         await Collector.WriteNewAsync(Path.Combine(directory, "feed.json"), JsonSerializer.SerializeToUtf8Bytes(feed, CalendarJson.Options));
-        await Collector.WriteNewAsync(Path.Combine(directory, "sources.json"), JsonSerializer.SerializeToUtf8Bytes(new AllCollectionReport { Sources = reports }, CalendarJson.Options));
         Console.WriteLine($"Combined official calendar: events={feed.Events.Count}; sources={reports.Count}; pending/failed={reports.Count(r => r.Result != "partial")}");
         return feed;
     }
 
     public static async Task MarkHealthAsync(string directory, string publication)
     {
+        await using var publicationLock = new FileStream(Path.Combine(publication, ".prepare.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
         var report = CalendarJson.Parse<AllCollectionReport>(await LocalInput.ReadAsync(Path.Combine(directory, "sources.json"), 65536));
-        if (report.SchemaVersion != 1 || report.Sources.Count is < 1 or > 32 || report.Sources.Any(s => string.IsNullOrWhiteSpace(s.Id) || s.AttemptedAt == default) ||
+        if (report.SchemaVersion != 1 || report.Sources.Count is < 1 or > 32 || report.Sources.Any(s => string.IsNullOrWhiteSpace(s.Id) || s.AttemptedAt == default ||
+                s.Result is not ("partial" or "failed" or "review-needed") || s.Result == "partial" && (s.SucceededAt is null || s.PendingEventIds.Count != 0)) ||
             report.Sources.Select(s => s.Id).Distinct(StringComparer.Ordinal).Count() != report.Sources.Count) throw new InvalidDataException("InvalidCombinedSourceReport");
         var (pointer, feed, payload) = await AutoPrepare.VerifyCurrentAsync(publication);
         var collected = CalendarJson.Parse<FeedDocument>(await LocalInput.ReadAsync(Path.Combine(directory, "feed.json")));
@@ -135,11 +154,13 @@ internal static class AllSources
             } : new SourceHealth { Id = id, LastResult = "not-run" }).ToArray() };
         var updated = pointer with { Health = health };
         if (FeedValidator.Validate(updated).Count != 0) throw new InvalidDataException("InvalidCombinedHealth");
+        var updatedBytes = JsonSerializer.SerializeToUtf8Bytes(updated, CalendarJson.Options);
+        if (updatedBytes.Length > 65536) throw new InvalidDataException("CombinedPointerSizeLimit");
         // Like the publisher, this only prepares local files. The subsequent normal Git
         // push publishes all immutable bytes and the final pointer as a single commit.
         var path = Path.Combine(publication, "current.json");
         var temp = path + ".sources-" + Guid.NewGuid().ToString("N");
-        try { await Collector.WriteNewAsync(temp, JsonSerializer.SerializeToUtf8Bytes(updated, CalendarJson.Options)); File.Move(temp, path, true); }
+        try { await Collector.WriteNewAsync(temp, updatedBytes); File.Move(temp, path, true); }
         finally { if (File.Exists(temp)) File.Delete(temp); }
     }
 

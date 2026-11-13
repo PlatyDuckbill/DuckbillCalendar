@@ -37,6 +37,12 @@ try
     var previous = before is null ? null : CalendarJson.Parse<CurrentPointer>(before);
     if (previous is not null && FeedValidator.Validate(previous, allowExample).Count != 0)
         throw new InvalidDataException("ExistingCurrentUnsupported");
+    if (previous is not null)
+    {
+        var previousPayloadPath = Path.GetFullPath(Path.Combine(directory, previous.Content.Path));
+        if (!previousPayloadPath.StartsWith(directory + Path.DirectorySeparatorChar, StringComparison.Ordinal)) throw new InvalidDataException("PreviousPayloadEscapesRoot");
+        FeedPublication.ReadPayload(previous, await LocalInput.ReadAsync(previousPayloadPath), allowExample);
+    }
     var revisions = Path.Combine(directory, "revisions");
     Directory.CreateDirectory(revisions);
     var onDisk = Directory.EnumerateFiles(revisions, "*.json").Select(Path.GetFileNameWithoutExtension)
@@ -56,6 +62,7 @@ try
         Health = new() { Sources = feed.Evidence.Select(e => e.SourceId).Distinct().Select(id => new SourceHealth { Id = id }).ToArray() }
     };
     var pointerBytes = JsonSerializer.SerializeToUtf8Bytes(pointer, CalendarJson.Options);
+    FeedPublication.ReadPayload(pointer, payload, allowExample);
     if (pointerBytes.Length > 65536) throw new InvalidDataException("GeneratedCurrentSizeLimit");
     var payloadPath = Path.Combine(directory, relative.Replace('/', Path.DirectorySeparatorChar));
     // Immutable file comes first. An interrupted run can leave an orphan, never a pointer to missing bytes.
@@ -71,7 +78,7 @@ try
     }
     finally { if (File.Exists(temporary)) File.Delete(temporary); }
     Console.WriteLine($"Prepared locally: content={revision}; publication={sequence}; events={feed.Events.Count}; example={feed.IsExample}");
-    Console.WriteLine("Health remains not-run. Nothing uploaded. Remote CAS/approval/coverage workflow is not implemented.");
+    Console.WriteLine("Local preparation only; health remains not-run until separately verified. Nothing uploaded; Git publication is a separate workflow step.");
     return 0;
 }
 catch (Exception ex) when (ex is IOException or InvalidDataException or UnauthorizedAccessException or JsonException or ArgumentException or OverflowException)

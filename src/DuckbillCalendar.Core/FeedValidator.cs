@@ -180,11 +180,28 @@ public static partial class FeedValidator
             if (!seen.Add((preference.ProfileId ?? "", preference.EventId ?? "", preference.PhaseId ?? "", preference.Edge ?? "", preference.LeadMinutes))) errors.Add("DuplicateAlertPreference");
         }
         Unique(List(local.SentAlertKeys, "SentAlertKeys", 20_000, errors), "SentAlertKeys", errors, 512);
+        errors.AddRange(NotificationValidation.Validate(local));
         if (local.View is null) errors.Add("NullViewSettings");
         else
         {
             if (local.View.Calendars is null) errors.Add("NullCalendarVisibility");
-            if (local.View.Language is not ("ko" or "en") || local.View.Theme is not ("graphite" or "paper")) errors.Add("InvalidViewSettings");
+            if (local.View.RemoteRefreshMinutes is not (30 or 60 or 180 or 360 or 720)) errors.Add("InvalidRemoteRefreshInterval");
+            Unique(List(local.View.HiddenEventIds, "HiddenEventIds", 2000, errors), "HiddenEventIds", errors, 120);
+            var hiddenPhases = new HashSet<(string, string)>();
+            foreach (var phase in List(local.View.HiddenPhases, "HiddenPhases", 5000, errors))
+            {
+                Text(phase.EventId, "HiddenPhase.EventId", 120, errors); Text(phase.PhaseId, "HiddenPhase.PhaseId", 120, errors);
+                if (!hiddenPhases.Add((phase.EventId, phase.PhaseId))) errors.Add("DuplicateHiddenPhase");
+            }
+            var appearanceGroups = new HashSet<CalendarGroup>();
+            foreach (var appearance in List(local.View.CalendarAppearances, "CalendarAppearances", 8, errors))
+            {
+                if (!Enum.IsDefined(appearance.Group) || appearance.Group == CalendarGroup.Notices || !appearanceGroups.Add(appearance.Group)) errors.Add("InvalidAppearanceGroup");
+                if (appearance.Icon is not ("" or "Gift" or "Update" or "Server" or "Flag" or "Trophy" or "Tag" or "Clock" or "Person" or "Raid" or "Swords" or "Shield")) errors.Add("InvalidAppearanceIcon");
+                if (appearance.Color is not "" && (appearance.Color is not { Length: 7 } || appearance.Color[0] != '#' || appearance.Color[1..].Any(c => !Uri.IsHexDigit(c)))) errors.Add("InvalidAppearanceColor");
+            }
+            // Legacy language/theme values remain readable so old local state is not discarded.
+            if (local.View.Language is not ("ko" or "en") || local.View.Theme is not ("midnight" or "cloud" or "graphite" or "paper")) errors.Add("InvalidViewSettings");
             Text(local.View.CurrentUrl, "CurrentUrl", 512, errors, false);
         }
         return errors;

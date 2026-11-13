@@ -121,6 +121,8 @@ internal static class CuratedSources
             events.Add(rule.Event with { Phases = rule.Event.Phases.Select(p => p with { Start = Bind(p.Start), End = Bind(p.End) }).ToArray() });
         }
         var targets = (previousFeed?.Targets ?? []).Concat(rules.Targets).GroupBy(t => t.Id, StringComparer.Ordinal).Select(g => g.First()).ToArray();
+        var targetEvidence = targets.Where(t => t.ResolvedBoundary is not null).SelectMany(t => t.ResolvedBoundary!.EvidenceIds).ToHashSet(StringComparer.Ordinal);
+        foreach (var proof in (previousFeed?.Evidence ?? []).Where(e => targetEvidence.Contains(e.Id))) evidence.TryAdd(proof.Id, proof);
         var feed = new FeedDocument { ContentRevision = 1, GeneratedAt = DateTimeOffset.UtcNow, Events = events, Evidence = evidence.Values.ToArray(), Targets = targets };
         var errors = FeedValidator.Validate(feed);
         if (errors.Count != 0) throw new InvalidDataException("CuratedFeedInvalid:" + string.Join(",", errors.Take(8)));

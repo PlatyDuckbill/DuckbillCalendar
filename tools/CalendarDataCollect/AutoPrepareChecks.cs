@@ -41,6 +41,17 @@ internal static class AutoPrepareChecks
         Check(missing.Lifecycle == "published" && missing.Note!.Contains("미확인", StringComparison.Ordinal), "Missing first-page event is retained without cancellation");
         Check(missing.Phases[0].Start.EvidenceIds.All(id => updated.Evidence.Any(e => e.Id == id && e.SourceSnapshotSha256 == feed.Evidence[0].SourceSnapshotSha256)), "Retained event keeps original provenance");
         Check(updated.Events.Single(e => e.Id == feed.Events[0].Id).Revision == 2, "Observed event gets new revision");
+        var sourcePhases = (await AutoPrepare.ReadCollectionAsync(next)).Candidates.Candidates[0].Phases;
+        var phaseIds = AutoPrepare.StablePhaseIds(sourcePhases, feed.Events[0].Phases);
+        var reversedIds = AutoPrepare.StablePhaseIds(sourcePhases.Reverse().ToArray(), feed.Events[0].Phases);
+        Check(reversedIds.SequenceEqual(phaseIds.Reverse()), "Reordering participation/reward blocks preserves existing phase IDs");
+        var changedDates = sourcePhases.Select(p => p with { StartsAt = p.StartsAt!.Value.AddDays(1), EndsAt = p.EndsAt?.AddDays(1) }).ToArray();
+        Check(AutoPrepare.StablePhaseIds(changedDates, feed.Events[0].Phases).SequenceEqual(phaseIds), "Moving dates does not change phase identity");
+        var newPhase = sourcePhases[0] with { Label = "별도 추가 참여 기간" };
+        var inserted = AutoPrepare.StablePhaseIds(new[] { newPhase }.Concat(sourcePhases).ToArray(), feed.Events[0].Phases);
+        Check(inserted.Skip(1).SequenceEqual(phaseIds) && !phaseIds.Contains(inserted[0]), "Inserting a phase cannot shift another phase's hidden key");
+        Check(!AutoPrepare.StablePhaseIds([newPhase], [feed.Events[0].Phases[0]]).Contains(feed.Events[0].Phases[0].Id), "Replacing the only phase with a different label cannot inherit an unrelated hidden key even with identical dates and role");
+        await Reject(() => Task.Run(() => AutoPrepare.StablePhaseIds([sourcePhases[0], sourcePhases[0]], [])), "Indistinguishable source phases require review rather than guessing identity");
         var mismatch = await Collection("display-mismatch", fixture.Replace(">26.11.01 00:00<", ">26.11.02 00:00<", StringComparison.Ordinal));
         await Reject(async () => { await AutoPrepare.PrepareAsync(mismatch, old); }, "Displayed date mismatch refuses whole update");
         var noStart = await Collection("no-start", fixture.Replace("<time datetime=\"2026-10-28 17:00\">26.10.28 17:00</time>", "시작 미정", StringComparison.Ordinal));

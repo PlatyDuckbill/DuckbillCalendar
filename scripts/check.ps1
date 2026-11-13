@@ -12,4 +12,5 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Collector checks failed' }
     & (Join-Path $PSScriptRoot 'check-tools.ps1') -NoBuild -Configuration $Configuration
     & (Join-Path $PSScriptRoot 'check-resources.ps1')
+    & (Join-Path $PSScriptRoot 'check-pipeline.ps1') -NoBuild -Configuration $Configuration
 } finally { Pop-Location }

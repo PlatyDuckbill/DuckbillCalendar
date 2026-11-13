@@ -2,6 +2,8 @@ using System.Buffers.Binary;
 using System.IO.Compression;
 using System.Numerics;
 using System.Text;
+using System.Reflection;
+using System.Net;
 using Dalamud.Bindings.ImGui;
 using DuckbillCalendar.Core;
 using DuckbillCalendar.Infrastructure;
@@ -11,7 +13,7 @@ using DuckbillCalendar.Plugin;
 internal static class NativePreview
 {
     private sealed record Texture(byte[] Pixels, int Width, int Height);
-    public static unsafe string Run(int width = 980, int height = 660)
+    public static unsafe string Run(int width = 1060, int height = 720, string theme = "midnight", float scale = 1)
     {
         var root = Directory.GetCurrentDirectory();
         while (!File.Exists(Path.Combine(root, "DuckbillCalendar.slnx")))
@@ -30,7 +32,7 @@ internal static class NativePreview
             var textures = new Dictionary<ulong, Texture>();
             fixed (ushort* glyphs = ranges)
             {
-                io.Fonts.AddFontFromFileTTF(font, 17, default, glyphs);
+                io.Fonts.AddFontFromFileTTF(font, 17 * scale, default, glyphs);
                 byte* pixels; int nativeWidth, nativeHeight;
                 io.Fonts.GetTexDataAsRGBA32(0, &pixels, &nativeWidth, &nativeHeight);
                 for (var texture = 0; texture < io.Fonts.Textures.Size; texture++)
@@ -46,21 +48,58 @@ internal static class NativePreview
                 File.ReadAllBytes(Path.Combine(root, "data/contracts/v2/revisions/000001.json")), http,
                 bundledFeed: File.ReadAllBytes(Path.Combine(root, "data/live/kr-calendar.snapshot.json")));
             var now = new DateTimeOffset(2026, 11, 13, 12, 0, 0, TimeSpan.FromHours(9));
-            var model = new CalendarModel(workspace); model.Tick(now);
-            var main = new MainWindow(model);
+            var model = new CalendarModel(workspace); model.SetAutomaticUpdateState(false, null); model.Tick(now);
+            workspace.UpdateState(workspace.State with { View = workspace.State.View with { Theme = theme } }); model.Tick(now);
+            using var fieldHttp = new HttpClient(new FrontlineFixture(File.ReadAllBytes(Path.Combine(root, "tests/DuckbillCalendar.Infrastructure.Checks/Fixtures/frontline-2026-11.json"))));
+            using var fields = new FrontlineScheduleClient(fieldHttp);
+            fields.Tick(now, true, 2026, 11); fields.BackgroundTask.GetAwaiter().GetResult(); fields.Tick(now, true, 2026, 11);
+            var iconPng = File.ReadAllBytes(Path.Combine(root,"src/DuckbillCalendar.Plugin/Assets/bitty-duckbill-cutout.png"));
+            var iconPixels = File.ReadAllBytes(Path.Combine(root,"tests/DuckbillCalendar.ImGui.Checks/Fixtures/bitty-duckbill.rgba"));
+            using var iconMeta = System.Text.Json.JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root,"tests/DuckbillCalendar.ImGui.Checks/Fixtures/bitty-duckbill.json")));
+            var iconData = iconMeta.RootElement;
+            if (Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(iconPng)) != iconData.GetProperty("pngSha256").GetString() ||
+                Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(iconPixels)) != iconData.GetProperty("rgbaSha256").GetString())
+                throw new InvalidDataException("Duckbill texture fixture does not match the production PNG");
+            textures.Add(0xd09,new(iconPixels,iconData.GetProperty("width").GetInt32(),iconData.GetProperty("height").GetInt32()));
+            var main = new MainWindow(model,fields,(pos,size,alpha) => {
+                ImGui.GetWindowDrawList().AddImage(new ImTextureID(0xd09),pos,pos + new Vector2(size),Vector2.Zero,Vector2.One,ImGui.ColorConvertFloat4ToU32(new(1,1,1,alpha))); return true;
+            });
+            void Field(string name, object value) => typeof(MainWindow).GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)!.SetValue(main, value);
+            void Call(string name, params object?[] values) => typeof(MainWindow).GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(main, values);
             void Frame(string name, Action select)
             {
+                ImGui.GetCurrentContext().OpenPopupStack.Clear();
+                Field("editorOpen", false); Field("editorRequest", false); Field("ruleWindowOpen",false);
                 select(); model.Tick(now);
+                io.AddMousePosEvent(-100, -100);
                 for (var frame = 0; frame < 6; frame++)
                 {
+                    model.Tick(now); workspace.FlushAsync().GetAwaiter().GetResult(); model.Tick(now);
+                    if (frame == 4) io.AddMousePosEvent(-100, -100);
+                    if (name == "date-picker" && frame is 2 or 3)
+                    { io.AddMousePosEvent(main.DatePickerButtonCenter.X, main.DatePickerButtonCenter.Y); io.AddMouseButtonEvent(0, frame == 2); }
+                    if (name == "ongoing-expanded" && frame is 2 or 3)
+                    { io.AddMousePosEvent(main.OngoingToggleCenter.X, main.OngoingToggleCenter.Y); io.AddMouseButtonEvent(0, frame == 2); }
+                    if (name == "filters" && frame is 2 or 3)
+                    { io.AddMousePosEvent(main.CalendarFilterTarget.X, main.CalendarFilterTarget.Y); io.AddMouseButtonEvent(0, frame == 2); }
+                    if (name == "reset-subscription" && frame is 2 or 3)
+                    { var point = main.SubscriptionResetTargets["preview-sub"]; io.AddMousePosEvent(point.X, point.Y); io.AddMouseButtonEvent(0, frame == 2); }
+                    if (name == "appearance-icons" && frame is 2 or 3)
+                    { var point = main.AppearanceIconTargets[CalendarGroup.Events]; io.AddMousePosEvent(point.X, point.Y); io.AddMouseButtonEvent(0, frame == 2); }
+                    if (name == "hide-menu" && frame is 2 or 3)
+                    {
+                        var entry = model.DayDisplayEntries.Single(e => e.Primary.Event.Id == "kr:curated:ccrc-2027-korea");
+                        var point = main.CardMenuTargets[entry.Key]; io.AddMousePosEvent(point.X, point.Y); io.AddMouseButtonEvent(0, frame == 2);
+                    }
                     ImGui.NewFrame();
                     using (new ThemeScope(workspace.State.View.Theme))
                     {
                         ImGui.SetNextWindowPos(Vector2.Zero, ImGuiCond.Always);
                         ImGui.SetNextWindowSize(new(width, height), ImGuiCond.Always);
-                        ImGui.Begin("DuckbillCalendar###NativePreview", ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize);
-                        try { main.Draw(); }
+                        ImGui.Begin("오리부리 달력###NativePreview", ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize);
+                        try { if (name == "reset-subscription") Call("DrawSubscriptions"); else main.Draw(); }
                         finally { ImGui.End(); }
+                        main.DrawFloatingWindows();
                     }
                     ImGui.Render();
                 }
@@ -68,14 +107,62 @@ internal static class NativePreview
                 Capture(ImGui.GetDrawData(), textures, path);
                 Console.WriteLine("Native preview: " + path);
             }
-            Frame("month", () => model.GoToMonth(2027, 2));
-            Frame("day", () => model.SelectDate(new(2027, 2, 19)));
-            Frame("event", () =>
+            Frame("month", () => model.GoToMonth(2026, 11));
+            Frame("filters", () => model.GoToMonth(2026, 11));
+            Frame("maintenance", () => Call("OpenDay", new DateOnly(2026, 11, 10)));
+            Frame("hide-menu", () => Call("OpenDay", new DateOnly(2026, 11, 10)));
+            var party = new PersonalEntry { Id = "preview-party", Kind = "personal", Title = "공대 출발", When = CalendarBoundary.Instant(new(2026, 11, 15, 18, 0, 0, TimeSpan.FromHours(9))) };
+            Frame("personal-day", () => { model.SaveEntry(party); Call("OpenDay", new DateOnly(2026, 11, 15)); });
+            Frame("ongoing-expanded", () => Call("OpenDay", new DateOnly(2026, 11, 15)));
+            Frame("release", () => model.GoToMonth(2027, 2));
+            Frame("day", () => Call("OpenDay", new DateOnly(2027, 2, 19)));
+            Frame("news", () => { Field("dayPopupRequest", false); Field("activeTab", 1); });
+            Frame("settings", () => { model.SaveSubscription(new() { Id = "preview-sub", Title = "정액제", Kind = "subscription", When = CalendarBoundary.Instant(new(2026, 12, 13, 21, 30, 0, TimeSpan.FromHours(9))) }); main.OpenSettings(); });
+            Frame("changelog", main.OpenReleaseNotes);
+            main.OpenSettings();
+            Frame("settings-off", () => { model.UpdateView(v => v with { RemoteUpdatesEnabled = false }); });
+            Frame("online-settings", () => { model.UpdateView(v => v with { RemoteUpdatesEnabled = true, CurrentUrl = "", RemoteRefreshMinutes = 180 }); });
+            model.UpdateView(v => v with { RemoteUpdatesEnabled = false }); model.Tick(now);
+            Frame("appearance", () => { main.OpenSettings(); Field("appearanceSettingsRequest", true); });
+            Frame("appearance-icons", () => { main.OpenSettings(); Field("appearanceSettingsRequest", true); });
+            var subscription = new PersonalEntry { Id = "preview-sub", Title = "정액제", Kind = "subscription", When = CalendarBoundary.Date(new(2026, 12, 13)) };
+            Frame("settings-registered", () => model.SaveSubscription(subscription));
+            Frame("reset-subscription", () => { });
+            Frame("subscription", () => { Call("OpenEditor", subscription, true); Field("chargeMode", true); });
+            Frame("renewal-hours", () => { Call("OpenEditor", subscription, true); Field("chargeMode", true); Field("chargeDays", 0); Field("chargeHours", 6); Field("chargeBasisTime", "21:30"); });
+            Frame("renewal-minutes", () => { Call("OpenEditor", subscription, true); Field("chargeMode", true); Field("chargeDays", 0); Field("chargeHours", 2); Field("chargeMinutes", 30); Field("chargeBasisTime", "21:30"); });
+            Frame("expiry", () => { Field("activeTab", 0); model.GoToMonth(2026, 12); });
+            // Separate popup names share the same stable ID. Closing is performed by the normal cancel action in interactive checks.
+            Frame("personal", () =>
             {
-                var item = model.Events.Single(e => e.Id == "kr:curated:v8-early-access");
-                model.Select(item, item.Phases.Single(p => p.Id == "early-access"), new(2027, 2, 19));
+                Call("OpenEditor", party, false);
             });
-            Frame("undated", model.ShowUndatedAgenda);
+            Frame("date-picker", () => Call("OpenEditor", party, false));
+            var raidCategory = new UserCalendarCategory { Id = "user:preview-raid", Name = "절바하 공대", Icon = "Trophy", Color = "#E7BE74" };
+            model.SaveUserCategory(raidCategory);
+            model.SaveEntry(party with { CategoryId = raidCategory.Id, When = CalendarBoundary.Instant(now.AddHours(2)) });
+            model.SetCategoryNotification(new() { CategoryId = raidCategory.Id, Enabled = true, StartMinutes = [60,10] });
+            model.SetScheduleNotification(party.Id,"local","custom",[30],[]); model.Tick(now);
+            var raidEvent = model.Events.Single(e => e.Id == party.Id);
+            Frame("month-personal", () => { Field("activeTab",0); model.GoToMonth(2026,11); });
+            Frame("personal-menu", () => { Field("activeTab",0); Call("OpenDay",CalendarEngine.Today(CalendarEngine.StartInstant(raidEvent.Phases[0])!.Value)); });
+            Frame("notification-settings", () => { main.OpenSettings(); });
+            Frame("notification-categories", () => { Field("activeTab",3); Field("notificationScreen",1); });
+            Frame("category-notification", () => Call("OpenCategoryNotification",raidCategory.Id));
+            Frame("schedule-notification", () => Call("OpenScheduleNotification",raidEvent,raidEvent.Phases.Single(),false));
+            Frame("notification-choices", () => { Field("choicesMode",0); Field("choicesPage",0); Field("choicesRequest",true); });
+            Frame("user-category", () => Call("OpenUserCategory",raidCategory));
+            Frame("category-delete", () => { main.OpenSettings(); Field("deleteCategoryId",raidCategory.Id); Field("categoryDeleteRequest",true); });
+            Frame("notification-inbox-empty", () => { Field("inboxRequest",true); });
+            workspace.UpdateState(workspace.State with { NotificationState = workspace.State.NotificationState with { Inbox = [
+                new() { Id = NotificationPolicy.Id("preview-notice"), Kind = "new-notice", Title = "새 공지 안내", Message = "새 공지가 확인되었습니다.", CreatedAt = now.AddMinutes(-10), Url = "https://www.ff14.co.kr/news/notice" },
+                new() { Id = NotificationPolicy.Id("preview-raid"), Kind = "schedule", ProfileId = "default", EventId = party.Id, PhaseId = "local", Edge = "start", LeadMinutes = 30, Title = party.Title, Message = "시작 30분 전", CreatedAt = now, BoundaryAt = now.AddMinutes(30) }
+            ] } }); model.Tick(now);
+            Frame("notification-inbox", () => { Field("inboxRequest",true); });
+            Frame("weekly-raid", () => { Call("OpenWeeklyRaidPlanner",(object?)null); Field("weeklyStartDate",new DateOnly(2026,11,16)); Field("weeklySelected",new[] {true,false,false,false,false,false,true}); Field("weeklyTimes",new[] {"20:00","20:00","20:00","20:00","20:00","20:00","18:00"}); Field("weeklyPane",1); });
+            Frame("weekly-raid-preview", () => { Field("weeklyPane",2); });
+            Frame("ogu-day", () => { Field("activeTab",0); model.GoToMonth(2027,5); });
+            Frame("ogu-day-detail", () => { Call("OpenDay",new DateOnly(2027,5,9)); });
             return directory;
         }
         finally { ImGui.DestroyContext(context); }
@@ -97,7 +184,7 @@ internal static class NativePreview
             {
                 var command = list.CmdBuffer[ci];
                 if (command.UserCallback != null) throw new NotSupportedException("Preview does not execute native draw callbacks");
-                if (!textures.TryGetValue(command.TextureId.Handle, out var texture)) throw new NotSupportedException("Preview supports registered native font atlases only");
+                if (!textures.TryGetValue(command.TextureId.Handle, out var texture)) throw new NotSupportedException("Preview supports registered native textures only");
                 var clip = command.ClipRect;
                 var minX = Math.Clamp((int)MathF.Floor((clip.X - data.DisplayPos.X) * data.FramebufferScale.X), 0, width);
                 var minY = Math.Clamp((int)MathF.Floor((clip.Y - data.DisplayPos.Y) * data.FramebufferScale.Y), 0, height);
@@ -114,7 +201,7 @@ internal static class NativePreview
             }
         }
         WritePng(path, width, height, output);
-        File.WriteAllText(Path.ChangeExtension(path, ".txt"), $"Actual ImGui draw data: lists={data.CmdListsCount}, vertices={data.TotalVtxCount}, triangles={triangles}, fontAtlases={textures.Count}. CPU nearest-neighbor texture rasterization; no GPU, no game process.\n");
+        File.WriteAllText(Path.ChangeExtension(path, ".txt"), $"Actual ImGui draw data: lists={data.CmdListsCount}, vertices={data.TotalVtxCount}, triangles={triangles}, registeredTextures={textures.Count}. CPU nearest-neighbor texture rasterization; no GPU, no game process.\n");
     }
 
     private static void Rasterize(ImDrawVert a, ImDrawVert b, ImDrawVert c, Vector2 offset, Vector2 scale,
@@ -176,5 +263,10 @@ internal static class NativePreview
     private sealed class NoNetwork : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) => throw new InvalidOperationException("Native preview never accesses the network");
+    }
+    private sealed class FrontlineFixture(byte[] bytes) : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
+            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { RequestMessage = request, Content = new ByteArrayContent(bytes) { Headers = { ContentType = new("application/json") } } });
     }
 }

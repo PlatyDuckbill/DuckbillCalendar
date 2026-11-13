@@ -25,11 +25,19 @@ public sealed record WorkspaceCache
     public CurrentPointer? RemotePointer { get; init; }
     public DateTimeOffset? LastClientCheckedAt { get; init; }
     public string? ETag { get; init; }
+    public string? PreviousPayloadSha256 { get; init; }
+    public long PreviousContentRevision { get; init; }
+    public string? PreviousSource { get; init; }
+    public DateTimeOffset? LastRefreshAttemptAt { get; init; }
+    public DateTimeOffset? LastSuccessfulCheckAt { get; init; }
+    public int ConsecutiveFailures { get; init; }
+    public DateTimeOffset? NextRetryAt { get; init; }
+    public DateTimeOffset? RetryNotBefore { get; init; }
 }
 
 /// <summary>
 /// UI-thread facade. File/network work is serialized on a worker. Pump applies completed snapshots.
-/// Constructor reads existing local state once; Refresh never runs without explicit remote opt-in.
+/// Constructor reads existing local state once; Refresh respects the saved online-update setting.
 /// </summary>
 public sealed class CalendarWorkspace : IDisposable
 {
@@ -53,8 +61,13 @@ public sealed class CalendarWorkspace : IDisposable
     private long stateVersion;
     private DateTimeOffset? lastRefreshAttempt;
     private DateTimeOffset nextAutomatic = DateTimeOffset.MinValue;
+    private DateTimeOffset? lastSuccessfulRefresh;
     private int consecutiveFailures;
     private CancellationTokenSource? activeRemoteRequest;
+    private bool activeRemoteAutomatic;
+    private bool automaticRefreshAllowed = true;
+    private bool notificationBackupChecked;
+    private bool releaseBackupChecked;
     private DateTimeOffset remoteNotBefore = DateTimeOffset.MinValue;
 
     public LocalState State { get; private set; }
@@ -70,6 +83,41 @@ public sealed class CalendarWorkspace : IDisposable
             ? pointer.Health : null;
     public string StatusCode { get; private set; } = "Ready";
     public bool IsBusy => Volatile.Read(ref pending) != 0;
+    public bool IsRefreshing => Volatile.Read(ref refreshQueued) != 0;
+    public void SetAutomaticRefreshAllowed(bool allowed)
+    {
+        lock (queueLock)
+        {
+            automaticRefreshAllowed = allowed;
+            if (!allowed && activeRemoteAutomatic) activeRemoteRequest?.Cancel();
+        }
+    }
+    public bool RemoteRefreshFailed { get { lock (queueLock) return consecutiveFailures > 0; } }
+    public DateTimeOffset ManualRefreshAvailableAt
+    {
+        get
+        {
+            lock (queueLock)
+            {
+                var cooldown = lastRefreshAttempt?.AddMinutes(5) ?? DateTimeOffset.MinValue;
+                return remoteNotBefore > cooldown ? remoteNotBefore : cooldown;
+            }
+        }
+    }
+    public DateTimeOffset? NextAutomaticRefreshAt
+    {
+        get
+        {
+            if (!State.View.RemoteUpdatesEnabled) return null;
+            lock (queueLock)
+            {
+                var due = consecutiveFailures == 0 && lastSuccessfulRefresh is { } success
+                    ? success.AddMinutes(State.View.RemoteRefreshMinutes) : nextAutomatic;
+                var allowed = ManualRefreshAvailableAt;
+                return due > allowed ? due : allowed;
+            }
+        }
+    }
     public bool HasUnsavedChanges { get; private set; }
     public long Revision { get; private set; }
     public DateTimeOffset? LastClientCheckedAt { get; private set; }
@@ -105,6 +153,13 @@ public sealed class CalendarWorkspace : IDisposable
         Feed = State.View.ExampleMode ? example : acceptedFeed;
         RemotePointer = cache.RemotePointer;
         LastClientCheckedAt = cache.LastClientCheckedAt;
+        // Reopening the plugin must not discard the selected cadence for a verified cache.
+        lastRefreshAttempt = cache.LastRefreshAttemptAt;
+        consecutiveFailures = cache.ConsecutiveFailures;
+        nextAutomatic = cache.NextRetryAt ?? DateTimeOffset.MinValue;
+        remoteNotBefore = cache.RetryNotBefore ?? DateTimeOffset.MinValue;
+        if (ActiveHealth is not null && cache.LastSuccessfulCheckAt is { } success && success <= utcNow()) lastSuccessfulRefresh = success;
+        else if (ActiveHealth is not null && cache.LastClientCheckedAt <= utcNow()) lastSuccessfulRefresh = cache.LastClientCheckedAt;
         if (stateStatus is "BackupRecovered" or "CorruptPreserved") StatusCode = "State" + stateStatus;
         else if (cacheStatus is "BackupRecovered" or "CorruptPreserved") StatusCode = "Cache" + cacheStatus;
         else if (cache.PayloadSha256 is not null && workingFeed.ContentRevision == 0) StatusCode = "CachePayloadUnavailable";
@@ -117,6 +172,9 @@ public sealed class CalendarWorkspace : IDisposable
         value.SchemaVersion == 1 && value.Source is "none" or "file" or "remote" &&
         value.PublicationSequence >= 0 && value.ActiveContentRevision >= 0 &&
         value.HighestAcceptedRemoteRevision >= 0 && value.HighestAdvertisedRevision >= value.HighestAcceptedRemoteRevision &&
+        value.ConsecutiveFailures is >= 0 and <= 1000 && (value.ConsecutiveFailures == 0 || value.NextRetryAt is not null) &&
+        (value.PreviousPayloadSha256 is null ? value.PreviousContentRevision == 0 && value.PreviousSource is null
+            : IsSha(value.PreviousPayloadSha256) && value.PreviousContentRevision > 0 && value.PreviousSource is "file" or "remote") &&
         (value.PayloadSha256 is null ? value.ActiveContentRevision == 0 : IsSha(value.PayloadSha256) && value.ActiveContentRevision > 0) &&
         (value.HighestAdvertisedRevision == 0 ? value.HighestAdvertisedHash is null : IsSha(value.HighestAdvertisedHash)) &&
         (value.Source != "remote" || value.ActiveContentRevision <= value.HighestAcceptedRemoteRevision) &&
@@ -147,14 +205,30 @@ public sealed class CalendarWorkspace : IDisposable
             return;
         }
         catch (Exception ex) when (ex is IOException or InvalidDataException or JsonException or UnauthorizedAccessException) { }
+        // A dedicated previous payload survives health-only polls and retry metadata writes.
+        // active.json.bak alone eventually points to the same payload as active.json.
+        if (cache.PreviousPayloadSha256 is { } previousSha)
+        {
+            try
+            {
+                var recovered = LoadCachedPayload(previousSha);
+                if (recovered.ContentRevision != cache.PreviousContentRevision) throw new InvalidDataException("PreviousCacheRevisionMismatch");
+                workingFeed = recovered;
+                cache = cache with { PayloadSha256 = previousSha, ActiveContentRevision = recovered.ContentRevision, Source = cache.PreviousSource! };
+                StatusCode = "CachePayloadRecovered";
+                return;
+            }
+            catch (Exception ex) when (ex is IOException or InvalidDataException or JsonException or UnauthorizedAccessException) { }
+        }
         // A previous accepted payload can be displayed while retaining the newer remote high-water.
         var backup = store.Load<WorkspaceCache>(Path.Combine("cache", "active.json.bak"), ValidCache, out _);
         if (backup?.PayloadSha256 is not { } previous) return;
         try
         {
-            workingFeed = LoadCachedPayload(previous);
-            if (workingFeed.ContentRevision != backup.ActiveContentRevision) throw new InvalidDataException("BackupCacheRevisionMismatch");
-            cache = cache with { PayloadSha256 = previous, ActiveContentRevision = workingFeed.ContentRevision, Source = backup.Source };
+            var recovered = LoadCachedPayload(previous);
+            if (recovered.ContentRevision != backup.ActiveContentRevision) throw new InvalidDataException("BackupCacheRevisionMismatch");
+            workingFeed = recovered;
+            cache = cache with { PayloadSha256 = previous, ActiveContentRevision = recovered.ContentRevision, Source = backup.Source };
             StatusCode = "CachePayloadRecovered";
         }
         catch (Exception ex) when (ex is IOException or InvalidDataException or JsonException or UnauthorizedAccessException) { }
@@ -177,7 +251,11 @@ public sealed class CalendarWorkspace : IDisposable
         next = next with
         {
             Profiles = next.Profiles.ToArray(), Entries = next.Entries.Select(e => e with { When = e.When with { EvidenceIds = e.When.EvidenceIds.ToArray() } }).ToArray(),
-            Alerts = next.Alerts.ToArray(), SentAlertKeys = next.SentAlertKeys.ToArray()
+            Alerts = next.Alerts.ToArray(), SentAlertKeys = next.SentAlertKeys.ToArray(),
+            View = next.View with { UserCategories = next.View.UserCategories.ToArray(), HiddenUserCategoryIds = next.View.HiddenUserCategoryIds.ToArray() },
+            Notifications = next.Notifications with { Categories = next.Notifications.Categories.Select(r => r with { StartMinutes = r.StartMinutes.ToArray(), EndMinutes = r.EndMinutes.ToArray() }).ToArray(),
+                Schedules = next.Notifications.Schedules.Select(r => r with { StartMinutes = r.StartMinutes.ToArray(), EndMinutes = r.EndMinutes.ToArray() }).ToArray() },
+            NotificationState = next.NotificationState with { Inbox = next.NotificationState.Inbox.ToArray(), Receipts = next.NotificationState.Receipts.ToArray(), SeenPublicIds = next.NotificationState.SeenPublicIds.ToArray() }
         };
         var revokedRemotePermission = State.View.RemoteUpdatesEnabled && !next.View.RemoteUpdatesEnabled;
         State = next;
@@ -188,10 +266,54 @@ public sealed class CalendarWorkspace : IDisposable
         Revision++;
         Enqueue(async ct =>
         {
+            await PreservePreNotificationState(ct);
+            await PreserveBeforeReleaseState(ct);
             await store.SaveAsync("state.json", next, ct);
             completions.Enqueue(() => { if (version == stateVersion) HasUnsavedChanges = false; });
             return "StateSaved";
         }, "SaveFailed", preserveOnDispose: true);
+    }
+    private async Task PreservePreNotificationState(CancellationToken ct)
+    {
+        if (notificationBackupChecked) return;
+        const string backupName = "state.pre-notifications-v1.json";
+        var path = store.Resolve("state.json");
+        if (!File.Exists(store.Resolve(backupName)) && File.Exists(path))
+        {
+            JsonElement? legacySnapshot = null;
+            try
+            {
+                var bytes = AtomicJsonStore.ReadBounded(path);
+                using var document = JsonDocument.Parse(bytes.AsSpan().StartsWith(new byte[] { 0xef, 0xbb, 0xbf }) ? bytes.AsMemory(3) : bytes);
+                if (document.RootElement.ValueKind == JsonValueKind.Object && !document.RootElement.TryGetProperty("notifications", out _) && FeedValidator.ValidateLocal(CalendarJson.Parse<LocalState>(bytes)).Count == 0)
+                    legacySnapshot = document.RootElement.Clone();
+            }
+            catch (Exception ex) when (ex is JsonException or InvalidDataException) { }
+            if (legacySnapshot is { } snapshot) await store.SaveAsync(backupName, snapshot, ct);
+        }
+        notificationBackupChecked = true;
+    }
+    private async Task PreserveBeforeReleaseState(CancellationToken ct)
+    {
+        if (releaseBackupChecked) return;
+        const string backupName = "state.before-v032.json";
+        var path = store.Resolve("state.json");
+        if (!File.Exists(store.Resolve(backupName)) && File.Exists(path))
+        {
+            JsonElement? snapshot = null;
+            try
+            {
+                var bytes = AtomicJsonStore.ReadBounded(path);
+                if (FeedValidator.ValidateLocal(CalendarJson.Parse<LocalState>(bytes)).Count == 0)
+                {
+                    using var document = JsonDocument.Parse(bytes.AsSpan().StartsWith(new byte[] {0xef,0xbb,0xbf}) ? bytes.AsMemory(3) : bytes);
+                    snapshot = document.RootElement.Clone();
+                }
+            }
+            catch (Exception ex) when (ex is JsonException or InvalidDataException) { }
+            if (snapshot is { } value) await store.SaveAsync(backupName,value,ct);
+        }
+        releaseBackupChecked = true;
     }
 
     public void LoadExample(bool enabled)
@@ -212,10 +334,11 @@ public sealed class CalendarWorkspace : IDisposable
             if (feed.IsExample) throw new InvalidDataException("UseBundledExampleMode");
             if (feed.ContentRevision < 1) throw new InvalidDataException("ImportRequiresPublishedRevision");
             var sha = await store.PutContentAsync(bytes, ct);
-            var next = cache with { PayloadSha256 = sha, ActiveContentRevision = feed.ContentRevision, Source = "file" };
+            var next = WithPreviousPayload(cache, sha) with { PayloadSha256 = sha, ActiveContentRevision = feed.ContentRevision, Source = "file" };
             await store.SaveAsync(Path.Combine("cache", "active.json"), next, ct);
             cache = next;
             workingFeed = feed;
+            PruneContentCache();
             return "FileImported";
         }, "ImportFailed");
     }
@@ -230,14 +353,16 @@ public sealed class CalendarWorkspace : IDisposable
         CancellationTokenSource requestCancellation;
         lock (queueLock)
         {
+            if (!force && !automaticRefreshAllowed) { StatusCode = "AutomaticDeferred"; return; }
             var now = utcNow();
             if (now < remoteNotBefore) { StatusCode = "RetryAfter"; return; }
             if (lastRefreshAttempt is { } previous && now - previous < TimeSpan.FromMinutes(5)) { StatusCode = "RefreshCooldown"; return; }
-            if (!force && now < nextAutomatic) return;
+            if (!force && NextAutomaticRefreshAt is { } due && now < due) return;
             if (Interlocked.CompareExchange(ref refreshQueued, 1, 0) != 0) return;
             lastRefreshAttempt = now;
             requestCancellation = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token);
             activeRemoteRequest = requestCancellation;
+            activeRemoteAutomatic = !force;
         }
         Enqueue(async ct =>
         {
@@ -245,19 +370,24 @@ public sealed class CalendarWorkspace : IDisposable
             {
                 using var timeout = CancellationTokenSource.CreateLinkedTokenSource(ct, requestCancellation.Token);
                 timeout.CancelAfter(deadline);
+                timeout.Token.ThrowIfCancellationRequested();
                 var result = await RefreshCore(uri, timeout.Token);
                 lock (queueLock)
                 {
                     consecutiveFailures = 0;
-                    nextAutomatic = utcNow().AddHours(1).AddMinutes(Random.Shared.NextDouble() * 10);
+                    lastSuccessfulRefresh = utcNow();
                 }
                 return result;
+            }
+            catch (OperationCanceledException) when (requestCancellation.IsCancellationRequested && !lifetime.IsCancellationRequested)
+            {
+                return !force ? "AutomaticDeferred" : "RemoteCancelled";
             }
             catch (Exception ex)
             {
                 lock (queueLock)
                 {
-                    consecutiveFailures++;
+                    consecutiveFailures = Math.Min(consecutiveFailures + 1, 1000);
                     var now = utcNow();
                     var delay = consecutiveFailures == 1 ? TimeSpan.FromMinutes(15) : consecutiveFailures == 2 ? TimeSpan.FromHours(1) : TimeSpan.FromHours(6);
                     if (ex is FeedHttpException { Status: 429, RetryAfter: { } retry } && retry > TimeSpan.Zero)
@@ -267,13 +397,17 @@ public sealed class CalendarWorkspace : IDisposable
                     }
                     nextAutomatic = now.Add(delay);
                 }
+                var failed = cache with { LastRefreshAttemptAt = lastRefreshAttempt, ConsecutiveFailures = consecutiveFailures,
+                    NextRetryAt = nextAutomatic, RetryNotBefore = remoteNotBefore == DateTimeOffset.MinValue ? null : remoteNotBefore };
+                try { await store.SaveAsync(Path.Combine("cache", "active.json"), failed, ct); cache = failed; }
+                catch (Exception saveError) when (saveError is IOException or UnauthorizedAccessException or OperationCanceledException) { /* Runtime backoff still applies when cache persistence is unavailable. */ }
                 throw;
             }
             finally
             {
                 lock (queueLock)
                 {
-                    if (ReferenceEquals(activeRemoteRequest, requestCancellation)) activeRemoteRequest = null;
+                    if (ReferenceEquals(activeRemoteRequest, requestCancellation)) { activeRemoteRequest = null; activeRemoteAutomatic = false; }
                     requestCancellation.Dispose();
                 }
                 Interlocked.Exchange(ref refreshQueued, 0);
@@ -296,13 +430,16 @@ public sealed class CalendarWorkspace : IDisposable
         {
             PublicationSequence = pointer.PublicationSequence, PointerDigest = digest, RemotePointer = pointer,
             HighestAdvertisedRevision = pointer.Content.Revision, HighestAdvertisedHash = pointer.Content.Sha256,
-            LastClientCheckedAt = utcNow(), ETag = response.NotModified ? response.ETag ?? cache.ETag : response.ETag
+            LastClientCheckedAt = utcNow(), LastRefreshAttemptAt = lastRefreshAttempt,
+            ETag = response.NotModified ? response.ETag ?? cache.ETag : response.ETag
         };
+        var unchanged = cache.Source == "remote" && cache.ActiveContentRevision == pointer.Content.Revision &&
+            cache.PayloadSha256?.Equals(pointer.Content.Sha256, StringComparison.OrdinalIgnoreCase) == true && workingFeed.ContentRevision == pointer.Content.Revision;
+        if (unchanged) observed = SuccessfulCheck(observed);
         // Commit advertised health independently. It does not claim the new payload was applied.
         await store.SaveAsync(Path.Combine("cache", "active.json"), observed, ct);
         cache = observed;
-        if (cache.Source == "remote" && cache.ActiveContentRevision == pointer.Content.Revision && cache.PayloadSha256?.Equals(pointer.Content.Sha256, StringComparison.OrdinalIgnoreCase) == true && workingFeed.ContentRevision == pointer.Content.Revision)
-            return response.NotModified ? "RemoteNotModified" : "RemoteUnchanged";
+        if (unchanged) { PruneContentCache(); return response.NotModified ? "RemoteNotModified" : "RemoteUnchanged"; }
         byte[] bytes;
         var local = store.Resolve(Path.Combine("cache", "content", pointer.Content.Sha256.ToLowerInvariant() + ".json"));
         byte[]? cachedBytes = null;
@@ -316,17 +453,30 @@ public sealed class CalendarWorkspace : IDisposable
             catch (Exception ex) when (ex is IOException or InvalidDataException or UnauthorizedAccessException) { }
         }
         bytes = cachedBytes ?? (await transport.GetAsync(payloadUri, AtomicJsonStore.MaximumFileBytes, null, ct)).Bytes ?? throw new InvalidDataException("UnexpectedNotModified");
-        if (bytes.Length != pointer.Content.Bytes) throw new InvalidDataException("PayloadLengthMismatch");
-        if (!Hash(bytes).Equals(pointer.Content.Sha256, StringComparison.OrdinalIgnoreCase)) throw new InvalidDataException("PayloadHashMismatch");
-        var feed = CalendarJson.Parse<FeedDocument>(bytes);
-        ThrowErrors(FeedValidator.Validate(feed, false));
-        if (feed.ContentRevision != pointer.Content.Revision || feed.SchemaVersion != pointer.Content.SchemaVersion || feed.Region != pointer.Content.Region) throw new InvalidDataException("PayloadReferenceMismatch");
+        var feed = FeedPublication.ReadPayload(pointer, bytes);
         var sha = await store.PutContentAsync(bytes, ct);
-        var accepted = cache with { PayloadSha256 = sha, ActiveContentRevision = feed.ContentRevision, HighestAcceptedRemoteRevision = feed.ContentRevision, Source = "remote" };
+        var accepted = SuccessfulCheck(WithPreviousPayload(cache, sha)) with { PayloadSha256 = sha, ActiveContentRevision = feed.ContentRevision, HighestAcceptedRemoteRevision = feed.ContentRevision, Source = "remote" };
         await store.SaveAsync(Path.Combine("cache", "active.json"), accepted, ct);
         cache = accepted;
         workingFeed = feed;
+        PruneContentCache();
         return "RemoteUpdated";
+    }
+    private WorkspaceCache SuccessfulCheck(WorkspaceCache value) => value with
+    {
+        LastSuccessfulCheckAt = utcNow(), ConsecutiveFailures = 0, NextRetryAt = null, RetryNotBefore = null
+    };
+    private static WorkspaceCache WithPreviousPayload(WorkspaceCache value, string incomingHash) => value.PayloadSha256 is not null && (value.Source is "remote" or "file") && !string.Equals(value.PayloadSha256, incomingHash, StringComparison.OrdinalIgnoreCase)
+        ? value with { PreviousPayloadSha256 = value.PayloadSha256, PreviousContentRevision = value.ActiveContentRevision, PreviousSource = value.Source }
+        : value;
+    private void PruneContentCache()
+    {
+        try
+        {
+            var backup = store.Load<WorkspaceCache>(Path.Combine("cache", "active.json.bak"), ValidCache, out _);
+            store.PruneContent([cache.PayloadSha256, cache.PreviousPayloadSha256, cache.HighestAdvertisedHash, backup?.PayloadSha256, backup?.PreviousPayloadSha256]);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { /* Cache cleanup must never invalidate a verified update. */ }
     }
 
     private void Enqueue(Func<CancellationToken, Task<string>> operation, string failureCode, bool preserveOnDispose = false)

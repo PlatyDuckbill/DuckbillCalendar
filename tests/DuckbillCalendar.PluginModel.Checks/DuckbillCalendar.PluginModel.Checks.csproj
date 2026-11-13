@@ -4,5 +4,7 @@
     <ProjectReference Include="../../src/DuckbillCalendar.Core/DuckbillCalendar.Core.csproj" />
     <ProjectReference Include="../../src/DuckbillCalendar.Infrastructure/DuckbillCalendar.Infrastructure.csproj" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/CalendarModel.cs" Link="CalendarModel.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/CalendarModel.Notifications.cs" Link="CalendarModel.Notifications.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/CalendarModel.WeeklySchedules.cs" Link="CalendarModel.WeeklySchedules.cs" />
   </ItemGroup>
 </Project>

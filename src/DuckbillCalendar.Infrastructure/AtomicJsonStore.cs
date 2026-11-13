@@ -124,4 +124,20 @@ public sealed class AtomicJsonStore(string directory)
         else await WriteAsync(name, bytes, false, cancellationToken);
         return sha;
     }
+    public int PruneContent(IEnumerable<string?> retainedHashes)
+    {
+        var retained = retainedHashes.Where(h => h is { Length: 64 }).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var contentRoot = Resolve(Path.Combine("cache", "content"));
+        if (!Directory.Exists(contentRoot)) return 0;
+        var removed = 0;
+        foreach (var file in Directory.EnumerateFiles(contentRoot, "*.json", SearchOption.TopDirectoryOnly))
+        {
+            var hash = Path.GetFileNameWithoutExtension(file);
+            if (hash.Length != 64 || hash.Any(c => !Uri.IsHexDigit(c)) || retained.Contains(hash)) continue;
+            var resolved = Resolve(Path.Combine("cache", "content", Path.GetFileName(file)));
+            try { File.Delete(resolved); removed++; }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
+        }
+        return removed;
+    }
 }

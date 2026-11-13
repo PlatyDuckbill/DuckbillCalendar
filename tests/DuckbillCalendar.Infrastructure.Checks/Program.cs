@@ -7,6 +7,8 @@ using DuckbillCalendar.Core;
 using DuckbillCalendar.Infrastructure;
 
 if (args.SequenceEqual(new[] { "--live-smoke" })) { await LiveFeedSmoke.Run(); return; }
+if (args.SequenceEqual(new[] { "--frontline-live" })) { await FrontlineChecks.Live(); return; }
+if (args.Length == 2 && args[0] == "--publication-smoke") { await PublicationSmoke.Run(args[1]); return; }
 
 var checks = new List<string>();
 void Check(bool value, string label)
@@ -132,8 +134,10 @@ var retryHandler = new ScriptHandler((request, _) =>
 var retryArea = Area("retry");
 using (var workspace = Workspace(retryArea, retryHandler))
 {
+    Check(workspace.State.View.RemoteUpdatesEnabled, "Fresh workspace enables schedule updates by default");
+    workspace.UpdateState(workspace.State with { View = workspace.State.View with { RemoteUpdatesEnabled = false } }); await Drain(workspace);
     workspace.Refresh(true); await Drain(workspace);
-    Check(retryHandler.Calls == 0 && workspace.StatusCode == "RemoteDisabled", "No opt-in means no network request");
+    Check(retryHandler.Calls == 0 && workspace.StatusCode == "RemoteDisabled", "Turning schedule updates off prevents requests");
     Enable(workspace); await Drain(workspace);
     workspace.Refresh(true); await Drain(workspace);
     Check(workspace.Feed.ContentRevision == 0 && workspace.RemotePointer?.Content.Revision == 1 && workspace.StatusCode == "Http503", "Payload failure keeps active content and accepts advertised pointer separately");
@@ -151,6 +155,99 @@ using (var workspace = Workspace(retryArea, retryHandler))
 var noRequest = new ScriptHandler((_, _) => throw new InvalidOperationException("Unexpected HTTP"));
 using (var restored = Workspace(retryArea, noRequest))
     Check(restored.Feed.ContentRevision == 1 && noRequest.Calls == 0, "Restart restores accepted cache without making HTTP request");
+
+// Exercise the real scheduler with a clock, rather than waiting on wall time.
+foreach (var interval in new[] { 30, 60, 180, 360, 720 })
+{
+    var area = Area("cadence-" + interval);
+    var handler = new ScriptHandler((request, _) => Task.FromResult(request.RequestUri!.AbsolutePath.EndsWith("current.json", StringComparison.Ordinal)
+        ? Response(pointer1, "\"cadence\"") : Response(payload1)));
+    var cadenceStarted = now;
+    using (var scheduled = Workspace(area, handler))
+    {
+        Enable(scheduled);
+        scheduled.UpdateState(scheduled.State with { View = scheduled.State.View with { RemoteRefreshMinutes = interval } });
+        await Drain(scheduled);
+        scheduled.Refresh(); await Drain(scheduled);
+        Check(handler.Calls == 2 && scheduled.NextAutomaticRefreshAt == cadenceStarted.AddMinutes(interval), $"{interval}-minute cadence starts after a verified refresh");
+        now = cadenceStarted.AddMinutes(interval).AddSeconds(-1); scheduled.Refresh(); await Drain(scheduled);
+        Check(handler.Calls == 2, $"{interval}-minute cadence makes no early request");
+        now = cadenceStarted.AddMinutes(interval); scheduled.Refresh(); await Drain(scheduled);
+        Check(handler.Calls == 3 && scheduled.NextAutomaticRefreshAt == now.AddMinutes(interval), $"{interval}-minute cadence checks at its deadline and resets after unchanged data");
+    }
+    using var restarted = Workspace(area, noRequest);
+    Check(restarted.State.View.RemoteRefreshMinutes == interval && restarted.NextAutomaticRefreshAt == now.AddMinutes(interval), $"{interval}-minute preference and verified due time survive restart");
+}
+var cadenceHandler = new ScriptHandler((request, _) => Task.FromResult(request.RequestUri!.AbsolutePath.EndsWith("current.json", StringComparison.Ordinal)
+    ? Response(pointer1) : Response(payload1)));
+using (var scheduled = Workspace(Area("cadence-change"), cadenceHandler))
+{
+    Enable(scheduled); await Drain(scheduled); scheduled.Refresh(); await Drain(scheduled);
+    var success = now;
+    scheduled.UpdateState(scheduled.State with { View = scheduled.State.View with { RemoteRefreshMinutes = 360 } }); await Drain(scheduled);
+    Check(scheduled.NextAutomaticRefreshAt == success.AddHours(6), "Lengthening cadence postpones the next check from the last success");
+    now = success.AddMinutes(40);
+    scheduled.UpdateState(scheduled.State with { View = scheduled.State.View with { RemoteRefreshMinutes = 30 } }); await Drain(scheduled);
+    scheduled.Refresh(); await Drain(scheduled);
+    Check(cadenceHandler.Calls == 3 && scheduled.NextAutomaticRefreshAt == now.AddMinutes(30), "Shortening an overdue cadence checks immediately instead of waiting for the old deadline");
+    scheduled.UpdateState(scheduled.State with { View = scheduled.State.View with { RemoteUpdatesEnabled = false } }); await Drain(scheduled);
+    now = now.AddHours(12); scheduled.Refresh(); await Drain(scheduled);
+    Check(scheduled.NextAutomaticRefreshAt is null && cadenceHandler.Calls == 3, "Disabling automatic updates removes the due time and makes zero requests");
+}
+foreach (var code in new[] { HttpStatusCode.ServiceUnavailable, HttpStatusCode.TooManyRequests })
+{
+    var rateArea = Area("restart-backoff-" + (int)code);
+    var persistedRetryHandler = new ScriptHandler((_, _) =>
+    {
+        var response = new HttpResponseMessage(code);
+        if (code == HttpStatusCode.TooManyRequests) response.Headers.RetryAfter = new RetryConditionHeaderValue(TimeSpan.FromHours(2));
+        return Task.FromResult(response);
+    });
+    DateTimeOffset expectedRetry;
+    using (var limited = Workspace(rateArea, persistedRetryHandler))
+    {
+        Enable(limited); await Drain(limited); limited.Refresh(); await Drain(limited);
+        expectedRetry = limited.NextAutomaticRefreshAt!.Value;
+    }
+    using (var limited = Workspace(rateArea, persistedRetryHandler))
+    {
+        Check(limited.RemoteRefreshFailed && limited.NextAutomaticRefreshAt == expectedRetry, $"HTTP {(int)code} retry deadline survives plugin restart");
+        limited.Refresh(); await Drain(limited);
+        Check(persistedRetryHandler.Calls == 1, $"Restart cannot bypass automatic HTTP {(int)code} failure backoff");
+        if (code == HttpStatusCode.TooManyRequests)
+        {
+            limited.Refresh(true); await Drain(limited);
+            Check(persistedRetryHandler.Calls == 1 && limited.StatusCode == "RetryAfter", "Restart cannot bypass a server Retry-After with manual refresh");
+        }
+    }
+}
+var failureMode = 0;
+var backoffHandler = new ScriptHandler((request, _) =>
+{
+    if (failureMode == 0) return Task.FromResult(Response(request.RequestUri!.AbsolutePath.EndsWith("current.json", StringComparison.Ordinal) ? pointer1 : payload1));
+    var response = new HttpResponseMessage(failureMode == 4 ? HttpStatusCode.TooManyRequests : HttpStatusCode.ServiceUnavailable);
+    if (failureMode == 4) response.Headers.RetryAfter = new RetryConditionHeaderValue(TimeSpan.FromHours(8));
+    return Task.FromResult(response);
+});
+using (var scheduled = Workspace(Area("cadence-failure"), backoffHandler))
+{
+    Enable(scheduled); await Drain(scheduled); scheduled.Refresh(); await Drain(scheduled);
+    foreach (var (mode, retryMinutes) in new[] { (1, 15), (2, 60), (3, 360), (4, 480) })
+    {
+        now = scheduled.NextAutomaticRefreshAt!.Value;
+        failureMode = mode; scheduled.Refresh(); await Drain(scheduled);
+        Check(scheduled.RemoteRefreshFailed && scheduled.NextAutomaticRefreshAt == now.AddMinutes(retryMinutes) && scheduled.Feed.ContentRevision == 1,
+            $"Failure {mode} preserves displayed data and backs off for {retryMinutes} minutes");
+        scheduled.UpdateState(scheduled.State with { View = scheduled.State.View with { RemoteRefreshMinutes = mode % 2 == 0 ? 30 : 720 } }); await Drain(scheduled);
+        var calls = backoffHandler.Calls;
+        now = now.AddMinutes(6); scheduled.Refresh(); await Drain(scheduled);
+        Check(backoffHandler.Calls == calls, $"Changing the user cadence does not bypass failure {mode} backoff");
+    }
+    var blockedCalls = backoffHandler.Calls; scheduled.Refresh(force: true); await Drain(scheduled);
+    Check(backoffHandler.Calls == blockedCalls && scheduled.StatusCode == "RetryAfter", "Manual refresh respects the server Retry-After period");
+    now = scheduled.NextAutomaticRefreshAt!.Value; failureMode = 0; scheduled.Refresh(); await Drain(scheduled);
+    Check(!scheduled.RemoteRefreshFailed && scheduled.NextAutomaticRefreshAt == now.AddMinutes(scheduled.State.View.RemoteRefreshMinutes), "A recovered refresh returns to the selected cadence");
+}
 
 var conflictMode = 0;
 var conflictHandler = new ScriptHandler((request, _) =>
@@ -257,10 +354,59 @@ using (var workspace = Workspace(recoveryArea, recoveryHandler))
     Check(workspace.Feed.ContentRevision == 1 && workspace.RemotePointer?.Content.Revision == 2, "Corrupt newer cache falls back to previous content while retaining latest advertisement");
     var persisted = CalendarJson.Parse<WorkspaceCache>(await File.ReadAllBytesAsync(Path.Combine(recoveryArea, "cache", "active.json")));
     Check(persisted.HighestAcceptedRemoteRevision == 2 && persisted.HighestAdvertisedRevision == 2, "Cache fallback does not lower persisted replay high-waters");
+    now = now.AddMinutes(6); // Restart preserves the manual request cooldown as well as replay state.
     workspace.Refresh(true); await Drain(workspace);
     Check(workspace.Feed.ContentRevision == 2 && workspace.StatusCode == "RemoteUpdated", "Same advertised revision downloads and repairs oversized corrupt cache");
 }
 Check(Directory.EnumerateFiles(root, "*.tmp-*", SearchOption.AllDirectories).Count() == 0, "All isolated atomic writes leave no temporary files");
+
+var historyArea = Area("bounded-history");
+var history = Enumerable.Range(1, 8).ToDictionary(revision => revision, revision =>
+{
+    var version = Feed(revision); var bytes = Json(version);
+    return (Payload: bytes, Pointer: Json(Pointer(version, revision, bytes)));
+});
+var historyRevision = 1;
+var historyHandler = new ScriptHandler((request, _) => Task.FromResult(Response(request.RequestUri!.AbsolutePath.EndsWith("current.json", StringComparison.Ordinal)
+    ? history[historyRevision].Pointer : history[historyRevision].Payload)));
+using (var workspace = Workspace(historyArea, historyHandler))
+{
+    Enable(workspace); await Drain(workspace);
+    for (historyRevision = 1; historyRevision <= 8; historyRevision++)
+    {
+        now = now.AddMinutes(6); workspace.Refresh(true); await Drain(workspace);
+        Check(workspace.Feed.ContentRevision == historyRevision && Directory.EnumerateFiles(Path.Combine(historyArea, "cache/content"), "*.json").Count() <= 3,
+            "Normal revision updates keep a bounded active/previous/recovery cache: " + historyRevision);
+    }
+    historyRevision = 8;
+    for (var poll = 0; poll < 3; poll++) { now = now.AddMinutes(6); workspace.Refresh(true); await Drain(workspace); }
+    Check(Directory.EnumerateFiles(Path.Combine(historyArea, "cache/content"), "*.json").Count() == 2 && File.Exists(Path.Combine(historyArea, "cache/content", Hash(history[7].Payload) + ".json")),
+        "Repeated unchanged polls preserve the dedicated prior payload while pruning older revisions");
+}
+await File.WriteAllTextAsync(Path.Combine(historyArea, "cache/content", Hash(history[8].Payload) + ".json"), "broken newest data");
+now = now.AddMinutes(6);
+using (var workspace = Workspace(historyArea, historyHandler))
+{
+    Check(workspace.Feed.ContentRevision == 7 && workspace.RemotePointer?.Content.Revision == 8 && workspace.NextAutomaticRefreshAt <= now,
+        "Newest corruption after repeated polls still recovers prior data and immediately permits repair without losing replay watermarks");
+    workspace.Refresh(); await Drain(workspace);
+    Check(workspace.Feed.ContentRevision == 8, "Automatic repair restores a corrupt active cache from its immutable remote payload");
+}
+var unrelatedCacheFile = Path.Combine(historyArea, "cache/content", "notes.json");
+await File.WriteAllTextAsync(unrelatedCacheFile, "diagnostic data");
+new AtomicJsonStore(historyArea).PruneContent([Hash(history[8].Payload)]);
+Check(File.Exists(unrelatedCacheFile), "Content cleanup only touches managed SHA-named cache files");
+
+// Recovery is transactional: an invalid backup must not leak a partly assigned feed.
+var invalidRecoveryArea = Area("invalid-backup-recovery");
+var invalidRecoveryStore = new AtomicJsonStore(invalidRecoveryArea);
+var cachedSha = await invalidRecoveryStore.PutContentAsync(payload1, default);
+var inconsistentBackup = new WorkspaceCache { Source = "file", PayloadSha256 = cachedSha, ActiveContentRevision = 99 };
+await invalidRecoveryStore.SaveAsync("cache/active.json", inconsistentBackup);
+var missingPrimary = inconsistentBackup with { PayloadSha256 = new string('b', 64), ActiveContentRevision = 100 };
+await invalidRecoveryStore.SaveAsync("cache/active.json", missingPrimary);
+using (var recovered = Workspace(invalidRecoveryArea, noRequest))
+    Check(recovered.Feed.ContentRevision == 0, "An inconsistent backup cannot leak its payload into the active view after recovery rejection");
 
 // A reviewed bundled snapshot makes first-run data useful without manufacturing
 // remote coverage or overriding an explicitly imported/accepted payload.
@@ -292,6 +438,9 @@ await Throws<InvalidDataException>(() => Task.Run(() =>
 }), "Production bundle rejects example feed");
 
 checks.AddRange(await LocalAlertChecks.Run(root, example));
+await FrontlineChecks.Run(Check, root);
+await ActivityRefreshChecks.Run(Check, root, example);
+await NotificationCoordinatorChecks.Run(Check, root, example);
 Console.WriteLine($"PASS: {checks.Count} Infrastructure checks; fake HTTP only; artifacts={root}");
 
 sealed class ScriptHandler(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> script) : HttpMessageHandler

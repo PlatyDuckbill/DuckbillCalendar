@@ -1,33 +1,23 @@
 $ErrorActionPreference = 'Stop'
 $calendarRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$resourceDirectory = Join-Path $calendarRoot 'src/DuckbillCalendar.Plugin/Localization'
-function Read-Resource([string]$File) {
-    [xml]$document = Get-Content -LiteralPath $File -Raw
-    $values = @{}
-    foreach ($entry in $document.root.data) {
-        if ($values.ContainsKey([string]$entry.name)) { throw "Duplicate resource key: $($entry.name)" }
-        $values.Add([string]$entry.name,[string]$entry.value)
-    }
-    return $values
+[xml]$document = Get-Content -LiteralPath (Join-Path $calendarRoot 'src/DuckbillCalendar.Plugin/Localization/Strings.resx') -Raw
+$values = @{}
+foreach ($entry in $document.root.data) {
+    if ($values.ContainsKey([string]$entry.name)) { throw "Duplicate resource key: $($entry.name)" }
+    $values.Add([string]$entry.name, [string]$entry.value)
+    [void][Text.CompositeFormat]::Parse([string]$entry.value)
 }
-$english = Read-Resource (Join-Path $resourceDirectory 'Strings.resx')
-$korean = Read-Resource (Join-Path $resourceDirectory 'Strings.ko.resx')
-foreach ($key in $english.Keys) {
-    if (-not $korean.ContainsKey($key)) { throw "Missing Korean resource: $key" }
-    $first = [Text.CompositeFormat]::Parse($english[$key])
-    $second = [Text.CompositeFormat]::Parse($korean[$key])
-    if ($first.MinimumArgumentCount -ne $second.MinimumArgumentCount) { throw "Resource argument mismatch: $key" }
-    $enArguments = @([regex]::Matches($english[$key],'(?<!\{)\{(\d+)(?:[:,][^}]*)?\}(?!\})') | ForEach-Object {$_.Groups[1].Value} | Sort-Object -Unique)
-    $koArguments = @([regex]::Matches($korean[$key],'(?<!\{)\{(\d+)(?:[:,][^}]*)?\}(?!\})') | ForEach-Object {$_.Groups[1].Value} | Sort-Object -Unique)
-    if (($enArguments -join ',') -ne ($koArguments -join ',')) { throw "Resource placeholder mismatch: $key" }
-}
-foreach ($key in $korean.Keys) { if (-not $english.ContainsKey($key)) { throw "Missing fallback resource: $key" } }
 $sourceFiles = Get-ChildItem -LiteralPath (Join-Path $calendarRoot 'src/DuckbillCalendar.Plugin') -Recurse -Filter '*.cs' -File | Where-Object {$_.FullName -notmatch '[\\/](obj|bin)[\\/]'}
 foreach ($file in $sourceFiles) {
     $body = Get-Content -LiteralPath $file.FullName -Raw
     foreach ($call in [regex]::Matches($body,'UiText\.Get\(\s*"([A-Za-z][A-Za-z0-9]+)"')) {
         $key = $call.Groups[1].Value
-        if (-not $english.ContainsKey($key)) { throw "Missing literal UI key: $key in $($file.Name)" }
+        if (-not $values.ContainsKey($key)) { throw "Missing Korean resource: $key in $($file.Name)" }
     }
 }
-Write-Host "PASS: $($english.Count) Korean/English resource pairs, composite formats and literal UI lookups."
+$duckbillFixture = Get-Content -LiteralPath (Join-Path $calendarRoot 'tests/DuckbillCalendar.ImGui.Checks/Fixtures/bitty-duckbill.json') -Raw | ConvertFrom-Json
+$duckbillPng = Join-Path $calendarRoot 'src/DuckbillCalendar.Plugin/Assets/bitty-duckbill-cutout.png'
+$duckbillRgba = Join-Path $calendarRoot 'tests/DuckbillCalendar.ImGui.Checks/Fixtures/bitty-duckbill.rgba'
+if ((Get-FileHash -LiteralPath $duckbillPng -Algorithm SHA256).Hash.ToLowerInvariant() -ne $duckbillFixture.pngSha256 -or
+    (Get-FileHash -LiteralPath $duckbillRgba -Algorithm SHA256).Hash.ToLowerInvariant() -ne $duckbillFixture.rgbaSha256) { throw 'Ogu Day asset and native preview fixture differ' }
+Write-Host "PASS: $($values.Count) Korean resource keys, composite formats, UI lookups and Ogu Day asset hashes."

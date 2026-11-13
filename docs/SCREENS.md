@@ -1,3 +1,5 @@
+> 0.2 화면은 [10회 재설계 기록](design/REDESIGN-10-LOOPS.md)이 우선합니다. 아래 내용은 이전 설계 기록입니다.
+
 # 화면 구성과 동작
 
 > 2026-11-12 실제 구현: [현재 상태](STATUS.md), [전체96건 소스](development/ALL-SOURCES.md), [화면 개편](development/SCHEDULE-PRESENTATION.md)이 아래 최초 기획보다 우선한다.

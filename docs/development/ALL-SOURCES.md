@@ -1,5 +1,7 @@
 # 전체 일정 소스와 표시
 
+0.2.3의 현재 구조와 수정 사항은 [5회 파이프라인 점검](PIPELINE-AUDIT-2026-11-13.md)이 우선한다. 2026-11-13 실수집에서 당일 공지 목록의 시각-only 형식 오류를 수정하고99건/9출처 오류0을 확인했다. 이는 로컬 검증 자료이며 원격 publication18/96건과 기존 번들을 이번 작업에서 바꾸지 않았다. 아래96건 집계는 기존 운영/번들의 기록이다.
+
 2026-11-12 실제 집계96건, 출처9개를 확인했다. 이벤트 목록2페이지14건 + 공지·점검·패치·시즌76건 + 의미별 공식 날짜 매핑6건이다. 한 사건의 여러 phase는 사건 수에 중복 계산하지 않는다. 원격은 [실제 전체 수집 run](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43202504781)에서 게시했고 실제 Plugin Workspace가 revision4/96건을 수신·SHA/bytes 검증·캐시 복원했다.
 
 | 범위 | 실제 자료와 표현 | 수집 한계 |
@@ -27,6 +29,6 @@ dotnet run --project tools/CalendarDataCollect -- mark-all-health .preview/new-a
 
 모든 소스는 현재 부분 범위이므로 health는partial/coverage false다. 공개 시간 알림의 전체 확인 요건을 자동으로 풀지 않는다. 진행 이벤트 이력500건 및 payload2MiB 등의 보호 상한에 도달하면 이전 자료를 유지하며 역사 정리가 필요하다. 진행 이벤트 상한에 별도 공지 건수를 포함하지 않는다. 공지 수집은 최근 범위이며 사이트 전체 역사를 복제하지 않는다.
 
-전장 오늘/내일은 별도다. [공식 조사](FRONTLINE-SOURCES.md)에서 KR 자정 변경과 가용 임무 쌍의 회전 설명은 확인했으나 현재 날짜와 연결할 기준점은 확인하지 못했다. verified rule을 만들어 값을 채우지 않는다. 검증된 게임 내 관측이나 날짜 기준점 확인 전까지 확인 불가 표시를 유지한다.
+전장 오늘/내일은 별도다. [전장 수신](FRONTLINE-SOURCES.md)에서 설명한 에테르웨이의 한국 날짜별 API를 사용한다. 임의 기준일의 회전이나 공식 verified rule로 값을 만들지 않는다. 제공되지 않은 날짜는 확인 불가로 유지한다.
 
 화면은 [표시 설계](SCHEDULE-PRESENTATION.md), 확장팩 근거는 [공식 날짜 확인](EXPANSION-SOURCES.md), 공지는 [수집 규칙](NOTICE-COLLECTION.md)을 따른다.
