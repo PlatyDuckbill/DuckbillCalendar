@@ -70,6 +70,7 @@ public static class NotificationPolicy
     public const int MaximumInbox = 200;
     public static CalendarGroup Group(CalendarEvent e) => e.Category switch
     {
+        "housing" => CalendarGroup.Housing,
         "personal" => CalendarGroup.Personal,
         "subscription" or "retainer" or "bag" => CalendarGroup.Subscriptions,
         "patch" => CalendarGroup.Patches, "maintenance" => CalendarGroup.Maintenance,

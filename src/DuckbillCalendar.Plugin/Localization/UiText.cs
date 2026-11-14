@@ -82,7 +82,7 @@ internal static class UiText
     {
         "kr:event:771" => "콜렉터즈 에디션 예약", "kr:curated:v8-reservation-items" => "예약 특전 대상 구매", "kr:curated:v8-ce-discount" => "20% 할인", _ => item.Title
     };
-    public static string Category(string category) => Get(category switch
+    public static string Category(string category) => category == HousingLotterySchedule.Category ? "하우징 청약" : Get(category switch
     {
         "personal" => "CategoryPersonal", "subscription" or "retainer" or "bag" => "CategorySubscription",
         "maintenance" or "patch" => "CategoryPatch", "sale" or "discount" => "CategorySale",

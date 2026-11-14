@@ -29,7 +29,7 @@ DuckbillCalendar $calendarVersion 개발 확인용
 Dalamud 개발 플러그인 위치에 이 폴더의 DuckbillCalendar.dll을 등록해 수동으로 로드합니다.
 /dbcal 또는 /duckbillcalendar: 주 화면
 /dbcal settings: 설정
-/dbcal changelog: 업데이트 내역 (최초 배포)
+/dbcal changelog: 업데이트 내역
 
 개인 일정·이용권은 로컬 저장입니다. 공식 이벤트 저장본을 포함하며 예시 모드에서는 '실제 일정 보기'로 전환합니다.
 일정 최신 정보 받기와 전장 수신은 새 설치에서 기본 켜짐입니다. 기존에 저장한 끄기 선택은 유지합니다. 끄면 새 일정/변경 사항을 받지 않고 저장된 일정만 표시합니다. 로컬 채팅 알림은 기본 꺼짐입니다.

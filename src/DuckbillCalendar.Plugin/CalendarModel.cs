@@ -67,6 +67,8 @@ internal sealed partial class CalendarModel
     public bool HasDateFocus => PanelMode is CalendarPanelMode.Day or CalendarPanelMode.Event;
     public string? SelectedEdge { get; private set; }
     public IReadOnlyList<CalendarEvent> Events { get; private set; } = [];
+    public HousingLotteryPeriod? Housing => HousingLotterySchedule.PeriodAt(Now);
+    public HousingLotteryPeriod? HousingForDate(DateOnly date) => State.View.Calendars.Housing ? HousingLotterySchedule.ForDate(date) : null;
     public IReadOnlyList<CalendarEvent> FilteredEvents { get; private set; } = [];
     public IReadOnlyList<CalendarEvent> CalendarEvents { get; private set; } = [];
     public IReadOnlyList<CalendarEvent> VisibleCalendarEvents { get; private set; } = [];
@@ -84,7 +86,8 @@ internal sealed partial class CalendarModel
     public CalendarMonth? Calendar { get; private set; }
     public FrontlineResult? TodayFrontline { get; private set; }
     public FrontlineResult? TomorrowFrontline { get; private set; }
-    public CalendarEvent? SelectedEvent => Events.FirstOrDefault(e => e.Id == SelectedEventId);
+    public CalendarEvent? FindEvent(string? id) => Events.FirstOrDefault(e => e.Id == id);
+    public CalendarEvent? SelectedEvent => FindEvent(SelectedEventId);
     public bool SelectionFiltered => SelectedEventId != null && (!FilteredEvents.Any(e => e.Id == SelectedEventId) || !VisibleCalendarEvents.Any(e => e.Id == SelectedEventId));
     public void Post(Action action) => commands.Enqueue(action);
     public void Invalidate() => dirty = true;
@@ -223,6 +226,7 @@ internal sealed partial class CalendarModel
     public void SetPeriodBars(bool enabled) => UpdateView(v => v with { PeriodBars = enabled, PeriodBarsConfigured = true });
     public bool IsCalendarVisible(CalendarGroup group) => group switch
     {
+        CalendarGroup.Housing => State.View.Calendars.Housing,
         CalendarGroup.Events => State.View.Calendars.Events, CalendarGroup.Patches => State.View.Calendars.Patches,
         CalendarGroup.Maintenance => State.View.Calendars.Maintenance, CalendarGroup.Pvp => State.View.Calendars.Pvp,
         CalendarGroup.Competitions => State.View.Calendars.Competitions, CalendarGroup.Sales => State.View.Calendars.Sales,
@@ -231,6 +235,7 @@ internal sealed partial class CalendarModel
     };
     public void SetCalendarVisible(CalendarGroup group, bool enabled) => UpdateView(v => group switch
     {
+        CalendarGroup.Housing => v with { Calendars = v.Calendars with { Housing = enabled } },
         CalendarGroup.Events => v with { Calendars = v.Calendars with { Events = enabled } },
         CalendarGroup.Patches => v with { Calendars = v.Calendars with { Patches = enabled } },
         CalendarGroup.Maintenance => v with { Calendars = v.Calendars with { Maintenance = enabled } },
@@ -243,13 +248,14 @@ internal sealed partial class CalendarModel
     });
     public void SetAllCalendars(bool enabled) => UpdateView(v => v with
     {
-        Calendars = new() { Events = enabled, Patches = enabled, Maintenance = enabled, Pvp = enabled, Competitions = enabled, Sales = enabled, Subscriptions = enabled, Personal = enabled },
+        Calendars = new() { Events = enabled, Patches = enabled, Maintenance = enabled, Pvp = enabled, Competitions = enabled, Sales = enabled, Subscriptions = enabled, Personal = enabled, Housing = enabled },
         ShowNoticePublications = enabled
     });
     public static CalendarGroup GroupFor(CalendarEvent e, EventPhase p) => e.IsPersonal
         ? e.Category is "subscription" or "retainer" or "bag" ? CalendarGroup.Subscriptions : CalendarGroup.Personal
         : e.Category switch
         {
+            "housing" => CalendarGroup.Housing,
             "patch" => CalendarGroup.Patches, "maintenance" => CalendarGroup.Maintenance,
             "pvp-season" or "pvp-series" or "reward" => CalendarGroup.Pvp, "sale" or "discount" => CalendarGroup.Sales,
             "notice" => IsPublicationPhase(p) ? CalendarGroup.Notices : CalendarGroup.Competitions, _ => CalendarGroup.Events
@@ -308,6 +314,13 @@ internal sealed partial class CalendarModel
         if (target is { } value) { SelectedDate = value; Year = value.Year; MonthNumber = value.Month; }
     });
     public void SelectAgenda(ScheduleHighlight highlight) => Select(highlight.Event, highlight.Phase, highlight.Date, highlight.Edge);
+    public IReadOnlyList<CalendarSearchResult> FindSchedules(string query) => CalendarSearch.Find(Events, query, Today,
+        State.View.UserCategories.ToDictionary(c => c.Id, c => c.Name));
+    public void JumpToSearchResult(CalendarSearchResult result)
+    {
+        if (result.Date is not { } date) return;
+        JumpToHighlight(new(result.Event, result.Phase, result.Edge, result.Boundary, date));
+    }
     public void JumpToStart(CalendarEvent e) => Post(() =>
     {
         var phase = e.Phases.FirstOrDefault(p => CalendarEngine.BoundaryDate(p.Start).HasValue);

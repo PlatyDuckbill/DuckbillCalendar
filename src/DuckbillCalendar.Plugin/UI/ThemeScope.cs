@@ -9,10 +9,21 @@ internal sealed class ThemeScope : IDisposable
     private int variables;
     public static bool IsLight(string theme) => theme is "paper" or "cloud";
     public static Vector4 Accent(string theme) => Hex(IsLight(theme) ? 0x3869d4 : theme == "graphite" ? 0x7edbc3 : 0x91aeff);
+    public static Vector4 DateSelection(string theme) => Hex(IsLight(theme) ? 0x285bc5 : theme == "graphite" ? 0x8cbfff : 0xb9a7ff);
     public static Vector4 CalendarSurface(string theme, bool inMonth) => Hex(IsLight(theme)
         ? inMonth ? 0xffffff : 0xf1f4f9
-        : theme == "graphite" ? inMonth ? 0x232629 : 0x1b1d20 : inMonth ? 0x131d36 : 0x0c1327);
-    public static Vector4 BorderColor(string theme) => Hex(IsLight(theme) ? 0xdce3ee : theme == "graphite" ? 0x3b4144 : 0x2a385a);
+        : theme == "graphite" ? inMonth ? 0x22272a : 0x1c2124 : inMonth ? 0x131d33 : 0x10182c);
+    public static Vector4 BorderColor(string theme) => Hex(IsLight(theme) ? 0xdce3ee : theme == "graphite" ? 0x384247 : 0x2a3854);
+    public static Vector4 WeekendColor(string theme, int column) => Hex(column == 0
+        ? IsLight(theme) ? 0xb34e64 : 0xe0a0ad
+        : IsLight(theme) ? 0x436cba : 0x9ab9ef);
+    public static Vector4 CalendarDaySurface(string theme, bool inMonth, int column)
+    {
+        var surface = CalendarSurface(theme, inMonth);
+        return column is 0 or 6
+            ? Vector4.Lerp(surface, WeekendColor(theme, column), inMonth ? IsLight(theme) ? .06f : .07f : .035f)
+            : surface;
+    }
     public static (Vector4 Background, Vector4 Foreground) StatusBadgeColors(string status, bool light) => status switch
     {
         "만료" => (Hex(light ? 0xb92d43 : 0xf58b9b), Hex(light ? 0xffffff : 0x35121d)),
@@ -24,9 +35,9 @@ internal sealed class ThemeScope : IDisposable
         var light = IsLight(theme);
         // Own the complete palette; game/Dalamud title, table and separator colors must not leak into a theme.
         var charcoal = theme == "graphite";
-        var background = light ? 0xf5f7fb : charcoal ? 0x191b1e : 0x0b1124;
+        var background = light ? 0xf5f7fb : charcoal ? 0x191e21 : 0x0c1323;
         var surface = CalendarSurface(theme, true);
-        var control = light ? 0xe8eef8 : charcoal ? 0x303538 : 0x233458;
+        var control = light ? 0xe8eef8 : charcoal ? 0x2d3539 : 0x233458;
         var muted = light ? 0x62718b : charcoal ? 0xadb7b6 : 0xa2b4dc;
         var accent = Accent(theme);
         Add(ImGuiCol.Text, Hex(light ? 0x233451 : charcoal ? 0xedf0ed : 0xe5edfc));
@@ -55,6 +66,7 @@ internal sealed class ThemeScope : IDisposable
     public static Vector4 Hex(int value, float alpha = 1) => new((value >> 16 & 255) / 255f, (value >> 8 & 255) / 255f, (value & 255) / 255f, alpha);
     public static Vector4 EventColor(string category, bool light) => Hex(category switch
     {
+        "housing" => light ? 0x866126 : 0xe2c080,
         "personal" => light ? 0x805d25 : 0xd8bb79,
         "subscription" or "retainer" or "bag" => light ? 0xb53746 : 0xff8d9b,
         "patch" => light ? 0x365f80 : 0x9dbddc,

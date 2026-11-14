@@ -14,6 +14,7 @@ internal static class CalendarAppearanceStyle
         (CalendarGroup.Pvp, "PvP 시즌·보상", "pvp-season", UiIcon.Flag),
         (CalendarGroup.Competitions, "대회", "competition", UiIcon.Trophy),
         (CalendarGroup.Sales, "할인·예약", "sale", UiIcon.Tag),
+        (CalendarGroup.Housing, "하우징 청약", "housing", UiIcon.Calendar),
         (CalendarGroup.Subscriptions, "이용권 만료", "subscription", UiIcon.Clock),
         (CalendarGroup.Personal, "미분류", "personal", UiIcon.Person)
     ];
@@ -24,6 +25,7 @@ internal static class CalendarAppearanceStyle
 
     internal static CalendarGroup Group(string category) => category switch
     {
+        "housing" => CalendarGroup.Housing,
         "personal" => CalendarGroup.Personal, "subscription" or "retainer" or "bag" => CalendarGroup.Subscriptions,
         "maintenance" => CalendarGroup.Maintenance, "patch" => CalendarGroup.Patches,
         "pvp-season" or "pvp-series" or "reward" => CalendarGroup.Pvp, "competition" or "notice" => CalendarGroup.Competitions,

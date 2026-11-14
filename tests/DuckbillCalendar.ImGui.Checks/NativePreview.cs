@@ -71,10 +71,15 @@ internal static class NativePreview
                 ImGui.GetCurrentContext().OpenPopupStack.Clear();
                 Field("editorOpen", false); Field("editorRequest", false); Field("ruleWindowOpen",false);
                 select(); model.Tick(now);
+                if (name is "calendar-search" or "calendar-search-date") Call("OpenCalendarSearch");
                 io.AddMousePosEvent(-100, -100);
                 for (var frame = 0; frame < 6; frame++)
                 {
                     model.Tick(now); workspace.FlushAsync().GetAwaiter().GetResult(); model.Tick(now);
+                    if (name == "housing-details" && frame is 2 or 3)
+                    { var point = main.HousingCycleTarget; io.AddMousePosEvent(point.X,point.Y); io.AddMouseButtonEvent(0,frame==2); }
+                    if (name == "calendar-search-date" && frame is 2 or 3)
+                    { var result=main.CalendarSearchResults.First(r=>r.Phase.Id=="release"); var point=main.CalendarSearchResultTargets[result.Key]; io.AddMousePosEvent(point.X,point.Y); io.AddMouseButtonEvent(0,frame==2); }
                     if (frame == 4) io.AddMousePosEvent(-100, -100);
                     if (name == "date-picker" && frame is 2 or 3)
                     { io.AddMousePosEvent(main.DatePickerButtonCenter.X, main.DatePickerButtonCenter.Y); io.AddMouseButtonEvent(0, frame == 2); }
@@ -107,8 +112,11 @@ internal static class NativePreview
                 Capture(ImGui.GetDrawData(), textures, path);
                 Console.WriteLine("Native preview: " + path);
             }
-            Frame("month", () => model.GoToMonth(2026, 11));
+            Frame("month", () => { model.SetCalendarVisible(CalendarGroup.Housing,false); model.GoToMonth(2026, 11); });
             Frame("filters", () => model.GoToMonth(2026, 11));
+            Frame("housing-calendar", () => { model.SetCalendarVisible(CalendarGroup.Housing,true); model.GoToMonth(2026,11); });
+            Frame("housing-details", () => model.GoToMonth(2026,11));
+            Frame("housing-day", () => Call("OpenDay",new DateOnly(2026,11,14)));
             Frame("maintenance", () => Call("OpenDay", new DateOnly(2026, 11, 10)));
             Frame("hide-menu", () => Call("OpenDay", new DateOnly(2026, 11, 10)));
             var party = new PersonalEntry { Id = "preview-party", Kind = "personal", Title = "공대 출발", When = CalendarBoundary.Instant(new(2026, 11, 15, 18, 0, 0, TimeSpan.FromHours(9))) };
@@ -116,7 +124,10 @@ internal static class NativePreview
             Frame("ongoing-expanded", () => Call("OpenDay", new DateOnly(2026, 11, 15)));
             Frame("release", () => model.GoToMonth(2027, 2));
             Frame("day", () => Call("OpenDay", new DateOnly(2027, 2, 19)));
-            Frame("news", () => { Field("dayPopupRequest", false); Field("activeTab", 1); });
+            Frame("calendar-search", () => { model.GoToMonth(2026,11); Field("dayPopupRequest", false); Field("activeTab", 0); Field("calendarSearch","백은"); });
+            Frame("calendar-search-date", () => Field("calendarSearch", "백은"));
+            Frame("selected-date", () => model.SelectDate(new(2027,2,23)));
+            Frame("selected-today", () => model.GoToday());
             Frame("settings", () => { model.SaveSubscription(new() { Id = "preview-sub", Title = "정액제", Kind = "subscription", When = CalendarBoundary.Instant(new(2026, 12, 13, 21, 30, 0, TimeSpan.FromHours(9))) }); main.OpenSettings(); });
             Frame("changelog", main.OpenReleaseNotes);
             main.OpenSettings();

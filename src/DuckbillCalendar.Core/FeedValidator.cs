@@ -185,6 +185,9 @@ public static partial class FeedValidator
         else
         {
             if (local.View.Calendars is null) errors.Add("NullCalendarVisibility");
+            foreach (var observation in List(local.HousingObservations, "HousingObservations", 512, errors))
+                if (!Enum.IsDefined(observation.Phase) || observation.WorldId == 0 || observation.EndsAt is not { } end ||
+                    end <= observation.ObservedAt || end - observation.ObservedAt > TimeSpan.FromDays(observation.Phase == HousingLotteryPhase.Entry ? 5 : 4)) errors.Add("InvalidHousingObservation");
             if (local.View.RemoteRefreshMinutes is not (30 or 60 or 180 or 360 or 720)) errors.Add("InvalidRemoteRefreshInterval");
             Unique(List(local.View.HiddenEventIds, "HiddenEventIds", 2000, errors), "HiddenEventIds", errors, 120);
             var hiddenPhases = new HashSet<(string, string)>();
@@ -194,7 +197,7 @@ public static partial class FeedValidator
                 if (!hiddenPhases.Add((phase.EventId, phase.PhaseId))) errors.Add("DuplicateHiddenPhase");
             }
             var appearanceGroups = new HashSet<CalendarGroup>();
-            foreach (var appearance in List(local.View.CalendarAppearances, "CalendarAppearances", 8, errors))
+            foreach (var appearance in List(local.View.CalendarAppearances, "CalendarAppearances", 9, errors))
             {
                 if (!Enum.IsDefined(appearance.Group) || appearance.Group == CalendarGroup.Notices || !appearanceGroups.Add(appearance.Group)) errors.Add("InvalidAppearanceGroup");
                 if (appearance.Icon is not ("" or "Gift" or "Update" or "Server" or "Flag" or "Trophy" or "Tag" or "Clock" or "Person" or "Raid" or "Swords" or "Shield")) errors.Add("InvalidAppearanceIcon");

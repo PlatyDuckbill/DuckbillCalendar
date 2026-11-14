@@ -5,7 +5,7 @@ using DuckbillCalendar.Infrastructure;
 using DuckbillCalendar.Plugin;
 
 CalendarModel OfflineModel(CalendarWorkspace workspace)
-{ var model = new CalendarModel(workspace); model.SetAutomaticUpdateState(false, null); return model; }
+{ var model = new CalendarModel(workspace); model.SetAutomaticUpdateState(false, null); model.SetCalendarVisible(CalendarGroup.Housing, false); return model; }
 var checks = 0;
 void Check(bool valid, string message) { if (!valid) throw new Exception(message); checks++; }
 static async Task Settle(CalendarModel model, CalendarWorkspace workspace, DateTimeOffset time)
@@ -165,7 +165,7 @@ using (var futureWorkspace = new CalendarWorkspace(Path.Combine(root, "future-pr
     futureModel.SetAllCalendars(false); futureModel.Tick(now);
     Check(futureModel.CalendarEvents.Count == 0 && futureModel.UpcomingHighlights.Count == 0 && futureModel.PendingHighlights.Count == 0 && futureModel.NewsEvents.Count > 0, "Hide-all clears calendar and highlights while news remains accessible");
     futureModel.SetAllCalendars(true); futureModel.Tick(now);
-    Check(Enum.GetValues<CalendarGroup>().Where(g => g != CalendarGroup.Notices).All(futureModel.IsCalendarVisible) && futureModel.CalendarEvents.Count == futureFeed.Events.Count - 1, "Select-all restores actual schedules and permanently excludes publication-only records");
+    Check(Enum.GetValues<CalendarGroup>().Where(g => g != CalendarGroup.Notices).All(futureModel.IsCalendarVisible) && futureModel.CalendarEvents.Count == futureFeed.Events.Count - 1, "Select-all restores calendars without manufacturing housing event cards");
     futureModel.SetCalendarVisible(CalendarGroup.Patches, false); futureModel.SetPeriodBars(true); futureModel.Tick(now);
     await futureWorkspace.FlushAsync(); futureWorkspace.Pump();
     using var persisted = new CalendarWorkspace(Path.Combine(root, "future-presentation"), example, futureHttp, bundledFeed: JsonSerializer.SerializeToUtf8Bytes(futureFeed, CalendarJson.Options));
@@ -333,6 +333,8 @@ using (var preferences = new CalendarWorkspace(preferencePath, example))
 checks += await BehaviorChecks.Run(root, example, realSnapshot);
 checks += await NotificationBehaviorChecks.Run(root, example);
 checks += await WeeklyScheduleBehaviorChecks.Run(root, example);
+checks += await HousingBehaviorChecks.Run(root, example);
+checks += await CalendarSearchBehaviorChecks.Run(root, example, File.ReadAllBytes(Path.Combine(repository.FullName,"data","live","kr-calendar.snapshot.json")));
 Console.WriteLine($"PASS: {checks} actual CalendarModel checks; localization is stubbed, no ImGui/game runtime is exercised.");
 
 sealed class FailureHandler : HttpMessageHandler

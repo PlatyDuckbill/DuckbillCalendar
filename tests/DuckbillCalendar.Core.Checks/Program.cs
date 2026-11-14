@@ -194,6 +194,8 @@ PublicationChecks.Run(Check);
 ActivityAndHidingChecks.Run(Check);
 NotificationChecks.Run(Check);
 WeeklyScheduleChecks.Run(Check);
+HousingLotteryChecks.Run(Check);
+CalendarSearchChecks.Run(Check);
 OfficialLinkChecks.Run(Check);
 var oldStateNode = System.Text.Json.Nodes.JsonNode.Parse(JsonSerializer.SerializeToUtf8Bytes(new LocalState(), CalendarJson.Options))!;
 oldStateNode["view"]!.AsObject().Remove("remoteRefreshMinutes");

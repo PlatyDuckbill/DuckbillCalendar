@@ -3,7 +3,7 @@ using Dalamud.Bindings.ImGui;
 
 namespace DuckbillCalendar.Plugin;
 
-internal enum UiIcon { Calendar, News, Settings, Left, Right, Filter, Plus, Link, Swords, Refresh, Gift, Server, Update, Flag, Trophy, Tag, Person, Clock, More, Bell, Raid, Shield }
+internal enum UiIcon { Calendar, News, Settings, Left, Right, Filter, Plus, Link, Swords, Refresh, Gift, Server, Update, Flag, Trophy, Tag, Person, Clock, More, Bell, Raid, Shield, Search }
 
 internal static class UiWidgets
 {
@@ -88,6 +88,8 @@ internal static class UiWidgets
             case UiIcon.Left: Line(.65f, .1f, .25f, .5f); Line(.25f, .5f, .65f, .9f); break;
             case UiIcon.Right: Line(.35f, .1f, .75f, .5f); Line(.75f, .5f, .35f, .9f); break;
             case UiIcon.Plus: Line(.5f, .05f, .5f, .95f); Line(.05f, .5f, .95f, .5f); break;
+            case UiIcon.Search:
+                d.AddCircle(At(.4f,.4f),s*.3f,color,18,t); Line(.63f,.63f,.95f,.95f); break;
             case UiIcon.Calendar:
                 d.AddRect(At(.05f, .15f), At(.95f, .95f), color, s * .12f, ImDrawFlags.None, t);
                 Line(.05f, .4f, .95f, .4f); Line(.3f, 0, .3f, .28f); Line(.7f, 0, .7f, .28f); break;
@@ -161,7 +163,9 @@ internal static class UiWidgets
             // Auto-sized windows have no usable content width on their first frame.
             // A positive wrap position lets the tooltip measure itself instead of
             // shrinking to a single Korean glyph and extending below the screen.
-            ImGui.PushTextWrapPos(ImGui.GetCursorPosX() + ImGui.GetFontSize() * 28);
+            var f = ImGui.GetFontSize();
+            var width = Math.Min(f * 28, Math.Max(f * 6, ImGui.GetMainViewport().WorkSize.X - f * 2));
+            ImGui.PushTextWrapPos(ImGui.GetCursorPosX() + width);
             try { ImGui.TextUnformatted(text); }
             finally { ImGui.PopTextWrapPos(); }
         }

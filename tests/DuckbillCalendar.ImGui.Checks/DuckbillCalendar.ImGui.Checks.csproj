@@ -21,6 +21,8 @@
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/OguDayDecoration.cs" Link="OguDayDecoration.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/CalendarModel.WeeklySchedules.cs" Link="CalendarModel.WeeklySchedules.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/MainWindow.cs" Link="MainWindow.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/HousingCyclePanel.cs" Link="HousingCyclePanel.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/CalendarSearchPanel.cs" Link="CalendarSearchPanel.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/ReleaseNotesPanel.cs" Link="ReleaseNotesPanel.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/UiWidgets.cs" Link="UiWidgets.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/ThemeScope.cs" Link="ThemeScope.cs" />

@@ -12,12 +12,10 @@ internal sealed partial class MainWindow : Window
 {
     private readonly CalendarModel model;
     private readonly Func<Vector2,float,float,bool>? duckbillIcon;
+    private readonly Action<string> openSearchLink;
     private int activeTab;
-    private string search = "";
-    private int category;
     private bool selectSettings;
     private bool appearanceSettingsRequest;
-    private bool frontlineInline;
     private bool editorOpen, editorRequest;
     private string editId = "", editName = "", editDate = "", editTime = "", editNote = "", editorError = "";
     private int editKind;
@@ -27,6 +25,9 @@ internal sealed partial class MainWindow : Window
     private float monthWheelRemainder;
     private bool dayPopupRequest;
     private bool resetOngoingSection;
+    private DateOnly? revealDate;
+    private DateOnly? measuredDayPopupDate;
+    private Vector2 measuredDayPopupPosition, measuredDayPopupSize;
     private int pickerYear, pickerMonth;
     internal Vector2 DatePickerButtonCenter { get; private set; }
     internal Vector2 PickerNextMonthTarget { get; private set; }
@@ -49,13 +50,19 @@ internal sealed partial class MainWindow : Window
     internal float GridCellWidth { get; private set; }
     internal float GridRowHeight => gridRowHeight;
     internal bool HeaderFits { get; private set; }
+    internal bool NavigationFits { get; private set; }
     internal bool CalendarActionsSingleRow { get; private set; }
     internal bool FrontlineSummaryFits { get; private set; }
     internal int FrontlineCellLabelCount { get; private set; }
+    internal Dictionary<DateOnly, int> CalendarPointCounts { get; } = [];
     internal Vector2 CalendarFilterTarget { get; private set; }
+    internal Vector2 CalendarAddTarget { get; private set; }
+    internal Vector2 HeaderNotificationsTarget { get; private set; }
+    internal Vector2 HeaderSettingsTarget { get; private set; }
+    internal Vector2 TodayButtonTarget { get; private set; }
+    internal Vector2 TodayButtonSize { get; private set; }
     internal Vector2 FrontlineVisibilityTarget { get; private set; }
     internal bool AppearanceRowsFit { get; private set; }
-    internal bool NewsFiltersFit { get; private set; }
     internal bool EditorSaveVisible { get; private set; }
     internal Vector2 EditorSaveMax { get; private set; }
     internal Dictionary<string, Vector2> SubscriptionResetTargets { get; } = [];
@@ -66,9 +73,10 @@ internal sealed partial class MainWindow : Window
     internal Dictionary<string, Vector2> AppearanceLabelTargets { get; } = [];
     internal Dictionary<string, Vector2> AppearanceAlarmTargets { get; } = [];
 
-    public MainWindow(CalendarModel model, FrontlineScheduleClient? frontline = null, Func<Vector2,float,float,bool>? duckbillIcon = null) : base("오리부리 달력###DuckbillCalendar.Main")
+    public MainWindow(CalendarModel model, FrontlineScheduleClient? frontline = null, Func<Vector2,float,float,bool>? duckbillIcon = null, Action<string>? openLink = null) : base("오리부리 달력###DuckbillCalendar.Main")
     {
         this.model = model; this.frontline = frontline; this.duckbillIcon = duckbillIcon;
+        openSearchLink = openLink ?? (url => Util.OpenLink(url));
         Size = new(1060, 720); SizeCondition = ImGuiCond.FirstUseEver;
         SizeConstraints = new() { MinimumSize = new(620, 480), MaximumSize = new(float.MaxValue) };
     }
@@ -80,14 +88,17 @@ internal sealed partial class MainWindow : Window
     {
         if (selectSettings) { activeTab = 2; selectSettings = false; }
         RouteNotificationRequests();
+        if (ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows) && ImGui.GetIO().KeyCtrl && ImGui.IsKeyPressed(ImGuiKey.F) && !editorOpen && !ruleWindowOpen)
+        { activeTab = 0; OpenCalendarSearch(); }
+        if (activeTab == 1) activeTab = 0;
         DrawNavigation();
+        DrawFrontline();
         if (model.State.View.ExampleMode)
         {
             UiWidgets.Wrapped("예시 일정입니다."); ImGui.SameLine();
             if (ImGui.SmallButton("실제 일정 보기")) model.Post(() => model.Workspace.LoadExample(false));
         }
         if (activeTab == 0) DrawCalendar();
-        else if (activeTab == 1) DrawNews();
         else if (activeTab == 2) DrawSettings();
         else if (activeTab == 3) DrawNotifications();
         else if (activeTab == 4) DrawUserCategoryEditor();
@@ -99,75 +110,88 @@ internal sealed partial class MainWindow : Window
     }
     private void DrawNavigation()
     {
+        DrawCalendarActions();
+    }
+    private void DrawCalendar()
+    {
+        DrawCalendarSearch();
+        DrawHousingCycle();
+        var height = ImGui.GetContentRegionAvail().Y;
+        ImGui.BeginChild("###CalendarCanvas", new(0, Math.Max(1, height)));
+        try
+        {
+            DrawMonth();
+            if (revealDate is { } date && model.HasDateFocus && model.SelectedDate == date && model.Calendar is { } calendar)
+            {
+                var week = (date.DayNumber - calendar.Weeks[0].StartsOn.DayNumber) / 7;
+                ImGui.SetScrollFromPosY(GridOrigin.Y - ImGui.GetWindowPos().Y + ImGui.GetFontSize() * 1.8f + (week + .5f) * gridRowHeight, .5f);
+                revealDate = null;
+            }
+        }
+        finally { ImGui.EndChild(); }
+    }
+    private void DrawCalendarActions()
+    {
         var f = ImGui.GetFontSize();
-        var compact = Compact;
-        foreach (var tab in new[] { ("달력", UiIcon.Calendar, 0), ("새소식", UiIcon.News, 1) })
-        {
-            if (tab.Item3 > 0) ImGui.SameLine();
-            if (UiWidgets.IconButton("nav." + tab.Item3, tab.Item2, tab.Item1, activeTab == tab.Item3, Accent, compact)) activeTab = tab.Item3;
-        }
-        var settingsWidth = UiWidgets.IconButtonSize("설정", compact).X;
-        var bellWidth = UiWidgets.IconButtonSize("", compact).X;
-        var settingsLeft = ImGui.GetWindowPos().X + ImGui.GetWindowContentRegionMax().X - settingsWidth - bellWidth - ImGui.GetStyle().ItemSpacing.X;
-        frontlineInline = activeTab == 0 && model.State.View.FrontlineUpdatesEnabled && !compact &&
-            ImGui.GetItemRectMax().X + f + FrontlineSummaryWidth() + f < settingsLeft;
-        if (frontlineInline)
-        {
-            ImGui.SameLine(0, f);
-            DrawFrontline(inline: true);
-        }
-        ImGui.SameLine(Math.Max(ImGui.GetCursorPosX(), ImGui.GetWindowContentRegionMax().X - settingsWidth - bellWidth - ImGui.GetStyle().ItemSpacing.X));
-        if (UiWidgets.IconButton("nav.notifications", UiIcon.Bell, "", activeTab == 3, Accent, compact)) { inboxRequest = true; inboxPage = 0; }
+        var compact = ImGui.GetContentRegionAvail().X < f * 40;
+        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(compact ? 4 : 8, ImGui.GetStyle().ItemSpacing.Y));
+        var monthText = compact ? model.Year + "." + model.MonthNumber.ToString("00") : model.Year + "년 " + model.MonthNumber + "월";
+        var controlHeight = UiWidgets.IconButtonSize("", compact).Y;
+        var monthY = ImGui.GetCursorScreenPos().Y;
+        if (DrawMonthArrow("prev", UiIcon.Left, controlHeight, compact)) { activeTab = 0; model.ChangeMonth(-1); }
+        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("이전 달 · 달력 위 휠로도 이동할 수 있습니다");
+        ImGui.SameLine();
+        if (UiWidgets.HeadingButton("calendar.month", monthText, compact ? 1f : 1.5f, controlHeight))
+        { activeTab = 0; jumpYear = model.Year; jumpMonth = model.MonthNumber; ImGui.OpenPopup("###MonthJump"); }
+        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("클릭해서 다른 달로 이동");
+        DrawMonthJump();
+        ImGui.SameLine();
+        if (DrawMonthArrow("next", UiIcon.Right, controlHeight, compact)) { activeTab = 0; model.ChangeMonth(1); }
+        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("다음 달");
+        ImGui.SameLine();
+        TodayButtonSize = new(Math.Max(ImGui.CalcTextSize("오늘").X + f * 1.25f, controlHeight * 1.5f), controlHeight);
+        ImGui.PushStyleColor(ImGuiCol.Button, ImGui.GetStyle().Colors[(int)ImGuiCol.Button] with { W = .42f });
+        if (ImGui.Button("오늘", TodayButtonSize)) { activeTab = 0; model.GoToday(); revealDate = model.Today; }
+        ImGui.PopStyleColor();
+        ImGui.GetWindowDrawList().AddRect(ImGui.GetItemRectMin(), ImGui.GetItemRectMax(), ImGui.ColorConvertFloat4ToU32(ThemeScope.BorderColor(model.State.View.Theme) with { W = .65f }), 6);
+        TodayButtonTarget = ItemCenter();
+        var toolsWidth = CalendarToolWidth(compact ? "" : "검색", compact) + CalendarToolWidth(compact ? "" : "표시", compact) + CalendarToolWidth("", compact) * 3 + ImGui.GetStyle().ItemSpacing.X * 4;
+        var toolsLeft = ImGui.GetWindowContentRegionMax().X - toolsWidth;
+        // Keep the tools together if an exceptionally large font needs another row.
+        if (ImGui.GetItemRectMax().X + ImGui.GetStyle().ItemSpacing.X <= ImGui.GetWindowPos().X + toolsLeft + .5f)
+            ImGui.SameLine(toolsLeft);
+        else ImGui.SetCursorPosX(toolsLeft);
+        if (CalendarToolButton("search", UiIcon.Search, compact ? "" : "검색", calendarSearchOpen, compact))
+        { activeTab = 0; if (calendarSearchOpen) CloseCalendarSearch(); else OpenCalendarSearch(); }
+        CalendarSearchButtonTarget = ItemCenter();
+        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("일정 찾기 · Ctrl+F");
+        ImGui.SameLine();
+        if (CalendarToolButton("filters", UiIcon.Filter, compact ? "" : "표시", false, compact)) { activeTab = 0; ImGui.OpenPopup("###CalendarVisibilityPopup"); }
+        CalendarFilterTarget = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
+        var filterY = ImGui.GetItemRectMin().Y;
+        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("표시할 일정과 기간 막대 설정");
+        ImGui.SameLine();
+        if (CalendarToolButton("add", UiIcon.Plus, "", false, compact)) { activeTab = 0; ImGui.OpenPopup("###AddScheduleMenu"); }
+        CalendarAddTarget = ItemCenter();
+        CalendarActionsSingleRow = Math.Abs(monthY - filterY) < 1 && Math.Abs(ImGui.GetItemRectMin().Y - filterY) < 1;
+        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("일정 추가");
+        ImGui.SameLine();
+        if (CalendarToolButton("nav.notifications", UiIcon.Bell, "", activeTab == 3, compact)) { inboxRequest = true; inboxPage = 0; }
+        HeaderNotificationsTarget = ItemCenter();
         DrawUnreadBadge();
         if (ImGui.IsItemHovered()) UiWidgets.Tooltip("알림 내역 · 미확인 " + model.UnreadNotifications + "건");
         ImGui.SameLine();
-        if (UiWidgets.IconButton("nav.settings", UiIcon.Settings, "설정", activeTab == 2, Accent, compact)) activeTab = 2;
+        if (CalendarToolButton("nav.settings", UiIcon.Settings, "", activeTab == 2, compact)) activeTab = activeTab == 2 ? 0 : 2;
+        HeaderSettingsTarget = ItemCenter();
+        if (ImGui.IsItemHovered()) UiWidgets.Tooltip(activeTab == 2 ? "설정 · 다시 누르면 달력으로 돌아갑니다" : "설정");
         if (model.Workspace.HasUnsavedChanges)
         {
             var pos = ImGui.GetItemRectMax();
             ImGui.GetWindowDrawList().AddCircleFilled(new(pos.X - 4, ImGui.GetItemRectMin().Y + 4), 3, ImGui.ColorConvertFloat4ToU32(ThemeScope.Hex(0xe5bb6b)));
             if (ImGui.IsItemHovered()) UiWidgets.Tooltip("아직 저장되지 않은 변경사항이 있습니다.");
         }
-    }
-    private void DrawCalendar()
-    {
-        DrawCalendarActions();
-        if (!frontlineInline) DrawFrontline();
-        var height = ImGui.GetContentRegionAvail().Y;
-        ImGui.BeginChild("###CalendarCanvas", new(0, Math.Max(1, height)));
-        try { DrawMonth(); }
-        finally { ImGui.EndChild(); }
-    }
-    private void DrawCalendarActions()
-    {
-        var f = ImGui.GetFontSize();
-        var compact = Compact;
-        var monthText = model.Year + "년 " + model.MonthNumber + "월";
-        var controlHeight = UiWidgets.IconButtonSize("", compact).Y;
-        if (UiWidgets.HeadingButton("calendar.month", monthText, compact ? 1.25f : 1.5f, controlHeight))
-        { jumpYear = model.Year; jumpMonth = model.MonthNumber; ImGui.OpenPopup("###MonthJump"); }
-        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("클릭해서 다른 달로 이동");
-        DrawMonthJump();
-        ImGui.SameLine();
-        if (UiWidgets.IconButton("prev", UiIcon.Left, "", false, Accent, compact)) model.ChangeMonth(-1);
-        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("이전 달 · 달력 위 휠로도 이동할 수 있습니다");
-        ImGui.SameLine(); if (UiWidgets.IconButton("next", UiIcon.Right, "", false, Accent, compact)) model.ChangeMonth(1);
-        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("다음 달");
-        ImGui.SameLine(); if (ImGui.Button("오늘", new(ImGui.CalcTextSize("오늘").X + f * 1.6f, controlHeight))) model.GoToday();
-        var toolsWidth = UiWidgets.IconButtonSize(compact ? "" : "표시", compact).X + ImGui.GetStyle().ItemSpacing.X + UiWidgets.IconButtonSize(compact ? "" : "일정 추가", compact).X;
-        var toolsLeft = ImGui.GetWindowContentRegionMax().X - toolsWidth;
-        // Keep the two actions together when the month controls fill a narrow row.
-        if (ImGui.GetItemRectMax().X + ImGui.GetStyle().ItemSpacing.X <= ImGui.GetWindowPos().X + toolsLeft + .5f)
-            ImGui.SameLine(toolsLeft);
-        else ImGui.SetCursorPosX(toolsLeft);
-        if (UiWidgets.IconButton("filters", UiIcon.Filter, compact ? "" : "표시", false, Accent, compact)) ImGui.OpenPopup("###CalendarVisibilityPopup");
-        CalendarFilterTarget = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
-        var filterY = ImGui.GetItemRectMin().Y;
-        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("표시할 일정과 기간 막대 설정");
-        ImGui.SameLine();
-        if (UiWidgets.IconButton("add", UiIcon.Plus, compact ? "" : "일정 추가", false, Accent, compact)) ImGui.OpenPopup("###AddScheduleMenu");
-        CalendarActionsSingleRow = Math.Abs(ImGui.GetItemRectMin().Y - filterY) < 1;
-        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("일정 추가");
+        NavigationFits = ImGui.GetItemRectMax().X <= ImGui.GetWindowPos().X + ImGui.GetWindowContentRegionMax().X + .5f;
+        ImGui.PopStyleVar();
         if (ImGui.BeginPopup("###AddScheduleMenu"))
         {
             if (ImGui.MenuItem("한 번 등록")) OpenEditor();
@@ -181,6 +205,31 @@ internal sealed partial class MainWindow : Window
             try { DrawCalendarVisibility(); }
             finally { ImGui.EndPopup(); }
         }
+    }
+    private bool DrawMonthArrow(string id, UiIcon icon, float height, bool compact)
+    {
+        var f = ImGui.GetFontSize(); var pos = ImGui.GetCursorScreenPos(); var size = new Vector2(f * (compact ? 1f : 1.35f), height);
+        var clicked = ImGui.InvisibleButton("###" + id, size); var draw = ImGui.GetWindowDrawList();
+        if (ImGui.IsItemHovered()) draw.AddRectFilled(pos, pos + size, ImGui.GetColorU32(ImGuiCol.ButtonHovered), 6);
+        UiWidgets.DrawIcon(icon, pos + new Vector2((size.X - f * .7f) / 2, (height - f * .7f) / 2), f * .7f, ImGui.GetColorU32(ImGuiCol.Text));
+        return clicked;
+    }
+    private static float CalendarToolWidth(string label, bool compact) => ImGui.GetFontSize() * (compact ? 1.55f : 2.1f) + (label.Length == 0 ? 0 : ImGui.CalcTextSize(label).X + ImGui.GetFontSize() * .4f);
+    private bool CalendarToolButton(string id, UiIcon icon, string label, bool selected, bool compact)
+    {
+        var f = ImGui.GetFontSize(); var pos = ImGui.GetCursorScreenPos();
+        var size = new Vector2(CalendarToolWidth(label, compact), f * (compact ? 1.9f : 2.1f));
+        var clicked = ImGui.InvisibleButton("###" + id, size); var draw = ImGui.GetWindowDrawList();
+        var hovered = ImGui.IsItemHovered(); var utility = id is "nav.notifications" or "nav.settings";
+        var background = selected || id == "add" ? Accent with { W = hovered ? .23f : .12f }
+            : hovered ? ImGui.GetStyle().Colors[(int)ImGuiCol.ButtonHovered] : ImGui.GetStyle().Colors[(int)ImGuiCol.Button] with { W = utility ? .12f : .46f };
+        draw.AddRectFilled(pos, pos + size, ImGui.ColorConvertFloat4ToU32(background), 7);
+        if (selected || id == "add") draw.AddRect(pos + Vector2.One, pos + size - Vector2.One, ImGui.ColorConvertFloat4ToU32(Accent with { W = selected ? .55f : .23f }), 6);
+        var tint = selected || id == "add" ? ImGui.ColorConvertFloat4ToU32(Accent) : ImGui.GetColorU32(ImGuiCol.Text);
+        if (id == "nav.notifications") draw.AddLine(pos + new Vector2(-ImGui.GetStyle().ItemSpacing.X / 2, size.Y * .25f), pos + new Vector2(-ImGui.GetStyle().ItemSpacing.X / 2, size.Y * .75f), ImGui.ColorConvertFloat4ToU32(ThemeScope.BorderColor(model.State.View.Theme) with { W = .6f }));
+        UiWidgets.DrawIcon(icon, pos + new Vector2(label.Length == 0 ? (size.X - f * .85f) / 2 : f * .5f, (size.Y - f * .85f) / 2), f * .85f, tint);
+        if (label.Length > 0) draw.AddText(pos + new Vector2(f * 1.7f, (size.Y - f) / 2), tint, label);
+        return clicked;
     }
     private static void ContinueRow(float width)
     {
@@ -234,32 +283,34 @@ internal sealed partial class MainWindow : Window
     {
         return frontline?.Get(date, model.Now)?.Map ?? (frontline?.IsBusy == true ? "불러오는 중…" : "정보 없음");
     }
-    private float FrontlineSummaryWidth() => ImGui.GetFontSize() * 4.6f +
-        ImGui.CalcTextSize("오늘" + FrontlineMap(model.Today) + "내일" + FrontlineMap(model.Today.AddDays(1))).X;
-    private void DrawFrontline(bool inline = false)
+    private void DrawFrontline()
     {
         if (!model.State.View.FrontlineUpdatesEnabled) return;
         var f = ImGui.GetFontSize();
         var available = ImGui.GetContentRegionAvail().X;
-        var stacked = FrontlineSummaryWidth() > available;
-        var size = new Vector2(Math.Min(FrontlineSummaryWidth(), available), stacked ? f * 3.25f : UiWidgets.IconButtonSize("", Compact).Y);
+        const float scale = .85f;
+        var shorten = f * 3.3f + ImGui.CalcTextSize("오늘" + FrontlineMap(model.Today) + "내일" + FrontlineMap(model.Today.AddDays(1))).X * scale > available;
+        string Map(DateOnly date) => !shorten ? FrontlineMap(date) : FrontlineMap(date) switch
+        { "봉인된 바위섬" => "봉바", "영광의 평원" => "쇄빙", "온살 하카이르" => "온살", "외곽 유적지대" => "제압", "정보 없음" => "미확인", "불러오는 중…" => "로딩 중", var name => name };
+        var summaryWidth = f * 3.3f + ImGui.CalcTextSize("오늘" + Map(model.Today) + "내일" + Map(model.Today.AddDays(1))).X * scale;
+        var stacked = summaryWidth > available;
+        var size = new Vector2(Math.Min(summaryWidth, available), stacked ? f * 2.5f : f * 1.35f);
         var pos = ImGui.GetCursorScreenPos();
         if (ImGui.InvisibleButton("###frontlineSummary", size)) model.Post(() => Util.OpenLink(FrontlineScheduleClient.SourceUrl));
         var draw = ImGui.GetWindowDrawList(); var muted = ImGui.GetColorU32(ImGuiCol.TextDisabled);
-        draw.AddRectFilled(pos, pos + size, ImGui.ColorConvertFloat4ToU32(Accent with { W = ImGui.IsItemHovered() ? .12f : .055f }), 6);
-        var centerY = stacked ? f * .48f : (size.Y - f) / 2;
-        UiWidgets.DrawIcon(UiIcon.Swords, pos + new Vector2(f * .5f, centerY + f * .05f), f * .9f, muted);
-        var x = pos.X + f * 1.85f; var y = pos.Y + centerY;
+        var centerY = stacked ? f * .2f : (size.Y - f * scale) / 2;
+        UiWidgets.DrawIcon(UiIcon.Swords, pos + new Vector2(f * .2f, centerY + f * .05f), f * .7f, muted);
+        var x = pos.X + f * 1.25f; var y = pos.Y + centerY;
         draw.PushClipRect(pos, pos + size, true);
         foreach (var (label, date) in new[] { ("오늘", model.Today), ("내일", model.Today.AddDays(1)) })
         {
             if (label == "내일")
             {
-                if (stacked) { x = pos.X + f * 1.85f; y += f * 1.3f; }
-                else { x += f * .65f; draw.AddLine(new(x, y), new(x, y + f), muted); x += f * .65f; }
+                if (stacked) { x = pos.X + f * 1.25f; y += f * 1.1f; }
+                else { x += f * .5f; draw.AddLine(new(x, y), new(x, y + f * scale), muted); x += f * .5f; }
             }
-            draw.AddText(new(x, y), muted, label); x += ImGui.CalcTextSize(label).X + f * .5f;
-            var map = FrontlineMap(date); draw.AddText(new(x, y), ImGui.GetColorU32(ImGuiCol.Text), map); x += ImGui.CalcTextSize(map).X;
+            draw.AddText(ImGui.GetFont(), f * scale, new(x, y), muted, label); x += ImGui.CalcTextSize(label).X * scale + f * .35f;
+            var map = Map(date); draw.AddText(ImGui.GetFont(), f * scale, new(x, y), ImGui.ColorConvertFloat4ToU32(ImGui.GetStyle().Colors[(int)ImGuiCol.Text] with { W = .82f }), map); x += ImGui.CalcTextSize(map).X * scale;
         }
         draw.PopClipRect();
         FrontlineSummaryFits = x <= pos.X + size.X + .5f;
@@ -286,6 +337,9 @@ internal sealed partial class MainWindow : Window
     {
         if (model.Calendar is null) return;
         FrontlineCellLabelCount = 0;
+        CalendarPointCounts.Clear();
+        HousingDayTargets.Clear();
+        HousingDayCaptions.Clear();
         OguDayTargets.Clear();
         var origin = ImGui.GetCursorScreenPos();
         var width = ImGui.GetContentRegionAvail().X;
@@ -293,15 +347,26 @@ internal sealed partial class MainWindow : Window
         GridOrigin = origin; GridCellWidth = cellWidth;
         var f = ImGui.GetFontSize();
         var draw = ImGui.GetWindowDrawList();
-        var line = ImGui.ColorConvertFloat4ToU32(ThemeScope.BorderColor(model.State.View.Theme));
+        var border = ThemeScope.BorderColor(model.State.View.Theme);
+        var line = ImGui.ColorConvertFloat4ToU32(border with { W = .9f });
+        var columnLine = ImGui.ColorConvertFloat4ToU32(border with { W = Light ? .65f : .6f });
         var rowHeight = gridRowHeight;
         var weekdayHeight = f * 1.8f;
         var markerHeight = f * 1.5f;
+        var selection = ThemeScope.DateSelection(model.State.View.Theme);
+        Vector2? selectedCell = null;
         var weekdays = new[] { "일", "월", "화", "수", "목", "금", "토" };
         for (var c = 0; c < 7; c++)
         {
-            var color = c == 0 ? ThemeScope.Hex(Light ? 0xb34e64 : 0xf29aaa) : c == 6 ? ThemeScope.Hex(Light ? 0x436cba : 0x9ab9ff) : ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled];
-            draw.AddText(origin + new Vector2(c * cellWidth + 10, 2), ImGui.ColorConvertFloat4ToU32(color), weekdays[c]);
+            var color = c is 0 or 6 ? ThemeScope.WeekendColor(model.State.View.Theme, c) : ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled];
+            if (c is 0 or 6)
+            {
+                var min = origin + new Vector2(c * cellWidth, 0);
+                var header = Vector4.Lerp(ThemeScope.CalendarDaySurface(model.State.View.Theme, true, c), color, .035f);
+                draw.AddRectFilled(min, min + new Vector2(cellWidth, weekdayHeight), ImGui.ColorConvertFloat4ToU32(header), 4, ImDrawFlags.RoundCornersTop);
+                draw.AddLine(min + new Vector2(0, weekdayHeight - 1), min + new Vector2(cellWidth, weekdayHeight - 1), ImGui.ColorConvertFloat4ToU32(color with { W = .3f }));
+            }
+            draw.AddText(ImGui.GetFont(), f, origin + new Vector2(c * cellWidth + 10, 3), ImGui.ColorConvertFloat4ToU32(color), weekdays[c]);
         }
         for (var w = 0; w < model.Calendar.Weeks.Count; w++)
         {
@@ -312,11 +377,18 @@ internal sealed partial class MainWindow : Window
                 var day = week.Days[c];
                 var pos = row + new Vector2(c * cellWidth, 0);
                 var end = pos + new Vector2(cellWidth, rowHeight);
-                draw.AddRectFilled(pos, end, ImGui.ColorConvertFloat4ToU32(ThemeScope.CalendarSurface(model.State.View.Theme, day.InMonth)));
+                draw.AddRectFilled(pos, end, ImGui.ColorConvertFloat4ToU32(ThemeScope.CalendarDaySurface(model.State.View.Theme, day.InMonth, c)));
+                var housing = model.HousingForDate(day.Date);
+                if (housing is not null) DrawHousingDayBackground(day.Date, pos, end, housing);
                 var selected = model.HasDateFocus && day.Date == model.SelectedDate;
-                if (selected) draw.AddRectFilled(pos + Vector2.One, end - Vector2.One, ImGui.ColorConvertFloat4ToU32(Accent with { W = .08f }));
+                if (selected)
+                {
+                    var background = Vector4.Lerp(ThemeScope.CalendarSurface(model.State.View.Theme, day.InMonth), selection, Light ? .12f : .2f);
+                    draw.AddRectFilled(pos + Vector2.One, end - Vector2.One, ImGui.ColorConvertFloat4ToU32(background));
+                    selectedCell = pos;
+                }
                 draw.AddLine(pos, new(end.X, pos.Y), line);
-                if (c > 0) draw.AddLine(pos, new(pos.X, end.Y), line);
+                if (c > 0) draw.AddLine(pos, new(pos.X, end.Y), columnLine);
                 ImGui.SetCursorScreenPos(pos + new Vector2(2));
                 if (ImGui.InvisibleButton("###day." + UiText.Date(day.Date), new(cellWidth - 4, rowHeight - 4))) OpenDay(day.Date);
                 ImGui.SetItemAllowOverlap();
@@ -324,15 +396,28 @@ internal sealed partial class MainWindow : Window
                 var number = day.Date.Day.ToString(CultureInfo.InvariantCulture);
                 var datePos = pos + new Vector2(f * .55f,f * .4f);
                 var color = day.InMonth ? ImGui.GetStyle().Colors[(int)ImGuiCol.Text] : ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled];
-                if (day.Date == model.Today)
+                if (day.InMonth && c == 0) color = ThemeScope.Hex(Light ? 0xa75067 : 0xd59da8);
+                else if (day.InMonth && c == 6) color = ThemeScope.Hex(Light ? 0x476aa0 : 0x9baed1);
+                if (selected)
+                {
+                    var badgeMin = datePos - new Vector2(f * .2f, f * .15f);
+                    var badgeSize = new Vector2(Math.Max(f * 1.45f, ImGui.CalcTextSize(number).X + f * .4f), f * 1.45f);
+                    draw.AddRectFilled(badgeMin, badgeMin + badgeSize, ImGui.ColorConvertFloat4ToU32(selection), f * .22f);
+                    if (day.Date == model.Today)
+                        draw.AddRect(badgeMin, badgeMin + badgeSize, ImGui.ColorConvertFloat4ToU32(Accent), f * .22f, ImDrawFlags.None, Math.Max(2, f * .1f));
+                    var textPos = badgeMin + (badgeSize - ImGui.CalcTextSize(number)) / 2;
+                    draw.AddText(textPos, ImGui.ColorConvertFloat4ToU32(Light ? Vector4.One : ThemeScope.Hex(0x101b30)), number);
+                }
+                else if (day.Date == model.Today)
                 {
                     color = Light ? Vector4.One : ThemeScope.Hex(0x0e1727);
-                    UiWidgets.NumberBadge(datePos + new Vector2(f * .5f),number,f * 1.65f,Accent,color,.9f);
+                    UiWidgets.NumberBadge(datePos + new Vector2(f * .5f),number,f * (cellWidth < f * 3.5f ? 1.35f : 1.65f),Accent,color,.9f);
                 }
-                else draw.AddText(datePos, ImGui.ColorConvertFloat4ToU32(color), number);
+                else draw.AddText(ImGui.GetFont(), f * 1.05f, datePos, ImGui.ColorConvertFloat4ToU32(color), number);
                 var oguDay = SpecialCalendarDays.IsOguDay(day.Date);
                 if (oguDay) DrawOguDayDecoration(day.Date,pos,end);
                 var field = model.State.View.FrontlineUpdatesEnabled && model.State.View.ShowFrontlineInCalendar ? frontline?.Get(day.Date, model.Now) : null;
+                if (housing is not null) DrawHousingDayContent(day.Date, pos, end, housing);
                 if (!oguDay && field is not null && cellWidth > f * 6)
                 {
                     var shortMap = field.Map switch { "봉인된 바위섬" => "봉바", "영광의 평원" => "쇄빙", "온살 하카이르" => "온살", "외곽 유적지대" => "제압", _ => "워코" };
@@ -340,29 +425,35 @@ internal sealed partial class MainWindow : Window
                     FrontlineCellLabelCount++;
                 }
                 var laneHeight = week.LaneCount * markerHeight;
-                var capacity = Math.Max(0, (int)((rowHeight - f * 1.9f - laneHeight - 3) / markerHeight));
+                var housingFooter = housing is null ? 3 : f * 1.1f;
+                var pointTop = f * 1.75f + laneHeight;
                 var entries = CalendarPresentation.Build(day.Items, day.Date);
-                var overflow = day.HiddenCount > 0 || entries.Count > capacity;
-                var headerOverflow = cellWidth >= f * 7.5f;
-                var shown = Math.Max(0, Math.Min(entries.Count, capacity - (overflow && !headerOverflow ? 1 : 0)));
+                var heights = entries.Select(_ => CalendarPointHeight(cellWidth - 10)).ToArray();
+                var available = Math.Max(0, rowHeight - pointTop - housingFooter);
+                var shown = 0; var used = 0f;
+                while (shown < entries.Count && used + heights[shown] <= available) used += heights[shown++];
+                CalendarPointCounts[day.Date] = shown;
+                var offset = 0f;
                 for (var i = 0; i < shown; i++)
                 {
                     var entry = entries[i]; var item = entry.Primary;
-                    var point = pos + new Vector2(5, f * 1.9f + laneHeight + markerHeight * i);
-                    DrawCalendarButton(point, new(cellWidth - 10, markerHeight - 4), item.Event, item.Phase,
+                    var point = pos + new Vector2(5, pointTop + offset);
+                    DrawCalendarButton(point, new(cellWidth - 10, heights[i] - 3), item.Event, item.Phase,
                         "point." + UiText.Date(day.Date) + "." + i, CalendarMarkerLabel(entry), () => OpenDay(day.Date), entry.Group == CalendarDisplayGroup.Update ? UiIcon.Server : ScheduleIcon(entry.Category), entry.Category,
-                        !entry.Ongoing && entry.Edge == "end" ? SubscriptionTime.IsSubscription(entry.Category) ? "만료" : entry.Category == "maintenance" ? "종료" : "마감" : null);
+                        CalendarPointStatus(entry), wrapTitle: true);
+                    offset += heights[i];
                 }
                 var more = day.HiddenCount + Math.Max(0, entries.Count - shown);
                 if (more > 0)
                 {
-                    var morePos = headerOverflow ? pos + new Vector2(f * 2.1f, 6) : pos + new Vector2(9, f * 1.9f + laneHeight + markerHeight * shown);
-                    var label = "+" + more + (headerOverflow ? "" : "개");
-                    var size = headerOverflow ? new Vector2(ImGui.CalcTextSize(label).X + 10, f + 2) : new Vector2(cellWidth - 18, markerHeight - 2);
+                    var label = "+" + more;
+                    var scale = cellWidth < f * 4 ? .65f : .8f;
+                    var size = new Vector2(ImGui.CalcTextSize(label).X * scale + f * .25f, f * 1.05f);
+                    var morePos = new Vector2(cellWidth >= f * 4 ? pos.X + f * 2.1f : end.X - size.X - f * .15f, datePos.Y);
                     ImGui.SetCursorScreenPos(morePos);
                     if (ImGui.InvisibleButton("###more." + UiText.Date(day.Date), size)) OpenDay(day.Date);
-                    if (headerOverflow) draw.AddRectFilled(morePos, morePos + size, ImGui.ColorConvertFloat4ToU32(Accent with { W = .12f }), 5);
-                    draw.AddText(morePos + new Vector2(headerOverflow ? 5 : 0, 0), ImGui.GetColorU32(ImGuiCol.TextDisabled), label);
+                    draw.AddRectFilled(morePos, morePos + size, ImGui.ColorConvertFloat4ToU32(Accent with { W = .09f }), 3);
+                    draw.AddText(ImGui.GetFont(), f * scale, morePos + new Vector2(f * .12f, f * .1f), ImGui.GetColorU32(ImGuiCol.TextDisabled), label);
                     if (ImGui.IsItemHovered()) UiWidgets.Tooltip(more + "개 더 보기 · 클릭하면 날짜의 전체 일정을 엽니다.");
                 }
             }
@@ -375,12 +466,21 @@ internal sealed partial class MainWindow : Window
                     () => OpenDay(week.StartsOn.AddDays(Math.Clamp((int)((ImGui.GetIO().MousePos.X - row.X) / cellWidth), bar.StartColumn, bar.EndColumn))));
             }
         }
+        draw.AddRect(origin + new Vector2(.5f, weekdayHeight), origin + new Vector2(width - .5f, weekdayHeight + model.Calendar.Weeks.Count * rowHeight - .5f), line, 2);
+        if (selectedCell is { } selectedPos)
+        {
+            var inset = new Vector2(Math.Max(1.5f, f * .08f));
+            draw.AddRect(selectedPos + inset, selectedPos + new Vector2(cellWidth, rowHeight) - inset,
+                ImGui.ColorConvertFloat4ToU32(selection), 3, ImDrawFlags.None, Math.Max(2, f * .12f));
+        }
         ImGui.SetCursorScreenPos(origin);
         ImGui.Dummy(new(width, weekdayHeight + model.Calendar.Weeks.Count * rowHeight));
     }
     private void OpenDay(DateOnly date)
     {
         if (date.Year is < 2020 or > 2100) return;
+        searchFocusEventId = searchFocusPhaseId = "";
+        revealDate = date;
         model.SelectDate(date); dayPopupRequest = true; resetOngoingSection = true;
     }
     private void DrawDayPopup()
@@ -390,6 +490,7 @@ internal sealed partial class MainWindow : Window
         if (dayPopupRequest) { model.Tick(model.Now); ImGui.OpenPopup("###DaySchedule"); dayPopupRequest = false; }
         var work = ImGui.GetMainViewport().WorkSize;
         ImGui.SetNextWindowSizeConstraints(new(Math.Min(f * 29, work.X - 30), 0), new(Math.Min(f * 35, work.X - 30), work.Y - f * 3));
+        PositionSearchDayPopup();
         if (!ImGui.BeginPopup("###DaySchedule")) return;
         try
         {
@@ -398,10 +499,17 @@ internal sealed partial class MainWindow : Window
             if (SpecialCalendarDays.IsOguDay(model.SelectedDate)) DrawOguDayHeading();
             var field = model.State.View.FrontlineUpdatesEnabled ? frontline?.Get(model.SelectedDate, model.Now) : null;
             if (field is not null) UiWidgets.Secondary("전장 · " + field.Map);
+            DrawHousingDayDetail(model.SelectedDate);
             ImGui.Spacing();
-            var direct = model.DayDisplayEntries.Where(e => !e.Ongoing).ToArray();
+            var preview = SearchHiddenPreview(); SearchHiddenPreviewShown = preview.Count > 0;
+            if (preview.Count > 0)
+            {
+                MutedWrapped("숨긴 일정을 검색에서 열었습니다. 표시 설정은 유지됩니다.");
+                foreach (var entry in preview) DrawScheduleCard(entry, compact: false);
+            }
+            var direct = model.DayDisplayEntries.Where(e => !e.Ongoing).OrderByDescending(e => e.Members.Any(m => m.Event.Id == searchFocusEventId && m.Phase.Id == searchFocusPhaseId)).ToArray();
             var ongoing = model.DayDisplayEntries.Where(e => e.Ongoing).ToArray();
-            if (direct.Length == 0)
+            if (direct.Length == 0 && preview.Count == 0)
             {
                 UiWidgets.Wrapped("이날 시작·마감하거나 직접 등록한 일정은 없습니다.");
                 if (UiWidgets.IconButton("emptyDay.add", UiIcon.Plus, "개인 일정 추가", false, Accent)) { OpenEditor(); ImGui.CloseCurrentPopup(); }
@@ -427,13 +535,39 @@ internal sealed partial class MainWindow : Window
                 }
             }
             resetOngoingSection = false;
+            measuredDayPopupDate = model.SelectedDate;
+            measuredDayPopupPosition = ImGui.GetWindowPos(); measuredDayPopupSize = ImGui.GetWindowSize();
             if (ruleRequest || editorRequest || entryDeleteRequest) ImGui.CloseCurrentPopup();
         }
         finally { ImGui.EndPopup(); }
     }
+    private void PositionSearchDayPopup()
+    {
+        if (searchFocusEventId.Length == 0 || measuredDayPopupDate != model.SelectedDate || model.Calendar is not { } calendar) return;
+        var f = ImGui.GetFontSize(); var viewport = ImGui.GetMainViewport();
+        var index = model.SelectedDate.DayNumber - calendar.Weeks[0].StartsOn.DayNumber;
+        var cell = GridOrigin + new Vector2(index % 7 * GridCellWidth, f * 1.8f + index / 7 * gridRowHeight);
+        var cellEnd = cell + new Vector2(GridCellWidth, gridRowHeight);
+        var popup = measuredDayPopupPosition; var size = measuredDayPopupSize;
+        if (popup.X >= cellEnd.X || popup.X + size.X <= cell.X || popup.Y >= cellEnd.Y || popup.Y + size.Y <= cell.Y) return;
+        var min = viewport.WorkPos + new Vector2(f * .5f);
+        var max = Vector2.Max(min, viewport.WorkPos + viewport.WorkSize - size - new Vector2(f * .5f));
+        var gap = f * .6f;
+        var candidates = new[]
+        {
+            new Vector2(cellEnd.X + gap, Math.Clamp(popup.Y, min.Y, max.Y)),
+            new Vector2(cell.X - size.X - gap, Math.Clamp(popup.Y, min.Y, max.Y)),
+            new Vector2(Math.Clamp(popup.X, min.X, max.X), cell.Y - size.Y - gap),
+            new Vector2(Math.Clamp(popup.X, min.X, max.X), cellEnd.Y + gap)
+        };
+        foreach (var candidate in candidates)
+            if (candidate.X >= min.X && candidate.Y >= min.Y && candidate.X <= max.X && candidate.Y <= max.Y)
+            { ImGui.SetNextWindowPos(candidate); return; }
+    }
     private UiIcon ScheduleIcon(string category) => CalendarAppearanceStyle.Resolve(model.State.View, category).Icon;
     private string ScheduleLabel(string category) => model.State.View.UserCategories.FirstOrDefault(c => c.Id == category)?.Name ?? (category switch
     {
+        "housing" => "하우징 청약",
         "personal" => "미분류", "subscription" or "retainer" or "bag" => "이용권",
         "maintenance" => "서버 점검", "patch" => "업데이트·출시", "pvp-season" => "PvP 시즌", "pvp-series" or "reward" => "PvP 보상",
         "competition" => "대회", "sale" or "discount" => "예약·할인", _ => "이벤트"
@@ -481,6 +615,8 @@ internal sealed partial class MainWindow : Window
             var hovered = ImGui.IsItemHovered(); ImGui.SetItemAllowOverlap(); var after = ImGui.GetCursorScreenPos();
             var draw = ImGui.GetWindowDrawList();
             draw.AddRectFilled(pos, pos + new Vector2(width, height), ImGui.ColorConvertFloat4ToU32(color with { W = compact ? .045f : hovered && !item.Event.IsPersonal ? .15f : .09f }), 7);
+            if (entry.Members.Any(m => m.Event.Id == searchFocusEventId && m.Phase.Id == searchFocusPhaseId))
+                draw.AddRect(pos, pos + new Vector2(width, height), ImGui.ColorConvertFloat4ToU32(Accent with { W = .65f }), 7, ImDrawFlags.None, 2);
             draw.AddLine(pos + new Vector2(1, 9), pos + new Vector2(1, height - 9), tint, compact ? 1.5f : 3);
             UiWidgets.DrawIcon(ScheduleIcon(entry.Category), pos + new Vector2(f * .7f, f * .55f), f, tint);
             var action = entry.Ongoing ? "기간 중" : entry.Edge == "end" ? SubscriptionTime.IsSubscription(entry.Category) ? "만료" : entry.Category == "maintenance" ? "종료" : "마감" : entry.Edge == "start" && !item.Event.IsPersonal ? "시작" : "";
@@ -580,7 +716,52 @@ internal sealed partial class MainWindow : Window
         var target = Math.Clamp(current - notches, 2020 * 12, 2100 * 12 + 11);
         if (target != current) model.ChangeMonth(target - current);
     }
-    private void DrawCalendarButton(Vector2 pos, Vector2 size, CalendarEvent e, EventPhase phase, string id, string label, Action clicked, UiIcon? icon = null, string? category = null, string? status = null)
+    private static string? CalendarPointStatus(CalendarDisplayEntry entry) => !entry.Ongoing && entry.Edge == "end"
+        ? SubscriptionTime.IsSubscription(entry.Category) ? "만료" : entry.Category == "maintenance" ? "종료" : "마감" : null;
+    private static (string Title, string? Time) SplitMarkerLabel(string label) =>
+        label.Length >= 8 && label[2] == ':' && label.AsSpan(5, 3).SequenceEqual(" · ") ? (label[8..], label[..5]) : (label, null);
+    private static float CalendarPointHeight(float width) => ImGui.GetFontSize() * (width < ImGui.GetFontSize() * 7.5f ? 1.3f : 1.4f);
+    private void DrawPointTitle(Vector2 pos, Vector2 size, string label, UiIcon? icon, string? status, Vector4 color)
+    {
+        var f = ImGui.GetFontSize(); var draw = ImGui.GetWindowDrawList();
+        var (title, time) = SplitMarkerLabel(label);
+        var titleTint = ImGui.GetColorU32(ImGuiCol.Text);
+        if (size.X < f * 7.5f)
+        {
+            var inset = size.X < f * 4 ? f * .25f : f;
+            var tintColor = ImGui.ColorConvertFloat4ToU32(color);
+            if (status is not null)
+            {
+                var (background, _) = ThemeScope.StatusBadgeColors(status, Light);
+                draw.AddRectFilled(pos, new(pos.X + Math.Max(2, f * .12f), pos.Y + size.Y), ImGui.ColorConvertFloat4ToU32(background), 2);
+            }
+            if (icon.HasValue && size.X >= f * 4) UiWidgets.DrawIcon(icon.Value, pos + new Vector2(f * .25f, (size.Y - f * .55f) / 2), f * .55f, tintColor);
+            draw.AddText(ImGui.GetFont(), f * .94f, pos + new Vector2(inset, Math.Max(0, (size.Y - f * .94f) / 2)), titleTint, FitLabel(title, Math.Max(1, (size.X - inset - f * .2f) / .94f)));
+            return;
+        }
+        var x = pos.X + f * .3f; var y = pos.Y + f * .12f;
+        var tint = ImGui.ColorConvertFloat4ToU32(color); const float titleScale = 1f;
+        if (icon.HasValue) UiWidgets.DrawIcon(icon.Value, new(x, y + f * .1f), f * .62f, tint);
+        var titleX = x + f * .8f;
+        var titleRight = pos.X + size.X - f * .3f;
+        var caption = string.Join(" · ", new[] { status, time }.Where(s => s is not null));
+        if (caption.Length > 0)
+        {
+            var captionWidth = ImGui.CalcTextSize(caption).X * .8f;
+            var captionColor = tint;
+            if (status is not null)
+            {
+                var (background, foreground) = ThemeScope.StatusBadgeColors(status, Light);
+                draw.AddRectFilled(new(titleRight - captionWidth - f * .08f, y), new(titleRight + f * .08f, y + f * .95f), ImGui.ColorConvertFloat4ToU32(background with { W = .22f }), 2);
+                captionColor = ImGui.ColorConvertFloat4ToU32(Light ? foreground : background);
+            }
+            draw.AddText(ImGui.GetFont(), f * .8f, new(titleRight - captionWidth, y + f * .1f), captionColor, caption);
+            titleRight -= captionWidth + f * .3f;
+        }
+        var firstWidth = Math.Max(0, (titleRight - titleX) / titleScale);
+        draw.AddText(ImGui.GetFont(), f * titleScale, new(titleX, y), titleTint, FitLabel(title, firstWidth));
+    }
+    private void DrawCalendarButton(Vector2 pos, Vector2 size, CalendarEvent e, EventPhase phase, string id, string label, Action clicked, UiIcon? icon = null, string? category = null, string? status = null, bool wrapTitle = false)
     {
         ImGui.SetCursorScreenPos(pos);
         if (ImGui.InvisibleButton("###" + id, size)) clicked();
@@ -589,8 +770,17 @@ internal sealed partial class MainWindow : Window
         var color = style.Color;
         if (icon.HasValue) icon = style.Icon;
         var draw = ImGui.GetWindowDrawList();
-        draw.AddRectFilled(pos, pos + size, ImGui.ColorConvertFloat4ToU32(color with { W = hovered ? .3f : status is not null ? .2f : .15f }), 4);
+        draw.AddRectFilled(pos, pos + size, ImGui.ColorConvertFloat4ToU32(color with { W = hovered ? .25f : status is not null ? .17f : .13f }), 4);
+        if (wrapTitle) draw.AddRect(pos + new Vector2(.5f), pos + size - new Vector2(.5f), ImGui.ColorConvertFloat4ToU32(color with { W = hovered ? .4f : .18f }), 4);
         draw.PushClipRect(pos, pos + size, true);
+        if (wrapTitle)
+        {
+            draw.AddRectFilled(pos + new Vector2(0, 3), new Vector2(pos.X + Math.Max(2, ImGui.GetFontSize() * .11f), pos.Y + size.Y - 3), ImGui.ColorConvertFloat4ToU32(color with { W = .85f }), 1);
+            DrawPointTitle(pos, size, label, icon, status, color);
+            draw.PopClipRect();
+            if (hovered) UiWidgets.Tooltip((status is not null ? status + " · " : "") + e.Title + "\n" + UiText.Period(phase));
+            return;
+        }
         var inset = icon.HasValue ? ImGui.GetFontSize() * 1.2f : 7;
         if (status is not null)
         {
@@ -623,53 +813,6 @@ internal sealed partial class MainWindow : Window
         return "";
     }
     private static bool NeedsReview(CalendarEvent item) => item.Note?.Contains("공식 원문 재검토 대기", StringComparison.Ordinal) == true;
-    private void DrawFilters()
-    {
-        var f = ImGui.GetFontSize();
-        ImGui.SetNextItemWidth(Math.Min(f * 18, ImGui.GetContentRegionAvail().X));
-        if (ImGui.InputTextWithHint("###newsSearch", "새소식 검색", ref search, 120)) model.SetNewsQuery(search, category);
-        ContinueRow(f * 10);
-        ImGui.SetNextItemWidth(f * 10);
-        var names = new[] { "전체", "이벤트", "업데이트·점검", "PvP", "할인·예약", "공지" };
-        if (ImGui.Combo("###newsCategory", ref category, names, names.Length)) model.SetNewsQuery(search, category);
-        NewsFiltersFit = ImGui.GetItemRectMax().X <= ImGui.GetWindowPos().X + ImGui.GetWindowContentRegionMax().X + .5f;
-        ImGui.Spacing();
-    }
-    private void DrawNews()
-    {
-        UiWidgets.Heading("새소식", 1.5f); DrawFilters();
-        var f = ImGui.GetFontSize();
-        var narrow = ImGui.GetContentRegionAvail().X < f * 25;
-        var dateWidth = f * (narrow ? 3.2f : 6.3f);
-        var titleWidth = Math.Max(f, ImGui.GetContentRegionAvail().X - dateWidth - ImGui.GetStyle().ScrollbarSize - ImGui.GetStyle().CellPadding.X * 4);
-        if (!ImGui.BeginTable("###NewsRows", 2, ImGuiTableFlags.ScrollY | ImGuiTableFlags.RowBg | ImGuiTableFlags.BordersInnerH | ImGuiTableFlags.SizingFixedFit, new(0, Math.Max(1, ImGui.GetContentRegionAvail().Y)))) return;
-        try
-        {
-            ImGui.TableSetupColumn("날짜", ImGuiTableColumnFlags.WidthFixed, dateWidth);
-            ImGui.TableSetupColumn("공식 안내  ↗", ImGuiTableColumnFlags.WidthStretch);
-            ImGui.TableSetupScrollFreeze(0, 1); ImGui.TableHeadersRow();
-            foreach (var item in model.NewsEvents)
-            {
-                var date = CalendarModel.NewsDate(item);
-                var titleHeight = ImGui.CalcTextSize(item.Title, false, titleWidth).Y;
-                ImGui.TableNextRow(ImGuiTableRowFlags.None, Math.Max(f * 2.2f, titleHeight + f * .6f)); ImGui.TableNextColumn();
-                UiWidgets.Secondary(date?.ToString(narrow ? "MM.dd" : "yyyy.MM.dd", CultureInfo.InvariantCulture) ?? "—");
-                ImGui.TableNextColumn();
-                var url = SourceFor(item);
-                var pos = ImGui.GetCursorScreenPos();
-                var clicked = ImGui.Selectable("###news." + item.Id, false, ImGuiSelectableFlags.None, new(-1, titleHeight));
-                var hovered = ImGui.IsItemHovered(); var after = ImGui.GetCursorScreenPos();
-                ImGui.SetCursorScreenPos(pos); ImGui.PushTextWrapPos(ImGui.GetCursorPosX() + titleWidth);
-                try { ImGui.TextUnformatted(item.Title); }
-                finally { ImGui.PopTextWrapPos(); }
-                ImGui.SetCursorScreenPos(after);
-                if (clicked && url is not null) model.Post(() => Util.OpenLink(url));
-                if (hovered) UiWidgets.Tooltip(item.Title + (url is null ? "\n연결된 공식 안내가 없습니다." : "\n클릭하면 공식 안내를 엽니다."));
-            }
-            if (model.NewsEvents.Count == 0) { ImGui.TableNextRow(); ImGui.TableNextColumn(); ImGui.TextUnformatted("검색 결과가 없습니다."); }
-        }
-        finally { ImGui.EndTable(); }
-    }
     private void DrawSubscriptions()
     {
         SubscriptionResetTargets.Clear();
@@ -718,11 +861,14 @@ internal sealed partial class MainWindow : Window
     private void DrawSettings()
     {
         var f = ImGui.GetFontSize();
+        var contentWidth = Math.Min(ImGui.GetContentRegionAvail().X, f * 64);
+        var inset = Math.Max(0, (ImGui.GetContentRegionAvail().X - contentWidth) / 2);
+        if (inset > 0) ImGui.Indent(inset);
         UiWidgets.Heading("설정", 1.5f);
         ContinueRow(ImGui.CalcTextSize("업데이트 내역").X + ImGui.GetStyle().FramePadding.X * 2);
         if (ImGui.SmallButton("업데이트 내역###releaseNotesSettings")) OpenReleaseNotes();
         ReleaseNotesSettingsTarget = ItemCenter();
-        ImGui.BeginChild("###SettingsScroll", new(0, Math.Max(1, ImGui.GetContentRegionAvail().Y)));
+        ImGui.BeginChild("###SettingsScroll", new(contentWidth, Math.Max(1, ImGui.GetContentRegionAvail().Y)));
         try
         {
             ImGui.AlignTextToFramePadding(); ImGui.TextUnformatted("테마"); ImGui.SameLine();
@@ -823,7 +969,7 @@ internal sealed partial class MainWindow : Window
                 finally { ImGui.TreePop(); }
             }
         }
-        finally { ImGui.EndChild(); }
+        finally { ImGui.EndChild(); if (inset > 0) ImGui.Unindent(inset); }
     }
     private string SettingsTime(DateTimeOffset time) => time.ToOffset(TimeSpan.FromHours(9)).ToString(
         CalendarEngine.Today(time) == model.Today ? "HH:mm" : "M/d HH:mm", CultureInfo.InvariantCulture);
@@ -868,7 +1014,7 @@ internal sealed partial class MainWindow : Window
         }
         var rows = CalendarAppearanceStyle.Groups.Select(g => (Group: (CalendarGroup?)g.Group, Id: g.Group.ToString(), g.Label, g.Category, Icon: g.Icon, Custom: (UserCalendarCategory?)null))
             .Concat(model.State.View.UserCategories.Select(c => (Group: (CalendarGroup?)null, c.Id, Label: c.Name, Category: c.Id, Icon: c.Id == "user:default-raid" ? UiIcon.Raid : UiIcon.Person, Custom: (UserCalendarCategory?)c))).ToArray();
-        var columns = ImGui.GetContentRegionAvail().X >= f * 66 ? 2 : 1;
+        var columns = ImGui.GetContentRegionAvail().X >= f * 60 ? 2 : 1;
         var tight = ImGui.GetContentRegionAvail().X < f * 28;
         CategoryNotificationTargets.Clear(); CategoryDeleteTargets.Clear();
         if (!ImGui.BeginTable("###AppearanceRows", columns * 5, ImGuiTableFlags.SizingStretchProp | ImGuiTableFlags.RowBg, new(ImGui.GetContentRegionAvail().X, 0))) return;
@@ -916,6 +1062,8 @@ internal sealed partial class MainWindow : Window
                         ImGui.EndPopup();
                     }
                     ImGui.TableNextColumn();
+                    var estimatedHousing = group == CalendarGroup.Housing;
+                    ImGui.BeginDisabled(estimatedHousing);
                     var enabled = NotificationPolicy.CategoryRule(model.State, id).Enabled;
                     if (ImGui.Checkbox("###appearanceAlarmEnabled",ref enabled)) model.SetCategoryNotificationEnabled(id,enabled);
                     AppearanceAlarmTargets[id] = ItemCenter();
@@ -924,6 +1072,8 @@ internal sealed partial class MainWindow : Window
                     if (ImGui.Button("설정###configureNotification", new(-1, ImGui.GetFrameHeight()))) OpenCategoryNotification(id);
                     if (enabled) ImGui.PopStyleColor();
                     CategoryNotificationTargets[id] = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
+                    ImGui.EndDisabled();
+                    if (estimatedHousing && ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled)) UiWidgets.Tooltip("하우징은 날짜 칸의 배경과 문구로 표시합니다. 별도 시간 알림은 제공하지 않습니다.");
                     AppearanceRowsFit &= ImGui.GetItemRectMax().X <= ImGui.GetWindowPos().X + ImGui.GetWindowContentRegionMax().X + .5f;
                     ImGui.TableNextColumn();
                     if (custom is not null)
@@ -993,14 +1143,15 @@ internal sealed partial class MainWindow : Window
                     foreach (var id in ids)
                     {
                         ImGui.TableNextRow(); ImGui.TableNextColumn();
-                        UiWidgets.Wrapped((model.Events.FirstOrDefault(e => e.Id == id)?.Title ?? "현재 자료에 없는 일정") + " · 행사 전체");
+                        var item = model.FindEvent(id);
+                        UiWidgets.Wrapped((item?.Title ?? "현재 자료에 없는 일정") + (item?.Category == "housing" ? " · " + id[11..] : "") + " · 행사 전체");
                         ImGui.TableNextColumn(); if (ImGui.SmallButton("복원###restore." + id)) model.SetEventHidden(id, false);
                     }
                     foreach (var phase in phases)
                     {
-                        var item = model.Events.FirstOrDefault(e => e.Id == phase.EventId);
+                        var item = model.FindEvent(phase.EventId);
                         var label = item?.Phases.FirstOrDefault(p => p.Id == phase.PhaseId)?.Label ?? "현재 자료에 없는 단계";
-                        ImGui.TableNextRow(); ImGui.TableNextColumn(); UiWidgets.Wrapped((item?.Title ?? "현재 자료에 없는 일정") + " · " + label + " · 이 일정만");
+                        ImGui.TableNextRow(); ImGui.TableNextColumn(); UiWidgets.Wrapped((item?.Title ?? "현재 자료에 없는 일정") + (item?.Category == "housing" ? " · " + phase.EventId[11..] : "") + " · " + label + " · 이 일정만");
                         ImGui.TableNextColumn(); if (ImGui.SmallButton("복원###restorePhase." + phase.EventId + "." + phase.PhaseId)) model.SetPhaseHidden(phase.EventId, phase.PhaseId, false);
                     }
                 }

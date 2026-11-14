@@ -14,7 +14,10 @@ if (args.Length == 2 && args[0] == "--inspect-plugin")
     var expectedVersion = Version.Parse(manifest.RootElement.GetProperty("AssemblyVersion").GetString()!);
     if (assembly.GetName().Version != expectedVersion) throw new InvalidDataException("Plugin version does not match its manifest");
     var releaseNotesVersion = assembly.GetType("DuckbillCalendar.Plugin.PluginReleaseNotes",true)!.GetField("CurrentVersion",BindingFlags.Static | BindingFlags.Public)!.GetRawConstantValue() as string;
-    if (releaseNotesVersion != expectedVersion.ToString() || !manifest.RootElement.GetProperty("Changelog").GetString()!.StartsWith("최초 배포",StringComparison.Ordinal)) throw new InvalidDataException("Release notes and manifest do not match the release");
+    var releaseNotesType = assembly.GetType("DuckbillCalendar.Plugin.PluginReleaseNotes",true)!;
+    var latestNotes = ((System.Collections.IEnumerable)releaseNotesType.GetProperty("Entries")!.GetValue(null)!).Cast<object>().First();
+    var latestTitle = (string)latestNotes.GetType().GetProperty("Title")!.GetValue(latestNotes)!;
+    if (releaseNotesVersion != expectedVersion.ToString() || !manifest.RootElement.GetProperty("Changelog").GetString()!.StartsWith(latestTitle,StringComparison.Ordinal)) throw new InvalidDataException("Release notes and manifest do not match the release");
     using var icon = assembly.GetManifestResourceStream("DuckbillCalendar.BittyDuckbill") ?? throw new InvalidDataException("Missing minion resource");
     if (Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(icon)) != "7a0e1aa9403900d2def16ca56be68c4106040c822ef42b1efb12db003be0795a") throw new InvalidDataException("Minion resource hash mismatch");
     foreach (var name in new[] { "DuckbillCalendar.ExampleFeed", "DuckbillCalendar.OfficialSnapshot" })
@@ -23,7 +26,7 @@ if (args.Length == 2 && args[0] == "--inspect-plugin")
         using var document = System.Text.Json.JsonDocument.Parse(stream);
         if (document.RootElement.ValueKind != System.Text.Json.JsonValueKind.Object) throw new InvalidDataException("Invalid feed resource: " + name);
     }
-    Console.WriteLine($"Plugin artifact: manifest/assembly/release-notes version {expectedVersion}, first-release Changelog, minion SHA256 and both embedded feeds verified.");
+    Console.WriteLine($"Plugin artifact: manifest/assembly/release-notes version {expectedVersion}, latest Changelog, minion SHA256 and both embedded feeds verified.");
     return;
 }
 if (args.Contains("--preview"))
@@ -43,7 +46,7 @@ var bundle = File.ReadAllBytes(Path.Combine(root, "data/live/kr-calendar.snapsho
 var now = new DateTimeOffset(2026, 11, 13, 12, 0, 0, TimeSpan.FromHours(9));
 var rows = new List<string> { "scale,theme,width,height,canvasHeight,gridHeight,hostScroll" };
 var flags = BindingFlags.Instance | BindingFlags.NonPublic;
-Check(PluginReleaseNotes.Entries.Count == 1 && PluginReleaseNotes.Entries[0].Version == PluginReleaseNotes.CurrentVersion && PluginReleaseNotes.Entries[0].Title == "최초 배포","Public history starts with one initial release rather than internal development iterations");
+Check(PluginReleaseNotes.Entries.Count == 2 && PluginReleaseNotes.Entries[0].Version == PluginReleaseNotes.CurrentVersion && PluginReleaseNotes.Entries[0].Title == "하우징 청약과 달력 검색" && PluginReleaseNotes.Entries[1] is { Version: "0.3.2.0", Title: "최초 배포" },"Public history shows the current user-facing update and preserves the first release");
 foreach (var scale in new[] { 1f, 1.5f, 2f })
 {
     unsafe
@@ -58,8 +61,9 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             { io.Fonts.AddFontFromFileTTF(fontPath, 17 * scale, default, glyphs); byte* pixels; int w, h; io.Fonts.GetTexDataAsRGBA32(0, &pixels, &w, &h); }
             using var http = new HttpClient(new NoNetwork());
             using var workspace = new CalendarWorkspace(Path.Combine(artifacts, "state-" + scale), example, http, bundledFeed: bundle);
-            var model = new CalendarModel(workspace); model.SetAutomaticUpdateState(false, null); model.Tick(now);
-            var main = new MainWindow(model);
+            var model = new CalendarModel(workspace); model.SetAutomaticUpdateState(false, null); model.SetCalendarVisible(CalendarGroup.Housing,false); model.Tick(now);
+            var openedSearchLinks = new List<string>();
+            var main = new MainWindow(model, openLink: url => openedSearchLinks.Add(url));
             void Field(string name, object value) => typeof(MainWindow).GetField(name, flags)!.SetValue(main, value);
             T Read<T>(string name) => (T)typeof(MainWindow).GetField(name, flags)!.GetValue(main)!;
             void Call(string name, params object?[] values) => typeof(MainWindow).GetMethod(name, flags)!.Invoke(main, values);
@@ -84,6 +88,22 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
                 ImGui.Render(); model.Tick(now);
             }
             void ClosePopups() { context.OpenPopupStack.Clear(); Field("editorOpen", false); Field("editorRequest", false); Field("dayPopupRequest", false); Field("ruleWindowOpen",false); }
+            bool HasDateOutline(DateOnly date)
+            {
+                var index=date.DayNumber-model.Calendar!.Weeks[0].StartsOn.DayNumber;
+                var min=main.GridOrigin+new Vector2(index%7*main.GridCellWidth,17*scale*1.8f+index/7*main.GridRowHeight);
+                var max=min+new Vector2(main.GridCellWidth,main.GridRowHeight);
+                var color=ImGui.ColorConvertFloat4ToU32(ThemeScope.DateSelection(model.State.View.Theme));
+                var list=Find("MonthGrid").DrawList; var band=Math.Max(5,17*scale*.3f);
+                bool left=false,right=false,top=false,bottom=false;
+                for(var i=0;i<list.VtxBuffer.Size;i++)
+                {
+                    var vertex=list.VtxBuffer[i]; var p=vertex.Pos;
+                    if(vertex.Col!=color || p.X<min.X || p.X>max.X || p.Y<min.Y || p.Y>max.Y) continue;
+                    left|=p.X<min.X+band; right|=p.X>max.X-band; top|=p.Y<min.Y+band; bottom|=p.Y>max.Y-band;
+                }
+                return left&&right&&top&&bottom;
+            }
             var f = 17 * scale;
             foreach (var theme in new[] { "midnight", "cloud", "graphite" })
             {
@@ -98,19 +118,39 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
                     Check(Find("DetailPane").Handle == null && Find("ContextAgenda").Handle == null, $"No empty permanent detail panel at {theme}/{scale}/{size}");
                     Check(main.GridRowHeight >= f * 4.7f && main.GridCellWidth > 0, $"Date targets remain usable at {theme}/{scale}/{size}");
                     Check(main.HeaderFits, $"Month navigation and add/filter actions stay inside the host at {theme}/{scale}/{size}");
+                    Check(main.CalendarActionsSingleRow && main.NavigationFits, $"Month and all five tools share the first row at {theme}/{scale}/{size}");
+                    Check(main.CalendarPointCounts.GetValueOrDefault(new(2026,11,4))>=1 && main.CalendarPointCounts.GetValueOrDefault(new(2026,11,10))>=1,
+                        $"Narrow cells preserve event titles instead of showing only an overflow count at {theme}/{scale}/{size}");
                     if (size.X - 32 > f * 43 && size.Y >= f * 18)
                         Check(main.CalendarActionsSingleRow, $"Filter and add stay on one row when there is space at {theme}/{scale}/{size}");
                     if (scale == 1 && size.Y >= 720)
                         Check(Math.Abs(grid.Pos.Y + grid.Size.Y - (canvas.Pos.Y + canvas.Size.Y)) < f * 2, $"Month fills vertical canvas without a large lower void at {theme}/{size}");
                     rows.Add(FormattableString.Invariant($"{scale},{theme},{size.X},{size.Y},{canvas.Size.Y},{grid.Size.Y},{host.ScrollMax.Y}"));
-                    Field("activeTab", 1); for (var i = 0; i < 3; i++) Frame(size.X, size.Y);
-                    var news = Find("NewsRows");
-                    Check(news.Handle != null && news.Size.X > size.X * .85f, $"News uses full-width direct-link table at {theme}/{scale}/{size}");
-                    Check(main.NewsFiltersFit, $"News search/category controls wrap inside the host at {theme}/{scale}/{size}");
-                    Field("activeTab", 2); for (var i = 0; i < 3; i++) Frame(size.X, size.Y);
-                    Check(Find("SettingsScroll").Handle != null && Find("EmptySubscriptionCard").Handle == null && main.AppearanceIconTargets.Count == 8, $"Settings expose all eight category styles without expanding a section or an empty subscription card at {theme}/{scale}/{size}");
+                    Check(main.CalendarSearchFits && !main.CalendarSearchOpen && main.CalendarSearchInputTarget==Vector2.Zero && main.CalendarSearchButtonTarget.X>0 && main.NavigationFits,
+                        $"Folded search and navigation stay inside the calendar at {theme}/{scale}/{size}");
+                    Check(Find("NewsRows").Handle == null, $"Schedule discovery uses the calendar without a separate news screen at {theme}/{scale}/{size}");
+                    Check(main.TodayButtonSize.X>=main.TodayButtonSize.Y*1.45f && main.TodayButtonSize.X>=ImGui.CalcTextSize("오늘").X+f,
+                        $"Today button has horizontal breathing room at {theme}/{scale}/{size}");
+                    model.SelectDate(new(2026,11,4)); for(var i=0;i<3;i++) Frame(size.X,size.Y);
+                    Check(HasDateOutline(new(2026,11,4)),$"Selected date has an opaque outline on all four cell edges at {theme}/{scale}/{size}");
+                    var headerBefore=new[]{main.TodayButtonTarget,main.CalendarSearchButtonTarget,main.CalendarFilterTarget,main.CalendarAddTarget,main.HeaderNotificationsTarget,main.HeaderSettingsTarget};
+                    var selectedBeforeSettings=model.SelectedDate;
+                    var settingsTarget=main.HeaderSettingsTarget;
+                    Click(settingsTarget,false,size.X,size.Y); Click(settingsTarget,true,size.X,size.Y); Click(settingsTarget,false,size.X,size.Y);
+                    for (var i = 0; i < 3; i++) Frame(size.X, size.Y);
+                    Check(Find("SettingsScroll").Handle != null && Find("EmptySubscriptionCard").Handle == null && main.AppearanceIconTargets.Count == 9, $"Settings expose all nine category styles without expanding a section or an empty subscription card at {theme}/{scale}/{size}");
+                    Check(Read<int>("activeTab")==2 && headerBefore.SequenceEqual(new[]{main.TodayButtonTarget,main.CalendarSearchButtonTarget,main.CalendarFilterTarget,main.CalendarAddTarget,main.HeaderNotificationsTarget,main.HeaderSettingsTarget}),
+                        $"Settings preserves every header control position after a real gear click at {theme}/{scale}/{size}");
+                    var settingsBody=Find("SettingsScroll");
+                    Check(settingsBody.Size.X<=f*64+1 && Math.Abs(settingsBody.Pos.X+settingsBody.Size.X/2-(host.Pos.X+host.Size.X/2))<=f,
+                        $"Settings keeps a centered readable content width at {theme}/{scale}/{size}");
                     Field("appearanceSettingsRequest", true); for (var i = 0; i < 3; i++) Frame(size.X, size.Y);
                     Check(main.AppearanceRowsFit, $"Category icon and color controls stay inside settings at {theme}/{scale}/{size}");
+                    settingsTarget=main.HeaderSettingsTarget;
+                    Click(settingsTarget,false,size.X,size.Y); Click(settingsTarget,true,size.X,size.Y); Click(settingsTarget,false,size.X,size.Y);
+                    for(var i=0;i<3;i++) Frame(size.X,size.Y);
+                    Check(Read<int>("activeTab")==0 && model.SelectedDate==selectedBeforeSettings && headerBefore.SequenceEqual(new[]{main.TodayButtonTarget,main.CalendarSearchButtonTarget,main.CalendarFilterTarget,main.CalendarAddTarget,main.HeaderNotificationsTarget,main.HeaderSettingsTarget}),
+                        $"The same gear returns to the calendar without moving controls or losing the date at {theme}/{scale}/{size}");
                 }
             }
             workspace.UpdateState(workspace.State with { View = workspace.State.View with { Theme = "midnight" } }); workspace.FlushAsync().GetAwaiter().GetResult(); model.Tick(now);
@@ -122,11 +162,15 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             void Click(Vector2 p, bool pressed, float width = 1320, float height = 1050)
             { io.AddMousePosEvent(p.X, p.Y); io.AddMouseButtonEvent(0, pressed); Frame(width, height); }
             Click(point, false); Click(point, true); Click(point, false);
+            Frame(1320,1050);
             Check(model.SelectedDate == date && model.DayBoundaryItems.Count == 3 && model.SelectedEventId is null, $"Date click shows all three February 19 schedules without selecting an arbitrary detail at {scale}x");
             Check(Find("DaySchedule").Handle != null, $"Date click opens a bounded day popup at {scale}x");
+            Check(HasDateOutline(date),$"The selected date remains outlined behind the day popup at {scale}x");
             var popup = Find("DaySchedule");
             Check(popup.Size.X <= io.DisplaySize.X && popup.Size.Y <= io.DisplaySize.Y, $"Day popup fits viewport at {scale}x");
             ClosePopups();
+            Frame(1320,1050);
+            Check(HasDateOutline(date),$"Closing the popup retains the selected date emphasis at {scale}x");
             var markerPoint = main.GridOrigin + new Vector2(dayIndex % 7 * main.GridCellWidth + 25, f * 1.8f + dayIndex / 7 * main.GridRowHeight + f * 2.3f);
             Click(markerPoint, false); Click(markerPoint, true); Click(markerPoint, false);
             Check(model.PanelMode == CalendarPanelMode.Day && model.SelectedDate == date && model.SelectedEventId is null, $"Marker opens the same complete date popup at {scale}x");
@@ -188,7 +232,7 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             var party = new PersonalEntry { Id = "native-party", Title = "공대 출발", Kind = "personal", When = CalendarBoundary.Instant(new(2026, 11, 15, 18, 0, 0, TimeSpan.FromHours(9))) };
             model.SaveEntry(party); model.Tick(now); Call("OpenDay", new DateOnly(2026, 11, 15));
             for (var i = 0; i < 4; i++) Frame(1320, 1050);
-            Check(!main.OngoingSectionExpanded && model.DayDisplayEntries.Count(e => !e.Ongoing) == 1 && model.DayDisplayEntries.Count(e => e.Ongoing) == 3, $"Personal day defaults to its own plan with three collapsed ongoing groups at {scale}x");
+            Check(!main.OngoingSectionExpanded && model.DayDisplayEntries.Count(e => !e.Ongoing) == 1 && model.DayDisplayEntries.Count(e => e.Ongoing) == 3, $"Personal day shows its own plan while collapsing ongoing groups at {scale}x");
             var toggle = main.OngoingToggleCenter;
             Click(toggle, false); Click(toggle, true); Click(toggle, false);
             Check(main.OngoingSectionExpanded, $"Ongoing events expand in their secondary section at {scale}x");
@@ -479,6 +523,97 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             if (model.State.Entries.Count(e => e.SeriesId == registeredSeries[0].SeriesId) != 2)
                 for (var wi = 0; wi < context.Windows.Size; wi++) { var dw = context.Windows[wi]; if (dw.Active) Console.WriteLine($"ACTIVE {Marshal.PtrToStringUTF8((nint)dw.Name)} {dw.Pos} {dw.Size} {dw.Flags}"); }
             Check(model.State.Entries.Count(e => e.SeriesId == registeredSeries[0].SeriesId) == 2 && model.State.Entries.Any(e => e.Id == raid.Id), $"Native following deletion removes only the selected batch's later dates at {scale}x; scope={Read<string>("entryDeleteScope")}; remaining={model.State.Entries.Count(e => e.SeriesId == registeredSeries[0].SeriesId)}; target={main.EntryDeleteConfirmTarget}; mouse={io.MousePos}; editor={Read<bool>("editorOpen")}; rule={Read<bool>("ruleWindowOpen")}; hovered={hoverName}; popups={context.OpenPopupStack.Size}");
+            ClosePopups(); io.DisplaySize=new(1320,1050); Field("activeTab",0); model.GoToMonth(2026,11);
+            for(var i=0;i<3;i++) Frame(1320,1050);
+            var gridBeforeSearch=main.GridOrigin; var rowBeforeSearch=main.GridRowHeight;
+            var settingsSearchTarget=main.HeaderSettingsTarget;
+            Click(settingsSearchTarget,false); Click(settingsSearchTarget,true); Click(settingsSearchTarget,false); Frame(1320,1050);
+            Check(Read<int>("activeTab")==2,$"Search is available from the settings screen at {scale}x");
+            var searchButton=main.CalendarSearchButtonTarget;
+            Click(searchButton,false); Click(searchButton,true); Click(searchButton,false); Frame(1320,1050);
+            Check(Read<int>("activeTab")==0 && main.CalendarSearchOpen && main.CalendarSearchInputTarget.X>0 && main.CalendarSearchFits,$"The fixed search button opens calendar search from settings at {scale}x");
+            var searchInput=main.CalendarSearchInputTarget;
+            Click(searchInput,false); Click(searchInput,true); Click(searchInput,false);
+            foreach(var c in "백은 언제 열리지?") io.AddInputCharacter(c);
+            Frame(1320,1050); Frame(1320,1050); Frame(1320,1050); Frame(1320,1050);
+            var releaseResult=main.CalendarSearchResults.First();
+            Check(main.GridOrigin==gridBeforeSearch && main.GridRowHeight==rowBeforeSearch,$"Populated search overlays the calendar without moving or resizing it at {scale}x");
+            Check(releaseResult.Event.Id=="kr:curated:v8-release" && main.CalendarSearchResults.Any(r=>r.Phase.Id=="early-access") && model.Year==2026 && model.MonthNumber==11,
+                $"Native Korean date-question input searches across months without moving the calendar prematurely at {scale}x");
+            var linkTarget=main.CalendarSearchSourceTargets[releaseResult.Key]; var linksBefore=openedSearchLinks.Count;
+            Click(linkTarget,false); Click(linkTarget,true); Click(linkTarget,false);
+            Check(openedSearchLinks.Count==linksBefore+1 && openedSearchLinks.Last()==OfficialEventLinks.Resolve(model.Feed,releaseResult.Event,releaseResult.Phase),
+                $"Search source button dispatches exactly the resolved official link at {scale}x");
+            var resultTarget=main.CalendarSearchResultTargets[releaseResult.Key];
+            Click(resultTarget,false); Click(resultTarget,true); Click(resultTarget,false); Frame(1320,1050);
+            Check(model.SelectedDate==new DateOnly(2027,2,23) && model.SelectedEventId==releaseResult.Event.Id && Find("DaySchedule").Handle!=null && Read<string>("calendarSearch")=="" && !main.CalendarSearchOpen,
+                $"Clicking a search result opens its February date and folds search at {scale}x");
+            Check(HasDateOutline(new(2027,2,23)),$"Search arrival outlines the selected February date at {scale}x");
+            ClosePopups(); model.GoToMonth(2026,11); for(var i=0;i<3;i++) Frame(1320,1050);
+            io.AddKeyEvent(ImGuiKey.ModCtrl,true); io.AddKeyEvent(ImGuiKey.F,true); Frame(1320,1050);
+            io.AddKeyEvent(ImGuiKey.F,false); io.AddKeyEvent(ImGuiKey.ModCtrl,false); Frame(1320,1050); Frame(1320,1050);
+            Check(main.CalendarSearchOpen,$"Ctrl+F unfolds search from the calendar at {scale}x");
+            searchInput=main.CalendarSearchInputTarget; Click(searchInput,false); Click(searchInput,true); Click(searchInput,false);
+            foreach(var c in "백은") io.AddInputCharacter(c); Frame(1320,1050); Frame(1320,1050);
+            io.AddKeyEvent(ImGuiKey.Enter,true); Frame(1320,1050); io.AddKeyEvent(ImGuiKey.Enter,false); Frame(1320,1050);
+            Check(model.SelectedDate==new DateOnly(2027,2,23) && Read<string>("calendarSearch")=="" && main.CalendarSearchResults.Count==0,
+                $"Enter jumps to the first dated result and closes search results at {scale}x");
+            ClosePopups(); model.SetCalendarVisible(CalendarGroup.Patches,false); model.SetEventHidden(releaseResult.Event.Id,true); model.Tick(now);
+            Field("calendarSearch","백은"); for(var i=0;i<3;i++) Frame(1320,1050);
+            resultTarget=main.CalendarSearchResultTargets[releaseResult.Key]; Click(resultTarget,false); Click(resultTarget,true); Click(resultTarget,false); Frame(1320,1050);
+            Check(main.SearchHiddenPreviewShown && main.CardAlertTargets.ContainsKey(releaseResult.Event.Id+".release") && !model.State.View.Calendars.Patches && model.State.View.HiddenEventIds.Contains(releaseResult.Event.Id),
+                $"Hidden search matches show their details while preserving visibility choices at {scale}x");
+            ClosePopups(); model.SetEventHidden(releaseResult.Event.Id,false); model.SetCalendarVisible(CalendarGroup.Patches,true); model.Tick(now);
+            Field("calendarSearch","백은"); for(var i=0;i<3;i++) Frame(1320,1050);
+            var clearSearch=main.CalendarSearchClearTarget; Click(clearSearch,false); Click(clearSearch,true); Click(clearSearch,false);
+            Check(Read<string>("calendarSearch")=="" && main.CalendarSearchResults.Count==0,$"Clear removes search results without a dead button at {scale}x");
+            searchInput=main.CalendarSearchInputTarget; Click(searchInput,false); Click(searchInput,true); Click(searchInput,false);
+            foreach(var c in "백은") io.AddInputCharacter(c); Frame(1320,1050); Frame(1320,1050);
+            io.AddKeyEvent(ImGuiKey.Escape,true); Frame(1320,1050); io.AddKeyEvent(ImGuiKey.Escape,false); Frame(1320,1050);
+            Check(!main.CalendarSearchOpen && main.CalendarSearchInputTarget==Vector2.Zero && main.CalendarSearchResults.Count==0,$"Escape folds the active populated search field at {scale}x");
+            foreach(var searchSize in new[]{new Vector2(620,480),new Vector2(1060,720),new Vector2(1320,1050)})
+            {
+                io.DisplaySize=searchSize; ClosePopups(); model.GoToMonth(2026,11);
+                for(var i=0;i<4;i++) Frame(searchSize.X,searchSize.Y);
+                var gridPosition=main.GridOrigin; var gridHeight=main.GridRowHeight;
+                var opener=main.CalendarSearchButtonTarget;
+                Click(opener,false,searchSize.X,searchSize.Y); Click(opener,true,searchSize.X,searchSize.Y); Click(opener,false,searchSize.X,searchSize.Y);
+                for(var i=0;i<3;i++) Frame(searchSize.X,searchSize.Y);
+                foreach(var c in "백은") io.AddInputCharacter(c);
+                for(var i=0;i<5;i++) Frame(searchSize.X,searchSize.Y);
+                var popupPos=main.CalendarSearchPopupPosition; var popupSize=main.CalendarSearchPopupSize;
+                Check(main.CalendarSearchOpen && main.CalendarSearchResults.Count>0 && main.CalendarSearchFits && popupPos.X>=0 && popupPos.Y>=0 && popupPos.X+popupSize.X<=searchSize.X+1 && popupPos.Y+popupSize.Y<=searchSize.Y+1,
+                    $"Search popup and its input remain inside the real viewport at {scale}x/{searchSize}");
+                Check(main.GridOrigin==gridPosition && main.GridRowHeight==gridHeight,$"Search preserves calendar geometry at {scale}x/{searchSize}");
+                var selectedBefore=model.SelectedDate; var outside=new Vector2(20,searchSize.Y-2);
+                Click(outside,false,searchSize.X,searchSize.Y); Click(outside,true,searchSize.X,searchSize.Y); Click(outside,false,searchSize.X,searchSize.Y);
+                Check(!main.CalendarSearchOpen && model.SelectedDate==selectedBefore,$"Outside click dismisses search without selecting a result at {scale}x/{searchSize}");
+                if(searchSize.X==620)
+                {
+                    Field("calendarSearch","백은"); for(var i=0;i<4;i++) Frame(searchSize.X,searchSize.Y);
+                    var target=main.CalendarSearchResultTargets[releaseResult.Key];
+                    Click(target,false,searchSize.X,searchSize.Y); Click(target,true,searchSize.X,searchSize.Y); Click(target,false,searchSize.X,searchSize.Y);
+                    for(var i=0;i<5;i++) Frame(searchSize.X,searchSize.Y);
+                    var selectedIndex=model.SelectedDate.DayNumber-model.Calendar!.Weeks[0].StartsOn.DayNumber;
+                    var selectedCell=main.GridOrigin+new Vector2(selectedIndex%7*main.GridCellWidth,f*1.8f+selectedIndex/7*main.GridRowHeight);
+                    var detailPopup=Find("DaySchedule");
+                    if(scale==1)
+                        Check(detailPopup.Pos.X+detailPopup.Size.X<=selectedCell.X || detailPopup.Pos.X>=selectedCell.X+main.GridCellWidth || detailPopup.Pos.Y+detailPopup.Size.Y<=selectedCell.Y || detailPopup.Pos.Y>=selectedCell.Y+main.GridRowHeight,
+                            "Search detail popup leaves the selected cell visible when the minimum viewport has room");
+                    ClosePopups(); for(var i=0;i<4;i++) Frame(searchSize.X,searchSize.Y);
+                    var index=model.SelectedDate.DayNumber-model.Calendar!.Weeks[0].StartsOn.DayNumber;
+                    var selectedY=main.GridOrigin.Y+f*1.8f+index/7*main.GridRowHeight;
+                    var canvas=Find("CalendarCanvas");
+                    Check(selectedY>=canvas.Pos.Y-1 && selectedY+main.GridRowHeight<=canvas.Pos.Y+canvas.Size.Y+1 && HasDateOutline(model.SelectedDate),
+                        $"Search scrolls the full selected cell into view in the minimum window at {scale}x");
+                    var todayTarget=main.TodayButtonTarget;
+                    Click(todayTarget,false,searchSize.X,searchSize.Y); Click(todayTarget,true,searchSize.X,searchSize.Y); Click(todayTarget,false,searchSize.X,searchSize.Y);
+                    for(var i=0;i<4;i++) Frame(searchSize.X,searchSize.Y);
+                    Check(model.SelectedDate==model.Today && model.Year==model.Today.Year && model.MonthNumber==model.Today.Month && HasDateOutline(model.Today),
+                        $"Today button returns from search to an outlined current date at {scale}x");
+                }
+            }
+            io.DisplaySize=new(1320,1050);
             ClosePopups(); Field("activeTab",0); model.GoToMonth(2027,5);
             for (var i = 0; i < 4; i++) Frame(1320,1050);
             Check(main.OguDayTargets.Count == 1 && main.OguDayTargets.ContainsKey(new(2027,5,9)), $"May shows exactly one Ogu Day decoration at {scale}x");
@@ -489,6 +624,34 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             Check(main.OguDayTargets.ContainsKey(new(2028,5,9)) && ReferenceEquals(beforeEasterState,model.State), $"The annual Easter egg needs neither network data nor a stored personal schedule at {scale}x");
             model.GoToMonth(2028,6); for (var i = 0; i < 3; i++) Frame(1320,1050);
             Check(main.OguDayTargets.Count == 0, $"Ogu Day does not leak into unrelated months at {scale}x");
+            ClosePopups(); model.GoToMonth(2026,11); model.SetCalendarVisible(CalendarGroup.Housing,true); model.Tick(now);
+            for(var i=0;i<4;i++) Frame(1320,1050);
+            Check(main.HousingDayTargets.ContainsKey(new(2026,11,13)) && main.HousingDayTargets.ContainsKey(new(2026,11,14)) &&
+                main.HousingDayTargets.ContainsKey(new(2026,11,15)) && main.HousingCycleFits && main.HousingDayCaptions[new(2026,11,15)].StartsWith("청약 신청"),
+                $"External housing pattern fills the month and changes phase on the next cycle at {scale}x");
+            Check(main.HousingDayCaptions[new(2026,11,13)]=="결과 · 내일 마감" && main.HousingDayCaptions[new(2026,11,14)]=="결과 · 내일 마감",
+                $"Today and tomorrow announce the housing deadline directly inside date cells at {scale}x");
+            Check(model.CalendarEvents.All(e=>e.Category!="housing"),$"Housing uses the calendar layer without duplicate event cards at {scale}x");
+            var housingDay=main.HousingDayTargets[new(2026,11,14)]; Click(housingDay,false); Click(housingDay,true); Click(housingDay,false);
+            Check(model.SelectedDate==new DateOnly(2026,11,14) && main.HousingDayDetailShown,
+                $"Clicking housing text opens the ordinary date popup with the sourced deadline at {scale}x");
+            foreach (var popupSize in new[] { new Vector2(1320,1050), new Vector2(620,480) })
+            {
+                io.DisplaySize = popupSize;
+                ClosePopups(); for(var i=0;i<3;i++) Frame(popupSize.X,popupSize.Y);
+                var popupTarget=main.HousingCycleTarget;
+                Click(popupTarget,false,popupSize.X,popupSize.Y); Click(popupTarget,true,popupSize.X,popupSize.Y); Click(popupTarget,false,popupSize.X,popupSize.Y);
+                for(var i=0;i<3;i++) Frame(popupSize.X,popupSize.Y);
+                Check(main.HousingPopupVisible && main.HousingPopupSize.X>=Math.Min(f*27,popupSize.X-f*2)-1,
+                    $"Housing details have a readable explicit width at {scale}x/{popupSize}");
+                Check(main.HousingPopupSize.Y<=popupSize.Y-f*2+1 && main.HousingPopupPosition.X>=0 && main.HousingPopupPosition.X+main.HousingPopupSize.X<=popupSize.X+1,
+                    $"Housing details stay inside the viewport at {scale}x/{popupSize} (pos={main.HousingPopupPosition}, size={main.HousingPopupSize})");
+            }
+            io.DisplaySize = new(1320,1050);
+            ClosePopups(); model.SetCalendarVisible(CalendarGroup.Housing,false); model.Tick(now); Frame(1320,1050);
+            Check(main.HousingDayTargets.Count==0 && main.HousingDayCaptions.Count==0 && main.HousingCycleTarget==Vector2.Zero,
+                $"Turning housing off removes the background layer, captions and summary at {scale}x");
+            ClosePopups(); model.Tick(now);
             ClosePopups(); io.DisplaySize = new(620,480); main.OpenSettings();
             workspace.FlushAsync().GetAwaiter().GetResult(); model.Tick(now);
             for (var i = 0; i < 4; i++) Frame(620,480);
@@ -497,8 +660,8 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             Click(notesButton,false,620,480); Click(notesButton,true,620,480); Click(notesButton,false,620,480);
             for (var i = 0; i < 2; i++) Frame(620,480);
             var notesScroll = Find("ReleaseNotesScroll");
-            Check(Read<int>("activeTab") == 6 && main.ReleaseNotesRenderedEntries == 1 && context.OpenPopupStack.Size == 0,
-                $"Settings opens the offline initial-release history as an inline page at {scale}x");
+            Check(Read<int>("activeTab") == 6 && main.ReleaseNotesRenderedEntries == PluginReleaseNotes.Entries.Count && context.OpenPopupStack.Size == 0,
+                $"Settings opens the current and previous offline release history as an inline page at {scale}x");
             Check(notesScroll.Handle != null && notesScroll.Size.Y > 0 && notesScroll.Pos.Y + notesScroll.Size.Y <= 490 &&
                 main.ReleaseNotesBackTarget.X < 620 && main.ReleaseNotesBackTarget.Y < 480,
                 $"History text scrolls inside a small viewport while the return action remains visible at {scale}x");

@@ -29,7 +29,7 @@ public sealed record AlertPreference
     public bool Enabled { get; init; } = true;
 }
 
-public enum CalendarGroup { Events, Patches, Maintenance, Pvp, Competitions, Sales, Subscriptions, Personal, Notices }
+public enum CalendarGroup { Events, Patches, Maintenance, Pvp, Competitions, Sales, Subscriptions, Personal, Notices, Housing }
 
 public sealed record CalendarAppearance
 {
@@ -46,6 +46,7 @@ public sealed record HiddenSchedulePhase
 
 public sealed record CalendarVisibility
 {
+    public bool Housing { get; init; } = true;
     public bool Events { get; init; } = true;
     public bool Patches { get; init; } = true;
     public bool Maintenance { get; init; } = true;
@@ -90,6 +91,7 @@ public sealed record ViewSettings
 
 public sealed record LocalState
 {
+    public IReadOnlyList<HousingLotteryObservation> HousingObservations { get; init; } = [];
     public int SchemaVersion { get; init; } = 1;
     public IReadOnlyList<AccountProfile> Profiles { get; init; } = [new()];
     public string ActiveProfileId { get; init; } = "default";

@@ -17,6 +17,10 @@ DuckbillFisher was consulted for architecture and API usage. Its implementation 
 
 [에테르웨이](https://aether-way.com/frontline)의 공개 날짜별 한국 서버 일일 전장 응답을 사용합니다. 커뮤니티 제공 정보이며 공식 검증 자료로 표시하지 않습니다. 제공 사이트의 코드를 포함하지 않습니다. 네트워크 없는 미리보기와 parser 검사에는2026-11-13에 받은2026-11 응답 fixture를 사용합니다.
 
+## 하우징 청약 주기
+
+[에테르웨이 캘린더](https://aether-way.com/calendar)의 한국 서버 주기 자료를 참고해 2026-05-01 00:00 KST 기준과 신청 5일·결과 4일 주기를 별도로 구현했습니다. 확인일은 2026-11-14이며 제공 사이트의 소스 코드는 포함하지 않습니다. 커뮤니티 자료를 기반으로 한 달력 표시이며, 게임 내 표시와 공식 공지가 우선합니다. 상세 출처는 [하우징 일정 문서](docs/development/HOUSING-LOTTERY.md)에 기록합니다.
+
 ## 오구데이 아이콘
 
 `Assets/bitty-duckbill.png`는 [공식 에오르제아 데이터베이스의 Bitty Duckbill](https://na.finalfantasyxiv.com/lodestone/playguide/db/item/87347462fe9/)에 표시된 꼬마친구 아이콘 원본입니다. [이미지 출처](https://lds-img.finalfantasyxiv.com/itemicon/bd/bde3cd298cc6c320cf167bc5410e4b1da08d2852.png?n7.58). FINAL FANTASY XIV 관련 이미지의 저작권은 SQUARE ENIX에 있습니다. 이 아이콘은 매년5월9일의 작은 장식으로 사용하며 실행 중 외부 다운로드를 하지 않습니다. Native 검사용 RGBA fixture는 같은 PNG를 픽셀 형식만 변환한 값이며 두 파일의 SHA-256을 검사합니다.

@@ -7,10 +7,20 @@ internal sealed record PluginReleaseNote(string Version,string Title,IReadOnlyLi
 
 internal static class PluginReleaseNotes
 {
-    public const string CurrentVersion = "0.3.2.0";
+    public const string CurrentVersion = "0.4.0.0";
     public static IReadOnlyList<PluginReleaseNote> Entries { get; } = Array.AsReadOnly(new[]
     {
-        new PluginReleaseNote(CurrentVersion,"최초 배포",Array.AsReadOnly(new[]
+        new PluginReleaseNote(CurrentVersion,"하우징 청약과 달력 검색",Array.AsReadOnly(new[]
+        {
+            "하우징 청약의 신청·결과 확인·구매 확정 기간을 월 달력에서 확인할 수 있습니다. 오늘·내일 마감을 강조하며 표시 메뉴에서 끌 수 있습니다.",
+            "상단 검색 버튼이나 Ctrl+F로 일정 이름·버전 번호를 검색합니다. 예를 들어 ‘백은’을 찾고 결과를 누르거나 Enter를 누르면 해당 날짜와 상세로 이동합니다.",
+            "새소식 탭을 달력 검색으로 통합했습니다. 검색은 달력 위의 팝업으로 열리며, 숨긴 일정도 표시 설정을 바꾸지 않고 찾아볼 수 있습니다.",
+            "선택 날짜의 테두리·배경·날짜 숫자를 강조하고 오늘 표시와 구분했습니다. 작은 창에서는 검색한 날짜가 보이도록 스크롤하며 공간이 있으면 상세 팝업이 선택 칸을 피해 열립니다.",
+            "달력·설정·알림 화면에서 상단 도구의 위치를 유지합니다. 설정 톱니를 다시 누르면 선택 날짜를 유지하고 달력으로 돌아갑니다. 넓은 설정 화면은 분류 목록을 두 열로 보여줍니다.",
+            "주말 열을 색으로 구분하고 글자·구분선의 대비를 조정했습니다. 일정 제목은 한 줄과 말줄임으로 표시하며 전체 제목은 호버하거나 날짜를 눌러 확인합니다. 하우징 설명 창의 과도한 줄바꿈도 줄였습니다.",
+            "하우징 일정은 에테르웨이의 한국 서버 주기 자료를 기준으로 표시합니다. 운영 일정이 바뀌면 게임 내 표시와 공식 공지를 우선 확인하세요."
+        })),
+        new PluginReleaseNote("0.3.2.0","최초 배포",Array.AsReadOnly(new[]
         {
             "한국 파이널판타지14의 주요 이벤트·업데이트·게임 서버 점검 일정을 달력에서 확인하고 공식 안내를 열 수 있습니다.",
             "개인 일정과 공격대 일정을 등록하고, 요일마다 다른 시각으로 여러 주의 일정을 한 번에 추가할 수 있습니다.",
