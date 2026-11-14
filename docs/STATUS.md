@@ -1,8 +1,8 @@
 # 현재 상태
 
-2026-11-15 · 0.4.0.1 수정판 정식 공개, 공용 설치 목록 갱신 진행. 이전 화면 명세보다 현재 문서와 [노출 규칙](design/DISPLAY-POLICY-RESEARCH.md)이 우선합니다.
+2026-11-15 · 0.4.0.1 수정판 정식 공개와 공용 설치 목록 동기화 완료. 이전 화면 명세보다 현재 문서와 [노출 규칙](design/DISPLAY-POLICY-RESEARCH.md)이 우선합니다.
 
-0.4.0.1 수정판: 사용자 인게임 확인에서 동작하지 않은 검색 단축키를 제거하고 검색 버튼으로 진입 안내를 통일했다. UI 툴팁·게임 내 내역·manifest 요약·README와 공개 0.4.0.0 릴리스 설명을 정정했다. 기존 검색 버튼·결과 클릭·Enter·Esc 동작은 유지한다.
+0.4.0.1 수정판: 사용자 인게임 확인에서 동작하지 않은 검색 단축키를 제거하고 검색 버튼으로 진입 안내를 통일했다. UI 툴팁·게임 내 내역·manifest 요약·README와 공개 0.4.0.0 릴리스 설명을 정정했다. 기존 검색 버튼·결과 클릭·Enter·Esc 동작은 유지한다. 정식 빌드와 1,698개 검사·공개 ZIP 검증·공용 목록 Actions 및 sync -Check가 통과했다. [0.4.0.1 배포 기록](development/RELEASE-0.4.0.1.md).
 
 0.4.0.0 배포: [정식 Release](https://github.com/PlatyDuckbill/DuckbillCalendar/releases/tag/v0.4.0.0). Release 빌드 경고/오류0, 1,698개 검사와 리소스222개, 공개 ZIP·체크섬·태그 아이콘·DLL 버전·업데이트 노트 검증 통과. [공용 목록 Actions](https://github.com/PlatyDuckbill/DuckbillRepo/actions/runs/43627273207)와 [수집 Actions](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43627081116) 성공. 실제 HTTPS 피드 revision35/99건과 재시작 복원·오늘/내일 전장 수신도 확인했다. [배포 기록](development/RELEASE-0.4.0.0.md).
 
