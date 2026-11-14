@@ -88,8 +88,6 @@ internal sealed partial class MainWindow : Window
     {
         if (selectSettings) { activeTab = 2; selectSettings = false; }
         RouteNotificationRequests();
-        if (ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows) && ImGui.GetIO().KeyCtrl && ImGui.IsKeyPressed(ImGuiKey.F) && !editorOpen && !ruleWindowOpen)
-        { activeTab = 0; OpenCalendarSearch(); }
         if (activeTab == 1) activeTab = 0;
         DrawNavigation();
         DrawFrontline();
@@ -164,7 +162,7 @@ internal sealed partial class MainWindow : Window
         if (CalendarToolButton("search", UiIcon.Search, compact ? "" : "검색", calendarSearchOpen, compact))
         { activeTab = 0; if (calendarSearchOpen) CloseCalendarSearch(); else OpenCalendarSearch(); }
         CalendarSearchButtonTarget = ItemCenter();
-        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("일정 찾기 · Ctrl+F");
+        if (ImGui.IsItemHovered()) UiWidgets.Tooltip("일정 찾기");
         ImGui.SameLine();
         if (CalendarToolButton("filters", UiIcon.Filter, compact ? "" : "표시", false, compact)) { activeTab = 0; ImGui.OpenPopup("###CalendarVisibilityPopup"); }
         CalendarFilterTarget = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;

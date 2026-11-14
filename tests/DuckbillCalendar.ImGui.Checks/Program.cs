@@ -46,7 +46,7 @@ var bundle = File.ReadAllBytes(Path.Combine(root, "data/live/kr-calendar.snapsho
 var now = new DateTimeOffset(2026, 11, 13, 12, 0, 0, TimeSpan.FromHours(9));
 var rows = new List<string> { "scale,theme,width,height,canvasHeight,gridHeight,hostScroll" };
 var flags = BindingFlags.Instance | BindingFlags.NonPublic;
-Check(PluginReleaseNotes.Entries.Count == 2 && PluginReleaseNotes.Entries[0].Version == PluginReleaseNotes.CurrentVersion && PluginReleaseNotes.Entries[0].Title == "하우징 청약과 달력 검색" && PluginReleaseNotes.Entries[1] is { Version: "0.3.2.0", Title: "최초 배포" },"Public history shows the current user-facing update and preserves the first release");
+Check(PluginReleaseNotes.Entries.Count == 3 && PluginReleaseNotes.Entries[0].Version == PluginReleaseNotes.CurrentVersion && PluginReleaseNotes.Entries[0].Title == "검색 안내 정리" && PluginReleaseNotes.Entries[1].Version == "0.4.0.0" && PluginReleaseNotes.Entries[2] is { Version: "0.3.2.0", Title: "최초 배포" },"Public history shows the search guidance correction and preserves earlier releases");
 foreach (var scale in new[] { 1f, 1.5f, 2f })
 {
     unsafe
@@ -552,7 +552,8 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             ClosePopups(); model.GoToMonth(2026,11); for(var i=0;i<3;i++) Frame(1320,1050);
             io.AddKeyEvent(ImGuiKey.ModCtrl,true); io.AddKeyEvent(ImGuiKey.F,true); Frame(1320,1050);
             io.AddKeyEvent(ImGuiKey.F,false); io.AddKeyEvent(ImGuiKey.ModCtrl,false); Frame(1320,1050); Frame(1320,1050);
-            Check(main.CalendarSearchOpen,$"Ctrl+F unfolds search from the calendar at {scale}x");
+            Check(!main.CalendarSearchOpen,$"The removed Ctrl+F shortcut does not open search at {scale}x");
+            searchButton=main.CalendarSearchButtonTarget; Click(searchButton,false); Click(searchButton,true); Click(searchButton,false); Frame(1320,1050);
             searchInput=main.CalendarSearchInputTarget; Click(searchInput,false); Click(searchInput,true); Click(searchInput,false);
             foreach(var c in "백은") io.AddInputCharacter(c); Frame(1320,1050); Frame(1320,1050);
             io.AddKeyEvent(ImGuiKey.Enter,true); Frame(1320,1050); io.AddKeyEvent(ImGuiKey.Enter,false); Frame(1320,1050);

@@ -7,13 +7,18 @@ internal sealed record PluginReleaseNote(string Version,string Title,IReadOnlyLi
 
 internal static class PluginReleaseNotes
 {
-    public const string CurrentVersion = "0.4.0.0";
+    public const string CurrentVersion = "0.4.0.1";
     public static IReadOnlyList<PluginReleaseNote> Entries { get; } = Array.AsReadOnly(new[]
     {
-        new PluginReleaseNote(CurrentVersion,"하우징 청약과 달력 검색",Array.AsReadOnly(new[]
+        new PluginReleaseNote(CurrentVersion,"검색 안내 정리",Array.AsReadOnly(new[]
+        {
+            "검색은 상단 검색 버튼으로 엽니다. 실제 동작과 맞지 않던 단축키 처리와 화면·업데이트 내역의 안내를 제거했습니다.",
+            "검색 결과 클릭·Enter로 날짜 이동, Esc·바깥 클릭으로 닫기는 그대로 사용할 수 있습니다."
+        })),
+        new PluginReleaseNote("0.4.0.0","하우징 청약과 달력 검색",Array.AsReadOnly(new[]
         {
             "하우징 청약의 신청·결과 확인·구매 확정 기간을 월 달력에서 확인할 수 있습니다. 오늘·내일 마감을 강조하며 표시 메뉴에서 끌 수 있습니다.",
-            "상단 검색 버튼이나 Ctrl+F로 일정 이름·버전 번호를 검색합니다. 예를 들어 ‘백은’을 찾고 결과를 누르거나 Enter를 누르면 해당 날짜와 상세로 이동합니다.",
+            "상단 검색 버튼으로 일정 이름·버전 번호를 검색합니다. 예를 들어 ‘백은’을 찾고 결과를 누르거나 Enter를 누르면 해당 날짜와 상세로 이동합니다.",
             "새소식 탭을 달력 검색으로 통합했습니다. 검색은 달력 위의 팝업으로 열리며, 숨긴 일정도 표시 설정을 바꾸지 않고 찾아볼 수 있습니다.",
             "선택 날짜의 테두리·배경·날짜 숫자를 강조하고 오늘 표시와 구분했습니다. 작은 창에서는 검색한 날짜가 보이도록 스크롤하며 공간이 있으면 상세 팝업이 선택 칸을 피해 열립니다.",
             "달력·설정·알림 화면에서 상단 도구의 위치를 유지합니다. 설정 톱니를 다시 누르면 선택 날짜를 유지하고 달력으로 돌아갑니다. 넓은 설정 화면은 분류 목록을 두 열로 보여줍니다.",
