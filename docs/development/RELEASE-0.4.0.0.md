@@ -30,4 +30,4 @@ ZIP과 체크섬을 먼저 초안에 올리고 서버 digest·바이트 크기�
 
 [캘린더 수집 Actions](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43627081116)도 새 소스 커밋에서 성공했다. 실제 플러그인 수신 경로로 공개 HTTPS 포인터·payload SHA256/크기·계약과 캐시 재시작을 확인했다: content revision35, 일정99건. 전장 HTTPS 응답은 한국 날짜2026-11-15의 외곽 유적지대와 내일 온살 하카이르를 확인했다. 이 확인은 게임 설정과 분리된 `.preview` 경로를 사용했다.
 
-GitHub raw의 main URL에는 최대300초 CDN 캐시가 적용되어 기존0.3.2.0이 잠시 남을 수 있다. 실제 게임 설치·로드·게임 글꼴/DPI·채팅 전달 확인은 공개 패키지/목록/Actions 검증과 별개다.
+설치에 사용하는 인증 없는 `main/pluginmaster.json` URL도 2026-11-15 03:40 KST에 HTTP200·Calendar0.4.0.0·새 다운로드 링크·최신 업데이트 요약을 최종 확인했다. 초기에는 CDN 캐시에 기존0.3.2.0이 남았으나 갱신 후 실제 설치 주소의 반영까지 확인했다. 실제 게임 설치·로드·게임 글꼴/DPI·채팅 전달 확인은 공개 패키지/목록/Actions 검증과 별개다.
