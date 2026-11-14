@@ -1,6 +1,8 @@
 # 현재 상태
 
-2026-11-15 · 0.4.0.0 정식 공개, 설치 목록 동기화 진행. 이전 화면 명세보다 현재 문서와 [노출 규칙](design/DISPLAY-POLICY-RESEARCH.md)이 우선합니다.
+2026-11-15 · 0.4.0.0 정식 공개와 공용 설치 목록 동기화 완료. 이전 화면 명세보다 현재 문서와 [노출 규칙](design/DISPLAY-POLICY-RESEARCH.md)이 우선합니다.
+
+0.4.0.0 배포: [정식 Release](https://github.com/PlatyDuckbill/DuckbillCalendar/releases/tag/v0.4.0.0). Release 빌드 경고/오류0, 1,698개 검사와 리소스222개, 공개 ZIP·체크섬·태그 아이콘·DLL 버전·업데이트 노트 검증 통과. [공용 목록 Actions](https://github.com/PlatyDuckbill/DuckbillRepo/actions/runs/43627273207)와 [수집 Actions](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43627081116) 성공. 실제 HTTPS 피드 revision35/99건과 재시작 복원·오늘/내일 전장 수신도 확인했다. [배포 기록](development/RELEASE-0.4.0.0.md).
 
 0.4.0.0 변경: 하우징은 외부에서 확인한 에테르웨이 한국 서버 주기를 적용한다. 게임 탭을 먼저 열 필요 없이 월 전체 기간을 표시한다. 일반 일정을 위쪽에 유지하고 하우징은 날짜 칸 아래 한 줄과 옅은 배경으로 표시하며 오늘·내일 마감만 강조한다. 설명 팝업의 폭·위치를 지정해 과도한 줄바꿈을 방지했다. [출처·표현·검증 범위](development/HOUSING-LOTTERY.md).
 

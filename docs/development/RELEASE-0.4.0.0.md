@@ -22,8 +22,12 @@ Core319 + Infrastructure203 + Model166 + Native UI863 + 수집117 + CLI30 = **1,
 
 ZIP과 체크섬을 먼저 초안에 올리고 서버 digest·바이트 크기를 확인한 뒤 정식 공개했다. 인증 없는 공개 URL에서 ZIP·SHA256·태그 아이콘을 다시 받아 대조했다. ZIP 안의 파일별 해시10개, 주 DLL과 Core/Infrastructure DLL 식별자, manifest/API15, BUILD-INFO의 소스 커밋과 태그 일치를 확인했다. 공개 ZIP에서 추출한 주 DLL의 버전·내장 리소스·업데이트 노트와 manifest 요약도 재검사했다.
 
-검증한 공개 ZIP을 가리키는 단일 배포 객체만 `repo/release.json`에 게시한다. 공용 목록의 동기화와 최종 공개 버전은 아래에 기록한다.
+검증한 공개 ZIP을 가리키는 단일 배포 객체를 `repo/release.json`에 게시했다. 배포 객체 커밋은 `b1a10e8423545c418d8b876084404468eb0fe35c`이다.
 
 ## 공용 설치 목록과 운영 확인
 
-공용 목록 동기화 확인 중. 실제 게임 설치·로드·게임 글꼴/DPI·채팅 전달 확인은 공개 패키지/목록/Actions 검증과 별개다.
+[공용 목록 동기화 Actions](https://github.com/PlatyDuckbill/DuckbillRepo/actions/runs/43627273207)가 성공했다. 목록 커밋은 DuckbillRepo `d6136f8b7afdcc60e43c2694cb9f528c28292a94`이다. 공개된 해당 커밋의 목록과 GitHub main 내용에서 Calendar0.4.0.0·새 ZIP·태그 아이콘·최신 업데이트 요약을 확인했다. 공용 저장소를 정상 fast-forward한 뒤 `scripts/sync.ps1 -Check`로 출처·공개 패키지·목록 일치를 재확인했다. Tweak0.2.2.2·Fisher0.9.0.0은 유지했고 Relic은 첫 배포 대기로 유지했다.
+
+[캘린더 수집 Actions](https://github.com/PlatyDuckbill/DuckbillCalendar/actions/runs/43627081116)도 새 소스 커밋에서 성공했다. 실제 플러그인 수신 경로로 공개 HTTPS 포인터·payload SHA256/크기·계약과 캐시 재시작을 확인했다: content revision35, 일정99건. 전장 HTTPS 응답은 한국 날짜2026-11-15의 외곽 유적지대와 내일 온살 하카이르를 확인했다. 이 확인은 게임 설정과 분리된 `.preview` 경로를 사용했다.
+
+GitHub raw의 main URL에는 최대300초 CDN 캐시가 적용되어 기존0.3.2.0이 잠시 남을 수 있다. 실제 게임 설치·로드·게임 글꼴/DPI·채팅 전달 확인은 공개 패키지/목록/Actions 검증과 별개다.
