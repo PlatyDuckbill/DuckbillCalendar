@@ -6,14 +6,15 @@ internal sealed class ThemeScope : IDisposable
 {
     private readonly GameThemeScope scope;
     public static bool IsLight(string theme) => theme is "pearl" or "paper" or "cloud" or "light";
-    public static Vector4 Accent(string theme) => GameThemePalette.For(IsLight(theme)).Accent;
+    private static GameThemePalette Palette(string theme) => GameThemeScope.Current is { } p && p.Light == IsLight(theme) ? p : GameThemePalette.For(IsLight(theme));
+    public static Vector4 Accent(string theme) => Palette(theme).Accent;
     public static Vector4 DateSelection(string theme) => Accent(theme);
     public static Vector4 CalendarSurface(string theme, bool inMonth)
     {
-        var p = GameThemePalette.For(IsLight(theme));
+        var p = Palette(theme);
         return (inMonth ? p.Surface : p.Inset) with { W = inMonth ? .34f : .4f };
     }
-    public static Vector4 BorderColor(string theme) => GameThemePalette.For(IsLight(theme)).Border;
+    public static Vector4 BorderColor(string theme) => Palette(theme).Border;
     public static Vector4 WeekendColor(string theme, int column) => Hex(column == 0
         ? IsLight(theme) ? 0x904e55 : 0xd6a4a8 : IsLight(theme) ? 0x4f6383 : 0xa7bad3);
     public static Vector4 CalendarDaySurface(string theme, bool inMonth, int column)
@@ -29,7 +30,7 @@ internal sealed class ThemeScope : IDisposable
         "마감" => (Hex(light ? 0x856022 : 0xdec188), Hex(light ? 0xffffff : 0x30220c)),
         _ => (Hex(light ? 0x60636a : 0xa6abb4), Hex(light ? 0xffffff : 0x24272c))
     };
-    public ThemeScope(string theme) => scope = new GameThemeScope(IsLight(theme));
+    public ThemeScope(string theme, int brightness = GameThemePalette.DefaultBrightness, int depth = GameThemePalette.DefaultDepth) => scope = new GameThemeScope(IsLight(theme), brightness, depth);
     public static Vector4 Hex(int value, float alpha = 1) => GameThemePalette.Hex((uint)value, alpha);
     public static Vector4 EventColor(string category, bool light) => Hex(category switch
     {

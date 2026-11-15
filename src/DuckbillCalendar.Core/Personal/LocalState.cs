@@ -63,6 +63,8 @@ public sealed record ViewSettings
     public bool ShowNoticePublications { get; init; }
     public string Language { get; init; } = "ko";
     public string Theme { get; init; } = "smoke";
+    public int ThemeBrightness { get; init; } = 100;
+    public int ThemeDepth { get; init; } = 50;
     public string LastSeenChangelogVersion { get; init; } = "";
     public bool FrontlineUpdatesEnabled { get; init; } = true;
     public bool ShowFrontlineInCalendar { get; init; }

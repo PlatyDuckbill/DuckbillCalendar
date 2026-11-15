@@ -11,6 +11,7 @@ namespace DuckbillCalendar.Plugin;
 internal sealed partial class MainWindow : Window
 {
     private readonly CalendarModel model;
+    private readonly ThemeAdjustmentEditor appearance = new();
     private readonly Func<Vector2,float,float,bool>? duckbillIcon;
     private readonly Action<string> openSearchLink;
     private int activeTab;
@@ -73,7 +74,7 @@ internal sealed partial class MainWindow : Window
     internal Dictionary<string, Vector2> AppearanceLabelTargets { get; } = [];
     internal Dictionary<string, Vector2> AppearanceAlarmTargets { get; } = [];
 
-    public MainWindow(CalendarModel model, FrontlineScheduleClient? frontline = null, Func<Vector2,float,float,bool>? duckbillIcon = null, Action<string>? openLink = null) : base("오리부리 달력###DuckbillCalendar.Main")
+    public MainWindow(CalendarModel model, FrontlineScheduleClient? frontline = null, Func<Vector2,float,float,bool>? duckbillIcon = null, Action<string>? openLink = null) : base("DuckbillCalendar###DuckbillCalendar.Main")
     {
         this.model = model; this.frontline = frontline; this.duckbillIcon = duckbillIcon;
         openSearchLink = openLink ?? (url => Util.OpenLink(url));
@@ -220,11 +221,9 @@ internal sealed partial class MainWindow : Window
         var f = ImGui.GetFontSize(); var pos = ImGui.GetCursorScreenPos();
         var size = new Vector2(CalendarToolWidth(label, compact), f * (compact ? 1.9f : 2.1f));
         var clicked = ImGui.InvisibleButton("###" + id, size); var draw = ImGui.GetWindowDrawList();
-        var hovered = ImGui.IsItemHovered(); var utility = id is "nav.notifications" or "nav.settings";
-        var background = selected || id == "add" ? Accent with { W = hovered ? .23f : .12f }
-            : hovered ? ImGui.GetStyle().Colors[(int)ImGuiCol.ButtonHovered] : ImGui.GetStyle().Colors[(int)ImGuiCol.Button] with { W = utility ? .12f : .46f };
-        draw.AddRectFilled(pos, pos + size, ImGui.ColorConvertFloat4ToU32(background), 7);
-        if (selected || id == "add") draw.AddRect(pos + Vector2.One, pos + size - Vector2.One, ImGui.ColorConvertFloat4ToU32(Accent with { W = selected ? .55f : .23f }), 6);
+        var hovered = ImGui.IsItemHovered();
+        GameThemeChrome.ControlSurface(pos, pos + size, hovered, ImGui.IsItemActive());
+        if (selected || id == "add") draw.AddRect(pos + Vector2.One, pos + size - Vector2.One, ImGui.ColorConvertFloat4ToU32(Accent with { W = selected ? .7f : .4f }), 3);
         var tint = selected || id == "add" ? ImGui.ColorConvertFloat4ToU32(Accent) : ImGui.GetColorU32(ImGuiCol.Text);
         if (id == "nav.notifications") draw.AddLine(pos + new Vector2(-ImGui.GetStyle().ItemSpacing.X / 2, size.Y * .25f), pos + new Vector2(-ImGui.GetStyle().ItemSpacing.X / 2, size.Y * .75f), ImGui.ColorConvertFloat4ToU32(ThemeScope.BorderColor(model.State.View.Theme) with { W = .6f }));
         UiWidgets.DrawIcon(icon, pos + new Vector2(label.Length == 0 ? (size.X - f * .85f) / 2 : f * .5f, (size.Y - f * .85f) / 2), f * .85f, tint);
@@ -873,11 +872,16 @@ internal sealed partial class MainWindow : Window
         ImGui.BeginChild("###SettingsScroll", new(contentWidth, Math.Max(1, ImGui.GetContentRegionAvail().Y)));
         try
         {
+            GameThemeChrome.SectionLabel(UiText.Get("AppearanceStyle"));
             ImGui.AlignTextToFramePadding(); ImGui.TextUnformatted("테마"); ImGui.SameLine();
             var themes = new[] { UiText.Get("ThemeSmoke"), UiText.Get("ThemePearl") };
             themeIndex = ThemeScope.IsLight(model.State.View.Theme) ? 1 : 0;
             ImGui.SetNextItemWidth(Math.Min(f * 13, ImGui.GetContentRegionAvail().X));
             if (GameThemeChrome.Combo("###theme", ref themeIndex, themes, themes.Length)) model.UpdateView(v => v with { Theme = themeIndex == 1 ? "pearl" : "smoke", Language = "ko" });
+            if (appearance.Draw(Light, model.State.View.ThemeBrightness, model.State.View.ThemeDepth,
+                UiText.Get("AppearanceBrightness"), UiText.Get("AppearanceDepth"), UiText.Get("AppearanceHint"),
+                UiText.Get("AppearanceReset"), UiText.Get("AppearancePreview")) is { } adjustment)
+                model.UpdateView(v => v with { ThemeBrightness = adjustment.Brightness, ThemeDepth = adjustment.Depth });
             ImGui.Spacing(); ImGui.Separator(); ImGui.Spacing();
             var wide = ImGui.GetContentRegionAvail().X >= f * 44;
             if (ImGui.BeginTable("###SettingsColumns", wide ? 2 : 1, ImGuiTableFlags.SizingStretchSame))
