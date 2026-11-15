@@ -30,7 +30,7 @@ internal sealed class ThemeScope : IDisposable
         "마감" => (Hex(light ? 0x856022 : 0xdec188), Hex(light ? 0xffffff : 0x30220c)),
         _ => (Hex(light ? 0x60636a : 0xa6abb4), Hex(light ? 0xffffff : 0x24272c))
     };
-    public ThemeScope(string theme, int brightness = GameThemePalette.DefaultBrightness, int depth = GameThemePalette.DefaultDepth) => scope = new GameThemeScope(IsLight(theme), brightness, depth);
+    public ThemeScope(string theme, int brightness = GameThemePalette.DefaultBrightness, int depth = GameThemePalette.DefaultDepth, int transparency = GameThemePalette.DefaultTransparency) => scope = new GameThemeScope(IsLight(theme), brightness, depth, transparency);
     public static Vector4 Hex(int value, float alpha = 1) => GameThemePalette.Hex((uint)value, alpha);
     public static Vector4 EventColor(string category, bool light) => Hex(category switch
     {

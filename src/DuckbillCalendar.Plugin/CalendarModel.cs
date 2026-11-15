@@ -35,7 +35,7 @@ internal sealed partial class CalendarModel
             view = view with { DefaultRaidCategoryInitialized = true, UserCategories = view.UserCategories.Count < 64 && !view.UserCategories.Any(c => c.Id == "user:default-raid" || c.Name.Trim().Equals("공격대",StringComparison.OrdinalIgnoreCase))
                 ? view.UserCategories.Append(new() { Id = "user:default-raid", Name = "공격대", Icon = "Raid", Color = "#C2A1EB" }).ToArray() : view.UserCategories };
         if (view.PeriodBars && !view.PeriodBarsConfigured) view = view with { PeriodBars = false, PeriodBarsConfigured = true };
-        view = view with { ThemeBrightness = GameThemePalette.NormalizeBrightness(view.ThemeBrightness), ThemeDepth = GameThemePalette.NormalizeDepth(view.ThemeDepth) };
+        view = view with { ThemeBrightness = GameThemePalette.NormalizeBrightness(view.ThemeBrightness), ThemeDepth = GameThemePalette.NormalizeDepth(view.ThemeDepth), ThemeTransparency = GameThemePalette.NormalizeTransparency(view.ThemeTransparency) };
         var normalizedTheme = view.Theme is "paper" or "cloud" or "pearl" or "light" ? "pearl" : "smoke";
         if (view.Language != "ko" || view.ShowNoticePublications || view.Theme != normalizedTheme)
             view = view with { Language = "ko", ShowNoticePublications = false, Theme = normalizedTheme };

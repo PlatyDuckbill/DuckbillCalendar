@@ -8,31 +8,32 @@ internal sealed record GameThemePalette(bool Light, Vector4 Surface, Vector4 Ins
     Vector4 Input, Vector4 Text, Vector4 Muted, Vector4 Border, Vector4 Accent, Vector4 Selection)
 {
     public const float OverlayOpacity = .985f;
-    public const int DefaultBrightness = 100, DefaultDepth = 50;
+    public const int DefaultBrightness = 100, DefaultDepth = 50, DefaultTransparency = 5;
     public const int MinBrightness = 80, MaxBrightness = 120;
     public float Depth { get; init; } = .5f;
-    private static readonly GameThemePalette Smoke = new(false, Hex(0x383b40, .985f), Hex(0x24272c, .58f), Hex(0x494c52), Hex(0x292c31),
+    private static readonly GameThemePalette Smoke = new(false, Hex(0x383b40, .95f), Hex(0x24272c, .58f), Hex(0x494c52), Hex(0x292c31),
         Hex(0xf2efe8), Hex(0xc0bcb5), Hex(0x85827b), Hex(0xf0cb78), Hex(0x595d64));
-    private static readonly GameThemePalette Pearl = new(true, Hex(0xd0d2d3, .99f), Hex(0xb7bbbf, .50f), Hex(0xbec1c4), Hex(0xe1e3e4),
+    private static readonly GameThemePalette Pearl = new(true, Hex(0xd0d2d3, .95f), Hex(0xb7bbbf, .50f), Hex(0xbec1c4), Hex(0xe1e3e4),
         Hex(0x40352f), Hex(0x645c56), Hex(0x8d8982), Hex(0x916521), Hex(0xaeb2b7));
-    private static (int Brightness, int Depth, GameThemePalette Palette)? smokeCache, pearlCache;
+    private static (int Brightness, int Depth, int Transparency, GameThemePalette Palette)? smokeCache, pearlCache;
     public static int NormalizeBrightness(int value) => Math.Clamp(value, MinBrightness, MaxBrightness);
     public static int NormalizeDepth(int value) => Math.Clamp(value, 0, 100);
-    public static GameThemePalette For(bool light, int brightness = DefaultBrightness, int depth = DefaultDepth)
+    public static int NormalizeTransparency(int value) => Math.Clamp(value, 0, 50);
+    public static GameThemePalette For(bool light, int brightness = DefaultBrightness, int depth = DefaultDepth, int transparency = DefaultTransparency)
     {
-        brightness = NormalizeBrightness(brightness); depth = NormalizeDepth(depth);
+        brightness = NormalizeBrightness(brightness); depth = NormalizeDepth(depth); transparency = NormalizeTransparency(transparency);
         ref var cache = ref (light ? ref pearlCache : ref smokeCache);
-        if (cache is { } hit && hit.Brightness == brightness && hit.Depth == depth) return hit.Palette;
+        if (cache is { } hit && hit.Brightness == brightness && hit.Depth == depth && hit.Transparency == transparency) return hit.Palette;
         var basis = light ? Pearl : Smoke;
         var amount = (brightness - DefaultBrightness) / 20f;
         Vector4 SurfaceColor(Vector4 color) => Vector4.Lerp(color,
             (amount >= 0 ? Vector4.One : Vector4.Zero) with { W = color.W }, Math.Abs(amount) * (amount >= 0 ? .15f : .22f));
         Vector4 TextColor(Vector4 color) => Vector4.Lerp(color,
             (light ? Vector4.Zero : Vector4.One) with { W = color.W }, Math.Max(0, light ? -amount : amount) * .15f);
-        var palette = basis with { Surface = SurfaceColor(basis.Surface), Inset = SurfaceColor(basis.Inset),
+        var palette = basis with { Surface = SurfaceColor(basis.Surface) with { W = 1 - transparency / 100f }, Inset = SurfaceColor(basis.Inset),
             Field = SurfaceColor(basis.Field), Input = SurfaceColor(basis.Input), Selection = SurfaceColor(basis.Selection),
             Border = SurfaceColor(basis.Border), Text = TextColor(basis.Text), Muted = TextColor(basis.Muted), Depth = depth / 100f };
-        cache = (brightness, depth, palette);
+        cache = (brightness, depth, transparency, palette);
         return palette;
     }
     public Vector4 Hover => Vector4.Lerp(Field, Light ? Vector4.One : Hex(0x8b8d90), .22f);
@@ -46,9 +47,9 @@ internal sealed class GameThemeScope : IDisposable
     public static GameThemePalette? Current => current;
     private readonly GameThemePalette? previous = current;
     private int colors, vars;
-    public GameThemeScope(bool light, int brightness = GameThemePalette.DefaultBrightness, int depth = GameThemePalette.DefaultDepth)
+    public GameThemeScope(bool light, int brightness = GameThemePalette.DefaultBrightness, int depth = GameThemePalette.DefaultDepth, int transparency = GameThemePalette.DefaultTransparency)
     {
-        var p = GameThemePalette.For(light, brightness, depth); current = p;
+        var p = GameThemePalette.For(light, brightness, depth, transparency); current = p;
         Color(ImGuiCol.Text, p.Text); Color(ImGuiCol.TextDisabled, p.Muted);
         Color(ImGuiCol.WindowBg, p.Surface); Color(ImGuiCol.ChildBg, Vector4.Zero);
         Color(ImGuiCol.PopupBg, p.Surface with { W = .99f });
@@ -201,18 +202,21 @@ internal static class GameThemeChrome
 // Drafts stay local while dragging; the caller saves only the completed adjustment.
 internal sealed class ThemeAdjustmentEditor
 {
-    private int brightness = GameThemePalette.DefaultBrightness, depth = GameThemePalette.DefaultDepth;
-    private (int Brightness, int Depth)? source;
+    private int brightness = GameThemePalette.DefaultBrightness, depth = GameThemePalette.DefaultDepth, transparency = GameThemePalette.DefaultTransparency;
+    private (int Brightness, int Depth, int Transparency)? source;
     private bool pendingEdit;
-    public (int Brightness, int Depth)? Draw(bool light, int savedBrightness, int savedDepth,
-        string brightnessLabel, string depthLabel, string hint, string resetLabel, string previewLabel)
+    public (int Brightness, int Depth, int Transparency)? Draw(bool light, int savedBrightness, int savedDepth, int savedTransparency,
+        string brightnessLabel, string depthLabel, string transparencyLabel, string hint, string resetLabel, string previewLabel)
     {
-        var saved = (GameThemePalette.NormalizeBrightness(savedBrightness), GameThemePalette.NormalizeDepth(savedDepth));
-        if (source != saved) { (brightness, depth) = saved; source = saved; pendingEdit = false; }
+        var saved = (GameThemePalette.NormalizeBrightness(savedBrightness), GameThemePalette.NormalizeDepth(savedDepth), GameThemePalette.NormalizeTransparency(savedTransparency));
+        if (source != saved) { (brightness, depth, transparency) = saved; source = saved; pendingEdit = false; }
         ImGui.PushID("ThemeAdjustments");
         try
         {
             var active = false;
+            ImGui.TextUnformatted(transparencyLabel); ImGui.SetNextItemWidth(-1);
+            pendingEdit |= ImGui.SliderInt("###Transparency", ref transparency, 0, 50, "%d%%", ImGuiSliderFlags.AlwaysClamp);
+            active |= ImGui.IsItemActive();
             var columns = ImGui.GetContentRegionAvail().X >= ImGui.GetFontSize() * 32 ? 2 : 1;
             if (ImGui.BeginTable("Controls", columns, ImGuiTableFlags.SizingStretchSame))
             {
@@ -227,7 +231,7 @@ internal sealed class ThemeAdjustmentEditor
             ImGui.TextWrapped(hint);
             var rowRight = ImGui.GetCursorScreenPos().X + ImGui.GetContentRegionAvail().X;
             float previewRight;
-            using (new GameThemeScope(light, brightness, depth))
+            using (new GameThemeScope(light, brightness, depth, transparency))
             {
                 var p = GameThemeScope.Current!;
                 var min = Vector2.Round(ImGui.GetCursorScreenPos());
@@ -238,6 +242,16 @@ internal sealed class ThemeAdjustmentEditor
                 previewRight = min.X + size.X;
                 ImGui.Dummy(size);
                 var draw = ImGui.GetWindowDrawList();
+                // A local reference pattern makes the background-only alpha visible in the sample.
+                var tile = Math.Max(4, MathF.Round(ImGui.GetFontSize() * .6f));
+                for (var y = 0; y < (int)MathF.Ceiling(size.Y / tile); y++)
+                    for (var x = 0; x < (int)MathF.Ceiling(size.X / tile); x++)
+                    {
+                        var at = min + new Vector2(x * tile, y * tile);
+                        var shade = ((x + y) & 1) == 0 ? .2f : .65f;
+                        draw.AddRectFilled(at, Vector2.Min(min + size, at + new Vector2(tile)),
+                            ImGui.GetColorU32(new Vector4(shade, shade, shade, 1)));
+                    }
                 draw.AddRectFilled(min, min + size, ImGui.GetColorU32(p.Surface), 3);
                 var button = new Vector2(Math.Max(1, Math.Min(size.X - 8, text.X + pad.X * 2)), ImGui.GetFrameHeight());
                 var start = Vector2.Round(min + (size - button) / 2);
@@ -248,7 +262,7 @@ internal sealed class ThemeAdjustmentEditor
             }
             var resetNaturalWidth = ImGui.CalcTextSize(resetLabel).X + ImGui.GetStyle().FramePadding.X * 2;
             if (previewRight + ImGui.GetStyle().ItemSpacing.X + resetNaturalWidth <= rowRight) ImGui.SameLine();
-            ImGui.BeginDisabled(brightness == GameThemePalette.DefaultBrightness && depth == GameThemePalette.DefaultDepth);
+            ImGui.BeginDisabled(brightness == GameThemePalette.DefaultBrightness && depth == GameThemePalette.DefaultDepth && transparency == GameThemePalette.DefaultTransparency);
             var resetWidth = Math.Max(1, ImGui.GetContentRegionAvail().X);
             var resetPadding = ImGui.GetStyle().FramePadding;
             bool reset;
@@ -270,13 +284,14 @@ internal sealed class ThemeAdjustmentEditor
             if (reset)
             {
                 brightness = GameThemePalette.DefaultBrightness; depth = GameThemePalette.DefaultDepth;
+                transparency = GameThemePalette.DefaultTransparency;
                 pendingEdit = true;
             }
             ImGui.EndDisabled();
             if (!active && pendingEdit)
             {
                 pendingEdit = false;
-                if ((brightness, depth) != saved) return (brightness, depth);
+                if ((brightness, depth, transparency) != saved) return (brightness, depth, transparency);
             }
             return null;
         }

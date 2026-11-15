@@ -878,10 +878,10 @@ internal sealed partial class MainWindow : Window
             themeIndex = ThemeScope.IsLight(model.State.View.Theme) ? 1 : 0;
             ImGui.SetNextItemWidth(Math.Min(f * 13, ImGui.GetContentRegionAvail().X));
             if (GameThemeChrome.Combo("###theme", ref themeIndex, themes, themes.Length)) model.UpdateView(v => v with { Theme = themeIndex == 1 ? "pearl" : "smoke", Language = "ko" });
-            if (appearance.Draw(Light, model.State.View.ThemeBrightness, model.State.View.ThemeDepth,
-                UiText.Get("AppearanceBrightness"), UiText.Get("AppearanceDepth"), UiText.Get("AppearanceHint"),
+            if (appearance.Draw(Light, model.State.View.ThemeBrightness, model.State.View.ThemeDepth, model.State.View.ThemeTransparency,
+                UiText.Get("AppearanceBrightness"), UiText.Get("AppearanceDepth"), UiText.Get("AppearanceTransparency"), UiText.Get("AppearanceHint"),
                 UiText.Get("AppearanceReset"), UiText.Get("AppearancePreview")) is { } adjustment)
-                model.UpdateView(v => v with { ThemeBrightness = adjustment.Brightness, ThemeDepth = adjustment.Depth });
+                model.UpdateView(v => v with { ThemeBrightness = adjustment.Brightness, ThemeDepth = adjustment.Depth, ThemeTransparency = adjustment.Transparency });
             ImGui.Spacing(); ImGui.Separator(); ImGui.Spacing();
             var wide = ImGui.GetContentRegionAvail().X >= f * 44;
             if (ImGui.BeginTable("###SettingsColumns", wide ? 2 : 1, ImGuiTableFlags.SizingStretchSame))
