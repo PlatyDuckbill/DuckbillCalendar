@@ -17,7 +17,10 @@ internal static class PluginReleaseNotes
             "대표 기능과 기타 개선으로 정리한 업데이트 내역을 별도 화면에서 읽을 수 있습니다.",
             "설정에서 새 업데이트를 구분하고, 내역을 닫은 뒤에도 보고 있던 월과 선택 날짜를 유지합니다.",
             "날짜 상세를 연 상태에서도 다른 날짜를 한 번 눌러 바로 전환할 수 있습니다."
-        }, "익숙한 달력에서 게임 UI에 어울리는 두 테마와 일관된 업데이트 안내를 사용할 수 있습니다."),
+        }, "익숙한 달력에서 게임 UI에 어울리는 두 테마와 일관된 업데이트 안내를 사용할 수 있습니다.", new[]
+        {
+            "이미 확인한 업데이트는 이전 버전을 사용한 뒤에도 다시 새 항목으로 표시하지 않습니다."
+        }),
         new PluginReleaseNote("0.4.0.1", "검색 안내 정리", new[]
         {
             "검색은 상단 검색 버튼으로 엽니다. 동작하지 않던 검색 단축키 안내를 제거했습니다."
@@ -125,7 +128,8 @@ internal sealed partial class MainWindow
         if (!releaseNotesOpen && releaseNotesContentShown)
         {
             releaseNotesAcknowledged = true;
-            model.UpdateView(v => v with { LastSeenChangelogVersion = PluginReleaseNotes.CurrentVersion });
+            model.UpdateView(v => Version.TryParse(v.LastSeenChangelogVersion, out var seen) && seen >= Version.Parse(PluginReleaseNotes.CurrentVersion)
+                ? v : v with { LastSeenChangelogVersion = PluginReleaseNotes.CurrentVersion });
         }
     }
 
