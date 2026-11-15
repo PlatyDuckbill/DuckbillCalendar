@@ -1,6 +1,6 @@
 # DuckbillCalendar
 
-<img src="assets/duckbillcalendar-icon.png" width="192" height="192" alt="달력을 바라보는 DuckbillCalendar 오리너구리 대표 아이콘">
+<img src="assets/duckbillcalendar-icon.png" width="192" height="192" alt="달력 페이지를 넘기는 DuckbillCalendar 오리너구리 대표 아이콘">
 
 한국 파이널판타지14의 주요 일정과 개인 이용권을 표시하는 Dalamud API15 플러그인입니다. 현재 버전은 **0.4.0.1**이며 한국어만 지원합니다.
 
