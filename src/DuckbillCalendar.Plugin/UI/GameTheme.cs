@@ -72,9 +72,12 @@ internal sealed class GameThemeScope : IDisposable
         Color(ImGuiCol.ModalWindowDimBg, new(0, 0, 0, .45f));
         var f = ImGui.GetFontSize();
         Vector(ImGuiStyleVar.WindowPadding, new(MathF.Round(f * .75f), MathF.Round(f * .6f)));
-        Vector(ImGuiStyleVar.FramePadding, new(MathF.Round(f * .55f), ImGui.GetStyle().FramePadding.Y));
+        // ImGui 1.88 spaces right-side title buttons by font size, but adds FramePadding to their hit boxes.
+        // Keep horizontal padding out of decorations; restore the normal control padding inside Draw only.
+        Vector(ImGuiStyleVar.FramePadding, new(0, ImGui.GetStyle().FramePadding.Y));
         Vector(ImGuiStyleVar.ItemSpacing, new(MathF.Round(f * .5f), ImGui.GetStyle().ItemSpacing.Y));
-        Vector(ImGuiStyleVar.ItemInnerSpacing, new(MathF.Round(f * .35f), MathF.Round(f * .2f)));
+        // Dalamud's extra title buttons use ItemInnerSpacing for their decoration stride.
+        Vector(ImGuiStyleVar.ItemInnerSpacing, new(0, MathF.Round(f * .2f)));
         Float(ImGuiStyleVar.WindowRounding, 4); Float(ImGuiStyleVar.PopupRounding, 3);
         Float(ImGuiStyleVar.FrameRounding, 2); Float(ImGuiStyleVar.ChildRounding, 3);
         Float(ImGuiStyleVar.TabRounding, 2); Float(ImGuiStyleVar.GrabRounding, 2); Float(ImGuiStyleVar.ScrollbarRounding, 3);
@@ -86,8 +89,24 @@ internal sealed class GameThemeScope : IDisposable
     public void Dispose() { ImGui.PopStyleVar(vars); ImGui.PopStyleColor(colors); current = previous; }
 }
 
+internal readonly struct GameThemeContentScope : IDisposable
+{
+    private readonly bool pushed;
+    public GameThemeContentScope()
+    {
+        pushed = GameThemeScope.Current is not null;
+        if (pushed)
+        {
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(MathF.Round(ImGui.GetFontSize() * .55f), ImGui.GetStyle().FramePadding.Y));
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemInnerSpacing, new Vector2(MathF.Round(ImGui.GetFontSize() * .35f), ImGui.GetStyle().ItemInnerSpacing.Y));
+        }
+    }
+    public void Dispose() { if (pushed) ImGui.PopStyleVar(2); }
+}
+
 internal static class GameThemeChrome
 {
+    public static GameThemeContentScope Content() => new();
     private static uint Color(Vector4 value) => ImGui.ColorConvertFloat4ToU32(value with { W = value.W * ImGui.GetStyle().Alpha });
     public static void WindowSurface()
     {

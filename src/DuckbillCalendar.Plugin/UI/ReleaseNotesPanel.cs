@@ -19,7 +19,8 @@ internal static class PluginReleaseNotes
             "날짜 상세를 연 상태에서도 다른 날짜를 한 번 눌러 바로 전환할 수 있습니다."
         }, "익숙한 달력에서 게임 UI에 어울리는 두 테마와 일관된 업데이트 안내를 사용할 수 있습니다.", new[]
         {
-            "이미 확인한 업데이트는 이전 버전을 사용한 뒤에도 다시 새 항목으로 표시하지 않습니다."
+            "이미 확인한 업데이트는 이전 버전을 사용한 뒤에도 다시 새 항목으로 표시하지 않습니다.",
+            "제목줄의 접기·닫기 버튼을 서로 겹치지 않는 영역에서 누를 수 있습니다."
         }),
         new PluginReleaseNote("0.4.0.1", "검색 안내 정리", new[]
         {
@@ -85,6 +86,7 @@ internal sealed partial class MainWindow
         {
             if (visible)
             {
+                using var contentStyle = GameThemeChrome.Content();
                 GameThemeChrome.WindowSurface();
                 if (ImGui.BeginChild("###ReleaseNotesScroll", new(0, -ImGui.GetFrameHeightWithSpacing())))
                 {

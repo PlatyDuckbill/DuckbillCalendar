@@ -61,7 +61,7 @@ internal sealed partial class MainWindow
         ImGui.SetNextWindowPos(ImGui.GetMainViewport().WorkPos + work / 2,ImGuiCond.Appearing,new(.5f));
         if (ruleWindowFocus) { ImGui.SetNextWindowFocus(); ruleWindowFocus = false; }
         if (ImGui.Begin("알림 설정###DuckbillCalendar.NotificationRule",ref ruleWindowOpen,ImGuiWindowFlags.NoSavedSettings))
-        { try { DrawNotificationRule(); } finally { ImGui.End(); } }
+        { try { using var contentStyle = GameThemeChrome.Content(); DrawNotificationRule(); } finally { ImGui.End(); } }
         else ImGui.End();
     }
     private void RequestEntryDelete(string id)
@@ -76,6 +76,7 @@ internal sealed partial class MainWindow
         if (!ImGui.Begin("일정 삭제###DuckbillCalendar.DeletePersonalSchedules",ref entryDeleteWindowOpen,ImGuiWindowFlags.NoSavedSettings)) { ImGui.End(); return; }
         try
         {
+            using var contentStyle = GameThemeChrome.Content();
             ImGui.BeginChild("###EntryDeleteBody",new(0,Math.Max(1,ImGui.GetContentRegionAvail().Y - ImGui.GetFrameHeightWithSpacing() * 1.5f)));
             try
             {

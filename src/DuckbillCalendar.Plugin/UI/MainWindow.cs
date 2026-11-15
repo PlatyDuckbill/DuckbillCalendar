@@ -92,6 +92,7 @@ internal sealed partial class MainWindow : Window
     public override void OnOpen() { if (HasUnreadReleaseNotes) OpenReleaseNotes(); }
     public override void Draw()
     {
+        using var contentStyle = GameThemeChrome.Content();
         GameThemeChrome.WindowSurface();
         if (selectSettings) { activeTab = 2; selectSettings = false; }
         RouteNotificationRequests();
@@ -1294,6 +1295,7 @@ internal sealed partial class MainWindow : Window
         if (!ImGui.Begin(title + "###DuckbillCalendar.EntryEditor",ref editorOpen,ImGuiWindowFlags.NoSavedSettings)) { ImGui.End(); return; }
         try
         {
+            using var contentStyle = GameThemeChrome.Content();
             if (constrained) ImGui.BeginChild("###EditorBody", new(0, Math.Max(f * 2, ImGui.GetContentRegionAvail().Y - ImGui.GetFrameHeightWithSpacing() - f * .8f)));
             try
             {
