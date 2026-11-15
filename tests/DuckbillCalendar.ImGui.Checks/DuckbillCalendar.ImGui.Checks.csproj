@@ -26,6 +26,7 @@
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/ReleaseNotesPanel.cs" Link="ReleaseNotesPanel.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/UiWidgets.cs" Link="UiWidgets.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/ThemeScope.cs" Link="ThemeScope.cs" />
+    <Compile Include="../../src/DuckbillCalendar.Plugin/UI/GameTheme.cs" Link="GameTheme.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/UI/CalendarAppearanceStyle.cs" Link="CalendarAppearanceStyle.cs" />
     <Compile Include="../../src/DuckbillCalendar.Plugin/Localization/UiText.cs" Link="UiText.cs" />
     <EmbeddedResource Include="../../src/DuckbillCalendar.Plugin/Localization/Strings.resx" LogicalName="DuckbillCalendar.Plugin.Localization.Strings.resources" />

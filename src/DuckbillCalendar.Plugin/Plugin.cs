@@ -1,6 +1,7 @@
 using Dalamud.Game.Command;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
+using Dalamud.Interface.ManagedFontAtlas;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using DuckbillCalendar.Infrastructure;
@@ -22,6 +23,8 @@ public sealed class Plugin : IDalamudPlugin
     private readonly IPlayerState playerState;
     private readonly ICondition conditions;
     private readonly WindowSystem windows = new("DuckbillCalendar");
+    private readonly IFontHandle? headingFont;
+    private readonly IFontHandle? smallFont;
     // Draw and Framework callbacks must not concurrently mutate the model, workspace
     // completions or frontline dictionaries. IO continues on their own workers.
     private readonly object stateGate = new();
@@ -52,6 +55,11 @@ public sealed class Plugin : IDalamudPlugin
         this.conditions = conditions;
         try
         {
+            // Bake at the actual display sizes instead of magnifying/minifying the body glyph atlas.
+            headingFont = pluginInterface.UiBuilder.FontAtlas.NewDelegateFontHandle(e => e.OnPreBuild(t => t.AddDalamudDefaultFont(MathF.Round(pluginInterface.UiBuilder.DefaultFontSpec.SizePx * 1.35f), [0x20, 0xff, 0x1100, 0x11ff, 0x3130, 0x318f, 0xac00, 0xd7af, 0])));
+            smallFont = pluginInterface.UiBuilder.FontAtlas.NewDelegateFontHandle(e => e.OnPreBuild(t => t.AddDalamudDefaultFont(MathF.Round(pluginInterface.UiBuilder.DefaultFontSpec.SizePx * .85f), [0x20, 0xff, 0x1100, 0x11ff, 0x3130, 0x318f, 0xac00, 0xd7af, 0])));
+            UiWidgets.HeadingFont = headingFont;
+            UiWidgets.SmallFont = smallFont;
             using var resource = typeof(Plugin).Assembly.GetManifestResourceStream("DuckbillCalendar.ExampleFeed")
                 ?? throw new InvalidDataException("MissingBundledExample");
             using var example = new MemoryStream();
@@ -199,6 +207,9 @@ public sealed class Plugin : IDalamudPlugin
             alerts?.Dispose();
             frontline?.Dispose();
             workspace?.Dispose();
+            if (ReferenceEquals(UiWidgets.HeadingFont, headingFont)) UiWidgets.HeadingFont = null;
+            if (ReferenceEquals(UiWidgets.SmallFont, smallFont)) UiWidgets.SmallFont = null;
+            headingFont?.Dispose(); smallFont?.Dispose();
         }
     }
 }

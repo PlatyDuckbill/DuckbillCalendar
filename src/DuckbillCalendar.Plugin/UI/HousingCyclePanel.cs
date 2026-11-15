@@ -66,9 +66,9 @@ internal sealed partial class MainWindow
                 ImGui.Spacing(); ImGui.Separator();
                 MutedWrapped(HousingLotterySchedule.SourceName + " · " + HousingLotterySchedule.SourceCheckedOn + " 확인");
                 MutedWrapped("일정이 변경되면 게임 내 표시와 공식 공지가 우선합니다.");
-                if (ImGui.Button("주기 출처 ↗")) model.Post(() => Util.OpenLink(HousingLotterySchedule.SourceUrl));
+                if (GameThemeChrome.Button("주기 출처 ↗")) model.Post(() => Util.OpenLink(HousingLotterySchedule.SourceUrl));
                 ContinueRow(ImGui.CalcTextSize("공식 안내 ↗").X + ImGui.GetStyle().FramePadding.X * 2);
-                if (ImGui.Button("공식 안내 ↗")) model.Post(()=>Util.OpenLink(HousingLotterySchedule.GuideUrl));
+                if (GameThemeChrome.Button("공식 안내 ↗")) model.Post(()=>Util.OpenLink(HousingLotterySchedule.GuideUrl));
             }
             finally { ImGui.EndPopup(); }
         }

@@ -45,9 +45,9 @@ internal sealed partial class MainWindow
         WeeklyTwoColumns = ImGui.GetContentRegionAvail().X >= f * 53;
         if (!WeeklyTwoColumns)
         {
-            if (ImGui.SmallButton("기본")) weeklyPane = 0;
-            ImGui.SameLine(); if (ImGui.SmallButton("요일·시각")) weeklyPane = 1;
-            ImGui.SameLine(); if (ImGui.SmallButton("미리보기")) weeklyPane = 2;
+            if (GameThemeChrome.SmallButton("기본")) weeklyPane = 0;
+            ImGui.SameLine(); if (GameThemeChrome.SmallButton("요일·시각")) weeklyPane = 1;
+            ImGui.SameLine(); if (GameThemeChrome.SmallButton("미리보기")) weeklyPane = 2;
         }
         var plan = WeeklySchedulePlanner.Plan(model.State,WeeklyRequest());
         var bodyHeight = Math.Max(1,ImGui.GetContentRegionAvail().Y - ImGui.GetFrameHeightWithSpacing() * (weeklySubmitted ? Compact ? 2.3f : 3.4f : Compact ? 1.3f : 2.6f));
@@ -82,12 +82,12 @@ internal sealed partial class MainWindow
         var categoryAlerts = model.State.Notifications.Enabled && NotificationPolicy.CategoryRule(model.State,weeklyCategoryId.Length == 0 ? "Personal" : weeklyCategoryId).Enabled;
         if (!Compact) UiWidgets.Secondary(categoryAlerts ? "알림: 이 분류의 기본 설정 적용" : "알림 꺼짐 · 알림 목록에서 켤 수 있습니다.");
         ImGui.BeginDisabled(!plan.IsValid || plan.NewCount == 0);
-        if (ImGui.Button(plan.NewCount > 0 ? plan.NewCount + "개 일정 등록" : "일정 등록")) { model.RegisterWeeklySchedules(WeeklyRequest()); weeklySubmitted = true; }
+        if (GameThemeChrome.Button(plan.NewCount > 0 ? plan.NewCount + "개 일정 등록" : "일정 등록")) { model.RegisterWeeklySchedules(WeeklyRequest()); weeklySubmitted = true; }
         ImGui.EndDisabled(); WeeklyRegisterTarget = ItemCenter();
         ContinueRow(ImGui.CalcTextSize("달력으로").X + 20);
-        if (ImGui.Button("달력으로")) activeTab = 0;
+        if (GameThemeChrome.Button("달력으로")) activeTab = 0;
         ContinueRow(ImGui.CalcTextSize("새 패턴").X + 20);
-        if (ImGui.Button("새 패턴"))
+        if (GameThemeChrome.Button("새 패턴"))
         { weeklySelected = new bool[7]; weeklyTimes = Enumerable.Repeat("20:00",7).ToArray(); weeklyWeeks = 4; weeklyInterval = 1; weeklyStartDate = model.Today; WeeklyChanged(); }
     }
     private void DrawWeeklyForm() { DrawWeeklyBasics(); DrawWeeklyDayPattern(); }
@@ -99,10 +99,10 @@ internal sealed partial class MainWindow
         ImGui.TextUnformatted("분류");
         var categories = model.State.View.UserCategories.ToArray(); var index = Array.FindIndex(categories,c => c.Id == weeklyCategoryId) + 1;
         ImGui.SetNextItemWidth(-1);
-        if (ImGui.Combo("###weeklyCategory",ref index,new[] { "미분류 (분류 없음)" }.Concat(categories.Select(c => c.Name)).ToArray(),categories.Length + 1))
+        if (GameThemeChrome.Combo("###weeklyCategory",ref index,new[] { "미분류 (분류 없음)" }.Concat(categories.Select(c => c.Name)).ToArray(),categories.Length + 1))
         { weeklyCategoryId = index == 0 ? "" : categories[index - 1].Id; WeeklyChanged(); }
         ImGui.Spacing(); ImGui.TextUnformatted("등록 시작일"); DrawWeeklyDatePicker();
-        ContinueRow(ImGui.CalcTextSize("오늘").X + 20); if (ImGui.SmallButton("오늘")) { weeklyStartDate = model.Today; WeeklyChanged(); }
+        ContinueRow(ImGui.CalcTextSize("오늘").X + 20); if (GameThemeChrome.SmallButton("오늘")) { weeklyStartDate = model.Today; WeeklyChanged(); }
         ImGui.SetNextItemWidth(f * 5); if (ImGui.InputInt("주 등록###weeklyWeeks",ref weeklyWeeks)) WeeklyChanged();
         ContinueRow(f * 11);
         ImGui.SetNextItemWidth(f * 5); if (ImGui.InputInt("주마다###weeklyInterval",ref weeklyInterval)) WeeklyChanged();
@@ -113,9 +113,9 @@ internal sealed partial class MainWindow
         if (!Compact)
         {
         ImGui.Spacing(); ImGui.TextUnformatted("요일별 시각");
-        if (ImGui.SmallButton("평일")) { for (var i = 0; i < 7; i++) weeklySelected[i] = i < 5; WeeklyChanged(); }
-        ImGui.SameLine(); if (ImGui.SmallButton("주말")) { for (var i = 0; i < 7; i++) weeklySelected[i] = i >= 5; WeeklyChanged(); }
-        ImGui.SameLine(); if (ImGui.SmallButton("선택 해제")) { Array.Fill(weeklySelected,false); WeeklyChanged(); }
+        if (GameThemeChrome.SmallButton("평일")) { for (var i = 0; i < 7; i++) weeklySelected[i] = i < 5; WeeklyChanged(); }
+        ImGui.SameLine(); if (GameThemeChrome.SmallButton("주말")) { for (var i = 0; i < 7; i++) weeklySelected[i] = i >= 5; WeeklyChanged(); }
+        ImGui.SameLine(); if (GameThemeChrome.SmallButton("선택 해제")) { Array.Fill(weeklySelected,false); WeeklyChanged(); }
         }
         if (ImGui.BeginTable("###WeeklyDays",2,ImGuiTableFlags.SizingStretchProp | ImGuiTableFlags.RowBg))
         {
@@ -138,7 +138,7 @@ internal sealed partial class MainWindow
         }
         ImGui.SetNextItemWidth(f * 5); ImGui.InputText("###weeklyCommon",ref weeklyCommonTime,5);
         ContinueRow(ImGui.CalcTextSize("선택한 요일에 시각 적용").X + 20);
-        if (ImGui.SmallButton("선택한 요일에 시각 적용")) { for (var i = 0; i < 7; i++) if (weeklySelected[i]) weeklyTimes[i] = weeklyCommonTime; WeeklyChanged(); }
+        if (GameThemeChrome.SmallButton("선택한 요일에 시각 적용")) { for (var i = 0; i < 7; i++) if (weeklySelected[i]) weeklyTimes[i] = weeklyCommonTime; WeeklyChanged(); }
         if (ImGui.TreeNode("메모 추가###weeklyNote"))
         { ImGui.SetNextItemWidth(-1); if (ImGui.InputTextMultiline("###weeklyMemo",ref weeklyNote,1000,new(-1,f * 4))) WeeklyChanged(); ImGui.TreePop(); }
     }
@@ -173,9 +173,9 @@ internal sealed partial class MainWindow
         try
         {
             var month = new DateOnly(weeklyPickerYear,weeklyPickerMonth,1);
-            ImGui.BeginDisabled(month == new DateOnly(2020,1,1)); if (ImGui.SmallButton("이전")) { month = month.AddMonths(-1); weeklyPickerYear = month.Year; weeklyPickerMonth = month.Month; } ImGui.EndDisabled();
+            ImGui.BeginDisabled(month == new DateOnly(2020,1,1)); if (GameThemeChrome.SmallButton("이전")) { month = month.AddMonths(-1); weeklyPickerYear = month.Year; weeklyPickerMonth = month.Month; } ImGui.EndDisabled();
             ImGui.SameLine(); ImGui.TextUnformatted(weeklyPickerYear + "년 " + weeklyPickerMonth + "월"); ImGui.SameLine();
-            ImGui.BeginDisabled(month == new DateOnly(2100,12,1)); if (ImGui.SmallButton("다음")) { month = month.AddMonths(1); weeklyPickerYear = month.Year; weeklyPickerMonth = month.Month; } ImGui.EndDisabled();
+            ImGui.BeginDisabled(month == new DateOnly(2100,12,1)); if (GameThemeChrome.SmallButton("다음")) { month = month.AddMonths(1); weeklyPickerYear = month.Year; weeklyPickerMonth = month.Month; } ImGui.EndDisabled();
             if (ImGui.BeginTable("###WeeklyPickerGrid",7,ImGuiTableFlags.SizingStretchSame))
             {
                 try

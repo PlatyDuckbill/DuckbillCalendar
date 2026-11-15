@@ -56,12 +56,12 @@ internal sealed partial class MainWindow
         if (ImGui.Checkbox("새 이벤트", ref events)) model.UpdateNotifications(n => n with { NewEvents = events });
         if (ImGui.IsItemHovered()) UiWidgets.Tooltip("일정 정보를 새로 받았을 때 처음 확인된 공지·이벤트를 알려줍니다. 첫 수신은 기준만 저장하며 기존 글을 한꺼번에 알리지 않습니다.");
         UiWidgets.Wrapped("알림 설정 목록에서 켜짐 상태와 알릴 시점을 바로 확인하고 변경합니다.");
-        if (ImGui.Button("개별 알림 설정 보기 (" + model.IndividualNotificationCount + "건)")) { choicesRequest = true; choicesMode = 0; choicesPage = 0; }
+        if (GameThemeChrome.Button("개별 알림 설정 보기 (" + model.IndividualNotificationCount + "건)")) { choicesRequest = true; choicesMode = 0; choicesPage = 0; }
         NotificationChoicesTarget = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
         ContinueRow(ImGui.CalcTextSize("분류별 알림 설정").X + 20);
-        if (ImGui.Button("분류별 알림 설정")) { activeTab = 3; notificationScreen = 1; }
+        if (GameThemeChrome.Button("분류별 알림 설정")) { activeTab = 3; notificationScreen = 1; }
         ContinueRow(ImGui.CalcTextSize("일정 찾아 알림 추가").X + 20);
-        if (ImGui.Button("일정 찾아 알림 추가")) { choicesRequest = true; choicesMode = 1; choicesPage = 0; }
+        if (GameThemeChrome.Button("일정 찾아 알림 추가")) { choicesRequest = true; choicesMode = 1; choicesPage = 0; }
     }
     private void OpenCategoryNotification(string category)
     {
@@ -94,9 +94,9 @@ internal sealed partial class MainWindow
     private void DrawNotificationInbox()
     {
             if (ImGui.Checkbox("미확인만", ref inboxUnreadOnly)) inboxPage = 0;
-            ImGui.SameLine(); if (ImGui.SmallButton("모두 읽음")) model.MarkNotificationsRead();
+            ImGui.SameLine(); if (GameThemeChrome.SmallButton("모두 읽음")) model.MarkNotificationsRead();
             ContinueRow(ImGui.CalcTextSize("읽은 내역 지우기").X + 20);
-            if (ImGui.SmallButton("읽은 내역 지우기")) model.ClearReadNotifications();
+            if (GameThemeChrome.SmallButton("읽은 내역 지우기")) model.ClearReadNotifications();
             var items = model.State.NotificationState.Inbox.Where(n => (n.ProfileId.Length == 0 || n.ProfileId == model.State.ActiveProfileId) && (!inboxUnreadOnly || !n.Read)).Reverse().ToArray();
             UiWidgets.Secondary("최근 " + NotificationPolicy.MaximumInbox + "건 보관 · " + items.Length + "건 표시");
             inboxPage = Math.Clamp(inboxPage, 0, Math.Max(0, (items.Length - 1) / 12));
@@ -114,7 +114,7 @@ internal sealed partial class MainWindow
                             (n.Read ? "" : "● ") + (n.Kind == "new-notice" ? "새 공지" : n.Kind == "new-event" ? "새 이벤트" : "일정 알림") + " · " + SettingsTime(n.CreatedAt));
                         UiWidgets.Wrapped(n.Title); MutedWrapped(n.Message);
                         if (n.BoundaryAt is { } at) UiWidgets.Secondary(UiText.Time(at) + " KST");
-                        if (ImGui.SmallButton("열기"))
+                        if (GameThemeChrome.SmallButton("열기"))
                         {
                             model.MarkNotificationsRead(n.Id);
                             var e = model.Events.FirstOrDefault(e => e.Id == n.EventId);
@@ -126,7 +126,7 @@ internal sealed partial class MainWindow
                             }
                             else if (n.BoundaryAt is { } boundary) { activeTab = 0; OpenDay(CalendarEngine.Today(boundary)); }
                         }
-                        if (!n.Read) { ImGui.SameLine(); if (ImGui.SmallButton("읽음")) model.MarkNotificationsRead(n.Id); }
+                        if (!n.Read) { ImGui.SameLine(); if (GameThemeChrome.SmallButton("읽음")) model.MarkNotificationsRead(n.Id); }
                         ImGui.Separator();
                     }
                     finally { ImGui.PopID(); }
@@ -140,9 +140,9 @@ internal sealed partial class MainWindow
     private void DrawNotificationPaging(ref int page, int count, int size)
     {
         if (count <= size) return;
-        ImGui.BeginDisabled(page == 0); if (ImGui.Button("이전")) page--; ImGui.EndDisabled(); ImGui.SameLine();
+        ImGui.BeginDisabled(page == 0); if (GameThemeChrome.Button("이전")) page--; ImGui.EndDisabled(); ImGui.SameLine();
         ImGui.TextUnformatted((page + 1) + " / " + Math.Max(1, (count + size - 1) / size)); ImGui.SameLine();
-        ImGui.BeginDisabled((page + 1) * size >= count); if (ImGui.Button("다음")) page++; ImGui.EndDisabled();
+        ImGui.BeginDisabled((page + 1) * size >= count); if (GameThemeChrome.Button("다음")) page++; ImGui.EndDisabled();
         NotificationPageNextTarget = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
     }
     private void DrawNotificationChoices()
@@ -150,10 +150,10 @@ internal sealed partial class MainWindow
             if (!model.State.Notifications.Enabled)
             {
                 UiWidgets.Secondary("전체 알림 꺼짐");
-                ImGui.SameLine(); if (ImGui.SmallButton("전체 알림 켜기")) model.UpdateNotifications(s => s with { Enabled = true });
+                ImGui.SameLine(); if (GameThemeChrome.SmallButton("전체 알림 켜기")) model.UpdateNotifications(s => s with { Enabled = true });
             }
             ImGui.SetNextItemWidth(ImGui.GetFontSize() * 11);
-            if (ImGui.Combo("###notificationListMode", ref choicesMode, new[] { "개별 변경한 일정", "모든 일정에서 찾기" }, 2)) choicesPage = 0;
+            if (GameThemeChrome.Combo("###notificationListMode", ref choicesMode, new[] { "개별 변경한 일정", "모든 일정에서 찾기" }, 2)) choicesPage = 0;
             ImGui.SetNextItemWidth(-1); if (ImGui.InputTextWithHint("###notificationSearch", "일정·분류 이름 검색", ref choicesSearch, 100)) choicesPage = 0;
             var explicitKeys = model.State.Notifications.Schedules.Where(r => r.ProfileId == model.State.ActiveProfileId).Select(r => (r.EventId, r.PhaseId))
                 .Concat(model.State.Alerts.Where(r => r.ProfileId == model.State.ActiveProfileId).Select(r => (r.EventId, r.PhaseId))).Distinct().ToArray();
@@ -179,7 +179,7 @@ internal sealed partial class MainWindow
                     {
                         var key = missing[i - candidates.Length]; ImGui.PushID(key.EventId + key.PhaseId);
                         UiWidgets.Wrapped("현재 자료에 없는 일정 · " + key.EventId);
-                        if (ImGui.SmallButton("개별 설정 해제")) model.SetScheduleNotification(key.EventId, key.PhaseId, "inherit", [], []);
+                        if (GameThemeChrome.SmallButton("개별 설정 해제")) model.SetScheduleNotification(key.EventId, key.PhaseId, "inherit", [], []);
                         ImGui.Separator(); ImGui.PopID(); continue;
                     }
                     var (e, p) = candidates[i]; ImGui.PushID(e.Id + "." + p.Id);
@@ -198,8 +198,8 @@ internal sealed partial class MainWindow
                     var summary = origin + " · " + (enabled ? "켜짐 · " : "꺼짐 · ") + times;
                     NotificationSummaryLabels[e.Id + "/" + p.Id] = summary; MutedWrapped(summary);
                     if (enabled && alerts.All(a => NotificationPolicy.BlockReason(model.Feed,model.Workspace.ActiveHealth,e,p,a.Edge,model.Now).Length > 0)) MutedWrapped("확정 시각·출처 확인 대기");
-                    if (ImGui.SmallButton("세부 설정")) OpenScheduleNotification(e,p,true);
-                    if (choicesMode == 0) { ImGui.SameLine(); if (ImGui.SmallButton("분류 기본값으로")) model.SetScheduleNotification(e.Id, p.Id, "inherit", [], []); }
+                    if (GameThemeChrome.SmallButton("세부 설정")) OpenScheduleNotification(e,p,true);
+                    if (choicesMode == 0) { ImGui.SameLine(); if (GameThemeChrome.SmallButton("분류 기본값으로")) model.SetScheduleNotification(e.Id, p.Id, "inherit", [], []); }
                     ImGui.Separator(); ImGui.PopID();
                 }
             }
@@ -228,7 +228,7 @@ internal sealed partial class MainWindow
                 var title = value == 0 ? "정각" : value == 1440 ? "하루 전" : value == 60 ? "1시간 전" : value + "분 전";
                 ContinueRow(ImGui.CalcTextSize(title).X + 20);
                 var on = selected.Contains(value); if (on) ImGui.PushStyleColor(ImGuiCol.Button, Accent with { W = .25f });
-                if (ImGui.SmallButton(title)) { text = string.Join(", ", (on ? selected.Where(v => v != value) : selected.Append(value)).Order()); notificationError = ""; }
+                if (GameThemeChrome.SmallButton(title)) { text = string.Join(", ", (on ? selected.Where(v => v != value) : selected.Append(value)).Order()); notificationError = ""; }
                 if (on) ImGui.PopStyleColor();
             }
             ImGui.SetNextItemWidth(-1); if (ImGui.InputTextWithHint("###leadMinutes", "직접 입력: 분 단위, 쉼표로 구분 (최대 6개)", ref text, 80)) notificationError = "";
@@ -249,7 +249,7 @@ internal sealed partial class MainWindow
         {
             if (p is not null) MutedWrapped(UiText.Period(p,e!.IsPersonal));
             ImGui.SetNextItemWidth(-1);
-            if (ImGui.Combo("###notificationMode",ref ruleMode,new[] { "분류 기본값 따름", "이 일정만 변경", "이 일정 알림 끄기" },3)) notificationError = "";
+            if (GameThemeChrome.Combo("###notificationMode",ref ruleMode,new[] { "분류 기본값 따름", "이 일정만 변경", "이 일정 알림 끄기" },3)) notificationError = "";
         }
         else if (ImGui.Checkbox("이 분류의 알림 사용",ref ruleCategoryEnabled)) notificationError = "";
         ImGui.BeginChild("###NotificationRuleBody",new(Math.Min(ImGui.GetContentRegionAvail().X,ImGui.GetFontSize() * 36),Math.Max(1,Math.Min(ImGui.GetContentRegionAvail().Y - ImGui.GetFrameHeightWithSpacing() * 1.6f,ImGui.GetFontSize() * (schedule && ruleMode != 1 ? 6 : TimingLabels(ruleCategory,p).End.Length == 0 || TimingLabels(ruleCategory,p).Start.Length == 0 ? 11 : 21)))));
@@ -286,7 +286,7 @@ internal sealed partial class MainWindow
         }
         finally { ImGui.EndChild(); }
         ImGui.BeginDisabled(stale.Length > 0);
-        if (ImGui.Button("저장"))
+        if (GameThemeChrome.Button("저장"))
         {
             var disabled = schedule ? ruleMode is 0 or 2 : !ruleCategoryEnabled;
             var validStart = ParseLeads(ruleStarts,out var starts); var validEnd = ParseLeads(ruleEnds,out var ends);
@@ -304,10 +304,10 @@ internal sealed partial class MainWindow
         }
         NotificationRuleSaveTarget = ItemCenter();
         ImGui.EndDisabled();
-        ImGui.SameLine(); if (ImGui.Button("취소")) ruleWindowOpen = false;
+        ImGui.SameLine(); if (GameThemeChrome.Button("취소")) ruleWindowOpen = false;
         NotificationRuleCancelTarget = ItemCenter();
         if (!schedule && category is not null)
-        { ContinueRow(ImGui.CalcTextSize("분류 편집").X + 20); if (ImGui.Button("분류 편집")) { ruleWindowOpen = false; OpenUserCategory(category); } }
+        { ContinueRow(ImGui.CalcTextSize("분류 편집").X + 20); if (GameThemeChrome.Button("분류 편집")) { ruleWindowOpen = false; OpenUserCategory(category); } }
     }
     private static void MutedWrapped(string value)
     {
@@ -330,7 +330,7 @@ internal sealed partial class MainWindow
             if (notificationError.Length > 0) UiWidgets.Wrapped(notificationError);
         }
         finally { ImGui.EndChild(); }
-        if (ImGui.Button("저장"))
+        if (GameThemeChrome.Button("저장"))
         {
             var name = userCategoryName.Trim();
             if (name.Length == 0) notificationError = "분류 이름을 입력하세요.";
@@ -344,6 +344,6 @@ internal sealed partial class MainWindow
             }
         }
         UserCategorySaveTarget = ItemCenter();
-        ImGui.SameLine(); if (ImGui.Button("취소")) activeTab = categoryReturnTab;
+        ImGui.SameLine(); if (GameThemeChrome.Button("취소")) activeTab = categoryReturnTab;
     }
 }

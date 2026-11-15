@@ -1,5 +1,6 @@
 using System.Numerics;
 using Dalamud.Bindings.ImGui;
+using Dalamud.Interface.ManagedFontAtlas;
 
 namespace DuckbillCalendar.Plugin;
 
@@ -7,24 +8,24 @@ internal enum UiIcon { Calendar, News, Settings, Left, Right, Filter, Plus, Link
 
 internal static class UiWidgets
 {
+    public static IFontHandle? HeadingFont { get; set; }
+    public static IFontHandle? SmallFont { get; set; }
     public static void Heading(string text, float scale = 1.5f)
     {
-        var previous = ImGui.GetCurrentContext().CurrentWindow.FontWindowScale;
-        ImGui.SetWindowFontScale(previous * scale);
-        try { ImGui.TextUnformatted(text); }
-        finally { ImGui.SetWindowFontScale(previous); }
+        using var font = scale > 1.25f ? HeadingFont?.Push() : null;
+        ImGui.TextUnformatted(text);
     }
     public static Vector2 IconButtonSize(string label, bool compact = false) => new(
         ImGui.GetFontSize() * (compact ? 1.9f : 2.1f) + (label.Length > 0 ? ImGui.CalcTextSize(label).X + ImGui.GetFontSize() * .4f : 0),
         ImGui.GetFontSize() * (compact ? 1.9f : 2.1f));
     public static bool HeadingButton(string id, string text, float scale, float height)
     {
-        var f = ImGui.GetFontSize();
-        var textSize = ImGui.CalcTextSize(text) * scale;
-        var pos = ImGui.GetCursorScreenPos();
+        using var font = scale > 1.25f ? HeadingFont?.Push() : null;
+        var f = ImGui.GetFontSize(); var textSize = ImGui.CalcTextSize(text);
+        var pos = Vector2.Round(ImGui.GetCursorScreenPos());
         var clicked = ImGui.InvisibleButton("###" + id, new(textSize.X + f * .35f, height));
-        ImGui.GetWindowDrawList().AddText(ImGui.GetFont(), f * scale,
-            pos + new Vector2(0, (height - textSize.Y) / 2), ImGui.GetColorU32(ImGuiCol.Text), text);
+        ImGui.GetWindowDrawList().AddText(ImGui.GetFont(), f,
+            Vector2.Round(pos + new Vector2(0, (height - textSize.Y) / 2)), ImGui.GetColorU32(ImGuiCol.Text), text);
         return clicked;
     }
     public static float StatusBadgeWidth(string label) => ImGui.CalcTextSize(label).X * .8f + ImGui.GetFontSize() * .65f;
@@ -58,7 +59,7 @@ internal static class UiWidgets
         var size = IconButtonSize(label, compact);
         if (selected) { ImGui.PushStyleColor(ImGuiCol.Button, accent with { W = .17f }); ImGui.PushStyleColor(ImGuiCol.Text, accent); }
         bool clicked;
-        try { clicked = ImGui.Button("###" + id, size); }
+        try { clicked = GameThemeChrome.Button("###" + id, size); }
         finally { if (selected) ImGui.PopStyleColor(2); }
         var color = ImGui.ColorConvertFloat4ToU32(selected ? accent : ImGui.GetStyle().Colors[(int)ImGuiCol.Text]);
         var inset = (size.Y - f * .9f) / 2;

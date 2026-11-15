@@ -39,7 +39,7 @@ internal sealed partial class MainWindow
         if (!editGlobalNotificationChanged) editGlobalNotification = model.State.Notifications.Enabled;
         if (ImGui.Checkbox("전체 알림 사용",ref editGlobalNotification)) editGlobalNotificationChanged = true;
         ImGui.SetNextItemWidth(-1);
-        ImGui.Combo("###editNotificationMode",ref editNotificationMode,new[] { "분류 기본값 따름","이 일정만 시점 지정","이 일정 알림 끄기" },3);
+        GameThemeChrome.Combo("###editNotificationMode",ref editNotificationMode,new[] { "분류 기본값 따름","이 일정만 시점 지정","이 일정 알림 끄기" },3);
         if (editNotificationMode == 0)
         {
             var key = editCategoryId.Length == 0 ? "Personal" : editCategoryId;
@@ -96,9 +96,9 @@ internal sealed partial class MainWindow
             finally { ImGui.EndChild(); }
             var targets = PersonalDeletionPolicy.Targets(model.State,entryDeleteId,entryDeleteScope);
             ImGui.BeginDisabled(targets.Count == 0);
-            if (ImGui.Button(targets.Count + "개 일정 삭제")) { model.DeletePersonalSchedules(entryDeleteId,entryDeleteScope); entryDeleteWindowOpen = false; }
+            if (GameThemeChrome.Button(targets.Count + "개 일정 삭제")) { model.DeletePersonalSchedules(entryDeleteId,entryDeleteScope); entryDeleteWindowOpen = false; }
             ImGui.EndDisabled(); EntryDeleteConfirmTarget = ItemCenter();
-            ImGui.SameLine(); if (ImGui.Button("취소")) entryDeleteWindowOpen = false;
+            ImGui.SameLine(); if (GameThemeChrome.Button("취소")) entryDeleteWindowOpen = false;
         }
         finally { ImGui.End(); }
     }

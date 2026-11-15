@@ -62,7 +62,7 @@ public sealed record ViewSettings
     public CalendarVisibility Calendars { get; init; } = new();
     public bool ShowNoticePublications { get; init; }
     public string Language { get; init; } = "ko";
-    public string Theme { get; init; } = "midnight";
+    public string Theme { get; init; } = "smoke";
     public string LastSeenChangelogVersion { get; init; } = "";
     public bool FrontlineUpdatesEnabled { get; init; } = true;
     public bool ShowFrontlineInCalendar { get; init; }

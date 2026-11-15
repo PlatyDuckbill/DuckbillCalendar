@@ -13,10 +13,10 @@ internal static class PluginReleaseNotes
     {
         new PluginReleaseNote(CurrentVersion, "화면과 업데이트 안내 정리", new[]
         {
-            "차분한 달력은 유지하면서 버튼·입력·설정 화면을 오리부리 공통 디자인으로 정리했습니다.",
+            "스모크·펄 두 테마에서 게임 UI에 어울리는 회색·진주색 화면을 사용할 수 있습니다.",
             "대표 기능과 기타 개선으로 정리한 업데이트 내역을 별도 화면에서 읽을 수 있습니다.",
             "설정에서 새 업데이트를 구분하고, 내역을 닫은 뒤에도 보고 있던 월과 선택 날짜를 유지합니다."
-        }, "익숙한 달력에서 더 일관된 조작부와 업데이트 안내를 사용할 수 있습니다."),
+        }, "익숙한 달력에서 게임 UI에 어울리는 두 테마와 일관된 업데이트 안내를 사용할 수 있습니다."),
         new PluginReleaseNote("0.4.0.1", "검색 안내 정리", new[]
         {
             "검색은 상단 검색 버튼으로 엽니다. 동작하지 않던 검색 단축키 안내를 제거했습니다."
@@ -74,34 +74,36 @@ internal sealed partial class MainWindow
         ImGui.SetNextWindowPos(viewport.WorkPos + viewport.WorkSize / 2, ImGuiCond.FirstUseEver, new(.5f));
         ImGui.SetNextWindowSize(new(Math.Min(f * 36, available.X), Math.Min(f * 32, available.Y)), ImGuiCond.FirstUseEver);
         ImGui.SetNextWindowSizeConstraints(new(Math.Min(f * 21, available.X), Math.Min(f * 17, available.Y)), available);
+        ImGui.SetNextWindowBgAlpha(GameThemePalette.OverlayOpacity);
         var visible = ImGui.Begin(UiText.Get("UpdatesTitle") + "###DuckbillCalendar.Changelog", ref releaseNotesOpen,
             ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse);
         try
         {
             if (visible)
             {
+                GameThemeChrome.WindowSurface();
                 if (ImGui.BeginChild("###ReleaseNotesScroll", new(0, -ImGui.GetFrameHeightWithSpacing())))
                 {
                     if (releaseNotesResetScroll) { ImGui.SetScrollY(0); releaseNotesResetScroll = false; }
                     UiWidgets.Wrapped(UiText.Get("UpdatesVersion", PluginReleaseNotes.CurrentVersion));
                     ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled]);
-                    UiWidgets.Wrapped(UiText.Get("UpdatesOffline"));
+                    UiWidgets.Wrapped(UiText.Get("UpdatesOffline", PluginReleaseNotes.Entries.Count));
                     ImGui.PopStyleColor();
                     ImGui.Spacing();
                     ReleaseNotesRenderedEntries = 0;
                     foreach (var entry in PluginReleaseNotes.Entries)
                     {
                         ImGui.SetNextItemOpen(entry.Version == PluginReleaseNotes.CurrentVersion, ImGuiCond.Once);
-                        if (!ImGui.CollapsingHeader(UiText.Get("UpdatesRelease", entry.Version) + "###Release." + entry.Version)) continue;
+                        if (!GameThemeChrome.Disclosure(UiText.Get("UpdatesRelease", entry.Version) + "###Release." + entry.Version)) continue;
                         UiWidgets.Secondary(entry.Date is { } date ? UiText.Get("UpdatesDate", date) : UiText.Get("UpdatesDevelopment"));
                         ImGui.Spacing();
-                        UiWidgets.Colored(Accent, entry.Title);
+                        GameThemeChrome.FeatureTitle(entry.Title);
                         if (entry.Summary.Length > 0) UiWidgets.Wrapped(entry.Summary);
                         ImGui.Spacing();
                         foreach (var change in entry.Changes) ReleaseEntry(change);
                         if (entry.OtherChanges is { Count: > 0 } other)
                         {
-                            ImGui.Spacing(); UiWidgets.Secondary(UiText.Get("UpdatesOther"));
+                            GameThemeChrome.SectionLabel(UiText.Get("UpdatesOther"));
                             foreach (var change in other) ReleaseEntry(change);
                         }
                         if (entry.Version == PluginReleaseNotes.CurrentVersion) releaseNotesContentShown = true;
@@ -110,7 +112,7 @@ internal sealed partial class MainWindow
                     }
                 }
                 ImGui.EndChild();
-                if (ImGui.Button(UiText.Get("UpdatesDismiss") + "###DismissChangelog")) releaseNotesOpen = false;
+                if (GameThemeChrome.Button(UiText.Get("UpdatesDismiss") + "###DismissChangelog")) releaseNotesOpen = false;
                 ReleaseNotesBackTarget = ItemCenter();
                 if (model.Workspace.HasUnsavedChanges)
                 {
@@ -126,12 +128,6 @@ internal sealed partial class MainWindow
         }
     }
 
-    private static void ReleaseEntry(string text)
-    {
-        ImGui.Bullet(); ImGui.SameLine();
-        ImGui.BeginGroup();
-        UiWidgets.Wrapped(text);
-        ImGui.EndGroup();
-        ImGui.Spacing();
-    }
+    private static void ReleaseEntry(string text) => GameThemeChrome.Note(text);
+
 }

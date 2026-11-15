@@ -204,7 +204,7 @@ public static partial class FeedValidator
                 if (appearance.Color is not "" && (appearance.Color is not { Length: 7 } || appearance.Color[0] != '#' || appearance.Color[1..].Any(c => !Uri.IsHexDigit(c)))) errors.Add("InvalidAppearanceColor");
             }
             // Legacy language/theme values remain readable so old local state is not discarded.
-            if (local.View.Language is not ("ko" or "en") || local.View.Theme is not ("midnight" or "cloud" or "graphite" or "paper")) errors.Add("InvalidViewSettings");
+            if (local.View.Language is not ("ko" or "en") || local.View.Theme is not ("smoke" or "pearl" or "midnight" or "cloud" or "graphite" or "paper")) errors.Add("InvalidViewSettings");
             Text(local.View.CurrentUrl, "CurrentUrl", 512, errors, false);
         }
         return errors;

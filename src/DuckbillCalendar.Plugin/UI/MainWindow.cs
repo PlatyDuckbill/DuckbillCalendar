@@ -87,6 +87,7 @@ internal sealed partial class MainWindow : Window
     public override void OnOpen() { if (HasUnreadReleaseNotes) OpenReleaseNotes(); }
     public override void Draw()
     {
+        GameThemeChrome.WindowSurface();
         if (selectSettings) { activeTab = 2; selectSettings = false; }
         RouteNotificationRequests();
         if (activeTab == 1) activeTab = 0;
@@ -95,7 +96,7 @@ internal sealed partial class MainWindow : Window
         if (model.State.View.ExampleMode)
         {
             UiWidgets.Wrapped("예시 일정입니다."); ImGui.SameLine();
-            if (ImGui.SmallButton("실제 일정 보기")) model.Post(() => model.Workspace.LoadExample(false));
+            if (GameThemeChrome.SmallButton("실제 일정 보기")) model.Post(() => model.Workspace.LoadExample(false));
         }
         if (activeTab == 0) DrawCalendar();
         else if (activeTab == 2) DrawSettings();
@@ -150,7 +151,7 @@ internal sealed partial class MainWindow : Window
         ImGui.SameLine();
         TodayButtonSize = new(Math.Max(ImGui.CalcTextSize("오늘").X + f * 1.25f, controlHeight * 1.5f), controlHeight);
         ImGui.PushStyleColor(ImGuiCol.Button, ImGui.GetStyle().Colors[(int)ImGuiCol.Button] with { W = .42f });
-        if (ImGui.Button("오늘", TodayButtonSize)) { activeTab = 0; model.GoToday(); revealDate = model.Today; }
+        if (GameThemeChrome.Button("오늘", TodayButtonSize)) { activeTab = 0; model.GoToday(); revealDate = model.Today; }
         ImGui.PopStyleColor();
         ImGui.GetWindowDrawList().AddRect(ImGui.GetItemRectMin(), ImGui.GetItemRectMax(), ImGui.ColorConvertFloat4ToU32(ThemeScope.BorderColor(model.State.View.Theme) with { W = .65f }), 6);
         TodayButtonTarget = ItemCenter();
@@ -273,7 +274,7 @@ internal sealed partial class MainWindow : Window
             ImGui.SetNextItemWidth(f * 8); ImGui.InputInt("년", ref jumpYear);
             ImGui.SetNextItemWidth(f * 8); ImGui.InputInt("월", ref jumpMonth);
             ImGui.BeginDisabled(jumpYear is < 2020 or > 2100 || jumpMonth is < 1 or > 12);
-            if (ImGui.Button("이동")) { model.GoToMonth(jumpYear, jumpMonth); ImGui.CloseCurrentPopup(); }
+            if (GameThemeChrome.Button("이동")) { model.GoToMonth(jumpYear, jumpMonth); ImGui.CloseCurrentPopup(); }
             ImGui.EndDisabled();
         }
         finally { ImGui.EndPopup(); }
@@ -287,7 +288,9 @@ internal sealed partial class MainWindow : Window
         if (!model.State.View.FrontlineUpdatesEnabled) return;
         var f = ImGui.GetFontSize();
         var available = ImGui.GetContentRegionAvail().X;
-        const float scale = .85f;
+        using var summaryFont = UiWidgets.SmallFont?.Push();
+        f = ImGui.GetFontSize();
+        const float scale = 1f;
         var shorten = f * 3.3f + ImGui.CalcTextSize("오늘" + FrontlineMap(model.Today) + "내일" + FrontlineMap(model.Today.AddDays(1))).X * scale > available;
         string Map(DateOnly date) => !shorten ? FrontlineMap(date) : FrontlineMap(date) switch
         { "봉인된 바위섬" => "봉바", "영광의 평원" => "쇄빙", "온살 하카이르" => "온살", "외곽 유적지대" => "제압", "정보 없음" => "미확인", "불러오는 중…" => "로딩 중", var name => name };
@@ -308,7 +311,7 @@ internal sealed partial class MainWindow : Window
                 if (stacked) { x = pos.X + f * 1.25f; y += f * 1.1f; }
                 else { x += f * .5f; draw.AddLine(new(x, y), new(x, y + f * scale), muted); x += f * .5f; }
             }
-            draw.AddText(ImGui.GetFont(), f * scale, new(x, y), muted, label); x += ImGui.CalcTextSize(label).X * scale + f * .35f;
+            draw.AddText(ImGui.GetFont(), f * scale, Vector2.Round(new(x, y)), muted, label); x += ImGui.CalcTextSize(label).X * scale + f * .35f;
             var map = Map(date); draw.AddText(ImGui.GetFont(), f * scale, new(x, y), ImGui.ColorConvertFloat4ToU32(ImGui.GetStyle().Colors[(int)ImGuiCol.Text] with { W = .82f }), map); x += ImGui.CalcTextSize(map).X * scale;
         }
         draw.PopClipRect();
@@ -412,7 +415,7 @@ internal sealed partial class MainWindow : Window
                     color = Light ? Vector4.One : ThemeScope.Hex(0x0e1727);
                     UiWidgets.NumberBadge(datePos + new Vector2(f * .5f),number,f * (cellWidth < f * 3.5f ? 1.35f : 1.65f),Accent,color,.9f);
                 }
-                else draw.AddText(ImGui.GetFont(), f * 1.05f, datePos, ImGui.ColorConvertFloat4ToU32(color), number);
+                else draw.AddText(ImGui.GetFont(), f, Vector2.Round(datePos), ImGui.ColorConvertFloat4ToU32(color), number);
                 var oguDay = SpecialCalendarDays.IsOguDay(day.Date);
                 if (oguDay) DrawOguDayDecoration(day.Date,pos,end);
                 var field = model.State.View.FrontlineUpdatesEnabled && model.State.View.ShowFrontlineInCalendar ? frontline?.Get(day.Date, model.Now) : null;
@@ -829,10 +832,10 @@ internal sealed partial class MainWindow : Window
                 ImGui.PushStyleColor(ImGuiCol.Text, soon ? CalendarAppearanceStyle.Resolve(model.State.View, entry.Kind).Color : ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled]);
                 try { UiWidgets.Wrapped(UiText.LocalBoundary(entry.When) + " · " + UiText.SubscriptionRemaining(entry.When, model.Now)); }
                 finally { ImGui.PopStyleColor(); }
-                if (ImGui.SmallButton("충전")) { OpenEditor(entry, true); chargeMode = true; }
-                ImGui.SameLine(); if (ImGui.SmallButton("만료일 수정")) OpenEditor(entry, true);
+                if (GameThemeChrome.SmallButton("충전")) { OpenEditor(entry, true); chargeMode = true; }
+                ImGui.SameLine(); if (GameThemeChrome.SmallButton("만료일 수정")) OpenEditor(entry, true);
                 ContinueRow(ImGui.CalcTextSize("초기화").X + ImGui.GetStyle().FramePadding.X * 2);
-                if (ImGui.SmallButton("초기화")) ImGui.OpenPopup("###ResetSubscription");
+                if (GameThemeChrome.SmallButton("초기화")) ImGui.OpenPopup("###ResetSubscription");
                 SubscriptionResetTargets[entry.Id] = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
                 var f = ImGui.GetFontSize(); var work = ImGui.GetMainViewport().WorkSize;
                 var resetWidth = Math.Min(f * 22, work.X - 24);
@@ -843,10 +846,10 @@ internal sealed partial class MainWindow : Window
                     {
                         UiWidgets.Wrapped(SubscriptionTime.Name(entry.Kind) + " 등록 내용을 초기화할까요?");
                         UiWidgets.Wrapped("달력에 등록한 만료일과 메모를 지우고 미등록 상태로 되돌립니다.");
-                        if (ImGui.Button("초기화하기")) { model.ResetSubscription(entry.Id); ImGui.CloseCurrentPopup(); }
+                        if (GameThemeChrome.Button("초기화하기")) { model.ResetSubscription(entry.Id); ImGui.CloseCurrentPopup(); }
                         SubscriptionResetConfirmTarget = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
                         ContinueRow(ImGui.CalcTextSize("취소").X + ImGui.GetStyle().FramePadding.X * 2);
-                        if (ImGui.Button("취소")) ImGui.CloseCurrentPopup();
+                        if (GameThemeChrome.Button("취소")) ImGui.CloseCurrentPopup();
                         SubscriptionResetCancelTarget = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
                     }
                     finally { ImGui.EndPopup(); }
@@ -865,16 +868,16 @@ internal sealed partial class MainWindow : Window
         if (inset > 0) ImGui.Indent(inset);
         UiWidgets.Heading("설정", 1.5f);
         ContinueRow(ImGui.CalcTextSize(UiText.Get("UpdatesNew")).X + ImGui.GetStyle().FramePadding.X * 2);
-        if (ImGui.Button((HasUnreadReleaseNotes ? UiText.Get("UpdatesNew") : UiText.Get("UpdatesOpen")) + "###releaseNotesSettings")) OpenReleaseNotes();
+        if (GameThemeChrome.Button((HasUnreadReleaseNotes ? UiText.Get("UpdatesNew") : UiText.Get("UpdatesOpen")) + "###releaseNotesSettings")) OpenReleaseNotes();
         ReleaseNotesSettingsTarget = ItemCenter();
         ImGui.BeginChild("###SettingsScroll", new(contentWidth, Math.Max(1, ImGui.GetContentRegionAvail().Y)));
         try
         {
             ImGui.AlignTextToFramePadding(); ImGui.TextUnformatted("테마"); ImGui.SameLine();
-            var themes = new[] { "미드나이트", "차콜", "라이트" };
-            themeIndex = model.State.View.Theme switch { "graphite" => 1, "paper" or "cloud" => 2, _ => 0 };
+            var themes = new[] { UiText.Get("ThemeSmoke"), UiText.Get("ThemePearl") };
+            themeIndex = ThemeScope.IsLight(model.State.View.Theme) ? 1 : 0;
             ImGui.SetNextItemWidth(Math.Min(f * 13, ImGui.GetContentRegionAvail().X));
-            if (ImGui.Combo("###theme", ref themeIndex, themes, themes.Length)) model.UpdateView(v => v with { Theme = themeIndex switch { 1 => "graphite", 2 => "cloud", _ => "midnight" }, Language = "ko" });
+            if (GameThemeChrome.Combo("###theme", ref themeIndex, themes, themes.Length)) model.UpdateView(v => v with { Theme = themeIndex == 1 ? "pearl" : "smoke", Language = "ko" });
             ImGui.Spacing(); ImGui.Separator(); ImGui.Spacing();
             var wide = ImGui.GetContentRegionAvail().X >= f * 44;
             if (ImGui.BeginTable("###SettingsColumns", wide ? 2 : 1, ImGuiTableFlags.SizingStretchSame))
@@ -899,7 +902,7 @@ internal sealed partial class MainWindow : Window
                         var labels = new[] { "30분마다", "1시간마다", "3시간마다", "6시간마다", "12시간마다" };
                         var selected = Array.IndexOf(minutes, model.State.View.RemoteRefreshMinutes);
                         ImGui.SetNextItemWidth(Math.Min(f * 12, ImGui.GetContentRegionAvail().X));
-                        if (ImGui.Combo("###remoteCadence", ref selected, labels, labels.Length)) model.UpdateView(v => v with { RemoteRefreshMinutes = minutes[selected] });
+                        if (GameThemeChrome.Combo("###remoteCadence", ref selected, labels, labels.Length)) model.UpdateView(v => v with { RemoteRefreshMinutes = minutes[selected] });
                         if (ImGui.IsItemHovered()) UiWidgets.Tooltip("플러그인이 실행 중일 때 새 일정을 확인하는 주기입니다. 이미 공개된 새 일정이 있을 때 반영합니다.");
                         ContinueRow(UiWidgets.IconButtonSize("지금 확인").X);
                     }
@@ -950,7 +953,7 @@ internal sealed partial class MainWindow : Window
                     ImGui.SetNextItemWidth(Math.Min(f * 28, ImGui.GetContentRegionAvail().X));
                     ImGui.InputTextWithHint("###importPath", "가져올 JSON 파일 경로", ref importPath, 1024);
                     ImGui.BeginDisabled(string.IsNullOrWhiteSpace(importPath) || model.Workspace.IsBusy);
-                    if (ImGui.Button("가져오기")) { var path = importPath; model.Post(() => model.Workspace.ImportFile(path, allowExample: false)); }
+                    if (GameThemeChrome.Button("가져오기")) { var path = importPath; model.Post(() => model.Workspace.ImportFile(path, allowExample: false)); }
                     ImGui.EndDisabled();
                     UiWidgets.Wrapped("상태 · " + model.Workspace.StatusCode);
                     UiWidgets.Wrapped("자료 확인 기준 · " + UiText.Time(model.OfficialEventsObservedAt));
@@ -1002,14 +1005,14 @@ internal sealed partial class MainWindow : Window
         if (focus) ImGui.SetScrollHereY(0);
         AppearanceRowsFit = true; AppearanceIconTargets.Clear(); AppearanceLabelTargets.Clear(); AppearanceAlarmTargets.Clear();
         ContinueRow(ImGui.CalcTextSize("모두 기본값으로").X + ImGui.GetStyle().FramePadding.X * 2);
-        if (ImGui.SmallButton("모두 기본값으로")) model.UpdateView(v => v with { CalendarAppearances = [], UserCategories = v.UserCategories.Select(c => c with { Icon = c.Id == "user:default-raid" ? "Raid" : "Person", Color = c.Id == "user:default-raid" ? "#C2A1EB" : c.Id == "user:default-personal" ? "#D8BB79" : "#91AEFF" }).ToArray() });
+        if (GameThemeChrome.SmallButton("모두 기본값으로")) model.UpdateView(v => v with { CalendarAppearances = [], UserCategories = v.UserCategories.Select(c => c with { Icon = c.Id == "user:default-raid" ? "Raid" : "Person", Color = c.Id == "user:default-raid" ? "#C2A1EB" : c.Id == "user:default-personal" ? "#D8BB79" : "#91AEFF" }).ToArray() });
         ContinueRow(ImGui.CalcTextSize("분류 추가").X + 20);
-        if (ImGui.SmallButton("분류 추가")) OpenUserCategory();
+        if (GameThemeChrome.SmallButton("분류 추가")) OpenUserCategory();
         if (!model.State.Notifications.Enabled)
         {
             UiWidgets.Secondary("전체 알림 꺼짐 · 개별 시점은 보존됩니다.");
             ContinueRow(ImGui.CalcTextSize("전체 알림 켜기").X + 20);
-            if (ImGui.SmallButton("전체 알림 켜기")) model.UpdateNotifications(n => n with { Enabled = true });
+            if (GameThemeChrome.SmallButton("전체 알림 켜기")) model.UpdateNotifications(n => n with { Enabled = true });
         }
         var rows = CalendarAppearanceStyle.Groups.Select(g => (Group: (CalendarGroup?)g.Group, Id: g.Group.ToString(), g.Label, g.Category, Icon: g.Icon, Custom: (UserCalendarCategory?)null))
             .Concat(model.State.View.UserCategories.Select(c => (Group: (CalendarGroup?)null, c.Id, Label: c.Name, Category: c.Id, Icon: c.Id == "user:default-raid" ? UiIcon.Raid : UiIcon.Person, Custom: (UserCalendarCategory?)c))).ToArray();
@@ -1068,7 +1071,7 @@ internal sealed partial class MainWindow : Window
                     AppearanceAlarmTargets[id] = ItemCenter();
                     ImGui.SameLine();
                     if (enabled) ImGui.PushStyleColor(ImGuiCol.Button, Accent with { W = .25f });
-                    if (ImGui.Button("설정###configureNotification", new(-1, ImGui.GetFrameHeight()))) OpenCategoryNotification(id);
+                    if (GameThemeChrome.Button("설정###configureNotification", new(-1, ImGui.GetFrameHeight()))) OpenCategoryNotification(id);
                     if (enabled) ImGui.PopStyleColor();
                     CategoryNotificationTargets[id] = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
                     ImGui.EndDisabled();
@@ -1077,7 +1080,7 @@ internal sealed partial class MainWindow : Window
                     ImGui.TableNextColumn();
                     if (custom is not null)
                     {
-                        if (ImGui.Button("-###deleteCategory",new(-1,ImGui.GetFrameHeight()))) { deleteCategoryId = id; deleteDestinationId = ""; categoryDeleteRequest = true; }
+                        if (GameThemeChrome.Button("-###deleteCategory",new(-1,ImGui.GetFrameHeight()))) { deleteCategoryId = id; deleteDestinationId = ""; categoryDeleteRequest = true; }
                         CategoryDeleteTargets[id] = ItemCenter();
                         AppearanceRowsFit &= ImGui.GetItemRectMax().X <= ImGui.GetWindowPos().X + ImGui.GetWindowContentRegionMax().X + .5f;
                         if (ImGui.IsItemHovered()) UiWidgets.Tooltip("분류 삭제 · 일정은 보존합니다.");
@@ -1093,7 +1096,7 @@ internal sealed partial class MainWindow : Window
         var f = ImGui.GetFontSize(); var pos = ImGui.GetCursorScreenPos();
         var width = Math.Max(1, ImGui.GetContentRegionAvail().X - 1); var height = ImGui.GetFrameHeight();
         ImGui.SetNextItemWidth(-1);
-        if (ImGui.BeginCombo("###icon", ""))
+        if (GameThemeChrome.BeginCombo("###icon", ""))
         {
             try
             {
@@ -1132,7 +1135,7 @@ internal sealed partial class MainWindow : Window
         if (ids.Count + phases.Count == 0 || !ImGui.TreeNode("숨긴 일정 " + (ids.Count + phases.Count) + "건###hiddenEvents")) return;
         try
         {
-            if (ImGui.SmallButton("모두 복원")) model.RestoreHiddenEvents();
+            if (GameThemeChrome.SmallButton("모두 복원")) model.RestoreHiddenEvents();
             if (ImGui.BeginTable("###hiddenRows", 2, ImGuiTableFlags.SizingStretchProp))
             {
                 try
@@ -1144,14 +1147,14 @@ internal sealed partial class MainWindow : Window
                         ImGui.TableNextRow(); ImGui.TableNextColumn();
                         var item = model.FindEvent(id);
                         UiWidgets.Wrapped((item?.Title ?? "현재 자료에 없는 일정") + (item?.Category == "housing" ? " · " + id[11..] : "") + " · 행사 전체");
-                        ImGui.TableNextColumn(); if (ImGui.SmallButton("복원###restore." + id)) model.SetEventHidden(id, false);
+                        ImGui.TableNextColumn(); if (GameThemeChrome.SmallButton("복원###restore." + id)) model.SetEventHidden(id, false);
                     }
                     foreach (var phase in phases)
                     {
                         var item = model.FindEvent(phase.EventId);
                         var label = item?.Phases.FirstOrDefault(p => p.Id == phase.PhaseId)?.Label ?? "현재 자료에 없는 단계";
                         ImGui.TableNextRow(); ImGui.TableNextColumn(); UiWidgets.Wrapped((item?.Title ?? "현재 자료에 없는 일정") + (item?.Category == "housing" ? " · " + phase.EventId[11..] : "") + " · " + label + " · 이 일정만");
-                        ImGui.TableNextColumn(); if (ImGui.SmallButton("복원###restorePhase." + phase.EventId + "." + phase.PhaseId)) model.SetPhaseHidden(phase.EventId, phase.PhaseId, false);
+                        ImGui.TableNextColumn(); if (GameThemeChrome.SmallButton("복원###restorePhase." + phase.EventId + "." + phase.PhaseId)) model.SetPhaseHidden(phase.EventId, phase.PhaseId, false);
                     }
                 }
                 finally { ImGui.EndTable(); }
@@ -1177,12 +1180,12 @@ internal sealed partial class MainWindow : Window
                 var next = new DateOnly(pickerYear, pickerMonth, 1).AddMonths(delta);
                 if (next.Year is >= 2020 and <= 2100) { pickerYear = next.Year; pickerMonth = next.Month; }
             }
-            ImGui.BeginDisabled(pickerYear <= 2020); if (ImGui.SmallButton("«###pickerPrevYear")) Move(-12); ImGui.EndDisabled();
-            ImGui.SameLine(); ImGui.BeginDisabled(pickerYear == 2020 && pickerMonth == 1); if (ImGui.SmallButton("‹###pickerPrevMonth")) Move(-1); ImGui.EndDisabled();
+            ImGui.BeginDisabled(pickerYear <= 2020); if (GameThemeChrome.SmallButton("«###pickerPrevYear")) Move(-12); ImGui.EndDisabled();
+            ImGui.SameLine(); ImGui.BeginDisabled(pickerYear == 2020 && pickerMonth == 1); if (GameThemeChrome.SmallButton("‹###pickerPrevMonth")) Move(-1); ImGui.EndDisabled();
             ImGui.SameLine(); ImGui.TextUnformatted(pickerYear + "년 " + pickerMonth + "월");
-            ImGui.SameLine(); ImGui.BeginDisabled(pickerYear == 2100 && pickerMonth == 12); if (ImGui.SmallButton("›###pickerNextMonth")) Move(1);
+            ImGui.SameLine(); ImGui.BeginDisabled(pickerYear == 2100 && pickerMonth == 12); if (GameThemeChrome.SmallButton("›###pickerNextMonth")) Move(1);
             PickerNextMonthTarget = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2; ImGui.EndDisabled();
-            ImGui.SameLine(); ImGui.BeginDisabled(pickerYear >= 2100); if (ImGui.SmallButton("»###pickerNextYear")) Move(12); ImGui.EndDisabled();
+            ImGui.SameLine(); ImGui.BeginDisabled(pickerYear >= 2100); if (GameThemeChrome.SmallButton("»###pickerNextYear")) Move(12); ImGui.EndDisabled();
             ImGui.Spacing(); DatePickerTargets.Clear();
             if (ImGui.BeginTable("###DatePickerGrid", 7, ImGuiTableFlags.SizingStretchSame))
             {
@@ -1200,7 +1203,7 @@ internal sealed partial class MainWindow : Window
                         if (selected) ImGui.PushStyleColor(ImGuiCol.Button, Accent with { W = .27f });
                         if (day.Month != pickerMonth) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled]);
                         ImGui.BeginDisabled(day.Year is < 2020 or > 2100);
-                        if (ImGui.Button(day.Day.ToString(CultureInfo.InvariantCulture), new(-1, f * 1.65f))) { editDate = UiText.Date(day); ImGui.CloseCurrentPopup(); }
+                        if (GameThemeChrome.Button(day.Day.ToString(CultureInfo.InvariantCulture), new(-1, f * 1.65f))) { editDate = UiText.Date(day); ImGui.CloseCurrentPopup(); }
                         DatePickerTargets[day] = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
                         ImGui.EndDisabled();
                         if (day.Month != pickerMonth) ImGui.PopStyleColor();
@@ -1210,7 +1213,7 @@ internal sealed partial class MainWindow : Window
                 }
                 finally { ImGui.EndTable(); }
             }
-            if (ImGui.SmallButton("오늘 선택")) { editDate = UiText.Date(model.Today); ImGui.CloseCurrentPopup(); }
+            if (GameThemeChrome.SmallButton("오늘 선택")) { editDate = UiText.Date(model.Today); ImGui.CloseCurrentPopup(); }
         }
         finally { ImGui.EndPopup(); }
     }
@@ -1256,7 +1259,7 @@ internal sealed partial class MainWindow : Window
                 var kindIndex = editKind - 1;
                 ImGui.BeginDisabled(editId.Length > 0);
                 ImGui.SetNextItemWidth(-1);
-                if (ImGui.Combo("###subscriptionKind", ref kindIndex, kinds, kinds.Length))
+                if (GameThemeChrome.Combo("###subscriptionKind", ref kindIndex, kinds, kinds.Length))
                 {
                     editKind = kindIndex + 1; chargeBasisTime = ""; editorError = "";
                 }
@@ -1272,7 +1275,7 @@ internal sealed partial class MainWindow : Window
                 var selectedCategory = categories.ToList().FindIndex(c => c.Id == editCategoryId) + 1;
                 var categoryNames = new[] { "미분류 (분류 없음)" }.Concat(categories.Select(c => c.Name)).ToArray();
                 ImGui.SetNextItemWidth(-1);
-                if (ImGui.Combo("###entryCategory", ref selectedCategory, categoryNames, categoryNames.Length)) editCategoryId = selectedCategory == 0 ? "" : categories[selectedCategory - 1].Id;
+                if (GameThemeChrome.Combo("###entryCategory", ref selectedCategory, categoryNames, categoryNames.Length)) editCategoryId = selectedCategory == 0 ? "" : categories[selectedCategory - 1].Id;
             }
             if (subscriptionEditor && chargeMode)
             {
@@ -1325,7 +1328,7 @@ internal sealed partial class MainWindow : Window
             }
             finally { if (constrained) ImGui.EndChild(); }
             ImGui.Spacing();
-            if (ImGui.Button(subscriptionEditor && chargeMode ? "충전하기" : "저장"))
+            if (GameThemeChrome.Button(subscriptionEditor && chargeMode ? "충전하기" : "저장"))
             {
                 if (!subscriptionEditor && editNotificationMode == 1 && (!ParseLeads(editNotificationMinutes,out var checkedLeads) || checkedLeads.Length == 0)) editorError = "알림 시점을 0~525600분, 최대 6개로 입력하세요.";
                 else if (TryCreateEntry(out var entry))
@@ -1336,9 +1339,9 @@ internal sealed partial class MainWindow : Window
                 }
             }
             EditorSaveVisible = ImGui.IsItemVisible(); EditorSaveMax = ImGui.GetItemRectMax();
-            ImGui.SameLine(); if (ImGui.Button("취소")) editorOpen = false;
+            ImGui.SameLine(); if (GameThemeChrome.Button("취소")) editorOpen = false;
             if (editId.Length > 0)
-            { ImGui.SameLine(); if (ImGui.Button("삭제")) { RequestEntryDelete(editId); editorOpen = false; } }
+            { ImGui.SameLine(); if (GameThemeChrome.Button("삭제")) { RequestEntryDelete(editId); editorOpen = false; } }
         }
         finally { ImGui.End(); }
     }

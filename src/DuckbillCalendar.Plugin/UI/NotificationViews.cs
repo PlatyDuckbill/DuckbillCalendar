@@ -26,10 +26,10 @@ internal sealed partial class MainWindow
     private void DrawNotifications()
     {
         if (!Compact) UiWidgets.Heading("알림", 1.3f);
-        if (ImGui.Button("알림 내역")) notificationScreen = 0;
-        ImGui.SameLine(); if (ImGui.Button("분류별 설정")) notificationScreen = 1;
+        if (GameThemeChrome.Button("알림 내역")) notificationScreen = 0;
+        ImGui.SameLine(); if (GameThemeChrome.Button("분류별 설정")) notificationScreen = 1;
         ContinueRow(ImGui.CalcTextSize("일정별 설정 (" + model.IndividualNotificationCount + ")").X + 20);
-        if (ImGui.Button("일정별 설정 (" + model.IndividualNotificationCount + ")")) { notificationScreen = 3; choicesMode = 0; choicesPage = 0; }
+        if (GameThemeChrome.Button("일정별 설정 (" + model.IndividualNotificationCount + ")")) { notificationScreen = 3; choicesMode = 0; choicesPage = 0; }
         ImGui.Separator();
         if (notificationScreen == 0) DrawNotificationInbox();
         else if (notificationScreen == 1) DrawCategoryNotificationList();
@@ -61,7 +61,7 @@ internal sealed partial class MainWindow
                 NotificationSummaryLabels[id] = (enabled ? "켜짐 · " : "꺼짐 · ") + RuleSummary(id, null, rule.StartMinutes, rule.EndMinutes);
                 MutedWrapped(NotificationSummaryLabels[id]);
                 ImGui.TableNextColumn();
-                if (ImGui.SmallButton("세부 설정")) OpenCategoryNotification(id);
+                if (GameThemeChrome.SmallButton("세부 설정")) OpenCategoryNotification(id);
                 ImGui.PopID();
             }
             }
@@ -123,15 +123,15 @@ internal sealed partial class MainWindow
                 var destinations = model.State.View.UserCategories.Where(c => c.Id != deleteCategoryId).ToArray();
                 var selected = Array.FindIndex(destinations,c => c.Id == deleteDestinationId) + 1;
                 ImGui.TextUnformatted("일정 이동 위치"); ImGui.SetNextItemWidth(-1);
-                if (ImGui.Combo("###categoryMoveDestination",ref selected,new[] { "미분류 (분류 없음)" }.Concat(destinations.Select(c => c.Name)).ToArray(),destinations.Length + 1))
+                if (GameThemeChrome.Combo("###categoryMoveDestination",ref selected,new[] { "미분류 (분류 없음)" }.Concat(destinations.Select(c => c.Name)).ToArray(),destinations.Length + 1))
                     deleteDestinationId = selected == 0 ? "" : destinations[selected - 1].Id;
                 MutedWrapped("미분류는 일정 추가·수정에서도 선택할 수 있습니다. 분류 기본 알림은 삭제하고 이동한 위치의 기본값을 적용합니다.");
             }
             finally { ImGui.EndChild(); }
             ImGui.PushStyleColor(ImGuiCol.Button,ThemeScope.Hex(Light ? 0xb92d43 : 0x8a3446));
-            if (ImGui.Button("분류 삭제")) { model.DeleteUserCategory(deleteCategoryId,deleteDestinationId); ImGui.CloseCurrentPopup(); }
+            if (GameThemeChrome.Button("분류 삭제")) { model.DeleteUserCategory(deleteCategoryId,deleteDestinationId); ImGui.CloseCurrentPopup(); }
             ImGui.PopStyleColor(); CategoryDeleteConfirmTarget = ItemCenter(); CategoryDeleteConfirmHovered = ImGui.IsItemHovered();
-            ImGui.SameLine(); if (ImGui.Button("취소")) ImGui.CloseCurrentPopup(); CategoryDeleteCancelTarget = ItemCenter();
+            ImGui.SameLine(); if (GameThemeChrome.Button("취소")) ImGui.CloseCurrentPopup(); CategoryDeleteCancelTarget = ItemCenter();
         }
         finally { ImGui.EndPopup(); }
     }

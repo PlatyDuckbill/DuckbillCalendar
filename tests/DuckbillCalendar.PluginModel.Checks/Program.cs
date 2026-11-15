@@ -295,7 +295,7 @@ using (var revisionWorkspace = new CalendarWorkspace(Path.Combine(root, "redesig
     Check(revisionModel.NewsEvents.Select(CalendarModel.NewsDate).SequenceEqual(revisionModel.NewsEvents.Select(CalendarModel.NewsDate).OrderByDescending(d => d)), "News uses the same date for sorting and display");
     revisionWorkspace.UpdateState(revisionWorkspace.State with { View = revisionWorkspace.State.View with { Language = "en", Theme = "paper", ShowNoticePublications = true } });
     var migrated = OfflineModel(revisionWorkspace); migrated.Tick(now);
-    Check(revisionWorkspace.State.View is { Language: "ko", Theme: "cloud", ShowNoticePublications: false } && revisionWorkspace.State.Entries.Count == 1, "Legacy language/theme/publication settings migrate without deleting local services");
+    Check(revisionWorkspace.State.View is { Language: "ko", Theme: "pearl", ShowNoticePublications: false } && revisionWorkspace.State.Entries.Count == 1, "Legacy language/theme/publication settings migrate without deleting local services");
     revisionModel.GoToMonth(2027, 2); revisionModel.SelectDate(new(2027, 2, 19)); revisionModel.SetEventHidden("kr:curated:v8-reservation-items", true); revisionModel.Tick(now);
     Check(revisionModel.CalendarEvents.All(e => e.Id != "kr:curated:v8-reservation-items") && revisionModel.DayDisplayEntries.All(e => e.Members.All(i => i.Event.Id != "kr:curated:v8-reservation-items")), "Per-event hide applies before month/day grouping");
     Check(revisionModel.NewsEvents.Any(e => e.Id == "kr:curated:v8-reservation-items") && revisionModel.Events.Any(e => e.Id == "kr:curated:v8-reservation-items"), "Calendar hide keeps news links and original public data");

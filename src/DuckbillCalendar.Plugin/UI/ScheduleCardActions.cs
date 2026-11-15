@@ -25,12 +25,12 @@ internal sealed partial class MainWindow
         {
             if (entry.Primary.Event.IsPersonal)
             {
-                if (ImGui.Button("수정")) OpenEditor(model.State.Entries.FirstOrDefault(e => e.Id == entry.Primary.Event.Id));
+                if (GameThemeChrome.Button("수정")) OpenEditor(model.State.Entries.FirstOrDefault(e => e.Id == entry.Primary.Event.Id));
                 CardEditTargets[entry.Key] = ItemCenter();
             }
             else
             {
-                if (ImGui.Button("알림 설정"))
+                if (GameThemeChrome.Button("알림 설정"))
                 {
                     if (members.Length == 1) OpenScheduleNotification(members[0].Event,members[0].Phase);
                     else ImGui.OpenPopup("###CardNotificationMembers");
@@ -43,7 +43,7 @@ internal sealed partial class MainWindow
                 }
             }
             ImGui.SameLine();
-            if (ImGui.Button("숨기기"))
+            if (GameThemeChrome.Button("숨기기"))
             {
                 if (members.Length == 1) model.SetPhaseHidden(members[0].Event.Id,members[0].Phase.Id,true);
                 else ImGui.OpenPopup("###CardHideMembers");
@@ -64,7 +64,7 @@ internal sealed partial class MainWindow
             }
             if (entry.Primary.Event.IsPersonal)
             {
-                ImGui.SameLine(); if (ImGui.Button("삭제")) RequestEntryDelete(entry.Primary.Event.Id);
+                ImGui.SameLine(); if (GameThemeChrome.Button("삭제")) RequestEntryDelete(entry.Primary.Event.Id);
                 CardDeleteTargets[entry.Key] = ItemCenter();
             }
         }

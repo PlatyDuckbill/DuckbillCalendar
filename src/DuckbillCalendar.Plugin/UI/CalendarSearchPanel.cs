@@ -70,7 +70,7 @@ internal sealed partial class MainWindow
         CalendarSearchInputTarget = ItemCenter();
         if ((ImGui.IsItemActive() || ImGui.IsItemFocused()) && ImGui.IsKeyPressed(ImGuiKey.Escape)) { CloseCalendarSearch(); return; }
         ImGui.SameLine(); ImGui.BeginDisabled(calendarSearch.Length == 0);
-        if (ImGui.Button("지우기###clearCalendarSearch")) calendarSearch = "";
+        if (GameThemeChrome.Button("지우기###clearCalendarSearch")) calendarSearch = "";
         ImGui.EndDisabled(); CalendarSearchClearTarget = ItemCenter();
         CalendarSearchFits = ImGui.GetItemRectMax().X <= ImGui.GetWindowPos().X + ImGui.GetWindowContentRegionMax().X + .5f;
         CalendarSearchResultTargets.Clear();
