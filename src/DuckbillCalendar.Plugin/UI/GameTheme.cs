@@ -188,6 +188,27 @@ internal static class GameThemeChrome
         draw.AddQuadFilled(center + new Vector2(-d, 0), center + new Vector2(0, -d), center + new Vector2(d, 0), center + new Vector2(0, d), Color(c));
         ImGui.SameLine(); ImGui.BeginGroup(); ImGui.TextWrapped(text); ImGui.EndGroup(); ImGui.Spacing();
     }
+    public static bool SettingsHeader(string title, string updates)
+    {
+        var width = ImGui.GetContentRegionAvail().X;
+        ImGui.AlignTextToFramePadding(); ImGui.TextUnformatted(title);
+        if (ImGui.CalcTextSize(title).X + ImGui.GetStyle().ItemSpacing.X + ImGui.CalcTextSize(updates).X + ImGui.GetStyle().FramePadding.X * 2 <= width)
+            ImGui.SameLine();
+        var open = Button(updates + "###SettingsUpdates");
+        ImGui.Spacing();
+        return open;
+    }
+    public static bool BeginSettingsFields(int count)
+    {
+        var width = ImGui.GetContentRegionAvail().X / ImGui.GetFontSize();
+        var columns = Math.Min(count, width >= 48 ? 3 : width >= 32 ? 2 : 1);
+        return ImGui.BeginTable("###AppearanceFields", columns, ImGuiTableFlags.SizingStretchSame);
+    }
+    public static void SettingsField(string label)
+    {
+        ImGui.TableNextColumn(); ImGui.AlignTextToFramePadding(); ImGui.TextUnformatted(label);
+        ImGui.SetNextItemWidth(Math.Max(1, Math.Min(ImGui.GetContentRegionAvail().X, ImGui.GetFontSize() * 20)));
+    }
     public static void SectionLabel(string text)
     {
         ImGui.Spacing(); var at = ImGui.GetCursorScreenPos(); var width = ImGui.GetContentRegionAvail().X;
@@ -199,95 +220,85 @@ internal static class GameThemeChrome
 
 }
 
-// Drafts stay local while dragging; the caller saves only the completed adjustment.
+// Live values are UI-only; the caller persists one completed adjustment on release.
 internal sealed class ThemeAdjustmentEditor
 {
-    private int brightness = GameThemePalette.DefaultBrightness, depth = GameThemePalette.DefaultDepth, transparency = GameThemePalette.DefaultTransparency;
+    private int brightness, depth, transparency;
     private (int Brightness, int Depth, int Transparency)? source;
-    private bool pendingEdit;
-    public (int Brightness, int Depth, int Transparency)? Draw(bool light, int savedBrightness, int savedDepth, int savedTransparency,
-        string brightnessLabel, string depthLabel, string transparencyLabel, string hint, string resetLabel, string previewLabel)
+    private bool pendingEdit, activeLastDraw, disclosureInitialized;
+    private int lastDrawFrame = -1;
+    private static (int Brightness, int Depth, int Transparency) Normalize(int brightness, int depth, int transparency) =>
+        (GameThemePalette.NormalizeBrightness(brightness), GameThemePalette.NormalizeDepth(depth), GameThemePalette.NormalizeTransparency(transparency));
+    private void ResetDraft((int Brightness, int Depth, int Transparency) saved)
     {
-        var saved = (GameThemePalette.NormalizeBrightness(savedBrightness), GameThemePalette.NormalizeDepth(savedDepth), GameThemePalette.NormalizeTransparency(savedTransparency));
-        if (source != saved) { (brightness, depth, transparency) = saved; source = saved; pendingEdit = false; }
+        (brightness, depth, transparency) = saved;
+        source = saved; pendingEdit = activeLastDraw = false;
+    }
+    public (int Brightness, int Depth, int Transparency) Resolve(int savedBrightness, int savedDepth, int savedTransparency, bool visible)
+    {
+        var saved = Normalize(savedBrightness, savedDepth, savedTransparency);
+        if (!visible || source != saved || !activeLastDraw || lastDrawFrame != ImGui.GetFrameCount() - 1)
+        {
+            ResetDraft(saved);
+            return saved;
+        }
+        return (brightness, depth, transparency);
+    }
+    public (int Brightness, int Depth, int Transparency)? Draw(bool light, int savedBrightness, int savedDepth, int savedTransparency,
+        string brightnessLabel, string depthLabel, string transparencyLabel, string hint, string resetLabel, string detailsLabel)
+    {
+        var saved = Normalize(savedBrightness, savedDepth, savedTransparency);
+        if (source != saved || !activeLastDraw) ResetDraft(saved);
+        lastDrawFrame = ImGui.GetFrameCount();
         ImGui.PushID("ThemeAdjustments");
         try
         {
+            if (!disclosureInitialized) { ImGui.SetNextItemOpen(false, ImGuiCond.Always); disclosureInitialized = true; }
+            if (!GameThemeChrome.Disclosure(detailsLabel + "###Details"))
+            {
+                pendingEdit = activeLastDraw = false;
+                return null;
+            }
             var active = false;
-            ImGui.TextUnformatted(transparencyLabel); ImGui.SetNextItemWidth(-1);
+            ImGui.AlignTextToFramePadding(); ImGui.TextUnformatted(transparencyLabel); ImGui.SetNextItemWidth(-1);
             pendingEdit |= ImGui.SliderInt("###Transparency", ref transparency, 0, 50, "%d%%", ImGuiSliderFlags.AlwaysClamp);
             active |= ImGui.IsItemActive();
             var columns = ImGui.GetContentRegionAvail().X >= ImGui.GetFontSize() * 32 ? 2 : 1;
             if (ImGui.BeginTable("Controls", columns, ImGuiTableFlags.SizingStretchSame))
             {
-                ImGui.TableNextColumn(); ImGui.TextUnformatted(brightnessLabel); ImGui.SetNextItemWidth(-1);
+                ImGui.TableNextColumn(); ImGui.AlignTextToFramePadding(); ImGui.TextUnformatted(brightnessLabel); ImGui.SetNextItemWidth(-1);
                 pendingEdit |= ImGui.SliderInt("###Brightness", ref brightness, GameThemePalette.MinBrightness, GameThemePalette.MaxBrightness, "%d%%", ImGuiSliderFlags.AlwaysClamp);
                 active |= ImGui.IsItemActive();
-                ImGui.TableNextColumn(); ImGui.TextUnformatted(depthLabel); ImGui.SetNextItemWidth(-1);
+                ImGui.TableNextColumn(); ImGui.AlignTextToFramePadding(); ImGui.TextUnformatted(depthLabel); ImGui.SetNextItemWidth(-1);
                 pendingEdit |= ImGui.SliderInt("###Depth", ref depth, 0, 100, "%d%%", ImGuiSliderFlags.AlwaysClamp);
                 active |= ImGui.IsItemActive();
                 ImGui.EndTable();
             }
             ImGui.TextWrapped(hint);
-            var rowRight = ImGui.GetCursorScreenPos().X + ImGui.GetContentRegionAvail().X;
-            float previewRight;
-            using (new GameThemeScope(light, brightness, depth, transparency))
-            {
-                var p = GameThemeScope.Current!;
-                var min = Vector2.Round(ImGui.GetCursorScreenPos());
-                var pad = ImGui.GetStyle().FramePadding;
-                var text = ImGui.CalcTextSize(previewLabel);
-                var size = new Vector2(Math.Max(1, Math.Min(ImGui.GetContentRegionAvail().X,
-                    Math.Max(ImGui.GetFontSize() * 14, text.X + pad.X * 4))), ImGui.GetFrameHeight() * 1.75f);
-                previewRight = min.X + size.X;
-                ImGui.Dummy(size);
-                var draw = ImGui.GetWindowDrawList();
-                // A local reference pattern makes the background-only alpha visible in the sample.
-                var tile = Math.Max(4, MathF.Round(ImGui.GetFontSize() * .6f));
-                for (var y = 0; y < (int)MathF.Ceiling(size.Y / tile); y++)
-                    for (var x = 0; x < (int)MathF.Ceiling(size.X / tile); x++)
-                    {
-                        var at = min + new Vector2(x * tile, y * tile);
-                        var shade = ((x + y) & 1) == 0 ? .2f : .65f;
-                        draw.AddRectFilled(at, Vector2.Min(min + size, at + new Vector2(tile)),
-                            ImGui.GetColorU32(new Vector4(shade, shade, shade, 1)));
-                    }
-                draw.AddRectFilled(min, min + size, ImGui.GetColorU32(p.Surface), 3);
-                var button = new Vector2(Math.Max(1, Math.Min(size.X - 8, text.X + pad.X * 2)), ImGui.GetFrameHeight());
-                var start = Vector2.Round(min + (size - button) / 2);
-                GameThemeChrome.ControlSurface(start, start + button, false, false);
-                draw.PushClipRect(min, min + size, true);
-                draw.AddText(Vector2.Round(start + (button - text) / 2), ImGui.GetColorU32(p.Text), previewLabel);
-                draw.PopClipRect();
-            }
-            var resetNaturalWidth = ImGui.CalcTextSize(resetLabel).X + ImGui.GetStyle().FramePadding.X * 2;
-            if (previewRight + ImGui.GetStyle().ItemSpacing.X + resetNaturalWidth <= rowRight) ImGui.SameLine();
-            ImGui.BeginDisabled(brightness == GameThemePalette.DefaultBrightness && depth == GameThemePalette.DefaultDepth && transparency == GameThemePalette.DefaultTransparency);
+            ImGui.BeginDisabled((brightness, depth, transparency) == (GameThemePalette.DefaultBrightness, GameThemePalette.DefaultDepth, GameThemePalette.DefaultTransparency));
             var resetWidth = Math.Max(1, ImGui.GetContentRegionAvail().X);
-            var resetPadding = ImGui.GetStyle().FramePadding;
+            var pad = ImGui.GetStyle().FramePadding;
             bool reset;
-            if (ImGui.CalcTextSize(resetLabel).X + resetPadding.X * 2 <= resetWidth)
+            if (ImGui.CalcTextSize(resetLabel).X + pad.X * 2 <= resetWidth)
                 reset = GameThemeChrome.Button(resetLabel + "###Reset");
             else
             {
-                var wrapWidth = Math.Max(1, resetWidth - resetPadding.X * 2);
+                var wrapWidth = Math.Max(1, resetWidth - pad.X * 2);
                 var textSize = ImGui.CalcTextSize(resetLabel, false, wrapWidth);
                 var start = ImGui.GetCursorScreenPos();
-                reset = GameThemeChrome.Button("###Reset", new(resetWidth, textSize.Y + resetPadding.Y * 2));
+                reset = GameThemeChrome.Button("###Reset", new(resetWidth, textSize.Y + pad.Y * 2));
                 var next = ImGui.GetCursorScreenPos();
-                ImGui.SetCursorScreenPos(start + resetPadding);
-                ImGui.PushTextWrapPos(ImGui.GetCursorPosX() + wrapWidth);
-                ImGui.TextWrapped(resetLabel);
-                ImGui.PopTextWrapPos();
+                ImGui.SetCursorScreenPos(start + pad);
+                ImGui.PushTextWrapPos(ImGui.GetCursorPosX() + wrapWidth); ImGui.TextWrapped(resetLabel); ImGui.PopTextWrapPos();
                 ImGui.SetCursorScreenPos(next);
             }
             if (reset)
             {
                 brightness = GameThemePalette.DefaultBrightness; depth = GameThemePalette.DefaultDepth;
-                transparency = GameThemePalette.DefaultTransparency;
-                pendingEdit = true;
+                transparency = GameThemePalette.DefaultTransparency; pendingEdit = true;
             }
             ImGui.EndDisabled();
+            activeLastDraw = active;
             if (!active && pendingEdit)
             {
                 pendingEdit = false;

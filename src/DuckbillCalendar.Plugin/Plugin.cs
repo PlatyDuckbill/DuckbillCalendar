@@ -132,7 +132,8 @@ public sealed class Plugin : IDalamudPlugin
         {
             if (disposed) return;
             UpdateActivity(DateTimeOffset.UtcNow);
-            using var theme = new ThemeScope(model.State.View.Theme, model.State.View.ThemeBrightness, model.State.View.ThemeDepth, model.State.View.ThemeTransparency);
+            var appearance = main.ResolveAppearance();
+            using var theme = new ThemeScope(model.State.View.Theme, appearance.Brightness, appearance.Depth, appearance.Transparency);
             windows.Draw();
             main.DrawFloatingWindows();
             main.DrawReleaseNotesWindow();

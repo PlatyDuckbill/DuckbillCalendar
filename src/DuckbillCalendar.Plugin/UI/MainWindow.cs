@@ -86,6 +86,8 @@ internal sealed partial class MainWindow : Window
     private bool Light => ThemeScope.IsLight(model.State.View.Theme);
     private bool Compact => ImGui.GetContentRegionAvail().X < ImGui.GetFontSize() * 28 || ImGui.GetWindowHeight() < ImGui.GetFontSize() * 18;
     private Vector4 Accent => ThemeScope.Accent(model.State.View.Theme);
+    public (int Brightness, int Depth, int Transparency) ResolveAppearance() =>
+        appearance.Resolve(model.State.View.ThemeBrightness, model.State.View.ThemeDepth, model.State.View.ThemeTransparency, IsOpen && activeTab == 2);
     public void OpenSettings() { IsOpen = true; selectSettings = true; }
     public override void OnOpen() { if (HasUnreadReleaseNotes) OpenReleaseNotes(); }
     public override void Draw()
@@ -855,7 +857,7 @@ internal sealed partial class MainWindow : Window
     {
         SubscriptionResetTargets.Clear();
         var entries = model.State.Entries.Where(e => e.ProfileId == model.State.ActiveProfileId && SubscriptionTime.IsSubscription(e.Kind)).ToArray();
-        UiWidgets.Heading("이용권", 1.15f);
+        GameThemeChrome.SectionLabel("이용권");
         UiWidgets.Wrapped("만료일을 달력에 표시합니다.");
         foreach (var entry in entries)
         {
@@ -902,22 +904,23 @@ internal sealed partial class MainWindow : Window
         var contentWidth = Math.Min(ImGui.GetContentRegionAvail().X, f * 64);
         var inset = Math.Max(0, (ImGui.GetContentRegionAvail().X - contentWidth) / 2);
         if (inset > 0) ImGui.Indent(inset);
-        UiWidgets.Heading("설정", 1.5f);
-        ContinueRow(ImGui.CalcTextSize(UiText.Get("UpdatesNew")).X + ImGui.GetStyle().FramePadding.X * 2);
-        if (GameThemeChrome.Button((HasUnreadReleaseNotes ? UiText.Get("UpdatesNew") : UiText.Get("UpdatesOpen")) + "###releaseNotesSettings")) OpenReleaseNotes();
+        if (GameThemeChrome.SettingsHeader("설정", HasUnreadReleaseNotes ? UiText.Get("UpdatesNew") : UiText.Get("UpdatesOpen"))) OpenReleaseNotes();
         ReleaseNotesSettingsTarget = ItemCenter();
         ImGui.BeginChild("###SettingsScroll", new(contentWidth, Math.Max(1, ImGui.GetContentRegionAvail().Y)));
         try
         {
             GameThemeChrome.SectionLabel(UiText.Get("AppearanceStyle"));
-            ImGui.AlignTextToFramePadding(); ImGui.TextUnformatted("테마"); ImGui.SameLine();
-            var themes = new[] { UiText.Get("ThemeSmoke"), UiText.Get("ThemePearl") };
-            themeIndex = ThemeScope.IsLight(model.State.View.Theme) ? 1 : 0;
-            ImGui.SetNextItemWidth(Math.Min(f * 13, ImGui.GetContentRegionAvail().X));
-            if (GameThemeChrome.Combo("###theme", ref themeIndex, themes, themes.Length)) model.UpdateView(v => v with { Theme = themeIndex == 1 ? "pearl" : "smoke", Language = "ko" });
+            if (GameThemeChrome.BeginSettingsFields(1))
+            {
+                GameThemeChrome.SettingsField("테마");
+                var themes = new[] { UiText.Get("ThemeSmoke"), UiText.Get("ThemePearl") };
+                themeIndex = ThemeScope.IsLight(model.State.View.Theme) ? 1 : 0;
+                if (GameThemeChrome.Combo("###theme", ref themeIndex, themes, themes.Length)) model.UpdateView(v => v with { Theme = themeIndex == 1 ? "pearl" : "smoke", Language = "ko" });
+                ImGui.EndTable();
+            }
             if (appearance.Draw(Light, model.State.View.ThemeBrightness, model.State.View.ThemeDepth, model.State.View.ThemeTransparency,
                 UiText.Get("AppearanceBrightness"), UiText.Get("AppearanceDepth"), UiText.Get("AppearanceTransparency"), UiText.Get("AppearanceHint"),
-                UiText.Get("AppearanceReset"), UiText.Get("AppearancePreview")) is { } adjustment)
+                UiText.Get("AppearanceReset"), UiText.Get("AppearanceDetails")) is { } adjustment)
                 model.UpdateView(v => v with { ThemeBrightness = adjustment.Brightness, ThemeDepth = adjustment.Depth, ThemeTransparency = adjustment.Transparency });
             ImGui.Spacing(); ImGui.Separator(); ImGui.Spacing();
             var wide = ImGui.GetContentRegionAvail().X >= f * 44;
@@ -926,7 +929,7 @@ internal sealed partial class MainWindow : Window
                 try
                 {
                     ImGui.TableNextColumn();
-                    UiWidgets.Heading("일정 업데이트", 1.15f);
+                    GameThemeChrome.SectionLabel("일정 업데이트");
                     var remote = model.State.View.RemoteUpdatesEnabled;
                     if (ImGui.Checkbox("일정 최신 정보 받기", ref remote)) model.UpdateView(v => v with { RemoteUpdatesEnabled = remote, CurrentUrl = BoundedFeedTransport.CurrentAddress });
                     if (ImGui.IsItemHovered()) UiWidgets.Tooltip("새로 등록되거나 기간이 변경된 일정을 주기적으로 가져옵니다. 개인 일정은 전송하지 않습니다.");
