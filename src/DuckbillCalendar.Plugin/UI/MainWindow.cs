@@ -25,6 +25,8 @@ internal sealed partial class MainWindow : Window
     private int jumpYear, jumpMonth;
     private float monthWheelRemainder;
     private bool dayPopupRequest;
+    private int dayPopupDrawFrame = -1;
+    private bool forwardDayGridClick;
     private bool resetOngoingSection;
     private DateOnly? revealDate;
     private DateOnly? measuredDayPopupDate;
@@ -117,6 +119,9 @@ internal sealed partial class MainWindow : Window
     {
         DrawCalendarSearch();
         DrawHousingCycle();
+        // A native popup consumes its outside click. Forward only that click to a visible date cell.
+        forwardDayGridClick = dayPopupDrawFrame == ImGui.GetFrameCount() - 1 &&
+            (ImGui.IsPopupOpen("###DaySchedule") || !ImGui.IsPopupOpen("", ImGuiPopupFlags.AnyPopupId | ImGuiPopupFlags.AnyPopupLevel));
         var height = ImGui.GetContentRegionAvail().Y;
         ImGui.BeginChild("###CalendarCanvas", new(0, Math.Max(1, height)));
         try
@@ -357,6 +362,7 @@ internal sealed partial class MainWindow : Window
         var selection = ThemeScope.DateSelection(model.State.View.Theme);
         Vector2? selectedCell = null;
         var weekdays = new[] { "일", "월", "화", "수", "목", "금", "토" };
+        SwitchDayFromDismissClick(origin, width, weekdayHeight, rowHeight);
         for (var c = 0; c < 7; c++)
         {
             var color = c is 0 or 6 ? ThemeScope.WeekendColor(model.State.View.Theme, c) : ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled];
@@ -484,6 +490,43 @@ internal sealed partial class MainWindow : Window
         revealDate = date;
         model.SelectDate(date); dayPopupRequest = true; resetOngoingSection = true;
     }
+    private void SwitchDayFromDismissClick(Vector2 origin, float width, float weekdayHeight, float rowHeight)
+    {
+        if (!forwardDayGridClick || model.Calendar is not { } calendar || width <= 0 || rowHeight <= 0 ||
+            !ImGui.IsMouseClicked(ImGuiMouseButton.Left) || !ImGui.IsWindowHovered(ImGuiHoveredFlags.AllowWhenBlockedByPopup)) return;
+        var mouse = ImGui.GetIO().MousePos;
+        var popupEnd = measuredDayPopupPosition + measuredDayPopupSize;
+        if (mouse.X >= measuredDayPopupPosition.X && mouse.X < popupEnd.X &&
+            mouse.Y >= measuredDayPopupPosition.Y && mouse.Y < popupEnd.Y) return;
+        var relative = mouse - origin - new Vector2(0, weekdayHeight);
+        if (relative.X < 0 || relative.X >= width || relative.Y < 0 || relative.Y >= calendar.Weeks.Count * rowHeight) return;
+        var column = Math.Clamp((int)(relative.X / (width / 7)), 0, 6);
+        var week = (int)(relative.Y / rowHeight);
+        OpenDay(calendar.Weeks[week].Days[column].Date);
+    }
+    private void DrawDayDetailHeading(string? frontlineMap)
+    {
+        var f = ImGui.GetFontSize();
+        var p = GameThemeScope.Current!;
+        var start = ImGui.GetCursorScreenPos();
+        var width = ImGui.GetContentRegionAvail().X;
+        var height = f * (frontlineMap is null ? 2.4f : 3.7f);
+        ImGui.Dummy(new(width, height));
+        var next = ImGui.GetCursorScreenPos();
+        var draw = ImGui.GetWindowDrawList();
+        draw.AddRectFilled(start, start + new Vector2(width, height), ImGui.GetColorU32(p.Field with { W = .45f }), 3);
+        draw.AddRectFilled(start, start + new Vector2(3, height), ImGui.GetColorU32(Accent), 2);
+        ImGui.SetCursorScreenPos(start + new Vector2(f * .8f, f * .45f));
+        UiWidgets.Heading(model.SelectedDate.ToString("M월 d일 (ddd)", CultureInfo.GetCultureInfo("ko")), 1.35f);
+        if (frontlineMap is not null)
+        {
+            var icon = ImGui.GetCursorScreenPos();
+            ImGui.Dummy(new(f, f));
+            UiWidgets.DrawIcon(UiIcon.Swords, icon + new Vector2(0, f * .1f), f * .8f, ImGui.GetColorU32(p.Muted));
+            ImGui.SameLine(); UiWidgets.Secondary("전장 · " + frontlineMap);
+        }
+        ImGui.SetCursorScreenPos(next);
+    }
     private void DrawDayPopup()
     {
         var f = ImGui.GetFontSize();
@@ -495,13 +538,13 @@ internal sealed partial class MainWindow : Window
         if (!ImGui.BeginPopup("###DaySchedule")) return;
         try
         {
+            dayPopupDrawFrame = ImGui.GetFrameCount();
             CardMenuTargets.Clear(); HideItemTargets.Clear(); RelatedHideTargets.Clear(); CardAlertTargets.Clear(); CardEditTargets.Clear(); CardDeleteTargets.Clear();
-            UiWidgets.Heading(model.SelectedDate.ToString("M월 d일 (ddd)", CultureInfo.GetCultureInfo("ko")), 1.25f);
-            if (SpecialCalendarDays.IsOguDay(model.SelectedDate)) DrawOguDayHeading();
             var field = model.State.View.FrontlineUpdatesEnabled ? frontline?.Get(model.SelectedDate, model.Now) : null;
-            if (field is not null) UiWidgets.Secondary("전장 · " + field.Map);
+            DrawDayDetailHeading(field?.Map);
+            if (SpecialCalendarDays.IsOguDay(model.SelectedDate)) DrawOguDayHeading();
             DrawHousingDayDetail(model.SelectedDate);
-            ImGui.Spacing();
+            GameThemeChrome.SectionLabel(UiText.Get("DayDirectSchedules"));
             var preview = SearchHiddenPreview(); SearchHiddenPreviewShown = preview.Count > 0;
             if (preview.Count > 0)
             {
@@ -512,27 +555,21 @@ internal sealed partial class MainWindow : Window
             var ongoing = model.DayDisplayEntries.Where(e => e.Ongoing).ToArray();
             if (direct.Length == 0 && preview.Count == 0)
             {
-                UiWidgets.Wrapped("이날 시작·마감하거나 직접 등록한 일정은 없습니다.");
-                if (UiWidgets.IconButton("emptyDay.add", UiIcon.Plus, "개인 일정 추가", false, Accent)) { OpenEditor(); ImGui.CloseCurrentPopup(); }
+                MutedWrapped("이날 시작·마감하거나 직접 등록한 일정은 없습니다.");
+                if (UiWidgets.IconButton("emptyDay.add", UiIcon.Plus, "개인 일정 추가", true, Accent)) { OpenEditor(); ImGui.CloseCurrentPopup(); }
             }
             foreach (var entry in direct) DrawScheduleCard(entry, compact: false);
             if (ongoing.Length > 0)
             {
-                ImGui.Spacing(); ImGui.Separator();
+                ImGui.Spacing();
                 if (resetOngoingSection) ImGui.SetNextItemOpen(false, ImGuiCond.Always);
-                ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled]);
-                var expanded = ImGui.TreeNode("기간 중인 이벤트 " + ongoing.Length + "건###ongoingEvents");
+                var expanded = GameThemeChrome.Disclosure(UiText.Get("DayOngoingEvents", ongoing.Length) + "###ongoingEvents");
                 OngoingToggleCenter = (ImGui.GetItemRectMin() + ImGui.GetItemRectMax()) / 2;
                 OngoingSectionExpanded = expanded;
-                ImGui.PopStyleColor();
                 if (expanded)
                 {
-                    try
-                    {
-                        UiWidgets.Secondary("선택한 날짜가 기간에 포함된 일정입니다.");
-                        foreach (var entry in ongoing) DrawScheduleCard(entry, compact: true);
-                    }
-                    finally { ImGui.TreePop(); }
+                    UiWidgets.Secondary("선택한 날짜가 기간에 포함된 일정입니다.");
+                    foreach (var entry in ongoing) DrawScheduleCard(entry, compact: true);
                 }
             }
             resetOngoingSection = false;

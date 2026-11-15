@@ -506,4 +506,6 @@
   <data name="AppearanceReset" xml:space="preserve"><value>밝기·입체감·투명도 기본값</value></data>
   <data name="AppearancePreview" xml:space="preserve"><value>표면 미리보기</value></data>
   <data name="AppearanceTransparency" xml:space="preserve"><value>배경 투명도</value></data>
+  <data name="DayDirectSchedules" xml:space="preserve"><value>시작·마감 및 개인 일정</value></data>
+  <data name="DayOngoingEvents" xml:space="preserve"><value>기간 중인 이벤트 {0}건</value></data>
 </root>
