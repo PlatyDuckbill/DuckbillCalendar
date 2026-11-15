@@ -11,9 +11,9 @@ internal sealed record GameThemePalette(bool Light, Vector4 Surface, Vector4 Ins
     public const int DefaultBrightness = 100, DefaultDepth = 50;
     public const int MinBrightness = 80, MaxBrightness = 120;
     public float Depth { get; init; } = .5f;
-    private static readonly GameThemePalette Smoke = new(false, Hex(0x3d3d3c, .985f), Hex(0x292a29, .58f), Hex(0x494c52), Hex(0x292c31),
+    private static readonly GameThemePalette Smoke = new(false, Hex(0x383b40, .985f), Hex(0x24272c, .58f), Hex(0x494c52), Hex(0x292c31),
         Hex(0xf2efe8), Hex(0xc0bcb5), Hex(0x85827b), Hex(0xf0cb78), Hex(0x595d64));
-    private static readonly GameThemePalette Pearl = new(true, Hex(0xd3d2ce, .99f), Hex(0xbdbdb8, .50f), Hex(0xbec1c4), Hex(0xe1e3e4),
+    private static readonly GameThemePalette Pearl = new(true, Hex(0xd0d2d3, .99f), Hex(0xb7bbbf, .50f), Hex(0xbec1c4), Hex(0xe1e3e4),
         Hex(0x40352f), Hex(0x645c56), Hex(0x8d8982), Hex(0x916521), Hex(0xaeb2b7));
     private static (int Brightness, int Depth, GameThemePalette Palette)? smokeCache, pearlCache;
     public static int NormalizeBrightness(int value) => Math.Clamp(value, MinBrightness, MaxBrightness);
@@ -52,9 +52,7 @@ internal sealed class GameThemeScope : IDisposable
         Color(ImGuiCol.Text, p.Text); Color(ImGuiCol.TextDisabled, p.Muted);
         Color(ImGuiCol.WindowBg, p.Surface); Color(ImGuiCol.ChildBg, Vector4.Zero);
         Color(ImGuiCol.PopupBg, p.Surface with { W = .99f });
-        Color(ImGuiCol.TitleBg, p.Inset with { W = .96f });
-        Color(ImGuiCol.TitleBgActive, Vector4.Lerp(p.Surface, p.Text, p.Light ? .06f : .10f) with { W = .98f });
-        Color(ImGuiCol.TitleBgCollapsed, p.Inset);
+        Color(ImGuiCol.TitleBg, p.Inset with { W = .96f }); Color(ImGuiCol.TitleBgActive, p.Field with { W = .98f }); Color(ImGuiCol.TitleBgCollapsed, p.Inset);
         Color(ImGuiCol.Border, p.Border with { W = .4f }); Color(ImGuiCol.BorderShadow, Vector4.Zero);
         Color(ImGuiCol.MenuBarBg, p.Inset); Color(ImGuiCol.FrameBg, p.Input);
         Color(ImGuiCol.FrameBgHovered, p.Hover); Color(ImGuiCol.FrameBgActive, p.Pressed);
@@ -90,15 +88,6 @@ internal sealed class GameThemeScope : IDisposable
 internal static class GameThemeChrome
 {
     private static uint Color(Vector4 value) => ImGui.ColorConvertFloat4ToU32(value with { W = value.W * ImGui.GetStyle().Alpha });
-    public static void SurfaceHighlight(Vector2 min, Vector2 max)
-    {
-        if (GameThemeScope.Current is not { } p || max.X <= min.X || max.Y <= min.Y) return;
-        // Keep the lower information surface even; let the title area carry the soft light.
-        var end = new Vector2(max.X, Math.Min(max.Y, min.Y + ImGui.GetFontSize() * 7));
-        var light = Color(new(1, .985f, .94f, (p.Light ? .075f : .10f) * p.Depth));
-        var fade = Color(new(1, .985f, .94f, 0));
-        ImGui.GetWindowDrawList().AddRectFilledMultiColor(min, end, light, light, fade, fade);
-    }
     public static void WindowSurface()
     {
         if (GameThemeScope.Current is not { } p) return;
@@ -107,7 +96,10 @@ internal static class GameThemeChrome
         var bottom = max - Vector2.One;
         if (bottom.Y <= top.Y) return;
         var draw = ImGui.GetWindowDrawList();
-        SurfaceHighlight(top, bottom);
+        var shine = (p.Light ? .13f : .055f) * p.Depth;
+        var shade = (p.Light ? .055f : .14f) * p.Depth;
+        draw.AddRectFilledMultiColor(top, bottom, Color(new(1, 1, 1, shine)), Color(new(1, 1, 1, shine)),
+            Color(new(0, 0, 0, shade)), Color(new(0, 0, 0, shade)));
         draw.AddRect(min + Vector2.One, max - Vector2.One, Color(p.Border with { W = .25f + .3f * p.Depth }), 3);
     }
     public static void ControlSurface(Vector2 min, Vector2 max, bool hovered, bool pressed, bool header = false)
@@ -247,7 +239,6 @@ internal sealed class ThemeAdjustmentEditor
                 ImGui.Dummy(size);
                 var draw = ImGui.GetWindowDrawList();
                 draw.AddRectFilled(min, min + size, ImGui.GetColorU32(p.Surface), 3);
-                GameThemeChrome.SurfaceHighlight(min, min + size);
                 var button = new Vector2(Math.Max(1, Math.Min(size.X - 8, text.X + pad.X * 2)), ImGui.GetFrameHeight());
                 var start = Vector2.Round(min + (size - button) / 2);
                 GameThemeChrome.ControlSurface(start, start + button, false, false);
