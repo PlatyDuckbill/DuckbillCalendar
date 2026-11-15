@@ -1,4 +1,4 @@
-param([string]$DalamudPath)
+param([string]$DalamudPath, [switch]$RunTests)
 $ErrorActionPreference = 'Stop'
 $calendarRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 Push-Location $calendarRoot
@@ -7,11 +7,20 @@ try {
     if ($LASTEXITCODE -ne 0 -or $sourceCommit -notmatch '^[a-f0-9]{40}$') { throw 'Cannot identify release source commit' }
     $dirty = @(& git status --porcelain=v1)
     if ($LASTEXITCODE -ne 0 -or $dirty.Count -gt 0) { throw 'Commit the reviewed source before preparing a stable release' }
-    & (Join-Path $PSScriptRoot 'build.ps1') -Configuration Release -DalamudPath $DalamudPath
-    & (Join-Path $PSScriptRoot 'check.ps1') -NoBuild -Configuration Release
+    . (Join-Path $PSScriptRoot 'enter-dev.ps1') -DalamudPath $DalamudPath
+    & dotnet restore src/DuckbillCalendar.Plugin/DuckbillCalendar.Plugin.csproj --locked-mode --nologo "-p:DalamudLibPath=$env:DALAMUD_HOME"
+    if ($LASTEXITCODE -ne 0) { throw 'Locked restore failed' }
+    & dotnet build src/DuckbillCalendar.Plugin/DuckbillCalendar.Plugin.csproj --configuration Release --no-restore --nologo "-p:DalamudLibPath=$env:DALAMUD_HOME"
+    if ($LASTEXITCODE -ne 0) { throw 'Release build failed' }
+    & (Join-Path $PSScriptRoot 'check-resources.ps1')
+    if ($LASTEXITCODE -ne 0) { throw 'Resource inspection failed' }
     $output = Join-Path $calendarRoot 'src/DuckbillCalendar.Plugin/bin/Release'
-    & dotnet run --project tests/DuckbillCalendar.ImGui.Checks --configuration Release --no-build -- --inspect-plugin (Join-Path $output 'DuckbillCalendar.dll')
-    if ($LASTEXITCODE -ne 0) { throw 'Release assembly/resource inspection failed' }
+    if ($RunTests) {
+        & (Join-Path $PSScriptRoot 'build.ps1') -Configuration Release -DalamudPath $DalamudPath
+        & (Join-Path $PSScriptRoot 'check.ps1') -NoBuild -Configuration Release
+        & dotnet run --project tests/DuckbillCalendar.ImGui.Checks --configuration Release --no-build -- --inspect-plugin (Join-Path $output 'DuckbillCalendar.dll')
+        if ($LASTEXITCODE -ne 0) { throw 'Release assembly/resource inspection failed' }
+    }
     $manifest = Get-Content -LiteralPath (Join-Path $output 'DuckbillCalendar.json') -Raw | ConvertFrom-Json -AsHashtable
     $version = [string]$manifest.AssemblyVersion
     if ($manifest.InternalName -cne 'DuckbillCalendar' -or $version -notmatch '^\d+\.\d+\.\d+\.\d+$' -or $manifest.DalamudApiLevel -ne 15) { throw 'Unexpected release identity' }
