@@ -70,6 +70,7 @@ internal static class NativePreview
             {
                 ImGui.GetCurrentContext().OpenPopupStack.Clear();
                 Field("editorOpen", false); Field("editorRequest", false); Field("ruleWindowOpen",false);
+                Field("releaseNotesOpen", false);
                 select(); model.Tick(now);
                 if (name is "calendar-search" or "calendar-search-date") Call("OpenCalendarSearch");
                 io.AddMousePosEvent(-100, -100);
@@ -105,6 +106,7 @@ internal static class NativePreview
                         try { if (name == "reset-subscription") Call("DrawSubscriptions"); else main.Draw(); }
                         finally { ImGui.End(); }
                         main.DrawFloatingWindows();
+                        main.DrawReleaseNotesWindow();
                     }
                     ImGui.Render();
                 }

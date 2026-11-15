@@ -46,7 +46,7 @@ var bundle = File.ReadAllBytes(Path.Combine(root, "data/live/kr-calendar.snapsho
 var now = new DateTimeOffset(2026, 11, 13, 12, 0, 0, TimeSpan.FromHours(9));
 var rows = new List<string> { "scale,theme,width,height,canvasHeight,gridHeight,hostScroll" };
 var flags = BindingFlags.Instance | BindingFlags.NonPublic;
-Check(PluginReleaseNotes.Entries.Count == 3 && PluginReleaseNotes.Entries[0].Version == PluginReleaseNotes.CurrentVersion && PluginReleaseNotes.Entries[0].Title == "검색 안내 정리" && PluginReleaseNotes.Entries[1].Version == "0.4.0.0" && PluginReleaseNotes.Entries[2] is { Version: "0.3.2.0", Title: "최초 배포" },"Public history shows the search guidance correction and preserves earlier releases");
+Check(PluginReleaseNotes.Entries.Count == 4 && PluginReleaseNotes.Entries[0].Version == PluginReleaseNotes.CurrentVersion && PluginReleaseNotes.Entries[0].Title == "화면과 업데이트 안내 정리" && PluginReleaseNotes.Entries[1].Version == "0.4.0.1" && PluginReleaseNotes.Entries[2].Version == "0.4.0.0" && PluginReleaseNotes.Entries[3] is { Version: "0.3.2.0", Title: "최초 배포" },"History shows the design candidate and preserves earlier public releases");
 foreach (var scale in new[] { 1f, 1.5f, 2f })
 {
     unsafe
@@ -84,6 +84,7 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
                     if (draw is null) main.Draw(); else draw();
                     ImGui.End();
                     main.DrawFloatingWindows();
+                    main.DrawReleaseNotesWindow();
                 }
                 ImGui.Render(); model.Tick(now);
             }
@@ -661,15 +662,15 @@ foreach (var scale in new[] { 1f, 1.5f, 2f })
             Click(notesButton,false,620,480); Click(notesButton,true,620,480); Click(notesButton,false,620,480);
             for (var i = 0; i < 2; i++) Frame(620,480);
             var notesScroll = Find("ReleaseNotesScroll");
-            Check(Read<int>("activeTab") == 6 && main.ReleaseNotesRenderedEntries == PluginReleaseNotes.Entries.Count && context.OpenPopupStack.Size == 0,
-                $"Settings opens the current and previous offline release history as an inline page at {scale}x");
+            Check(Read<int>("activeTab") == 2 && main.ReleaseNotesRenderedEntries == 1 && context.OpenPopupStack.Size == 0,
+                $"Settings keeps its page while opening separate offline history with only the current release expanded at {scale}x");
             Check(notesScroll.Handle != null && notesScroll.Size.Y > 0 && notesScroll.Pos.Y + notesScroll.Size.Y <= 490 &&
                 main.ReleaseNotesBackTarget.X < 620 && main.ReleaseNotesBackTarget.Y < 480,
                 $"History text scrolls inside a small viewport while the return action remains visible at {scale}x");
             var backNotes = main.ReleaseNotesBackTarget;
             Click(backNotes,false,620,480); Click(backNotes,true,620,480); Click(backNotes,false,620,480); Frame(620,480);
-            Check(Read<int>("activeTab") == 2 && ReferenceEquals(stateBeforeNotes,model.State),
-                $"Returning from release history restores settings without modifying user data at {scale}x");
+            Check(Read<int>("activeTab") == 2 && model.State.View.LastSeenChangelogVersion == PluginReleaseNotes.CurrentVersion && model.State.Entries.SequenceEqual(stateBeforeNotes.Entries) && model.State.View.Theme == stateBeforeNotes.View.Theme,
+                $"Closing history preserves settings and personal entries while saving acknowledgement at {scale}x");
             ClosePopups(); io.DisplaySize = new(1920,1440);
         }
         finally { ImGui.DestroyContext(context); }

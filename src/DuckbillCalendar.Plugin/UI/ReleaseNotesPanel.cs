@@ -3,82 +3,135 @@ using Dalamud.Bindings.ImGui;
 
 namespace DuckbillCalendar.Plugin;
 
-internal sealed record PluginReleaseNote(string Version,string Title,IReadOnlyList<string> Changes);
+internal sealed record PluginReleaseNote(string Version, string Title, IReadOnlyList<string> Changes,
+    string Summary = "", IReadOnlyList<string>? OtherChanges = null, string? Date = null);
 
 internal static class PluginReleaseNotes
 {
-    public const string CurrentVersion = "0.4.0.1";
+    public const string CurrentVersion = "0.5.0.0";
     public static IReadOnlyList<PluginReleaseNote> Entries { get; } = Array.AsReadOnly(new[]
     {
-        new PluginReleaseNote(CurrentVersion,"검색 안내 정리",Array.AsReadOnly(new[]
+        new PluginReleaseNote(CurrentVersion, "화면과 업데이트 안내 정리", new[]
         {
-            "검색은 상단 검색 버튼으로 엽니다. 실제 동작과 맞지 않던 단축키 처리와 화면·업데이트 내역의 안내를 제거했습니다.",
-            "검색 결과 클릭·Enter로 날짜 이동, Esc·바깥 클릭으로 닫기는 그대로 사용할 수 있습니다."
-        })),
-        new PluginReleaseNote("0.4.0.0","하우징 청약과 달력 검색",Array.AsReadOnly(new[]
+            "차분한 달력은 유지하면서 버튼·입력·설정 화면을 오리부리 공통 디자인으로 정리했습니다.",
+            "대표 기능과 기타 개선으로 정리한 업데이트 내역을 별도 화면에서 읽을 수 있습니다.",
+            "설정에서 새 업데이트를 구분하고, 내역을 닫은 뒤에도 보고 있던 월과 선택 날짜를 유지합니다."
+        }, "익숙한 달력에서 더 일관된 조작부와 업데이트 안내를 사용할 수 있습니다."),
+        new PluginReleaseNote("0.4.0.1", "검색 안내 정리", new[]
         {
-            "하우징 청약의 신청·결과 확인·구매 확정 기간을 월 달력에서 확인할 수 있습니다. 오늘·내일 마감을 강조하며 표시 메뉴에서 끌 수 있습니다.",
-            "상단 검색 버튼으로 일정 이름·버전 번호를 검색합니다. 예를 들어 ‘백은’을 찾고 결과를 누르거나 Enter를 누르면 해당 날짜와 상세로 이동합니다.",
-            "새소식 탭을 달력 검색으로 통합했습니다. 검색은 달력 위의 팝업으로 열리며, 숨긴 일정도 표시 설정을 바꾸지 않고 찾아볼 수 있습니다.",
-            "선택 날짜의 테두리·배경·날짜 숫자를 강조하고 오늘 표시와 구분했습니다. 작은 창에서는 검색한 날짜가 보이도록 스크롤하며 공간이 있으면 상세 팝업이 선택 칸을 피해 열립니다.",
-            "달력·설정·알림 화면에서 상단 도구의 위치를 유지합니다. 설정 톱니를 다시 누르면 선택 날짜를 유지하고 달력으로 돌아갑니다. 넓은 설정 화면은 분류 목록을 두 열로 보여줍니다.",
-            "주말 열을 색으로 구분하고 글자·구분선의 대비를 조정했습니다. 일정 제목은 한 줄과 말줄임으로 표시하며 전체 제목은 호버하거나 날짜를 눌러 확인합니다. 하우징 설명 창의 과도한 줄바꿈도 줄였습니다.",
-            "하우징 일정은 에테르웨이의 한국 서버 주기 자료를 기준으로 표시합니다. 운영 일정이 바뀌면 게임 내 표시와 공식 공지를 우선 확인하세요."
-        })),
-        new PluginReleaseNote("0.3.2.0","최초 배포",Array.AsReadOnly(new[]
+            "검색은 상단 검색 버튼으로 엽니다. 동작하지 않던 검색 단축키 안내를 제거했습니다."
+        }, Date: "2026-11-15"),
+        new PluginReleaseNote("0.4.0.0", "하우징 청약과 달력 검색", new[]
         {
-            "한국 파이널판타지14의 주요 이벤트·업데이트·게임 서버 점검 일정을 달력에서 확인하고 공식 안내를 열 수 있습니다.",
-            "개인 일정과 공격대 일정을 등록하고, 요일마다 다른 시각으로 여러 주의 일정을 한 번에 추가할 수 있습니다.",
-            "이용권 만료일을 관리하고 일·시간·분 단위로 충전 기간을 더할 수 있습니다.",
-            "내 분류를 만들고 일정의 아이콘·색상·표시 여부를 바꿀 수 있습니다. 미드나이트·차콜·라이트 테마를 제공합니다.",
-            "최신 일정 자동 수신과 오늘·내일 전장 정보를 제공합니다. 전투·임무 중에는 자동 수신을 미룰 수 있습니다.",
-            "새 공지·이벤트와 분류별·일정별 알림을 설정하고 알림 내역을 확인할 수 있습니다. 알림은 기본 꺼짐이며 설정에서 켤 수 있습니다."
-        }))
+            "하우징 신청·결과 확인·구매 확정 기간을 월 달력에서 확인하고 오늘·내일 마감을 구분할 수 있습니다.",
+            "검색 버튼으로 일정 이름이나 버전 번호를 찾아 해당 날짜로 이동할 수 있습니다.",
+            "보고 있는 달 밖이나 숨긴 일정도 기존 표시 설정을 바꾸지 않고 검색할 수 있습니다."
+        }, "하우징 청약 기간을 확인하고 검색으로 원하는 일정을 바로 찾을 수 있습니다.", new[]
+        {
+            "선택 날짜와 오늘 표시를 구분하고 검색한 날짜가 보이도록 이동합니다.",
+            "달력·설정·알림에서 상단 도구 위치와 선택 날짜를 유지합니다.",
+            "주말·일정 표식과 글자 대비를 다듬고 긴 일정 제목은 한 줄로 표시합니다.",
+            "하우징 일정은 에테르웨이의 한국 서버 주기 자료를 따릅니다. 일정 변경 시 게임 내 표시와 공식 공지를 우선 확인하세요."
+        }, "2026-11-15"),
+        new PluginReleaseNote("0.3.2.0", "최초 배포", new[]
+        {
+            "한국 파이널판타지14의 이벤트·업데이트·게임 서버 점검을 달력에서 확인하고 공식 안내를 열 수 있습니다.",
+            "개인·공격대 일정을 등록하고 여러 주의 일정을 요일별 시각으로 추가할 수 있습니다.",
+            "이용권 만료일을 관리하고 충전 기간을 더할 수 있습니다."
+        }, "게임 일정과 개인 일정을 한 달력에서 관리할 수 있습니다.", new[]
+        {
+            "일정의 분류·아이콘·색상·표시 여부와 미드나이트·차콜·라이트 테마를 선택할 수 있습니다.",
+            "최신 일정과 오늘·내일 전장 정보를 받고 전투·임무 중 자동 수신을 미룰 수 있습니다.",
+            "새 공지·이벤트 및 일정별 알림을 설정할 수 있습니다. 알림은 기본 꺼짐입니다."
+        }, "2026-11-14")
     });
 }
 
 internal sealed partial class MainWindow
 {
-    private bool releaseNotesResetScroll;
+    private bool releaseNotesOpen, releaseNotesResetScroll, releaseNotesContentShown, releaseNotesAcknowledged;
     internal Vector2 ReleaseNotesSettingsTarget { get; private set; }
     internal Vector2 ReleaseNotesBackTarget { get; private set; }
     internal int ReleaseNotesRenderedEntries { get; private set; }
+    private bool HasUnreadReleaseNotes => !releaseNotesAcknowledged &&
+        (!Version.TryParse(model.State.View.LastSeenChangelogVersion, out var seen) || seen < Version.Parse(PluginReleaseNotes.CurrentVersion));
 
     public void OpenReleaseNotes()
     {
-        IsOpen = true;
-        selectSettings = false;
-        activeTab = 6;
+        if (releaseNotesOpen) return;
+        releaseNotesOpen = true;
         releaseNotesResetScroll = true;
+        releaseNotesContentShown = false;
     }
 
-    private void DrawReleaseNotes()
+    // Draw independently of the calendar. Opening notes never changes the month, selection or active page.
+    public void DrawReleaseNotesWindow()
     {
-        UiWidgets.Heading("업데이트 내역",Compact ? 1.15f : 1.5f);
-        ContinueRow(ImGui.CalcTextSize("설정으로").X + ImGui.GetStyle().FramePadding.X * 2);
-        if (ImGui.SmallButton("설정으로###releaseNotesBack")) OpenSettings();
-        ReleaseNotesBackTarget = ItemCenter();
-        ReleaseNotesRenderedEntries = 0;
-        ImGui.BeginChild("###ReleaseNotesScroll",new(0,Math.Max(1,ImGui.GetContentRegionAvail().Y)));
+        if (!releaseNotesOpen) return;
+        var f = ImGui.GetFontSize();
+        var viewport = ImGui.GetMainViewport();
+        var available = new Vector2(Math.Max(1, viewport.WorkSize.X - 32), Math.Max(1, viewport.WorkSize.Y - 32));
+        ImGui.SetNextWindowPos(viewport.WorkPos + viewport.WorkSize / 2, ImGuiCond.FirstUseEver, new(.5f));
+        ImGui.SetNextWindowSize(new(Math.Min(f * 36, available.X), Math.Min(f * 32, available.Y)), ImGuiCond.FirstUseEver);
+        ImGui.SetNextWindowSizeConstraints(new(Math.Min(f * 21, available.X), Math.Min(f * 17, available.Y)), available);
+        var visible = ImGui.Begin(UiText.Get("UpdatesTitle") + "###DuckbillCalendar.Changelog", ref releaseNotesOpen,
+            ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse);
         try
         {
-            if (releaseNotesResetScroll) { ImGui.SetScrollY(0); releaseNotesResetScroll = false; }
-            UiWidgets.Secondary("현재 버전 " + PluginReleaseNotes.CurrentVersion);
-            ImGui.Spacing();
-            foreach (var entry in PluginReleaseNotes.Entries)
+            if (visible)
             {
-                UiWidgets.Colored(Accent,"v" + entry.Version + " · " + entry.Title);
-                ImGui.Spacing();
-                foreach (var change in entry.Changes)
+                if (ImGui.BeginChild("###ReleaseNotesScroll", new(0, -ImGui.GetFrameHeightWithSpacing())))
                 {
-                    ImGui.Bullet(); ImGui.SameLine();
-                    UiWidgets.Wrapped(change);
+                    if (releaseNotesResetScroll) { ImGui.SetScrollY(0); releaseNotesResetScroll = false; }
+                    UiWidgets.Wrapped(UiText.Get("UpdatesVersion", PluginReleaseNotes.CurrentVersion));
+                    ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.TextDisabled]);
+                    UiWidgets.Wrapped(UiText.Get("UpdatesOffline"));
+                    ImGui.PopStyleColor();
                     ImGui.Spacing();
+                    ReleaseNotesRenderedEntries = 0;
+                    foreach (var entry in PluginReleaseNotes.Entries)
+                    {
+                        ImGui.SetNextItemOpen(entry.Version == PluginReleaseNotes.CurrentVersion, ImGuiCond.Once);
+                        if (!ImGui.CollapsingHeader(UiText.Get("UpdatesRelease", entry.Version) + "###Release." + entry.Version)) continue;
+                        UiWidgets.Secondary(entry.Date is { } date ? UiText.Get("UpdatesDate", date) : UiText.Get("UpdatesDevelopment"));
+                        ImGui.Spacing();
+                        UiWidgets.Colored(Accent, entry.Title);
+                        if (entry.Summary.Length > 0) UiWidgets.Wrapped(entry.Summary);
+                        ImGui.Spacing();
+                        foreach (var change in entry.Changes) ReleaseEntry(change);
+                        if (entry.OtherChanges is { Count: > 0 } other)
+                        {
+                            ImGui.Spacing(); UiWidgets.Secondary(UiText.Get("UpdatesOther"));
+                            foreach (var change in other) ReleaseEntry(change);
+                        }
+                        if (entry.Version == PluginReleaseNotes.CurrentVersion) releaseNotesContentShown = true;
+                        ReleaseNotesRenderedEntries++;
+                        ImGui.Spacing();
+                    }
                 }
-                ReleaseNotesRenderedEntries++;
-                ImGui.Separator(); ImGui.Spacing();
+                ImGui.EndChild();
+                if (ImGui.Button(UiText.Get("UpdatesDismiss") + "###DismissChangelog")) releaseNotesOpen = false;
+                ReleaseNotesBackTarget = ItemCenter();
+                if (model.Workspace.HasUnsavedChanges)
+                {
+                    ImGui.SameLine(); UiWidgets.Secondary(UiText.Get("UpdatesUnsaved"));
+                }
             }
         }
-        finally { ImGui.EndChild(); }
+        finally { ImGui.End(); }
+        if (!releaseNotesOpen && releaseNotesContentShown)
+        {
+            releaseNotesAcknowledged = true;
+            model.UpdateView(v => v with { LastSeenChangelogVersion = PluginReleaseNotes.CurrentVersion });
+        }
+    }
+
+    private static void ReleaseEntry(string text)
+    {
+        ImGui.Bullet(); ImGui.SameLine();
+        ImGui.BeginGroup();
+        UiWidgets.Wrapped(text);
+        ImGui.EndGroup();
+        ImGui.Spacing();
     }
 }

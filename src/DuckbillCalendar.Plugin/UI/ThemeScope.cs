@@ -8,12 +8,12 @@ internal sealed class ThemeScope : IDisposable
     private int colors;
     private int variables;
     public static bool IsLight(string theme) => theme is "paper" or "cloud";
-    public static Vector4 Accent(string theme) => Hex(IsLight(theme) ? 0x3869d4 : theme == "graphite" ? 0x7edbc3 : 0x91aeff);
+    public static Vector4 Accent(string theme) => Hex(IsLight(theme) ? 0x3869d4 : theme == "graphite" ? 0x8acdbd : 0x91aeff);
     public static Vector4 DateSelection(string theme) => Hex(IsLight(theme) ? 0x285bc5 : theme == "graphite" ? 0x8cbfff : 0xb9a7ff);
     public static Vector4 CalendarSurface(string theme, bool inMonth) => Hex(IsLight(theme)
         ? inMonth ? 0xffffff : 0xf1f4f9
-        : theme == "graphite" ? inMonth ? 0x22272a : 0x1c2124 : inMonth ? 0x131d33 : 0x10182c);
-    public static Vector4 BorderColor(string theme) => Hex(IsLight(theme) ? 0xdce3ee : theme == "graphite" ? 0x384247 : 0x2a3854);
+        : theme == "graphite" ? inMonth ? 0x24282a : 0x1c2022 : inMonth ? 0x131d33 : 0x10182c);
+    public static Vector4 BorderColor(string theme) => Hex(IsLight(theme) ? 0xdce3ee : theme == "graphite" ? 0x454e51 : 0x2a3854);
     public static Vector4 WeekendColor(string theme, int column) => Hex(column == 0
         ? IsLight(theme) ? 0xb34e64 : 0xe0a0ad
         : IsLight(theme) ? 0x436cba : 0x9ab9ef);
@@ -35,12 +35,12 @@ internal sealed class ThemeScope : IDisposable
         var light = IsLight(theme);
         // Own the complete palette; game/Dalamud title, table and separator colors must not leak into a theme.
         var charcoal = theme == "graphite";
-        var background = light ? 0xf5f7fb : charcoal ? 0x191e21 : 0x0c1323;
+        var background = light ? 0xf5f7fb : charcoal ? 0x191c1e : 0x0c1323;
         var surface = CalendarSurface(theme, true);
-        var control = light ? 0xe8eef8 : charcoal ? 0x2d3539 : 0x233458;
-        var muted = light ? 0x62718b : charcoal ? 0xadb7b6 : 0xa2b4dc;
+        var control = light ? 0xe8eef8 : charcoal ? 0x303639 : 0x233458;
+        var muted = light ? 0x62718b : charcoal ? 0xa8b1b2 : 0xa2b4dc;
         var accent = Accent(theme);
-        Add(ImGuiCol.Text, Hex(light ? 0x233451 : charcoal ? 0xedf0ed : 0xe5edfc));
+        Add(ImGuiCol.Text, Hex(light ? 0x233451 : charcoal ? 0xeef0ec : 0xe5edfc));
         Add(ImGuiCol.TextDisabled, Hex(muted));
         Add(ImGuiCol.WindowBg, Hex(background)); Add(ImGuiCol.ChildBg, Hex(background)); Add(ImGuiCol.PopupBg, surface);
         Add(ImGuiCol.TitleBg, Hex(background)); Add(ImGuiCol.TitleBgActive, Hex(background)); Add(ImGuiCol.TitleBgCollapsed, Hex(background));
@@ -53,14 +53,16 @@ internal sealed class ThemeScope : IDisposable
         Add(ImGuiCol.TableBorderLight, BorderColor(theme) with { W = .7f }); Add(ImGuiCol.TableBorderStrong, BorderColor(theme));
         Add(ImGuiCol.ScrollbarBg, Hex(background)); Add(ImGuiCol.ScrollbarGrab, Hex(light ? 0xb7c6dc : charcoal ? 0x555f62 : 0x3e527d));
         Add(ImGuiCol.ModalWindowDimBg, Hex(0x030609, .55f));
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(16, 12));
-        ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(10, 6));
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14, 12));
+        ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(9, 4));
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8, 7));
         ImGui.PushStyleVar(ImGuiStyleVar.ItemInnerSpacing, new Vector2(6, 4));
-        ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 6f); ImGui.PushStyleVar(ImGuiStyleVar.PopupRounding, 10f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 10f); ImGui.PushStyleVar(ImGuiStyleVar.ChildRounding, 8f);
+        ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, ImGui.GetFontSize() * .2f); ImGui.PushStyleVar(ImGuiStyleVar.PopupRounding, ImGui.GetFontSize() * .28f);
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, ImGui.GetFontSize() * .28f); ImGui.PushStyleVar(ImGuiStyleVar.ChildRounding, ImGui.GetFontSize() * .28f);
         ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarRounding, 8f); ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1f);
-        variables = 10;
+        ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 1f);
+        ImGui.PushStyleVar(ImGuiStyleVar.ChildBorderSize, 0f);
+        variables = 12;
     }
     private void Add(ImGuiCol key, Vector4 value) { ImGui.PushStyleColor(key, value); colors++; }
     public static Vector4 Hex(int value, float alpha = 1) => new((value >> 16 & 255) / 255f, (value >> 8 & 255) / 255f, (value & 255) / 255f, alpha);

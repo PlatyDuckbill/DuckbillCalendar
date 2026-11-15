@@ -62,7 +62,7 @@ https://raw.githubusercontent.com/PlatyDuckbill/DuckbillRepo/main/pluginmaster.j
 
 `/dbcal`, `/duckbillcalendar`: 열기/닫기. `/dbcal settings`: 설정. `/dbcal changelog`: 업데이트 내역.
 
-[업데이트 내역](CHANGELOG.md)은 설정에서도 볼 수 있으며 인터넷 연결 없이 열립니다. 0.4.0.0은 하우징 청약과 달력 검색을 추가했습니다. [0.4.0.1 수정판 배포 기록](docs/development/RELEASE-0.4.0.1.md), [0.4.0.0 배포·공개 검증 기록](docs/development/RELEASE-0.4.0.0.md), [최초 배포 기록](docs/development/RELEASE-0.3.2.0.md).
+[업데이트 내역](CHANGELOG.md)은 설정에서도 볼 수 있으며 인터넷 연결 없이 열립니다. 개발본0.5.0.0에서는 별도 화면에서 최신 버전과 접힌 이전 버전을 읽으며 보고 있던 월과 선택 날짜를 유지합니다. 0.4.0.0은 하우징 청약과 달력 검색을 추가했습니다. [0.4.0.1 수정판 배포 기록](docs/development/RELEASE-0.4.0.1.md), [0.4.0.0 배포·공개 검증 기록](docs/development/RELEASE-0.4.0.0.md), [최초 배포 기록](docs/development/RELEASE-0.3.2.0.md).
 
 개발 중에는 `src/DuckbillCalendar.Plugin/bin/Debug/DuckbillCalendar.dll`을 등록하고 빌드 후 게임에서 다시 로드합니다. Plugin/Core/Infrastructure DLL을 함께 보존합니다. `prepare-release.ps1`은 깨끗한 소스 커밋에서 정식 ZIP·SHA256·단일 배포 객체를 만들며, 자동 게임 로드나 원격 게시를 수행하지 않습니다.
 

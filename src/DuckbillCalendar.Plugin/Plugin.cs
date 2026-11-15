@@ -127,6 +127,7 @@ public sealed class Plugin : IDalamudPlugin
             using var theme = new ThemeScope(model.State.View.Theme);
             windows.Draw();
             main.DrawFloatingWindows();
+            main.DrawReleaseNotesWindow();
         }
     }
     private void Update(IFramework _)

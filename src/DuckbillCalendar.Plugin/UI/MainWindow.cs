@@ -84,6 +84,7 @@ internal sealed partial class MainWindow : Window
     private bool Compact => ImGui.GetContentRegionAvail().X < ImGui.GetFontSize() * 28 || ImGui.GetWindowHeight() < ImGui.GetFontSize() * 18;
     private Vector4 Accent => ThemeScope.Accent(model.State.View.Theme);
     public void OpenSettings() { IsOpen = true; selectSettings = true; }
+    public override void OnOpen() { if (HasUnreadReleaseNotes) OpenReleaseNotes(); }
     public override void Draw()
     {
         if (selectSettings) { activeTab = 2; selectSettings = false; }
@@ -101,7 +102,7 @@ internal sealed partial class MainWindow : Window
         else if (activeTab == 3) DrawNotifications();
         else if (activeTab == 4) DrawUserCategoryEditor();
         else if (activeTab == 5) DrawWeeklyRaidPlanner();
-        else DrawReleaseNotes();
+        else activeTab = 0;
         if (editorRequest) { editorOpen = true; editorRequest = false; }
         if (activeTab == 0) DrawDayPopup();
         DrawNotificationWindows();
@@ -863,8 +864,8 @@ internal sealed partial class MainWindow : Window
         var inset = Math.Max(0, (ImGui.GetContentRegionAvail().X - contentWidth) / 2);
         if (inset > 0) ImGui.Indent(inset);
         UiWidgets.Heading("설정", 1.5f);
-        ContinueRow(ImGui.CalcTextSize("업데이트 내역").X + ImGui.GetStyle().FramePadding.X * 2);
-        if (ImGui.SmallButton("업데이트 내역###releaseNotesSettings")) OpenReleaseNotes();
+        ContinueRow(ImGui.CalcTextSize(UiText.Get("UpdatesNew")).X + ImGui.GetStyle().FramePadding.X * 2);
+        if (ImGui.Button((HasUnreadReleaseNotes ? UiText.Get("UpdatesNew") : UiText.Get("UpdatesOpen")) + "###releaseNotesSettings")) OpenReleaseNotes();
         ReleaseNotesSettingsTarget = ItemCenter();
         ImGui.BeginChild("###SettingsScroll", new(contentWidth, Math.Max(1, ImGui.GetContentRegionAvail().Y)));
         try

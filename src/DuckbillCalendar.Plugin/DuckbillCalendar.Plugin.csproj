@@ -2,12 +2,12 @@
   <PropertyGroup>
     <AssemblyName>DuckbillCalendar</AssemblyName>
     <RootNamespace>DuckbillCalendar.Plugin</RootNamespace>
-    <Version>0.4.0.1</Version>
+    <Version>0.5.0.0</Version>
     <Author>PlatyDuckbill</Author>
     <Name>DuckbillCalendar</Name>
     <Punchline>한국 서비스 일정과 개인 이용권을 한 달력에.</Punchline>
     <Description>한국 파이널판타지14의 주요 일정과 나의 약속을 한 달력에서 확인합니다.&#xA;&#xA;• 주요 이벤트·업데이트·게임 서버 점검과 공식 안내 링크&#xA;• 하우징 청약 신청·결과 확인·구매 확정 기간&#xA;• 일정 이름·버전 검색과 해당 날짜로 이동&#xA;• 개인·공격대 일정, 요일별 시각을 지정하는 여러 주 일괄 등록&#xA;• 이용권 만료일과 일·시간·분 단위 충전 관리&#xA;• 사용자 분류·아이콘·색상과 미드나이트·차콜·라이트 테마&#xA;• 오늘·내일 전장 정보와 선택형 알림&#xA;&#xA;열기: /dbcal 또는 /duckbillcalendar&#xA;업데이트 내역: 설정 → 업데이트 내역 또는 /dbcal changelog&#xA;&#xA;한국어 전용, Dalamud API 15. 개인 일정·이용권은 로컬에 저장합니다. 알림은 기본 꺼짐이며 설정에서 켤 수 있습니다.&#xA;대표 아이콘은 AI 이미지 도구를 사용해 제작했습니다.</Description>
-    <Changelog>검색 안내 정리&#xA;• 검색은 상단 검색 버튼으로 열도록 안내를 통일했습니다.&#xA;• 실제 동작과 맞지 않던 단축키 처리와 화면·업데이트 내역의 안내를 제거했습니다.&#xA;• 검색 결과 클릭·Enter로 날짜 이동, Esc·바깥 클릭으로 닫기는 그대로 사용할 수 있습니다.&#xA;&#xA;전체 내역: 설정 → 업데이트 내역 또는 /dbcal changelog</Changelog>
+    <Changelog>화면과 업데이트 안내 정리&#xA;• 차분한 달력은 유지하면서 버튼·입력·설정 화면을 오리부리 공통 디자인으로 정리했습니다.&#xA;• 대표 기능과 기타 개선으로 정리한 업데이트 내역을 별도 화면에서 읽을 수 있습니다.&#xA;• 설정에서 새 업데이트를 구분하고, 내역을 닫은 뒤에도 보고 있던 월과 선택 날짜를 유지합니다.</Changelog>
     <RepoUrl>https://github.com/PlatyDuckbill/DuckbillCalendar</RepoUrl>
     <IconUrl>https://raw.githubusercontent.com/PlatyDuckbill/DuckbillCalendar/v$(Version)/assets/duckbillcalendar-icon.png</IconUrl>
     <Tags>calendar;events;한국어</Tags>
