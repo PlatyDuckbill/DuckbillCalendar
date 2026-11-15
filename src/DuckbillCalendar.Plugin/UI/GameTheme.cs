@@ -8,9 +8,9 @@ internal sealed record GameThemePalette(bool Light, Vector4 Surface, Vector4 Ins
     Vector4 Input, Vector4 Text, Vector4 Muted, Vector4 Border, Vector4 Accent, Vector4 Selection)
 {
     public const float OverlayOpacity = .985f;
-    private static readonly GameThemePalette Smoke = new(false, Hex(0x383b40, .94f), Hex(0x24272c, .58f), Hex(0x494c52), Hex(0x292c31),
+    private static readonly GameThemePalette Smoke = new(false, Hex(0x383b40, .985f), Hex(0x24272c, .58f), Hex(0x494c52), Hex(0x292c31),
         Hex(0xf2efe8), Hex(0xc0bcb5), Hex(0x85827b), Hex(0xf0cb78), Hex(0x595d64));
-    private static readonly GameThemePalette Pearl = new(true, Hex(0xd0d2d3, .96f), Hex(0xb7bbbf, .50f), Hex(0xbec1c4), Hex(0xe1e3e4),
+    private static readonly GameThemePalette Pearl = new(true, Hex(0xd0d2d3, .99f), Hex(0xb7bbbf, .50f), Hex(0xbec1c4), Hex(0xe1e3e4),
         Hex(0x40352f), Hex(0x645c56), Hex(0x8d8982), Hex(0x916521), Hex(0xaeb2b7));
     public static GameThemePalette For(bool light) => light ? Pearl : Smoke;
     public Vector4 Hover => Vector4.Lerp(Field, Light ? Vector4.One : Hex(0x8b8d90), .22f);
@@ -31,7 +31,7 @@ internal sealed class GameThemeScope : IDisposable
         Color(ImGuiCol.WindowBg, p.Surface); Color(ImGuiCol.ChildBg, Vector4.Zero);
         Color(ImGuiCol.PopupBg, p.Surface with { W = .99f });
         Color(ImGuiCol.TitleBg, p.Inset with { W = .96f }); Color(ImGuiCol.TitleBgActive, p.Field with { W = .98f }); Color(ImGuiCol.TitleBgCollapsed, p.Inset);
-        Color(ImGuiCol.Border, p.Border with { W = .65f }); Color(ImGuiCol.BorderShadow, Vector4.Zero);
+        Color(ImGuiCol.Border, p.Border with { W = .4f }); Color(ImGuiCol.BorderShadow, Vector4.Zero);
         Color(ImGuiCol.MenuBarBg, p.Inset); Color(ImGuiCol.FrameBg, p.Input);
         Color(ImGuiCol.FrameBgHovered, p.Hover); Color(ImGuiCol.FrameBgActive, p.Pressed);
         Color(ImGuiCol.Button, p.Field); Color(ImGuiCol.ButtonHovered, p.Hover); Color(ImGuiCol.ButtonActive, p.Pressed);
@@ -74,10 +74,9 @@ internal static class GameThemeChrome
         var bottom = max - Vector2.One;
         if (bottom.Y <= top.Y) return;
         var draw = ImGui.GetWindowDrawList();
-        draw.AddRectFilledMultiColor(top, bottom, Color(new(1, 1, 1, p.Light ? .13f : .055f)), Color(new(1, 1, 1, p.Light ? .13f : .055f)),
-            Color(new(0, 0, 0, p.Light ? .055f : .14f)), Color(new(0, 0, 0, p.Light ? .055f : .14f)));
-        draw.AddRect(min + Vector2.One, max - Vector2.One, Color(p.Border with { W = .65f }), 3);
-        draw.AddLine(top, new(bottom.X, top.Y), Color(new(1, 1, 1, p.Light ? .5f : .13f)));
+        draw.AddRectFilledMultiColor(top, bottom, Color(new(1, 1, 1, p.Light ? .025f : .015f)), Color(new(1, 1, 1, p.Light ? .025f : .015f)),
+            Color(new(0, 0, 0, p.Light ? .015f : .025f)), Color(new(0, 0, 0, p.Light ? .015f : .025f)));
+        draw.AddRect(min + Vector2.One, max - Vector2.One, Color(p.Border with { W = .3f }), 3);
     }
     public static void ControlSurface(Vector2 min, Vector2 max, bool hovered, bool pressed, bool header = false)
     {
@@ -86,11 +85,10 @@ internal static class GameThemeChrome
         var face = pressed ? p.Pressed : hovered ? p.Hover : header ? Vector4.Lerp(p.Inset, p.Field, .45f) : p.Field;
         face.W = 1;
         draw.AddRectFilled(min, max, Color(face), header ? 2 : 3);
-        var top = Vector4.Lerp(face, Vector4.One, pressed ? .04f : p.Light ? .24f : .18f);
-        var bottom = Vector4.Lerp(face, new(0, 0, 0, 1), pressed ? .16f : .2f);
+        var top = Vector4.Lerp(face, Vector4.One, pressed ? .025f : p.Light ? .06f : .04f);
+        var bottom = Vector4.Lerp(face, new(0, 0, 0, 1), pressed ? .05f : .06f);
         draw.AddRectFilledMultiColor(min + Vector2.One, max - Vector2.One, Color(top), Color(top), Color(bottom), Color(bottom));
-        draw.AddRect(min, max, Color(p.Border with { W = .8f }), header ? 2 : 3);
-        draw.AddLine(min + new Vector2(2, 1), new(max.X - 2, min.Y + 1), Color(new(1, 1, 1, p.Light ? .5f : .19f)));
+        draw.AddRect(min, max, Color(p.Border with { W = .45f }), header ? 2 : 3);
     }
     public static bool Button(string label, Vector2 size = default)
     {
