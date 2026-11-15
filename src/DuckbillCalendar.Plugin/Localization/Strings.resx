@@ -487,7 +487,7 @@
   <data name="RelatedPhases" xml:space="preserve"><value>관련 단계 ({0})</value></data>
   <data name="AdditionalDetails" xml:space="preserve"><value>추가 정보 · 알림</value></data>
   <data name="UpdatesTitle" xml:space="preserve"><value>업데이트 내역</value></data>
-  <data name="UpdatesOpen" xml:space="preserve"><value>내역 보기</value></data>
+  <data name="UpdatesOpen" xml:space="preserve"><value>업데이트 내역 보기</value></data>
   <data name="UpdatesNew" xml:space="preserve"><value>새 업데이트 보기</value></data>
   <data name="UpdatesVersion" xml:space="preserve"><value>현재 버전 {0}</value></data>
   <data name="UpdatesRelease" xml:space="preserve"><value>버전 {0}</value></data>
