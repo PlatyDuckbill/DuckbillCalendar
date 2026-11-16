@@ -915,25 +915,39 @@ internal sealed partial class MainWindow : Window
     }
     private void DrawCalendarTransfer()
     {
-        ImGui.Spacing(); ImGui.Separator();
-        GameThemeChrome.SectionLabel(UiText.Get("TransferTitle"));
-        UiWidgets.Wrapped(UiText.Get("TransferHint"));
-        ImGui.BeginDisabled(model.Workspace.IsBusy || model.Workspace.TransferCode == "Working");
-        if (GameThemeChrome.Button(UiText.Get("TransferExportIcs")))
-            transferDialogs.SaveFileDialog(UiText.Get("TransferExportIcs"), ".ics", "DuckbillCalendar-" + model.Now.ToString("yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), ".ics",
-                (ok, path) => { if (ok) { if (Path.GetExtension(path).Length == 0) path += ".ics"; model.Post(() => model.Workspace.ExportCalendar(path, false)); } });
-        ContinueRow(ImGui.CalcTextSize(UiText.Get("TransferImport")).X + 24);
-        if (GameThemeChrome.Button(UiText.Get("TransferImport")))
-            transferDialogs.OpenFileDialog(UiText.Get("TransferImport"), ".ics",
-                (bool ok, string path) => { if (ok) model.Post(() => model.Workspace.PreviewCalendarFile(path, backup: false)); });
         ImGui.Spacing();
-        if (GameThemeChrome.Button(UiText.Get("TransferExportBackup")))
-            transferDialogs.SaveFileDialog(UiText.Get("TransferExportBackup"), ".json", "DuckbillCalendar-backup-" + model.Now.ToString("yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), ".json",
-                (ok, path) => { if (ok) { if (Path.GetExtension(path).Length == 0) path += ".json"; model.Post(() => model.Workspace.ExportCalendar(path, true)); } });
-        ContinueRow(ImGui.CalcTextSize(UiText.Get("TransferImportBackup")).X + 24);
-        if (GameThemeChrome.Button(UiText.Get("TransferImportBackup")))
-            transferDialogs.OpenFileDialog(UiText.Get("TransferImportBackup"), ".json",
-                (bool ok, string path) => { if (ok) model.Post(() => model.Workspace.PreviewCalendarFile(path, backup: true)); });
+        if (!GameThemeChrome.Disclosure(UiText.Get("TransferTitle") + "###CalendarTransfer")) return;
+        UiWidgets.Wrapped(UiText.Get("TransferHint"));
+        var labels = new[] { UiText.Get("TransferExportIcs"), UiText.Get("TransferImport"), UiText.Get("TransferExportBackup"), UiText.Get("TransferImportBackup") };
+        var buttonWidth = labels.Max(label => ImGui.CalcTextSize(label).X) + ImGui.GetStyle().FramePadding.X * 2;
+        var gap = ImGui.GetStyle().CellPadding.X * 2;
+        var available = ImGui.GetContentRegionAvail().X;
+        var columns = available >= buttonWidth * 2 + gap ? 2 : 1;
+        var tableWidth = Math.Min(available, buttonWidth * columns + gap * (columns - 1));
+        ImGui.BeginDisabled(model.Workspace.IsBusy || model.Workspace.TransferCode == "Working");
+        if (ImGui.BeginTable("###CalendarTransferActions", columns, ImGuiTableFlags.SizingStretchSame | ImGuiTableFlags.NoSavedSettings | ImGuiTableFlags.NoPadOuterX, new(tableWidth, 0)))
+        {
+            try
+            {
+                ImGui.TableNextColumn();
+                if (GameThemeChrome.Button(labels[0] + "###TransferExportIcs", new(ImGui.GetContentRegionAvail().X, 0)))
+                    transferDialogs.SaveFileDialog(labels[0], ".ics", "DuckbillCalendar-" + model.Now.ToString("yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), ".ics",
+                        (ok, path) => { if (ok) { if (Path.GetExtension(path).Length == 0) path += ".ics"; model.Post(() => model.Workspace.ExportCalendar(path, false)); } });
+                ImGui.TableNextColumn();
+                if (GameThemeChrome.Button(labels[1] + "###TransferImportIcs", new(ImGui.GetContentRegionAvail().X, 0)))
+                    transferDialogs.OpenFileDialog(labels[1], ".ics",
+                        (bool ok, string path) => { if (ok) model.Post(() => model.Workspace.PreviewCalendarFile(path, backup: false)); });
+                ImGui.TableNextColumn();
+                if (GameThemeChrome.Button(labels[2] + "###TransferExportBackup", new(ImGui.GetContentRegionAvail().X, 0)))
+                    transferDialogs.SaveFileDialog(labels[2], ".json", "DuckbillCalendar-backup-" + model.Now.ToString("yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), ".json",
+                        (ok, path) => { if (ok) { if (Path.GetExtension(path).Length == 0) path += ".json"; model.Post(() => model.Workspace.ExportCalendar(path, true)); } });
+                ImGui.TableNextColumn();
+                if (GameThemeChrome.Button(labels[3] + "###TransferImportBackup", new(ImGui.GetContentRegionAvail().X, 0)))
+                    transferDialogs.OpenFileDialog(labels[3], ".json",
+                        (bool ok, string path) => { if (ok) model.Post(() => model.Workspace.PreviewCalendarFile(path, backup: true)); });
+            }
+            finally { ImGui.EndTable(); }
+        }
         ImGui.EndDisabled();
         if (model.Workspace.TransferPreview is { } preview)
         {
