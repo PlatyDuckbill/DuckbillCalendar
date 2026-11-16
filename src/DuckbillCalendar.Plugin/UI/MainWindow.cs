@@ -922,14 +922,18 @@ internal sealed partial class MainWindow : Window
         if (GameThemeChrome.Button(UiText.Get("TransferExportIcs")))
             transferDialogs.SaveFileDialog(UiText.Get("TransferExportIcs"), ".ics", "DuckbillCalendar-" + model.Now.ToString("yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), ".ics",
                 (ok, path) => { if (ok) { if (Path.GetExtension(path).Length == 0) path += ".ics"; model.Post(() => model.Workspace.ExportCalendar(path, false)); } });
-        ContinueRow(ImGui.CalcTextSize(UiText.Get("TransferExportBackup")).X + 24);
+        ContinueRow(ImGui.CalcTextSize(UiText.Get("TransferImport")).X + 24);
+        if (GameThemeChrome.Button(UiText.Get("TransferImport")))
+            transferDialogs.OpenFileDialog(UiText.Get("TransferImport"), ".ics",
+                (bool ok, string path) => { if (ok) model.Post(() => model.Workspace.PreviewCalendarFile(path, backup: false)); });
+        ImGui.Spacing();
         if (GameThemeChrome.Button(UiText.Get("TransferExportBackup")))
             transferDialogs.SaveFileDialog(UiText.Get("TransferExportBackup"), ".json", "DuckbillCalendar-backup-" + model.Now.ToString("yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), ".json",
                 (ok, path) => { if (ok) { if (Path.GetExtension(path).Length == 0) path += ".json"; model.Post(() => model.Workspace.ExportCalendar(path, true)); } });
-        ContinueRow(ImGui.CalcTextSize(UiText.Get("TransferImport")).X + 24);
-        if (GameThemeChrome.Button(UiText.Get("TransferImport")))
-            transferDialogs.OpenFileDialog(UiText.Get("TransferImport"), ".ics,.json",
-                (bool ok, string path) => { if (ok) model.Post(() => model.Workspace.PreviewCalendarFile(path)); });
+        ContinueRow(ImGui.CalcTextSize(UiText.Get("TransferImportBackup")).X + 24);
+        if (GameThemeChrome.Button(UiText.Get("TransferImportBackup")))
+            transferDialogs.OpenFileDialog(UiText.Get("TransferImportBackup"), ".json",
+                (bool ok, string path) => { if (ok) model.Post(() => model.Workspace.PreviewCalendarFile(path, backup: true)); });
         ImGui.EndDisabled();
         if (model.Workspace.TransferPreview is { } preview)
         {
@@ -947,6 +951,7 @@ internal sealed partial class MainWindow : Window
         {
             "Working" => "TransferWorking", "Done" => "TransferDone", "Applied" => "TransferApplied",
             "StateChanged" => "TransferStateChanged", "CalendarEntryLimit" or "CalendarEventLimit" => "TransferLimit",
+            "CalendarIcsExpected" => "TransferIcsExpected", "CalendarBackupExpected" => "TransferBackupExpected",
             "CalendarFileExtension" => "TransferExtension", "FileFailed" => "TransferFileFailed", _ => "TransferInvalid"
         }));
         if (code == "Applied" && model.Workspace.HasUnsavedChanges && model.Workspace.StatusCode == "SaveFailed") UiWidgets.Wrapped(UiText.Get("TransferSaveFailed"));

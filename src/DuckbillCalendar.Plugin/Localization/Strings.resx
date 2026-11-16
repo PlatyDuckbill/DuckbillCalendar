@@ -509,10 +509,13 @@
   <data name="DayDirectSchedules" xml:space="preserve"><value>시작·마감 및 개인 일정</value></data>
   <data name="DayOngoingEvents" xml:space="preserve"><value>기간 중인 이벤트 {0}건</value></data>
   <data name="TransferTitle" xml:space="preserve"><value>일정 파일과 백업</value></data>
-  <data name="TransferHint" xml:space="preserve"><value>현재 프로필의 개인 일정·이용권 만료일을 구글 캘린더 등에서 가져올 수 있는 .ics로 내보냅니다. 전체 개인 자료·분류·알림·화면 설정은 JSON 백업으로 보관합니다.</value></data>
+  <data name="TransferHint" xml:space="preserve"><value>다른 캘린더와 일정 교환은 .ics를 사용합니다. 전체 개인 자료·분류·알림·화면 설정의 백업과 복원은 .json을 사용합니다.</value></data>
   <data name="TransferExportIcs" xml:space="preserve"><value>일정 내보내기 (.ics)</value></data>
   <data name="TransferExportBackup" xml:space="preserve"><value>전체 백업 (.json)</value></data>
-  <data name="TransferImport" xml:space="preserve"><value>파일 가져오기</value></data>
+  <data name="TransferImport" xml:space="preserve"><value>일정 가져오기 (.ics)</value></data>
+  <data name="TransferImportBackup" xml:space="preserve"><value>전체 백업 복원 (.json)</value></data>
+  <data name="TransferIcsExpected" xml:space="preserve"><value>일정 가져오기는 .ics 파일을 선택하세요. 전체 백업 .json은 ‘전체 백업 복원 (.json)’을 사용하세요.</value></data>
+  <data name="TransferBackupExpected" xml:space="preserve"><value>전체 백업 복원은 DuckbillCalendar 백업 .json 파일을 선택하세요. .ics는 ‘일정 가져오기 (.ics)’를 사용하세요.</value></data>
   <data name="TransferBackupPreview" xml:space="preserve"><value>전체 백업 · 일정·이용권 {0}건 / 프로필 {3}개 / 사용자 분류 {4}개</value></data>
   <data name="TransferIcsPreview" xml:space="preserve"><value>가져올 일정 {0}건 / 동일 UID 중복 {1}건 / 지원하지 않는 항목 {2}건</value></data>
   <data name="TransferReplaceWarning" xml:space="preserve"><value>현재 개인 일정·이용권·분류·알림·설정을 백업 내용으로 교체합니다. 적용 전 현재 자료를 별도 파일로 보존합니다. 공개 일정과 원격 캐시는 교체하지 않습니다.</value></data>

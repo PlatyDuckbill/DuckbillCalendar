@@ -71,7 +71,7 @@ public sealed partial class CalendarWorkspace
         });
     }
 
-    public void PreviewCalendarFile(string path)
+    public void PreviewCalendarFile(string path, bool? backup = null)
     {
         ObjectDisposedException.ThrowIf(disposed, this);
         if (TransferCode == "Working") return;
@@ -80,6 +80,8 @@ public sealed partial class CalendarWorkspace
         Transfer(ct =>
         {
             ct.ThrowIfCancellationRequested();
+            if (backup is { } fullBackup && !Path.GetExtension(path).Equals(fullBackup ? ".json" : ".ics", StringComparison.OrdinalIgnoreCase))
+                throw new InvalidDataException(fullBackup ? "CalendarBackupExpected" : "CalendarIcsExpected");
             var bytes = AtomicJsonStore.ReadBounded(path);
             LocalState next; CalendarTransferPreview preview;
             if (Path.GetExtension(path).Equals(".ics", StringComparison.OrdinalIgnoreCase))
@@ -95,8 +97,8 @@ public sealed partial class CalendarWorkspace
             }
             else if (Path.GetExtension(path).Equals(".json", StringComparison.OrdinalIgnoreCase))
             {
-                var backup = CalendarJson.Parse<CalendarBackup>(bytes);
-                if (backup.Format != "DuckbillCalendar.Backup" || backup.FormatVersion != 1 || backup.CreatedAt == default) throw new InvalidDataException("InvalidBackupFormat");
+                var archive = CalendarJson.Parse<CalendarBackup>(bytes);
+                if (archive.Format != "DuckbillCalendar.Backup" || archive.FormatVersion != 1 || archive.CreatedAt == default) throw new InvalidDataException("InvalidBackupFormat");
                 // The envelope's nested record defaults must not turn a truncated state into a valid empty backup.
                 using var document = JsonDocument.Parse(bytes);
                 next = CalendarJson.Parse<LocalState>(TransferEncoding.GetBytes(document.RootElement.GetProperty("state").GetRawText()));
