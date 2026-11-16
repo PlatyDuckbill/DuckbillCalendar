@@ -8,10 +8,19 @@ internal sealed record PluginReleaseNote(string Version, string Title, IReadOnly
 
 internal static class PluginReleaseNotes
 {
-    public const string CurrentVersion = "0.5.0.0";
+    public const string CurrentVersion = "0.6.0.0";
     public static IReadOnlyList<PluginReleaseNote> Entries { get; } = Array.AsReadOnly(new[]
     {
-        new PluginReleaseNote(CurrentVersion, "화면과 업데이트 안내 정리", new[]
+        new PluginReleaseNote(CurrentVersion, "일정 파일과 전체 백업", new[]
+        {
+            "개인 일정과 이용권 만료일을 다른 캘린더에서 사용할 수 있는 .ics 파일로 내보낼 수 있습니다.",
+            ".ics 일정 파일을 미리 보고 중복을 제외해 개인 일정으로 가져올 수 있습니다.",
+            "전체 개인 자료와 설정을 JSON으로 백업하고, 현재 자료를 교체해 복원할 수 있습니다."
+        }, "일정 파일을 다른 캘린더와 교환하고 개인 자료와 설정을 백업할 수 있습니다.", new[]
+        {
+            "기본으로 접힌 일정 파일·백업 영역에서 형식별 버튼을 같은 폭으로 사용할 수 있습니다."
+        }, "2026-11-16"),
+        new PluginReleaseNote("0.5.0.0", "화면과 업데이트 안내 정리", new[]
         {
             "스모크·펄의 화면 세부 조정에서 밝기·입체감·투명도를 바꾸면 실제 화면에 바로 반영됩니다.",
             "대표 기능과 기타 개선으로 정리한 업데이트 내역을 별도 화면에서 읽을 수 있습니다.",

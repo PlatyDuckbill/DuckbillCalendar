@@ -2,7 +2,7 @@
 
 <img src="assets/duckbillcalendar-icon.png" width="192" height="192" alt="달력 페이지를 넘기는 DuckbillCalendar 오리너구리 대표 아이콘">
 
-한국 파이널판타지14의 주요 일정과 개인 이용권을 표시하는 Dalamud API15 플러그인입니다. 현재 버전은 **0.5.0.0**이며 한국어만 지원합니다.
+한국 파이널판타지14의 주요 일정과 개인 이용권을 표시하는 Dalamud API15 플러그인입니다. 현재 버전은 **0.6.0.0**이며 한국어만 지원합니다.
 
 ## 설치
 
@@ -49,7 +49,7 @@ https://raw.githubusercontent.com/PlatyDuckbill/DuckbillRepo/main/pluginmaster.j
 [5회 검토·예외 상황·배포 후보 보고](docs/development/RELEASE-READINESS-2026-11-14.md).
 
 [노출 규칙 심층 검토·전체 케이스](docs/design/DISPLAY-POLICY-RESEARCH.md).
-## 일정 파일과 백업 (개발본)
+## 일정 파일과 백업
 
 설정의 기본으로 접힌 ‘일정 파일과 백업’을 펼치면 같은 폭으로 정렬된 버튼을 사용할 수 있습니다. 개인 일정·이용권 만료일을 구글 캘린더 등과 교환하는 `.ics` 파일로 내보냅니다. ‘일정 가져오기 (.ics)’는 지원하는 단건/기간 일정의 미리보기·UID 중복 제외를 거쳐 개인 일정으로 추가하며 알림은 꺼짐입니다. 반복 규칙 등 미지원 항목은 제외 건수를 표시합니다. 전체 개인 자료·분류·알림·화면 설정은 별도 JSON으로 백업하고 ‘전체 백업 복원 (.json)’으로 복원합니다. 복원은 현재 자료를 교체하며 적용 전 자료를 보존합니다. 실시간 동기화가 아니며 외부 앱/게임 확인은 대기입니다. [지원 범위와 확인 순서](docs/development/CALENDAR-FILES.md).
 
