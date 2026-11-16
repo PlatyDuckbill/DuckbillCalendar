@@ -13,6 +13,10 @@ public sealed record PersonalEntry
     public string Title { get; init; } = "";
     public string Kind { get; init; } = "personal";
     public CalendarBoundary When { get; init; } = new();
+    [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public CalendarBoundary? End { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? CalendarUid { get; init; }
     public string Note { get; init; } = "";
     public string CategoryId { get; init; } = "";
     public string SeriesId { get; init; } = "";

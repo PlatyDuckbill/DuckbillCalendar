@@ -20,6 +20,7 @@ public sealed class LocalAlertCoordinator(CalendarWorkspace workspace) : IDispos
     private DateTimeOffset nextDelivery;
     private DateTimeOffset? previousClock;
     private bool disposed;
+    private long restoreGeneration;
 
     public string StatusCode { get; private set; } = "Idle";
     public int PendingCount => pending.Count;
@@ -28,6 +29,8 @@ public sealed class LocalAlertCoordinator(CalendarWorkspace workspace) : IDispos
     public void Tick(DateTimeOffset now, string? sessionKey, bool canDeliver, Action<PlannedAlert> deliver)
     {
         if (disposed) return;
+        if (restoreGeneration != workspace.RestoreGeneration)
+        { restoreGeneration = workspace.RestoreGeneration; pending.Clear(); nextScan = nextStage = nextDelivery = now; }
         var state = workspace.State;
         if (string.IsNullOrWhiteSpace(sessionKey) || !state.View.LocalChatAlerts)
         {

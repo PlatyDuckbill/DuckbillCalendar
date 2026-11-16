@@ -39,7 +39,7 @@ public sealed record WorkspaceCache
 /// UI-thread facade. File/network work is serialized on a worker. Pump applies completed snapshots.
 /// Constructor reads existing local state once; Refresh respects the saved online-update setting.
 /// </summary>
-public sealed class CalendarWorkspace : IDisposable
+public sealed partial class CalendarWorkspace : IDisposable
 {
     private const int MaximumPointerBytes = 64 * 1024;
     private readonly AtomicJsonStore store;

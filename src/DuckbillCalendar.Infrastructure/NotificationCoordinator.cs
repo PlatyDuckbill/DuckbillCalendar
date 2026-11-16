@@ -10,8 +10,11 @@ public sealed class NotificationCoordinator(CalendarWorkspace workspace) : IDisp
     private DateTimeOffset? lastClock;
     private string? session;
     private bool disposed;
+    private long restoreGeneration;
     public void Tick(DateTimeOffset now, string? sessionKey, bool canDeliver, Action<IReadOnlyList<InboxNotification>> deliver)
     {
+        if (restoreGeneration != workspace.RestoreGeneration)
+        { restoreGeneration = workspace.RestoreGeneration; reserved.Clear(); nextScan = nextChat = now; }
         if (disposed || string.IsNullOrEmpty(sessionKey)) { reserved.Clear(); session = sessionKey; return; }
         if (session != sessionKey) { reserved.Clear(); session = sessionKey; nextScan = now; }
         if (lastClock > now) nextScan = nextChat = now;

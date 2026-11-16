@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Numerics;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Windowing;
+using Dalamud.Interface.ImGuiFileDialog;
 using Dalamud.Utility;
 using DuckbillCalendar.Core;
 using DuckbillCalendar.Infrastructure;
@@ -22,6 +23,18 @@ internal sealed partial class MainWindow : Window
     private int editKind;
     private bool editDateOnly;
     private string importPath = "";
+    private readonly FileDialogManager transferDialogs = new();
+    private long restoreGeneration;
+    public void DrawFileDialogs() { ObserveRestoration(); transferDialogs.Draw(); }
+    public void DisposeFileDialogs() => transferDialogs.Reset();
+    private void ObserveRestoration()
+    {
+        if (restoreGeneration == model.Workspace.RestoreGeneration) return;
+        restoreGeneration = model.Workspace.RestoreGeneration;
+        editorOpen = editorRequest = ruleWindowOpen = ruleRequest = false;
+        userCategoryRequest = categoryDeleteRequest = false;
+        transferDialogs.Reset();
+    }
     private int jumpYear, jumpMonth;
     private float monthWheelRemainder;
     private bool dayPopupRequest;
@@ -104,6 +117,7 @@ internal sealed partial class MainWindow : Window
             UiWidgets.Wrapped("예시 일정입니다."); ImGui.SameLine();
             if (GameThemeChrome.SmallButton("실제 일정 보기")) model.Post(() => model.Workspace.LoadExample(false));
         }
+        ObserveRestoration();
         if (activeTab == 0) DrawCalendar();
         else if (activeTab == 2) DrawSettings();
         else if (activeTab == 3) DrawNotifications();
@@ -899,6 +913,46 @@ internal sealed partial class MainWindow : Window
         ImGui.Spacing();
         if (UiWidgets.IconButton("addSubscription", UiIcon.Plus, "이용권 등록", false, Accent)) OpenEditor(null, true);
     }
+    private void DrawCalendarTransfer()
+    {
+        ImGui.Spacing(); ImGui.Separator();
+        GameThemeChrome.SectionLabel(UiText.Get("TransferTitle"));
+        UiWidgets.Wrapped(UiText.Get("TransferHint"));
+        ImGui.BeginDisabled(model.Workspace.IsBusy || model.Workspace.TransferCode == "Working");
+        if (GameThemeChrome.Button(UiText.Get("TransferExportIcs")))
+            transferDialogs.SaveFileDialog(UiText.Get("TransferExportIcs"), ".ics", "DuckbillCalendar-" + model.Now.ToString("yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), ".ics",
+                (ok, path) => { if (ok) { if (Path.GetExtension(path).Length == 0) path += ".ics"; model.Post(() => model.Workspace.ExportCalendar(path, false)); } });
+        ContinueRow(ImGui.CalcTextSize(UiText.Get("TransferExportBackup")).X + 24);
+        if (GameThemeChrome.Button(UiText.Get("TransferExportBackup")))
+            transferDialogs.SaveFileDialog(UiText.Get("TransferExportBackup"), ".json", "DuckbillCalendar-backup-" + model.Now.ToString("yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), ".json",
+                (ok, path) => { if (ok) { if (Path.GetExtension(path).Length == 0) path += ".json"; model.Post(() => model.Workspace.ExportCalendar(path, true)); } });
+        ContinueRow(ImGui.CalcTextSize(UiText.Get("TransferImport")).X + 24);
+        if (GameThemeChrome.Button(UiText.Get("TransferImport")))
+            transferDialogs.OpenFileDialog(UiText.Get("TransferImport"), ".ics,.json",
+                (bool ok, string path) => { if (ok) model.Post(() => model.Workspace.PreviewCalendarFile(path)); });
+        ImGui.EndDisabled();
+        if (model.Workspace.TransferPreview is { } preview)
+        {
+            UiWidgets.Wrapped(UiText.Get(preview.IsBackup ? "TransferBackupPreview" : "TransferIcsPreview", preview.Entries, preview.Duplicates, preview.Unsupported, preview.Profiles, preview.Categories));
+            foreach (var item in preview.Sample) UiWidgets.Wrapped(UiText.Get("TransferSample", item.Title, UiText.LocalBoundary(item.When)));
+            UiWidgets.Wrapped(UiText.Get(preview.IsBackup ? "TransferReplaceWarning" : "TransferImportLimits"));
+            ImGui.BeginDisabled(model.Workspace.IsBusy || !preview.IsBackup && preview.Entries == 0);
+            if (GameThemeChrome.Button(UiText.Get(preview.IsBackup ? "TransferRestore" : "TransferAdd"))) model.Post(model.Workspace.ApplyCalendarFile);
+            ImGui.EndDisabled();
+            ImGui.SameLine();
+            if (GameThemeChrome.Button(UiText.Get("TransferCancel"))) model.Post(model.Workspace.CancelTransfer);
+        }
+        var code = model.Workspace.TransferCode;
+        if (code != "Ready") UiWidgets.Wrapped(UiText.Get(code switch
+        {
+            "Working" => "TransferWorking", "Done" => "TransferDone", "Applied" => "TransferApplied",
+            "StateChanged" => "TransferStateChanged", "CalendarEntryLimit" or "CalendarEventLimit" => "TransferLimit",
+            "CalendarFileExtension" => "TransferExtension", "FileFailed" => "TransferFileFailed", _ => "TransferInvalid"
+        }));
+        if (code == "Applied" && model.Workspace.HasUnsavedChanges && model.Workspace.StatusCode == "SaveFailed") UiWidgets.Wrapped(UiText.Get("TransferSaveFailed"));
+        if (model.Workspace.RecoveryBackupPath is { } recovery) UiWidgets.Wrapped(UiText.Get("TransferRecovery", recovery));
+    }
+
     private void DrawSettings()
     {
         var f = ImGui.GetFontSize();
@@ -986,6 +1040,7 @@ internal sealed partial class MainWindow : Window
             DrawAppearanceSettings();
             ImGui.Spacing(); ImGui.Separator(); ImGui.Spacing();
             DrawLocalNotificationSettings();
+            DrawCalendarTransfer();
             ImGui.Spacing();
             if (model.Workspace.HasUnsavedChanges) UiWidgets.Wrapped("아직 저장되지 않은 변경사항이 있습니다.");
             DrawHiddenEvents();
@@ -1367,7 +1422,7 @@ internal sealed partial class MainWindow : Window
             }
             if (!subscriptionEditor && ImGui.TreeNode("메모 추가"))
             {
-                ImGui.InputTextMultiline("###entryNote", ref editNote, 400, new(-1, f * 3)); ImGui.TreePop();
+                ImGui.InputTextMultiline("###entryNote", ref editNote, 1000, new(-1, f * 3)); ImGui.TreePop();
             }
             if (!subscriptionEditor) DrawEditNotifications();
             if (editorError.Length > 0) UiWidgets.Wrapped(editorError);
@@ -1416,11 +1471,26 @@ internal sealed partial class MainWindow : Window
         }
         var kind = subscriptionEditor ? editKind switch { 2 => "retainer", 3 => "bag", _ => "subscription" } : "personal";
         if (CalendarEngine.BoundaryDate(boundary)?.Year > 2100) { editorError = "만료일은 2100년 이내로 입력하세요."; return false; }
+        var original = model.State.Entries.FirstOrDefault(e => e.Id == editId && e.ProfileId == model.State.ActiveProfileId);
+        CalendarBoundary? movedEnd = null;
+        if (original?.End is { } originalEnd)
+        {
+            if (boundary.Kind != original.When.Kind) { editorError = UiText.Get("TransferPeriodKind"); return false; }
+            try
+            {
+                movedEnd = boundary.Kind == "instant"
+                    ? CalendarBoundary.Instant(CalendarEngine.StartInstant(boundary)!.Value + (CalendarEngine.StartInstant(originalEnd)!.Value - CalendarEngine.StartInstant(original.When)!.Value))
+                    : CalendarBoundary.Date(CalendarEngine.BoundaryDate(boundary)!.Value.AddDays(CalendarEngine.BoundaryDate(originalEnd)!.Value.DayNumber - CalendarEngine.BoundaryDate(original.When)!.Value.DayNumber));
+            }
+            catch (ArgumentOutOfRangeException) { editorError = UiText.Get("TransferLimit"); return false; }
+            if (CalendarEngine.BoundaryDate(movedEnd)?.Year > 2100) { editorError = UiText.Get("TransferLimit"); return false; }
+        }
         entry = new()
         {
             Id = editId.Length > 0 ? editId : subscriptionEditor && ExistingSubscription() is { } existing ? existing.Id : Guid.NewGuid().ToString("N"),
             ProfileId = model.State.ActiveProfileId, Title = subscriptionEditor ? SubscriptionTime.Name(kind) : editName.Trim(),
             Kind = kind, When = boundary, Note = editNote.Trim(), CategoryId = kind == "personal" && model.State.View.UserCategories.Any(c => c.Id == editCategoryId) ? editCategoryId : "",
+            End = movedEnd, CalendarUid = original?.CalendarUid,
             SeriesId = kind == "personal" ? model.State.Entries.FirstOrDefault(e => e.Id == editId && e.ProfileId == model.State.ActiveProfileId)?.SeriesId ?? "" : "",
             SeriesIndex = kind == "personal" ? model.State.Entries.FirstOrDefault(e => e.Id == editId && e.ProfileId == model.State.ActiveProfileId)?.SeriesIndex : null
         };

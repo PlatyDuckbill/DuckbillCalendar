@@ -169,6 +169,14 @@ public static partial class FeedValidator
             if (entry.Kind is not ("personal" or "subscription" or "retainer" or "bag")) errors.Add("UnknownEntryKind");
             Boundary(entry.When, "Entry.When", true, [], new Dictionary<string, TargetRecord>(), errors);
             if (entry.When is not null && entry.When.Kind is not ("instant" or "date")) errors.Add("Entry.RequiresKnownDate");
+            Text(entry.CalendarUid, "Entry.CalendarUid", 512, errors, false);
+            if (entry.End is { } end)
+            {
+                Boundary(end, "Entry.End", true, [], new Dictionary<string, TargetRecord>(), errors);
+                if (entry.Kind != "personal" || end.Kind != entry.When?.Kind ||
+                    (end.Kind == "instant" ? CalendarEngine.StartInstant(end) <= CalendarEngine.StartInstant(entry.When)
+                        : CalendarEngine.BoundaryDate(end) <= CalendarEngine.BoundaryDate(entry.When))) errors.Add("Entry.InvalidEnd");
+            }
         }
         var preferences = List(local.Alerts, "Alerts", 10_000, errors);
         var seen = new HashSet<(string, string, string, string, int)>();

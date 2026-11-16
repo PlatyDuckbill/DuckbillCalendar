@@ -135,6 +135,7 @@ public sealed class Plugin : IDalamudPlugin
             var appearance = main.ResolveAppearance();
             using var theme = new ThemeScope(model.State.View.Theme, appearance.Brightness, appearance.Depth, appearance.Transparency);
             windows.Draw();
+            main.DrawFileDialogs();
             main.DrawFloatingWindows();
             main.DrawReleaseNotesWindow();
         }
@@ -203,7 +204,7 @@ public sealed class Plugin : IDalamudPlugin
             model?.DrainPendingActions(ex => log.Error(ex, "DuckbillCalendar pending edit failed during unload"));
             foreach (var command in registeredCommands) commands.RemoveHandler(command);
             registeredCommands.Clear();
-            if (main != null) main.IsOpen = false;
+            if (main != null) { main.IsOpen = false; main.DisposeFileDialogs(); }
             windows.RemoveAllWindows();
             alerts?.Dispose();
             frontline?.Dispose();

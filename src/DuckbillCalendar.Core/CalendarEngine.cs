@@ -52,8 +52,8 @@ public static partial class CalendarEngine
                 ProfileId = entry.ProfileId, Note = entry.Note,
                 Phases = [new EventPhase
                 {
-                    Id = "local", Label = expiry ? "이용 종료" : "개인 일정", Point = !expiry,
-                    Start = expiry ? new() : entry.When, End = expiry ? entry.When : new()
+                    Id = "local", Label = expiry ? "이용 종료" : "개인 일정", Point = !expiry && entry.End is null,
+                    Start = expiry ? new() : entry.When, End = expiry ? entry.When : entry.End ?? new()
                 }]
             });
         }
