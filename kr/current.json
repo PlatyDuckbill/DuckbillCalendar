@@ -2,97 +2,97 @@
   "schemaVersion": 2,
   "isExample": false,
   "region": "KR",
-  "publicationSequence": 66,
-  "generatedAt": "2026-11-24T17:52:52.7213715+00:00",
+  "publicationSequence": 67,
+  "generatedAt": "2026-11-25T02:33:51.1983519+00:00",
   "content": {
-    "revision": 66,
+    "revision": 67,
     "schemaVersion": 2,
     "region": "KR",
-    "path": "revisions/000066.json",
-    "sha256": "77562d19d7cae3233d1d345364c1160eb0311adc39ea90f2c67439852646ba06",
-    "bytes": 184818
+    "path": "revisions/000067.json",
+    "sha256": "75446c103deb0d25496945ea57541c391235a8811153674aaa043009c3d9330c",
+    "bytes": 184824
   },
   "health": {
     "sources": [
       {
         "id": "kr-curated:v8-ce-template",
-        "lastAttemptAt": "2026-11-24T17:52:49.9288133+00:00",
-        "lastSuccessAt": "2026-11-24T17:52:49.9288133+00:00",
+        "lastAttemptAt": "2026-11-25T02:33:48.4634637+00:00",
+        "lastSuccessAt": "2026-11-25T02:33:48.4634637+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 66,
+        "comparedContentRevision": 67,
         "pendingChanges": []
       },
       {
         "id": "kr-notices",
-        "lastAttemptAt": "2026-11-24T17:52:46.557562+00:00",
-        "lastSuccessAt": "2026-11-24T17:52:11.3489118+00:00",
+        "lastAttemptAt": "2026-11-25T02:33:45.3331362+00:00",
+        "lastSuccessAt": "2026-11-25T02:33:10.115576+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 66,
+        "comparedContentRevision": 67,
         "pendingChanges": []
       },
       {
         "id": "kr-events",
-        "lastAttemptAt": "2026-11-24T17:52:11.3488125+00:00",
-        "lastSuccessAt": "2026-11-24T17:52:08.2250721+00:00",
+        "lastAttemptAt": "2026-11-25T02:33:10.1154617+00:00",
+        "lastSuccessAt": "2026-11-25T02:33:07.2695926+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 66,
+        "comparedContentRevision": 67,
         "pendingChanges": []
       },
       {
         "id": "kr-patch-catalog",
-        "lastAttemptAt": "2026-11-24T17:52:47.4743396+00:00",
-        "lastSuccessAt": "2026-11-24T17:52:46.5575706+00:00",
+        "lastAttemptAt": "2026-11-25T02:33:46.2717876+00:00",
+        "lastSuccessAt": "2026-11-25T02:33:45.333144+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 66,
+        "comparedContentRevision": 67,
         "pendingChanges": []
       },
       {
         "id": "kr-curated:v8-gm-live",
-        "lastAttemptAt": "2026-11-24T17:52:48.06628+00:00",
-        "lastSuccessAt": "2026-11-24T17:52:48.06628+00:00",
+        "lastAttemptAt": "2026-11-25T02:33:46.8528525+00:00",
+        "lastSuccessAt": "2026-11-25T02:33:46.8528525+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 66,
+        "comparedContentRevision": 67,
         "pendingChanges": []
       },
       {
         "id": "kr-curated:v8-ce-shop",
-        "lastAttemptAt": "2026-11-24T17:52:48.3985741+00:00",
-        "lastSuccessAt": "2026-11-24T17:52:48.3985741+00:00",
+        "lastAttemptAt": "2026-11-25T02:33:47.1788295+00:00",
+        "lastSuccessAt": "2026-11-25T02:33:47.1788295+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 66,
+        "comparedContentRevision": 67,
         "pendingChanges": []
       },
       {
         "id": "kr-curated:series12-patch",
-        "lastAttemptAt": "2026-11-24T17:52:51.0380439+00:00",
-        "lastSuccessAt": "2026-11-24T17:52:51.0380439+00:00",
+        "lastAttemptAt": "2026-11-25T02:33:49.5401401+00:00",
+        "lastSuccessAt": "2026-11-25T02:33:49.5401401+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 66,
+        "comparedContentRevision": 67,
         "pendingChanges": []
       },
       {
         "id": "kr-curated:series12-open",
-        "lastAttemptAt": "2026-11-24T17:52:51.5083689+00:00",
-        "lastSuccessAt": "2026-11-24T17:52:51.5083689+00:00",
+        "lastAttemptAt": "2026-11-25T02:33:49.9932905+00:00",
+        "lastSuccessAt": "2026-11-25T02:33:49.9932905+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 66,
+        "comparedContentRevision": 67,
         "pendingChanges": []
       },
       {
         "id": "kr-curated:ccrc2027",
-        "lastAttemptAt": "2026-11-24T17:52:51.8507634+00:00",
-        "lastSuccessAt": "2026-11-24T17:52:51.8507634+00:00",
+        "lastAttemptAt": "2026-11-25T02:33:50.3297014+00:00",
+        "lastSuccessAt": "2026-11-25T02:33:50.3297014+00:00",
         "lastResult": "partial",
         "completeCoverage": false,
-        "comparedContentRevision": 66,
+        "comparedContentRevision": 67,
         "pendingChanges": []
       }
     ]
